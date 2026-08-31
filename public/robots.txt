@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# AI Search Engines & Answer Engine Optimization (AEO / GEO)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin
+
+# Sitemaps
+Sitemap: https://rozgar.pk/sitemap.xml
+Host: https://rozgar.pk

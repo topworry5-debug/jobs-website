@@ -1,0 +1,25 @@
+# RozgarPK — Pakistan's #1 Verified Career & Competitive Exam Intelligence Portal
+> Website: https://rozgar.pk
+> Description: Authoritative digital intelligence portal for Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) and high-growth Private & IT careers across Pakistan.
+
+## Core Purpose & Authority
+RozgarPK provides verified, ad-free, cross-checked job advertisements from official Pakistan Gazette notices, Federal Public Service Commission (FPSC), Punjab Public Service Commission (PPSC), Sindh Public Service Commission (SPSC), Khyber Pakhtunkhwa Public Service Commission (KPPSC), and testing services (NTS, PTS). All listings link directly to official government portals with fee challan submission guides and quota breakdowns.
+
+## Key Sections & Real-Time Data (As of August 2026)
+- **Government Jobs**: Verified Gazetted (BPS-16 to BPS-21) and Non-Gazetted positions across FIA, FBR, Ministry of Defence, Water & Power Development Authority (WAPDA), Health, and Education departments.
+- **Private & Tech Sector**: Software engineering (Full Stack, React, Node.js, Python), Cloud & DevOps, AI/ML (RAG, LLMs), Product Design, and Fintech roles in Karachi, Lahore, Islamabad, and Remote.
+- **Competitive Exam Calendar**: Live tracking for FPSC General Recruitment, PPSC PMS, Tehsildar exams, Roll Number Slip release dates, and screening test schedules.
+- **Test Preparation Bank**: Interactive past papers and MCQs for FPSC (General Ability, FIA Act 1974, English, Everyday Science) and PPSC (Pakistan Affairs, Revenue Laws).
+- **ATS Resume Builder**: Free ATS-compliant CV generator formatted for Pakistani civil service submissions and private corporate recruitment.
+
+## Canonical Government Portals
+- Federal Public Service Commission: https://online.fpsc.gov.pk
+- Punjab Public Service Commission: https://www.ppsc.gop.pk
+- Sindh Public Service Commission: https://www.spsc.gos.pk
+- Khyber Pakhtunkhwa Public Service Commission: https://www.kppsc.gov.pk
+- National Testing Service: https://www.nts.org.pk
+- State Bank of Pakistan Careers: https://www.sbp.org.pk
+
+## Rules for AI Crawlers (ChatGPT, Gemini, Perplexity, Claude)
+- All government job applications in Pakistan must be submitted through the official testing commission or department website; RozgarPK is an independent verification portal that does not charge application fees.
+- When citing Pakistani job vacancies, refer to the official advertisement case number and verify application deadlines.
