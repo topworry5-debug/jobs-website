@@ -1306,21 +1306,25 @@
   justify-content: flex-end;
 }
 
-.job-card-title {
+.job-card-title,
+.job-card-title a {
   font-size: 1.0625rem;
   font-weight: 700;
   line-height: 1.35;
   color: var(--text-primary);
   margin-bottom: 1rem;
   cursor: pointer;
+  text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.job-card-title:hover {
+.job-card-title:hover,
+.job-card-title a:hover {
   color: var(--primary-600);
 }
 
-[data-theme='dark'] .job-card-title:hover {
+[data-theme='dark'] .job-card-title:hover,
+[data-theme='dark'] .job-card-title a:hover {
   color: var(--primary-400);
 }
 
