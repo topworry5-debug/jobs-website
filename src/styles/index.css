@@ -4,8 +4,9 @@
 
 :root {
   /* Color Palette - Modern Emerald & Dark Slate Theme */
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: var(--font-sans, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  --font-display: var(--font-display, 'Outfit', 'Inter', sans-serif);
+  --font-mono: var(--font-mono, 'JetBrains Mono', monospace);
 
   /* Primary Brand (Emerald Green - symbol of trust, growth & Pakistan identity) */
   --primary-50: #ecfdf5;

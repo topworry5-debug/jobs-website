@@ -1,7 +1,26 @@
 import '../styles/index.css';
 import '../styles/components.css';
+import { Inter, Outfit, JetBrains_Mono } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans'
+});
+
+const outfit = Outfit({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-display'
+});
+
+const jetbrainsMono = JetBrains_Mono({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-mono'
+});
 
 export const metadata = {
   metadataBase: new URL('https://rozgar.pk'),
@@ -88,12 +107,12 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" data-theme="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-        
+    <html 
+      lang="en" 
+      data-theme="dark" 
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
+    >
+      <body>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -102,8 +121,6 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
         />
-      </head>
-      <body>
         <div className="app-container">
           <Navbar />
           <main className="main-content-wrapper">
