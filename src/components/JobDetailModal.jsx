@@ -5,10 +5,8 @@ import {
   X, 
   ShieldCheck, 
   MapPin, 
-  Calendar, 
   Clock, 
   Users, 
-  GraduationCap, 
   Building2, 
   ExternalLink, 
   Share2, 
@@ -19,22 +17,22 @@ import {
   AlertTriangle, 
   Copy, 
   Check, 
-  Sparkles,
-  Flame,
-  ArrowRight
+  Sparkles 
 } from 'lucide-react';
 import { generateJobPostingSchema } from '../utils/seoHelpers';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function JobDetailModal({
   job,
   onClose,
-  allJobs,
-  onSelectJob,
+  allJobs = [],
+  onSelectJob = () => {},
   isSaved,
-  onToggleSave,
-  onShareWhatsApp,
-  onShareFacebook
+  onToggleSave = () => {},
+  onShareWhatsApp = () => {},
+  onShareFacebook = () => {}
 }) {
+  const { t, isRtl } = useLanguage();
   const [copied, setCopied] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
@@ -98,12 +96,12 @@ export default function JobDetailModal({
         <div className="modal-header">
           <div className="modal-header-dept">
             <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
-              {isGovt ? 'Government of Pakistan' : 'Verified Private Opportunity'}
+              {isGovt ? t.jobDetail.officialGovtBadge : t.jobDetail.privateBadge}
             </span>
             {job.verified && (
               <span className="badge badge-verified">
                 <ShieldCheck size={13} />
-                <span>Verified Cross-Checked</span>
+                <span>{t.jobDetail.verifiedBadge}</span>
               </span>
             )}
           </div>
@@ -124,7 +122,7 @@ export default function JobDetailModal({
                 <h2 className="detail-job-title">{job.title}</h2>
                 <div className="detail-dept-row">
                   <span className="detail-org-name">{job.department || job.company}</span>
-                  {job.bpsScale && <span className="bps-pill">{job.bpsScale}</span>}
+                  {job.bpsScale && <span className="bps-pill font-mono">{job.bpsScale}</span>}
                 </div>
               </div>
             </div>
@@ -133,7 +131,7 @@ export default function JobDetailModal({
             {job.officialSourceLabel && (
               <div className="official-source-bar">
                 <ShieldCheck size={15} className="text-emerald" />
-                <span>Source: <strong>{job.officialSourceLabel}</strong> • Last verified: <strong>{job.lastVerifiedDate || "August 30, 2026"}</strong></span>
+                <span>{t.jobDetail.sourceRef} <strong>{job.officialSourceLabel}</strong> • {t.jobDetail.lastVerifiedAgainst} <strong>{job.lastVerifiedDate || "August 31, 2026"}</strong></span>
               </div>
             )}
           </div>
@@ -143,10 +141,10 @@ export default function JobDetailModal({
             <div className="countdown-info">
               <div className="countdown-label">
                 <Clock size={16} />
-                <span>Application Deadline Countdown</span>
+                <span>{t.jobDetail.deadline}</span>
               </div>
               <div className="countdown-date">
-                Last Date: <strong>{job.lastDate}</strong> (11:59 PM PST)
+                {t.jobCard.lastDate} <strong>{job.lastDate}</strong> (11:59 PM PST)
               </div>
             </div>
 
@@ -175,47 +173,41 @@ export default function JobDetailModal({
 
           {/* Key Job Specifications Matrix */}
           <div className="spec-matrix-grid">
-            <div className="spec-box">
-              <span className="spec-label">Location / Posting</span>
-              <span className="spec-value">
-                <MapPin size={15} className="text-emerald" />
-                {job.city}
-              </span>
+            <div className="spec-item-card">
+              <span className="spec-label">📍 {t.jobDetail.jobLocation}</span>
+              <span className="spec-value">{job.city}</span>
             </div>
 
-            <div className="spec-box">
-              <span className="spec-label">Total Vacancies</span>
-              <span className="spec-value">
-                <Users size={15} className="text-emerald" />
-                {job.vacancies} {job.vacancies === 1 ? 'Position' : 'Openings'}
-              </span>
+            <div className="spec-item-card">
+              <span className="spec-label">👥 {t.jobDetail.totalOpenings}</span>
+              <span className="spec-value">{job.vacancies} {job.vacancies === 1 ? t.jobCard.vacancy : t.jobCard.vacancies}</span>
             </div>
 
             {isGovt && job.ageLimit && (
-              <div className="spec-box">
-                <span className="spec-label">Age Limit (Govt)</span>
+              <div className="spec-item-card">
+                <span className="spec-label">🎂 {t.jobDetail.ageLimit}</span>
                 <span className="spec-value">{job.ageLimit}</span>
               </div>
             )}
 
             {isGovt && job.challanFee && (
-              <div className="spec-box">
-                <span className="spec-label">Challan Examination Fee</span>
-                <span className="spec-value">{job.challanFee}</span>
+              <div className="spec-item-card">
+                <span className="spec-label">💳 {t.jobDetail.challanFee}</span>
+                <span className="spec-value text-emerald-500">{job.challanFee}</span>
               </div>
             )}
 
             {!isGovt && job.salaryRange && (
-              <div className="spec-box">
-                <span className="spec-label">Remuneration Package</span>
-                <span className="spec-value">{job.salaryRange}</span>
+              <div className="spec-item-card">
+                <span className="spec-label">💰 {t.jobDetail.payScale}</span>
+                <span className="spec-value text-emerald-500">{job.salaryRange}</span>
               </div>
             )}
 
-            {!isGovt && job.experience && (
-              <div className="spec-box">
-                <span className="spec-label">Required Experience</span>
-                <span className="spec-value">{job.experience}</span>
+            {job.qualification && (
+              <div className="spec-item-card">
+                <span className="spec-label">🎓 {t.jobDetail.minQualification}</span>
+                <span className="spec-value">{job.qualification}</span>
               </div>
             )}
           </div>
@@ -224,7 +216,7 @@ export default function JobDetailModal({
           <div className="detail-section-block">
             <h4 className="detail-section-title">
               <FileText size={17} className="text-emerald" />
-              <span>Job Overview & Purpose</span>
+              <span>{t.jobDetail.descTitle}</span>
             </h4>
             <p className="detail-text-p">{job.description}</p>
           </div>
@@ -234,7 +226,7 @@ export default function JobDetailModal({
             <div className="detail-section-block">
               <h4 className="detail-section-title">
                 <Users size={17} className="text-emerald" />
-                <span>Provincial & Regional Quota Allocation</span>
+                <span>{t.jobDetail.quotaTitle}</span>
               </h4>
               <div className="quota-display-card">
                 {job.quota.split('|').map((q, idx) => (
@@ -251,12 +243,12 @@ export default function JobDetailModal({
             <div className="detail-section-block">
               <h4 className="detail-section-title">
                 <CheckCircle2 size={17} className="text-emerald" />
-                <span>Eligibility & Minimum Qualifications</span>
+                <span>{t.jobDetail.eligibilityTitle}</span>
               </h4>
               <ul className="criteria-checklist">
                 {job.eligibilityCriteria.map((item, idx) => (
                   <li key={idx} className="criteria-item">
-                    <CheckCircle2 size={16} className="criteria-icon" />
+                    <CheckCircle2 size={16} className="criteria-icon text-emerald" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -269,7 +261,7 @@ export default function JobDetailModal({
             <div className="detail-section-block">
               <h4 className="detail-section-title">
                 <BookOpen size={17} className="text-emerald" />
-                <span>Screening Syllabus & Marks Distribution</span>
+                <span>{t.jobDetail.syllabusTitle}</span>
               </h4>
               <div className="syllabus-container">
                 {job.syllabus.map((syl, idx) => (
@@ -282,56 +274,12 @@ export default function JobDetailModal({
             </div>
           )}
 
-          {/* Section: Benefits & Perks (Private/Tech specific) */}
-          {!isGovt && job.benefits && (
-            <div className="detail-section-block">
-              <h4 className="detail-section-title">
-                <Sparkles size={17} className="text-blue" />
-                <span>Benefits & Perks</span>
-              </h4>
-              <div className="benefits-grid">
-                {job.benefits.map((benefit, idx) => (
-                  <div key={idx} className="benefit-card">
-                    <Sparkles size={14} className="text-blue" />
-                    <span>{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Section: How to Apply Steps */}
-          {job.howToApply && job.howToApply.length > 0 && (
-            <div className="detail-section-block">
-              <h4 className="detail-section-title">
-                <CheckCircle2 size={17} className="text-emerald" />
-                <span>Step-by-Step Application Instructions</span>
-              </h4>
-              <div className="apply-steps-list">
-                {job.howToApply.map((step, idx) => (
-                  <div key={idx} className="apply-step-row">
-                    <div className="step-badge">Step {idx + 1}</div>
-                    <div className="step-content">{step}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Official Portal Notice Alert */}
-          <div className="official-disclaimer-card">
-            <AlertTriangle size={18} className="disclaimer-icon" />
-            <div className="disclaimer-text">
-              <strong>Official Direct Portal Submission Notice:</strong> RozgarPK is an informational and intelligence portal. We do not charge any application fee. All government applications must be submitted directly through the official commission / department portal.
-            </div>
-          </div>
-
           {/* Similar Opportunities */}
           {relatedJobs.length > 0 && (
             <div className="detail-section-block related-section">
               <h4 className="detail-section-title">
                 <Building2 size={17} className="text-emerald" />
-                <span>Similar Active Openings</span>
+                <span>{t.jobDetail.relatedOpenings}</span>
               </h4>
               <div className="related-jobs-grid">
                 {relatedJobs.map((rJob) => (
@@ -342,7 +290,7 @@ export default function JobDetailModal({
                   >
                     <div className="related-job-title">{rJob.title}</div>
                     <div className="related-job-dept">{rJob.department || rJob.company} • {rJob.city}</div>
-                    <div className="related-job-deadline">Last Date: {rJob.lastDate}</div>
+                    <div className="related-job-deadline">{t.jobCard.lastDate} {rJob.lastDate}</div>
                   </div>
                 ))}
               </div>
@@ -363,15 +311,6 @@ export default function JobDetailModal({
               <span>WhatsApp</span>
             </button>
 
-            {/* Facebook Share */}
-            <button 
-              className="btn btn-outline"
-              onClick={() => onShareFacebook(job)}
-              title="Share on Facebook"
-            >
-              <span>Facebook</span>
-            </button>
-
             {/* Copy Link */}
             <button 
               className="btn btn-ghost"
@@ -386,21 +325,21 @@ export default function JobDetailModal({
             <button 
               className={`btn btn-outline ${isSaved ? 'btn-saved' : ''}`}
               onClick={() => onToggleSave(job)}
-              title={isSaved ? "Saved" : "Save Job"}
+              title={isSaved ? t.jobCard.saved : t.jobCard.save}
             >
               <Bookmark size={16} fill={isSaved ? "currentColor" : "none"} />
-              <span>{isSaved ? 'Saved' : 'Save'}</span>
+              <span>{isSaved ? t.jobCard.saved : t.jobCard.save}</span>
             </button>
           </div>
 
           {/* Primary Action Button */}
           <a
-            href={job.officialUrl}
+            href={job.officialUrl || "https://rozgar.pk"}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-lg btn-primary direct-apply-btn"
           >
-            <span>Apply on Official Portal</span>
+            <span>{t.jobDetail.applyOfficialPortal}</span>
             <ExternalLink size={17} />
           </a>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
@@ -9,73 +9,53 @@ import {
   Building2, 
   Calendar, 
   FileText, 
-  Bookmark, 
   Moon, 
   Sun, 
   Search, 
   Menu, 
   X, 
   ShieldCheck,
-  Sparkles,
   BookOpen,
   Bell,
   Languages,
-  PlusCircle
+  ChevronDown,
+  Check
 } from 'lucide-react';
-import { URDU_TRANSLATIONS } from '../data/urduTranslations';
+import { useLanguage } from '../context/LanguageContext';
 import QuickSearchModal from './QuickSearchModal';
+
+const LANGUAGES = [
+  { code: 'en', label: 'English', native: 'English', flag: '🇬🇧' },
+  { code: 'ur', label: 'Urdu', native: 'اردو', flag: '🇵🇰' },
+  { code: 'roman', label: 'Roman Urdu', native: 'Roman Urdu', flag: '🇵🇰' }
+];
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { lang, setLang, t, theme, toggleTheme, isRtl } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const [theme, setTheme] = useState('dark');
-  const [lang, setLang] = useState('en');
-  const [savedCount, setSavedCount] = useState(2);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const langDropdownRef = useRef(null);
 
   useEffect(() => {
-    try {
-      const storedTheme = localStorage.getItem('rozgar_theme') || 'dark';
-      setTheme(storedTheme);
-      document.documentElement.setAttribute('data-theme', storedTheme);
-
-      const storedLang = localStorage.getItem('rozgar_lang') || 'en';
-      setLang(storedLang);
-
-      const storedSaved = localStorage.getItem('rozgar_saved_jobs');
-      if (storedSaved) {
-        setSavedCount(JSON.parse(storedSaved).length);
+    const handleClickOutside = (event) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target)) {
+        setLangMenuOpen(false);
       }
-    } catch {}
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const toggleTheme = () => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(nextTheme);
-    document.documentElement.setAttribute('data-theme', nextTheme);
-    try {
-      localStorage.setItem('rozgar_theme', nextTheme);
-    } catch {}
-  };
-
-  const toggleLanguage = () => {
-    const nextLang = lang === 'en' ? 'ur' : 'en';
-    setLang(nextLang);
-    try {
-      localStorage.setItem('rozgar_lang', nextLang);
-    } catch {}
-  };
-
-  const t = lang === 'ur' ? URDU_TRANSLATIONS.nav : null;
-
   const navItems = [
-    { href: '/', label: t ? t.allJobs : 'All Jobs', icon: Briefcase },
-    { href: '/jobs/govt', label: t ? t.govtJobs : 'Govt Jobs', icon: Landmark, badge: 'Official' },
-    { href: '/jobs/private', label: t ? t.privateJobs : 'Private & IT', icon: Building2, badge: 'Tech' },
-    { href: '/test-prep', label: t ? t.testPrep : 'Test Prep', icon: BookOpen, badge: 'MCQs', highlight: true },
-    { href: '/exams', label: t ? t.examCalendar : 'Exam Calendar', icon: Calendar },
-    { href: '/cv-builder', label: t ? t.cvBuilder : 'CV Builder', icon: FileText, badge: 'Free' },
-    { href: '/alerts', label: t ? t.alerts : 'Alerts', icon: Bell }
+    { href: '/', label: t.nav.allJobs, icon: Briefcase },
+    { href: '/jobs/govt', label: t.nav.govtJobs, icon: Landmark, badge: t.nav.officialBadge },
+    { href: '/jobs/private', label: t.nav.privateJobs, icon: Building2, badge: t.nav.techBadge },
+    { href: '/test-prep', label: t.nav.testPrep, icon: BookOpen, badge: t.nav.mcqBadge, highlight: true },
+    { href: '/exams', label: t.nav.examCalendar, icon: Calendar },
+    { href: '/cv-builder', label: t.nav.cvBuilder, icon: FileText, badge: t.nav.freeBadge },
+    { href: '/alerts', label: t.nav.alerts, icon: Bell }
   ];
 
   const isActive = (href) => {
@@ -83,6 +63,8 @@ export default function Navbar() {
     if (href !== '/' && pathname.startsWith(href)) return true;
     return false;
   };
+
+  const currentLangObj = LANGUAGES.find(l => l.code === lang) || LANGUAGES[0];
 
   return (
     <>
@@ -94,8 +76,8 @@ export default function Navbar() {
               <ShieldCheck className="brand-icon" size={24} />
             </div>
             <div className="brand-text-box">
-              <span className="brand-title font-display">Rozgar<span className="brand-accent">PK</span></span>
-              <span className="brand-tagline">Verified Jobs Intelligence</span>
+              <span className="brand-title font-display">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
+              <span className="brand-tagline">{t.nav.tagline}</span>
             </div>
           </Link>
 
@@ -114,7 +96,7 @@ export default function Navbar() {
                   <Icon size={16} className="nav-icon" />
                   <span>{item.label}</span>
                   {item.badge && (
-                    <span className={`nav-badge ${item.badge === 'Official' ? 'badge-official' : item.badge === 'MCQs' ? 'badge-mcq' : ''}`}>
+                    <span className={`nav-badge ${item.badge === t.nav.officialBadge ? 'badge-official' : item.badge === t.nav.mcqBadge ? 'badge-mcq' : ''}`}>
                       {item.badge}
                     </span>
                   )}
@@ -132,30 +114,64 @@ export default function Navbar() {
               title="Search Jobs (Ctrl + K)"
               aria-label="Quick Search"
             >
-              <Search size={18} />
-              <span className="search-btn-label">Quick Search</span>
-              <kbd className="search-shortcut">⌘K</kbd>
+              <Search size={17} />
+              <span className="search-btn-label">{t.nav.quickSearch}</span>
+              <kbd className="search-shortcut">{t.nav.searchShortcut}</kbd>
             </button>
 
-            {/* Language Toggle */}
-            <button
-              onClick={toggleLanguage}
-              className="action-btn lang-toggle-btn"
-              title={lang === 'en' ? 'اردو میں دیکھیں' : 'Switch to English'}
-              aria-label="Toggle Language"
-            >
-              <Languages size={18} />
-              <span className="lang-code">{lang === 'en' ? 'اردو' : 'EN'}</span>
-            </button>
+            {/* 3-Language Switcher Dropdown */}
+            <div className="lang-switcher-wrapper relative" ref={langDropdownRef}>
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="action-btn lang-dropdown-trigger"
+                title={t.nav.selectLanguage}
+                aria-label="Select Language"
+                aria-expanded={langMenuOpen}
+              >
+                <Languages size={17} />
+                <span className="current-lang-text font-bold">{currentLangObj.native}</span>
+                <ChevronDown size={14} className={`transition-transform ${langMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {langMenuOpen && (
+                <div className="lang-dropdown-menu">
+                  <div className="lang-dropdown-header">
+                    <span className="text-xs font-bold text-muted uppercase tracking-wider">{t.nav.selectLanguage}</span>
+                  </div>
+                  {LANGUAGES.map((l) => {
+                    const isSelected = lang === l.code;
+                    return (
+                      <button
+                        key={l.code}
+                        className={`lang-option-btn ${isSelected ? 'selected' : ''}`}
+                        onClick={() => {
+                          setLang(l.code);
+                          setLangMenuOpen(false);
+                        }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">{l.flag}</span>
+                          <div className="text-left">
+                            <span className="font-semibold block text-xs text-primary">{l.native}</span>
+                            <span className="text-[10px] text-muted block">{l.label}</span>
+                          </div>
+                        </div>
+                        {isSelected && <Check size={14} className="text-emerald-500" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             {/* Dark/Light Mode Toggle */}
             <button
               onClick={toggleTheme}
               className="action-btn theme-toggle-btn"
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={theme === 'dark' ? t.nav.themeLight : t.nav.themeDark}
               aria-label="Toggle Theme"
             >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-indigo-600" />}
             </button>
 
             {/* Mobile Menu Toggle */}
@@ -173,6 +189,29 @@ export default function Navbar() {
         {mobileMenuOpen && (
           <div className="mobile-nav-dropdown">
             <div className="mobile-nav-container">
+              {/* Mobile Language Selector */}
+              <div className="mobile-lang-segmented mb-4 p-2 rounded-xl bg-surface-subtle border border-subtle">
+                <span className="text-xs font-bold text-muted block mb-2 px-1">{t.nav.selectLanguage}:</span>
+                <div className="grid grid-cols-3 gap-1">
+                  {LANGUAGES.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLang(l.code);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`text-xs py-1.5 px-2 rounded-lg font-bold transition-all text-center ${
+                        lang === l.code 
+                          ? 'bg-emerald-600 text-white shadow-sm' 
+                          : 'bg-surface text-secondary hover:text-primary'
+                      }`}
+                    >
+                      {l.native}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const active = isActive(item.href);
@@ -194,6 +233,20 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+
+              {/* Mobile Theme Toggle */}
+              <div className="mt-4 pt-3 border-t border-subtle flex items-center justify-between">
+                <span className="text-xs font-semibold text-secondary">
+                  {theme === 'dark' ? t.nav.themeDark : t.nav.themeLight}
+                </span>
+                <button
+                  onClick={toggleTheme}
+                  className="btn btn-outline btn-sm flex items-center gap-2"
+                >
+                  {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
+                  <span>{theme === 'dark' ? t.nav.themeLight : t.nav.themeDark}</span>
+                </button>
+              </div>
             </div>
           </div>
         )}

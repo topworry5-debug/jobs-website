@@ -23,8 +23,10 @@ import {
 import { CITIES, PROVINCES, BPS_SCALES, QUALIFICATIONS } from '../data/jobsData';
 import { SubscriberManager } from '../../pipeline/alerts/subscriberManager';
 import { generateVerificationEmail, generateSingleJobAlertEmail, generateDigestAlertEmail } from '../../pipeline/alerts/emailTemplates';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function AlertsManager() {
+  const { t, isRtl } = useLanguage();
   const [subManager] = useState(() => new SubscriberManager());
   const [email, setEmail] = useState('');
   const [city, setCity] = useState('All Cities');

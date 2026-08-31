@@ -1,9 +1,10 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { 
   ShieldCheck, 
   ExternalLink, 
-  Heart, 
   FileText, 
   Calendar, 
   Building2, 
@@ -13,8 +14,11 @@ import {
   Mail,
   BookOpen
 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
+  const { t, isRtl } = useLanguage();
+
   const officialPortals = [
     { name: "FPSC Federal Portal", url: "https://online.fpsc.gov.pk" },
     { name: "PPSC Punjab Portal", url: "https://www.ppsc.gop.pk" },
@@ -33,7 +37,7 @@ export default function Footer() {
         <div className="container-xl">
           <div className="official-bar-title-row">
             <ShieldCheck size={18} className="text-emerald" />
-            <span className="official-bar-heading">Official Government Portals Directory (Direct Access)</span>
+            <span className="official-bar-heading">{t.footer.directoryHeading}</span>
           </div>
           <div className="official-portals-grid">
             {officialPortals.map((portal, idx) => (
@@ -62,57 +66,57 @@ export default function Footer() {
                 <ShieldCheck className="brand-icon" size={22} />
               </div>
               <div className="brand-text-box">
-                <span className="brand-title font-display">Rozgar<span className="brand-accent">PK</span></span>
-                <span className="brand-tagline">Verified Jobs Intelligence</span>
+                <span className="brand-title font-display">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
+                <span className="brand-tagline">{t.nav.tagline}</span>
               </div>
             </Link>
             <p className="footer-desc">
-              Pakistan's highest-authority career intelligence ecosystem. Eliminating fake advertisements, confusing newspaper clippings, and legacy classified portals with real-time verified gazette notices.
+              {t.footer.desc}
             </p>
             <div className="footer-trust-badge">
               <CheckCircle2 size={15} className="text-emerald" />
-              <span>100% Anti-Scam Verification Guarantee</span>
+              <span>{t.footer.antiScamBadge}</span>
             </div>
           </div>
 
           {/* Quick Hub Links */}
           <div className="footer-links-col">
-            <h4 className="footer-col-title">Career Hub</h4>
+            <h4 className="footer-col-title">{t.footer.careerHub}</h4>
             <ul className="footer-links-list">
               <li>
                 <Link href="/jobs/govt" className="footer-link-btn">
                   <Landmark size={14} />
-                  <span>Federal & Provincial Govt Jobs</span>
+                  <span>{t.footer.govtJobsLink}</span>
                 </Link>
               </li>
               <li>
                 <Link href="/jobs/private" className="footer-link-btn">
                   <Building2 size={14} />
-                  <span>Private Sector & Tech Careers</span>
+                  <span>{t.footer.privateJobsLink}</span>
                 </Link>
               </li>
               <li>
                 <Link href="/exams" className="footer-link-btn">
                   <Calendar size={14} />
-                  <span>FPSC & PPSC Exam Calendar</span>
+                  <span>{t.footer.examCalLink}</span>
                 </Link>
               </li>
               <li>
                 <Link href="/test-prep" className="footer-link-btn">
                   <BookOpen size={14} />
-                  <span>Past Papers & MCQ Test Prep</span>
+                  <span>{t.footer.testPrepLink}</span>
                 </Link>
               </li>
               <li>
                 <Link href="/cv-builder" className="footer-link-btn">
                   <FileText size={14} />
-                  <span>Free ATS CV / Resume Builder</span>
+                  <span>{t.footer.cvBuilderLink}</span>
                 </Link>
               </li>
               <li>
                 <Link href="/alerts" className="footer-link-btn">
                   <Mail size={14} />
-                  <span>Verified Email Job Alerts</span>
+                  <span>{t.footer.emailAlertsLink}</span>
                 </Link>
               </li>
             </ul>
@@ -132,7 +136,7 @@ export default function Footer() {
 
           {/* Commissions */}
           <div className="footer-links-col">
-            <h4 className="footer-col-title">Commissions Tracked</h4>
+            <h4 className="footer-col-title">{t.footer.commissionsTracked}</h4>
             <ul className="footer-links-list">
               <li><Link href="/agency/fpsc" className="footer-link-btn">FPSC Federal Intelligence</Link></li>
               <li><Link href="/agency/ppsc" className="footer-link-btn">PPSC Punjab Intelligence</Link></li>
@@ -149,7 +153,7 @@ export default function Footer() {
       <div className="footer-bottom-bar">
         <div className="container-xl footer-bottom-flex">
           <div className="footer-copyright">
-            © 2026 RozgarPK. Built with pride for Pakistani Job Seekers.
+            {t.footer.copyright}
           </div>
           <div className="footer-badges-right">
             <span className="footer-badge-item">

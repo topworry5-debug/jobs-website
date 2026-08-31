@@ -5,6 +5,7 @@ import FilterSidebar from './FilterSidebar';
 import JobCard from './JobCard';
 import JobDetailModal from './JobDetailModal';
 import { CITIES, PROVINCES, BPS_SCALES, QUALIFICATIONS, CATEGORIES } from '../data/jobsData';
+import { useLanguage } from '../context/LanguageContext';
 import { 
   Search, 
   Sparkles, 
@@ -14,12 +15,11 @@ import {
   Building2, 
   Landmark, 
   ShieldCheck, 
-  AlertCircle,
-  TrendingUp,
-  MapPin
+  AlertCircle
 } from 'lucide-react';
 
 export default function HomeClientFilter({ initialJobs = [], initialCategory = 'all' }) {
+  const { t, isRtl } = useLanguage();
   const [jobs, setJobs] = useState(initialJobs);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState('');
@@ -118,23 +118,32 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     return true;
   });
 
+  const getFeedTitle = () => {
+    if (selectedCategory === 'govt') return t.feed.govtTitle;
+    if (selectedCategory === 'private') return t.feed.privateTitle;
+    return t.feed.allTitle;
+  };
+
   return (
     <div className="home-filter-container">
       {/* Category Pills Header */}
       <div className="category-tabs-bar mb-6">
         <div className="category-scroll-wrapper">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              className={`category-pill-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat.id)}
-            >
-              <span>{cat.label}</span>
-              {cat.id === 'all' && <span className="cat-count-badge">{jobs.length}</span>}
-              {cat.id === 'govt' && <span className="cat-count-badge">{jobs.filter(j => j.type === 'govt').length}</span>}
-              {cat.id === 'private' && <span className="cat-count-badge">{jobs.filter(j => j.type === 'private').length}</span>}
-            </button>
-          ))}
+          {CATEGORIES.map((cat) => {
+            const translatedLabel = t.categories[cat.id] || cat.label;
+            return (
+              <button
+                key={cat.id}
+                className={`category-pill-btn ${selectedCategory === cat.id ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(cat.id)}
+              >
+                <span>{translatedLabel}</span>
+                {cat.id === 'all' && <span className="cat-count-badge">{jobs.length}</span>}
+                {cat.id === 'govt' && <span className="cat-count-badge">{jobs.filter(j => j.type === 'govt').length}</span>}
+                {cat.id === 'private' && <span className="cat-count-badge">{jobs.filter(j => j.type === 'private').length}</span>}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -165,10 +174,10 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
           <div className="feed-header-bar mb-4">
             <div>
               <h2 className="feed-title text-xl font-bold">
-                {selectedCategory === 'govt' ? 'Verified Government Jobs' : selectedCategory === 'private' ? 'High-Growth Tech Careers' : 'All Verified Opportunities in Pakistan'}
+                {getFeedTitle()}
               </h2>
               <p className="feed-subtitle text-xs text-secondary">
-                Showing {filteredJobs.length} verified listings • 100% cross-checked with official gazette notices.
+                {t.feed.subtitlePrefix} {filteredJobs.length} {t.feed.subtitleSuffix}
               </p>
             </div>
 
@@ -176,7 +185,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Filter by title, city, dept..."
+                  placeholder={t.feed.searchFilterPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="input-field input-sm pl-8 text-xs"
@@ -204,29 +213,30 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
               ))}
             </div>
           ) : (
-            <div className="card empty-state-box text-center p-8">
-              <AlertCircle size={40} className="mx-auto text-muted mb-3" />
-              <h3 className="text-lg font-bold text-primary mb-1">No Matching Jobs Found</h3>
-              <p className="text-secondary text-xs mb-4">
-                Try broadening your filter criteria or search for another keyword or city.
+            <div className="empty-state card text-center py-12 px-4">
+              <AlertCircle size={40} className="text-muted mx-auto mb-3" />
+              <h3 className="text-base font-bold mb-1">{t.feed.noResultsTitle}</h3>
+              <p className="text-xs text-secondary max-w-md mx-auto mb-4">
+                {t.feed.noResultsDesc}
               </p>
-              <button className="btn btn-outline btn-sm mx-auto" onClick={handleResetFilters}>
+              <button onClick={handleResetFilters} className="btn btn-outline btn-sm mx-auto">
                 <RotateCcw size={14} />
-                <span>Reset All Filters</span>
+                <span>{t.filters.reset}</span>
               </button>
             </div>
           )}
         </section>
       </div>
 
-      {/* Modal View */}
+      {/* Selected Job Modal */}
       {selectedJobModal && (
         <JobDetailModal
           job={selectedJobModal}
-          isOpen={Boolean(selectedJobModal)}
+          isOpen={!!selectedJobModal}
           onClose={() => setSelectedJobModal(null)}
           isSaved={savedJobIds.includes(selectedJobModal.id)}
           onToggleSave={handleToggleSave}
+          allJobs={jobs}
         />
       )}
     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { 
   Calendar as CalendarIcon, 
   ShieldCheck, 
@@ -16,8 +17,10 @@ import {
   Sparkles
 } from 'lucide-react';
 import { EXAM_SCHEDULES } from '../data/examCalendarData';
+import { useLanguage } from '../context/LanguageContext';
 
-export default function ExamCalendar({ onSwitchTab }) {
+export default function ExamCalendar() {
+  const { t, isRtl } = useLanguage();
   const [selectedAgency, setSelectedAgency] = useState('ALL');
   const [reminderSetIds, setReminderSetIds] = useState([]);
   const [reminderToast, setReminderToast] = useState(null);
@@ -62,15 +65,15 @@ export default function ExamCalendar({ onSwitchTab }) {
             </div>
 
             <h1 className="exam-calendar-title">
-              FPSC, PPSC & NTS Competitive Exam Calendar 2026
+              {t.examCalendar.title}
             </h1>
             <p className="exam-calendar-desc">
-              Track official screening test dates, roll number slip dispatch timelines, and result announcement dates across Federal and Provincial Testing Commissions.
+              {t.examCalendar.subtitle}
             </p>
 
             {/* Agency Switcher Pills */}
             <div className="agency-pill-cluster">
-              <span className="agency-filter-label">Filter by Agency:</span>
+              <span className="agency-filter-label">{t.examCalendar.filterAgency}:</span>
               <div className="agency-pills-list">
                 {agencies.map((agency) => (
                   <button
@@ -120,12 +123,12 @@ export default function ExamCalendar({ onSwitchTab }) {
                 {/* Date Milestones Grid */}
                 <div className="exam-milestones-grid">
                   <div className="milestone-box">
-                    <span className="milestone-label">Roll No Slips</span>
+                    <span className="milestone-label">{t.examCalendar.tableAction}</span>
                     <span className="milestone-date text-blue">{exam.slipReleaseDate}</span>
                   </div>
 
                   <div className="milestone-box exam-day-highlight">
-                    <span className="milestone-label">Examination Date</span>
+                    <span className="milestone-label">{t.examCalendar.tableDate}</span>
                     <span className="milestone-date text-emerald"><strong>{exam.examDate}</strong></span>
                   </div>
 
@@ -159,12 +162,12 @@ export default function ExamCalendar({ onSwitchTab }) {
                     <ExternalLink size={14} />
                   </a>
 
-                  <button 
+                  <Link 
+                    href="/cv-builder"
                     className="btn btn-sm btn-primary"
-                    onClick={() => onSwitchTab('cv-builder')}
                   >
                     <span>Prepare ATS CV</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             );

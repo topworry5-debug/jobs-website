@@ -15,8 +15,10 @@ import {
 } from 'lucide-react';
 import { TEST_PREP_MODULES } from '../../data/testPrepData';
 import QuizSimulator from './QuizSimulator';
+import { useLanguage } from '../../context/LanguageContext';
 
-export default function TestPrepHub({ onSwitchTab }) {
+export default function TestPrepHub() {
+  const { t, isRtl } = useLanguage();
   const [activeModule, setActiveModule] = useState(null);
   const [selectedSubject, setSelectedSubject] = useState('ALL');
 

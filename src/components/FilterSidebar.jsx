@@ -10,14 +10,12 @@ import {
   GraduationCap, 
   MapPin, 
   Scale, 
-  CheckCircle2,
   X
 } from 'lucide-react';
 import { PROVINCES, CITIES, BPS_SCALES, QUALIFICATIONS } from '../data/jobsData';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function FilterSidebar({
-  activeType,
-  setActiveType,
   selectedCategory,
   setSelectedCategory,
   selectedProvince,
@@ -31,11 +29,12 @@ export default function FilterSidebar({
   urgentOnly,
   setUrgentOnly,
   onResetFilters,
-  totalResultsCount,
+  totalResults,
   onCloseMobileFilter
 }) {
+  const { t, isRtl } = useLanguage();
+
   const isFilterActive = 
-    activeType !== 'all' || 
     selectedCategory !== 'all' || 
     selectedProvince !== 'All Pakistan' || 
     selectedCity !== 'All Cities' || 
@@ -49,7 +48,7 @@ export default function FilterSidebar({
       <div className="filter-header-row">
         <div className="filter-title-group">
           <Filter size={18} className="text-emerald" />
-          <h3 className="filter-main-title">Filter Openings</h3>
+          <h3 className="filter-main-title">{t.filters.title}</h3>
         </div>
 
         <div className="filter-header-actions">
@@ -60,7 +59,7 @@ export default function FilterSidebar({
               title="Clear all active filters"
             >
               <RotateCcw size={13} />
-              <span>Reset</span>
+              <span>{t.filters.reset}</span>
             </button>
           )}
 
@@ -77,27 +76,27 @@ export default function FilterSidebar({
 
       {/* Filter 1: Primary Sector Switcher */}
       <div className="filter-section">
-        <label className="filter-section-label">Job Category</label>
+        <label className="filter-section-label">{t.filters.jobCategory}</label>
         <div className="sector-toggle-group">
           <button
-            className={`sector-btn ${activeType === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveType('all')}
+            className={`sector-btn ${selectedCategory === 'all' ? 'active' : ''}`}
+            onClick={() => setSelectedCategory('all')}
           >
-            All
+            {t.filters.allCat}
           </button>
           <button
-            className={`sector-btn govt ${activeType === 'govt' ? 'active' : ''}`}
-            onClick={() => setActiveType('govt')}
+            className={`sector-btn govt ${selectedCategory === 'govt' ? 'active' : ''}`}
+            onClick={() => setSelectedCategory('govt')}
           >
             <Landmark size={14} />
-            <span>Govt</span>
+            <span>{t.filters.govtCat}</span>
           </button>
           <button
-            className={`sector-btn tech ${activeType === 'private' ? 'active' : ''}`}
-            onClick={() => setActiveType('private')}
+            className={`sector-btn tech ${selectedCategory === 'private' ? 'active' : ''}`}
+            onClick={() => setSelectedCategory('private')}
           >
             <Building2 size={14} />
-            <span>Private / IT</span>
+            <span>{t.filters.privateCat}</span>
           </button>
         </div>
       </div>
@@ -108,9 +107,9 @@ export default function FilterSidebar({
           <div className="checkbox-info">
             <div className="checkbox-title">
               <Flame size={16} className="text-red" />
-              <span>Expiring Soon (&lt; 3 Days)</span>
+              <span>{t.filters.expiringSoon}</span>
             </div>
-            <p className="checkbox-desc">Show urgent deadlines closing this week</p>
+            <p className="checkbox-desc">{t.filters.expiringSub}</p>
           </div>
           <input
             type="checkbox"
@@ -123,37 +122,37 @@ export default function FilterSidebar({
 
       {/* Filter 3: Testing Agency / Sector */}
       <div className="filter-section">
-        <label className="filter-section-label">Department / Agency Cadre</label>
+        <label className="filter-section-label">{t.filters.deptCadre}</label>
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
           className="input-field select-field"
         >
-          <option value="all">All Departments & Agencies</option>
+          <option value="all">{t.filters.allDepts}</option>
           <optgroup label="Government Commissions">
-            <option value="Federal (FPSC)">Federal (FPSC)</option>
-            <option value="Provincial (PPSC)">Punjab (PPSC)</option>
-            <option value="Provincial (SPSC)">Sindh (SPSC)</option>
-            <option value="Provincial (KPPSC)">Khyber Pakhtunkhwa (KPPSC)</option>
-            <option value="Testing Services (NTS)">Testing Services (NTS/PTS)</option>
-            <option value="Police & Armed Forces">Police & Armed Forces</option>
+            <option value="fpsc">Federal (FPSC)</option>
+            <option value="ppsc">Punjab (PPSC)</option>
+            <option value="spsc">Sindh (SPSC)</option>
+            <option value="kppsc">KPK (KPPSC)</option>
+            <option value="nts">Testing Services (NTS)</option>
           </optgroup>
           <optgroup label="Private & Industry">
-            <option value="IT & Software">IT & Software Engineering</option>
-            <option value="Banking & Finance">Banking & Fintech</option>
+            <option value="tech">Software & IT</option>
+            <option value="banking">Banking & Finance</option>
           </optgroup>
         </select>
       </div>
 
       {/* Filter 4: Province / Domicile */}
       <div className="filter-section">
-        <label className="filter-section-label">Province / Domicile</label>
+        <label className="filter-section-label">{t.filters.province}</label>
         <select
           value={selectedProvince}
           onChange={(e) => setSelectedProvince(e.target.value)}
           className="input-field select-field"
         >
-          {PROVINCES.map((prov) => (
+          <option value="All Pakistan">{t.filters.allProvinces}</option>
+          {PROVINCES.filter(p => p !== 'All Pakistan').map((prov) => (
             <option key={prov} value={prov}>
               {prov}
             </option>
@@ -163,13 +162,14 @@ export default function FilterSidebar({
 
       {/* Filter 5: City */}
       <div className="filter-section">
-        <label className="filter-section-label">Posting City</label>
+        <label className="filter-section-label">{t.filters.postingCity}</label>
         <select
           value={selectedCity}
           onChange={(e) => setSelectedCity(e.target.value)}
           className="input-field select-field"
         >
-          {CITIES.map((city) => (
+          <option value="All Cities">{t.hero.allCities}</option>
+          {CITIES.filter(c => c !== 'All Cities').map((city) => (
             <option key={city} value={city}>
               {city}
             </option>
@@ -177,33 +177,33 @@ export default function FilterSidebar({
         </select>
       </div>
 
-      {/* Filter 6: BPS Scale (Govt specific) */}
-      {(activeType === 'all' || activeType === 'govt') && (
-        <div className="filter-section">
-          <label className="filter-section-label">BPS Pay Scale (Govt)</label>
-          <select
-            value={selectedBps}
-            onChange={(e) => setSelectedBps(e.target.value)}
-            className="input-field select-field"
-          >
-            {BPS_SCALES.map((scale) => (
-              <option key={scale} value={scale}>
-                {scale}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+      {/* Filter 6: BPS Scale */}
+      <div className="filter-section">
+        <label className="filter-section-label">{t.filters.bpsScale}</label>
+        <select
+          value={selectedBps}
+          onChange={(e) => setSelectedBps(e.target.value)}
+          className="input-field select-field"
+        >
+          <option value="All BPS Scales">{t.filters.allBps}</option>
+          {BPS_SCALES.filter(b => b !== 'All BPS Scales').map((scale) => (
+            <option key={scale} value={scale}>
+              {scale}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Filter 7: Minimum Qualification */}
       <div className="filter-section">
-        <label className="filter-section-label">Required Qualification</label>
+        <label className="filter-section-label">{t.filters.qualification}</label>
         <select
           value={selectedQualification}
           onChange={(e) => setSelectedQualification(e.target.value)}
           className="input-field select-field"
         >
-          {QUALIFICATIONS.map((qual) => (
+          <option value="All Qualifications">{t.filters.allQualifications}</option>
+          {QUALIFICATIONS.filter(q => q !== 'All Qualifications').map((qual) => (
             <option key={qual} value={qual}>
               {qual}
             </option>
@@ -218,7 +218,7 @@ export default function FilterSidebar({
             className="btn btn-primary btn-block"
             onClick={onCloseMobileFilter}
           >
-            Show {totalResultsCount} Results
+            Show {totalResults} Results
           </button>
         </div>
       )}

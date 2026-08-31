@@ -5,18 +5,15 @@ import Link from 'next/link';
 import { 
   Search, 
   MapPin, 
-  Building2, 
-  Sparkles, 
   ShieldCheck, 
   Flame, 
   Calendar, 
-  Users, 
   ArrowRight,
-  TrendingUp,
   Landmark,
   Briefcase
 } from 'lucide-react';
 import { CITIES } from '../data/jobsData';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function HeroSection({ 
   searchQuery = '', 
@@ -25,10 +22,9 @@ export default function HeroSection({
   setSelectedCity = () => {}, 
   jobs = [], 
   examSchedules = [],
-  onSelectCategory = () => {},
-  onJobClick = () => {},
-  onSwitchTab = () => {}
+  onJobClick = () => {}
 }) {
+  const { t, isRtl } = useLanguage();
   const [internalQuery, setInternalQuery] = useState(searchQuery);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const searchContainerRef = useRef(null);
@@ -73,7 +69,7 @@ export default function HeroSection({
     { label: 'PPSC Revenue', query: 'PPSC' },
     { label: 'NTS WAPDA', query: 'NTS' },
     { label: 'Remote IT / AI', query: 'Remote' },
-    { label: 'Closing in 3 Days', query: 'urgent', isUrgentFilter: true }
+    { label: t.hero.closingIn3Days, query: 'urgent', isUrgentFilter: true }
   ];
 
   return (
@@ -88,16 +84,15 @@ export default function HeroSection({
           <span className="trust-icon-wrapper">
             <ShieldCheck size={15} />
           </span>
-          <span>100% Verified Advertisements — No Outdated Ads or Clutter</span>
+          <span>{t.hero.trustBadge}</span>
         </div>
 
         {/* Hero Title & Subtitle */}
         <h1 className="hero-title">
-          The Authority on Careers & Competitive Exams in <span className="text-gradient-emerald">Pakistan</span>
+          {t.hero.titlePrefix} {t.hero.titleIn} <span className="text-gradient-emerald">{t.hero.titleCountry}</span>
         </h1>
         <p className="hero-subtitle">
-          Direct verified access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, NTS) 
-          and top-tier Private & Tech opportunities — all in one modern, ad-free interface.
+          {t.hero.subtitle}
         </p>
 
         {/* Interactive Main Search Bar */}
@@ -108,7 +103,7 @@ export default function HeroSection({
               <Search className="search-icon" size={20} />
               <input
                 type="text"
-                placeholder="Job title, department, BPS scale, or skills..."
+                placeholder={t.hero.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -136,7 +131,8 @@ export default function HeroSection({
                 onChange={(e) => setSelectedCity(e.target.value)}
                 className="hero-city-select"
               >
-                {CITIES.map((city) => (
+                <option value="All Cities">{t.hero.allCities}</option>
+                {CITIES.filter(c => c !== 'All Cities').map((city) => (
                   <option key={city} value={city}>
                     {city}
                   </option>
@@ -154,7 +150,7 @@ export default function HeroSection({
               }}
             >
               <Search size={18} />
-              <span>Find Jobs</span>
+              <span>{t.hero.findJobs}</span>
             </button>
           </div>
 
@@ -192,7 +188,7 @@ export default function HeroSection({
 
         {/* Quick Search Tag Pills */}
         <div className="quick-tags-container">
-          <span className="quick-tags-label">Popular Searches:</span>
+          <span className="quick-tags-label">{t.hero.popularSearches}</span>
           <div className="quick-tags-list">
             {quickPills.map((pill, idx) => (
               <button
@@ -215,13 +211,9 @@ export default function HeroSection({
 
         {/* Primary Pathway Cards (Govt vs Private vs Exams) */}
         <div className="category-cards-grid">
-          <div 
+          <Link 
+            href="/jobs/govt"
             className="pathway-card govt-card"
-            onClick={() => {
-              onSwitchTab('govt');
-              const el = document.getElementById('listings-section');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
           >
             <div className="pathway-header">
               <div className="pathway-icon-wrapper govt">
@@ -229,23 +221,19 @@ export default function HeroSection({
               </div>
               <span className="pathway-badge govt">FPSC • PPSC • SPSC • NTS</span>
             </div>
-            <h3 className="pathway-title">Government & Public Sector</h3>
+            <h3 className="pathway-title">{t.hero.trackGovtTitle}</h3>
             <p className="pathway-desc">
-              Gazetted BPS-16 to BPS-21 openings, Armed Forces, Police, and Central Bank recruitment with official quota details.
+              {t.hero.trackGovtDesc}
             </p>
             <div className="pathway-footer">
-              <span>Explore Govt Openings</span>
+              <span>{t.hero.trackGovtAction}</span>
               <ArrowRight size={16} />
             </div>
-          </div>
+          </Link>
 
-          <div 
+          <Link 
+            href="/jobs/private"
             className="pathway-card tech-card"
-            onClick={() => {
-              onSwitchTab('private');
-              const el = document.getElementById('listings-section');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
           >
             <div className="pathway-header">
               <div className="pathway-icon-wrapper tech">
@@ -253,22 +241,19 @@ export default function HeroSection({
               </div>
               <span className="pathway-badge tech">High-Growth IT & Remote</span>
             </div>
-            <h3 className="pathway-title">Private & Tech Careers</h3>
+            <h3 className="pathway-title">{t.hero.trackPrivateTitle}</h3>
             <p className="pathway-desc">
-              Software engineering, AI, DevOps, Product, and Fintech positions with verified salary benchmarks and hybrid perks.
+              {t.hero.trackPrivateDesc}
             </p>
             <div className="pathway-footer">
-              <span>Explore Tech Jobs</span>
+              <span>{t.hero.trackPrivateAction}</span>
               <ArrowRight size={16} />
             </div>
-          </div>
+          </Link>
 
-          <div 
+          <Link 
+            href="/exams"
             className="pathway-card exam-card"
-            onClick={() => {
-              onSwitchTab('exams');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
           >
             <div className="pathway-header">
               <div className="pathway-icon-wrapper exam">
@@ -276,15 +261,15 @@ export default function HeroSection({
               </div>
               <span className="pathway-badge exam">Live Tracker</span>
             </div>
-            <h3 className="pathway-title">Competitive Exam Calendar</h3>
+            <h3 className="pathway-title">{t.hero.trackExamsTitle}</h3>
             <p className="pathway-desc">
-              Screening test dates, roll number slip releases, and result timelines for all major testing agencies in Pakistan.
+              {t.hero.trackExamsDesc}
             </p>
             <div className="pathway-footer">
-              <span>View Exam Calendar</span>
+              <span>{t.hero.trackExamsAction}</span>
               <ArrowRight size={16} />
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Dynamic Real-Time Stats Bar */}
@@ -295,7 +280,7 @@ export default function HeroSection({
                 <span className="stat-number">{totalVacancies}+</span>
                 <span className="stat-indicator green" />
               </div>
-              <span className="stat-label">Active Vacancies Open</span>
+              <span className="stat-label">{t.hero.statVacancies}</span>
             </div>
 
             <div className="stat-divider" />
@@ -305,7 +290,7 @@ export default function HeroSection({
                 <span className="stat-number">{verifiedDeptsCount}</span>
                 <ShieldCheck size={16} className="text-emerald" />
               </div>
-              <span className="stat-label">Verified Depts & Agencies</span>
+              <span className="stat-label">{t.hero.statDepts}</span>
             </div>
 
             <div className="stat-divider" />
@@ -315,7 +300,7 @@ export default function HeroSection({
                 <span className="stat-number text-urgent">{urgentCount}</span>
                 <Flame size={16} className="text-red" />
               </div>
-              <span className="stat-label">Closing in &lt; 3 Days</span>
+              <span className="stat-label">{t.hero.statUrgent}</span>
             </div>
 
             <div className="stat-divider" />
@@ -325,39 +310,9 @@ export default function HeroSection({
                 <span className="stat-number">{upcomingExamsCount}</span>
                 <Calendar size={16} className="text-blue" />
               </div>
-              <span className="stat-label">Upcoming Exam Cycles</span>
+              <span className="stat-label">{t.hero.statExams}</span>
             </div>
           </div>
-        </div>
-
-        {/* City Dedicated Hubs Bar */}
-        <div className="city-hubs-quickbar mt-4">
-          <span className="city-hubs-label">Explore Jobs by Major City:</span>
-          <div className="city-hubs-links">
-            <button className="city-hub-btn" onClick={() => onSwitchTab('city-lahore')}>
-              <MapPin size={13} />
-              <span>Lahore Jobs Hub</span>
-            </button>
-            <button className="city-hub-btn" onClick={() => onSwitchTab('city-karachi')}>
-              <MapPin size={13} />
-              <span>Karachi Jobs Hub</span>
-            </button>
-            <button className="city-hub-btn" onClick={() => onSwitchTab('city-islamabad')}>
-              <MapPin size={13} />
-              <span>Islamabad & Rawalpindi</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Transparent Candidate Feedback & Integrity Notice */}
-        <div className="trust-feedback-placeholder-card card mt-4">
-          <div className="feedback-head">
-            <ShieldCheck size={18} className="text-emerald" />
-            <h4 className="feedback-title">Authenticity & Community Reviews Commitment</h4>
-          </div>
-          <p className="feedback-text">
-            Verified candidate reviews, screening test experiences, and departmental interview insights will be published here as the 2026 recruitment cycles conclude. <strong>RozgarPK strictly prohibits fabricated testimonials or inflated user counters.</strong>
-          </p>
         </div>
       </div>
     </div>

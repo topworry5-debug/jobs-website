@@ -33,6 +33,7 @@ import {
   Sliders,
   FolderGit2
 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const SAMPLE_PHOTO_URL = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23059669'/%3E%3Cstop offset='100%25' stop-color='%23047857'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g)'/%3E%3Ccircle cx='100' cy='75' r='38' fill='%23ffffff' opacity='0.9'/%3E%3Cpath d='M30 185 C30 135, 70 120, 100 120 C130 120, 170 135, 170 185 Z' fill='%23ffffff' opacity='0.9'/%3E%3C/svg%3E";
 
@@ -120,6 +121,7 @@ const SAMPLE_RESUME_DATA = {
 };
 
 export default function CvBuilder() {
+  const { t, isRtl } = useLanguage();
   const [template, setTemplate] = useState('executive'); // 'executive' | 'govt' | 'tech'
   const [accentColor, setAccentColor] = useState(ACCENT_COLORS[0]);
   const [resumeData, setResumeData] = useState(SAMPLE_RESUME_DATA);
@@ -163,7 +165,6 @@ export default function CvBuilder() {
     });
   };
 
-  // Profile Photo Upload Handler
   const handlePhotoUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -197,136 +198,41 @@ export default function CvBuilder() {
     }));
   };
 
-  // Add Dynamic Entries
-  const addExperience = () => {
-    setResumeData({
-      ...resumeData,
-      experience: [
-        ...resumeData.experience,
-        {
-          id: `exp-${Date.now()}`,
-          role: "",
-          company: "",
-          location: "",
-          startDate: "",
-          endDate: "",
-          description: ""
-        }
-      ]
-    });
-  };
-
-  const updateExperience = (id, field, value) => {
-    setResumeData({
-      ...resumeData,
-      experience: resumeData.experience.map(e => e.id === id ? { ...e, [field]: value } : e)
-    });
-  };
-
-  const removeExperience = (id) => {
-    setResumeData({
-      ...resumeData,
-      experience: resumeData.experience.filter(e => e.id !== id)
-    });
-  };
-
-  const addEducation = () => {
-    setResumeData({
-      ...resumeData,
-      education: [
-        ...resumeData.education,
-        {
-          id: `edu-${Date.now()}`,
-          degree: "",
-          institution: "",
-          year: "",
-          grade: ""
-        }
-      ]
-    });
-  };
-
-  const updateEducation = (id, field, value) => {
-    setResumeData({
-      ...resumeData,
-      education: resumeData.education.map(e => e.id === id ? { ...e, [field]: value } : e)
-    });
-  };
-
-  const removeEducation = (id) => {
-    setResumeData({
-      ...resumeData,
-      education: resumeData.education.filter(e => e.id !== id)
-    });
-  };
-
-  const addProject = () => {
-    setResumeData({
-      ...resumeData,
-      projects: [
-        ...(resumeData.projects || []),
-        {
-          id: `proj-${Date.now()}`,
-          name: "",
-          tech: "",
-          description: ""
-        }
-      ]
-    });
-  };
-
-  const updateProject = (id, field, value) => {
-    setResumeData({
-      ...resumeData,
-      projects: resumeData.projects.map(p => p.id === id ? { ...p, [field]: value } : p)
-    });
-  };
-
-  const removeProject = (id) => {
-    setResumeData({
-      ...resumeData,
-      projects: resumeData.projects.filter(p => p.id !== id)
-    });
-  };
-
   return (
     <div className="cv-builder-page-container">
-      {/* Top Banner */}
       <div className="cv-builder-header no-print">
         <div className="container-xl">
           <div className="cv-header-flex">
             <div>
               <div className="badge badge-verified mb-2">
                 <ShieldCheck size={13} />
-                <span>Flagship 2026 Engine • 100% Free & ATS-Compliant</span>
+                <span>{t.cvBuilder.badge}</span>
               </div>
-              <h1 className="cv-builder-title">Premium ATS Resume & CV Builder</h1>
+              <h1 className="cv-builder-title">{t.cvBuilder.title}</h1>
               <p className="cv-builder-subtitle">
-                Engineered for Pakistani Public Service Commissions (FPSC / PPSC) and Top Tech / Corporate Careers.
+                {t.cvBuilder.subtitle}
               </p>
             </div>
 
             <div className="cv-header-actions">
               <button className="btn btn-outline btn-sm" onClick={handleLoadSample}>
                 <Sparkles size={14} className="text-emerald" />
-                <span>Load Sample Data</span>
+                <span>{t.cvBuilder.loadSample}</span>
               </button>
               <button className="btn btn-outline btn-sm" onClick={handleClear}>
                 <RotateCcw size={14} />
-                <span>Clear</span>
+                <span>{t.cvBuilder.clear}</span>
               </button>
               <button className="btn btn-primary" onClick={handlePrint}>
                 <Printer size={16} />
-                <span>Print / Save as PDF</span>
+                <span>{t.cvBuilder.printPdf}</span>
               </button>
             </div>
           </div>
 
-          {/* Control Bar: Templates & Color Theme */}
           <div className="cv-customizer-toolbar">
-            {/* Template Selector */}
             <div className="customizer-group">
-              <span className="customizer-label">Template Design:</span>
+              <span className="customizer-label">{t.cvBuilder.templateDesign}</span>
               <div className="template-options-row">
                 <button
                   className={`template-tab-btn ${template === 'executive' ? 'active' : ''}`}
@@ -349,9 +255,8 @@ export default function CvBuilder() {
               </div>
             </div>
 
-            {/* Accent Color Palette */}
             <div className="customizer-group">
-              <span className="customizer-label">Theme Color:</span>
+              <span className="customizer-label">{t.cvBuilder.themeColor}</span>
               <div className="color-swatches-row">
                 {ACCENT_COLORS.map((c) => (
                   <button
@@ -367,7 +272,6 @@ export default function CvBuilder() {
               </div>
             </div>
 
-            {/* Profile Photo Toggle */}
             <div className="customizer-group">
               <label className="photo-toggle-label">
                 <input
@@ -376,12 +280,11 @@ export default function CvBuilder() {
                   onChange={(e) => setResumeData({ ...resumeData, showPhoto: e.target.checked })}
                   className="styled-checkbox"
                 />
-                <span className="photo-toggle-text">Show Profile Photo</span>
+                <span className="photo-toggle-text">{t.cvBuilder.showPhoto}</span>
               </label>
             </div>
           </div>
 
-          {/* Mobile View Toggle */}
           <div className="mobile-view-mode-bar">
             <button
               className={`mobile-view-btn ${mobileViewMode === 'editor' ? 'active' : ''}`}
@@ -401,51 +304,47 @@ export default function CvBuilder() {
         </div>
       </div>
 
-      {/* Main Workspace */}
       <div className="container-xl cv-workspace-grid">
-        {/* LEFT COLUMN: FORM EDITOR */}
         <div className={`cv-editor-panel card no-print ${mobileViewMode === 'preview' ? 'mobile-hidden' : ''}`}>
-          {/* Navigation Tabs */}
           <div className="editor-nav-tabs">
             <button 
               className={`editor-tab ${activeTab === 'personal' ? 'active' : ''}`}
               onClick={() => setActiveTab('personal')}
             >
               <User size={15} />
-              <span>Personal</span>
+              <span>{t.cvBuilder.tabPersonal}</span>
             </button>
             <button 
               className={`editor-tab ${activeTab === 'experience' ? 'active' : ''}`}
               onClick={() => setActiveTab('experience')}
             >
               <Briefcase size={15} />
-              <span>Experience</span>
+              <span>{t.cvBuilder.tabExperience}</span>
             </button>
             <button 
               className={`editor-tab ${activeTab === 'education' ? 'active' : ''}`}
               onClick={() => setActiveTab('education')}
             >
               <GraduationCap size={15} />
-              <span>Education</span>
+              <span>{t.cvBuilder.tabEducation}</span>
             </button>
             <button 
               className={`editor-tab ${activeTab === 'projects' ? 'active' : ''}`}
               onClick={() => setActiveTab('projects')}
             >
               <FolderGit2 size={15} />
-              <span>Projects</span>
+              <span>{t.cvBuilder.tabProjects}</span>
             </button>
             <button 
               className={`editor-tab ${activeTab === 'skills' ? 'active' : ''}`}
               onClick={() => setActiveTab('skills')}
             >
               <Award size={15} />
-              <span>Skills & Certs</span>
+              <span>{t.cvBuilder.tabSkills}</span>
             </button>
           </div>
 
           <div className="editor-tab-body">
-            {/* TAB: Personal Info */}
             {activeTab === 'personal' && (
               <div className="form-section-stack">
                 {/* Photo Upload Box */}

@@ -9,20 +9,20 @@ import {
   Flame, 
   Bookmark, 
   Share2, 
-  ExternalLink,
-  ChevronRight,
-  GraduationCap,
-  Sparkles
+  ChevronRight, 
+  GraduationCap, 
+  Sparkles 
 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function JobCard({ 
   job, 
   onSelect, 
   isSaved, 
-  onToggleSave,
-  onShareWhatsApp,
-  onShareFacebook
+  onToggleSave, 
+  onShareWhatsApp 
 }) {
+  const { t, isRtl } = useLanguage();
   const isGovt = job.type === 'govt';
 
   // Calculate days remaining to deadline
@@ -52,12 +52,12 @@ export default function JobCard({
           {job.verified && (
             <span className="badge badge-verified" title="Cross-checked against official Gazette / Portal">
               <ShieldCheck size={12} />
-              <span>Verified</span>
+              <span>{t.jobCard.verified}</span>
             </span>
           )}
 
           {isGovt && job.bpsScale && (
-            <span className="badge badge-bps">
+            <span className="badge badge-bps font-mono">
               {job.bpsScale}
             </span>
           )}
@@ -65,7 +65,7 @@ export default function JobCard({
           {isUrgent && (
             <span className="badge badge-urgent">
               <Flame size={12} />
-              <span>Closing in {daysLeft}d</span>
+              <span>{t.jobCard.closingIn} {daysLeft}{t.jobCard.days}</span>
             </span>
           )}
         </div>
@@ -73,12 +73,15 @@ export default function JobCard({
 
       {/* Title with Direct Link */}
       <h3 className="job-card-title">
-        <Link href={`/jobs/${job.id}`} onClick={(e) => {
-          if (onSelect) {
-            e.preventDefault();
-            onSelect(job);
-          }
-        }}>
+        <Link 
+          href={`/jobs/${job.id}`} 
+          onClick={(e) => {
+            if (onSelect) {
+              e.preventDefault();
+              onSelect(job);
+            }
+          }}
+        >
           {job.title}
         </Link>
       </h3>
@@ -93,13 +96,13 @@ export default function JobCard({
         {job.vacancies && (
           <div className="meta-item">
             <Users size={14} className="text-muted" />
-            <span><strong>{job.vacancies}</strong> {job.vacancies === 1 ? 'Vacancy' : 'Vacancies'}</span>
+            <span><strong>{job.vacancies}</strong> {job.vacancies === 1 ? t.jobCard.vacancy : t.jobCard.vacancies}</span>
           </div>
         )}
 
         {isGovt && job.quota && (
           <div className="meta-item full-width-meta">
-            <span className="quota-tag-label">Quota:</span>
+            <span className="quota-tag-label">{t.jobCard.quota}</span>
             <span className="quota-tag-text">{job.quota.split('|')[0]}...</span>
           </div>
         )}
@@ -117,7 +120,7 @@ export default function JobCard({
 
         <div className="meta-item full-width-meta verified-timestamp-meta">
           <ShieldCheck size={13} className="text-emerald" />
-          <span>Last verified on <strong>{job.lastVerifiedDate || "August 31, 2026"}</strong></span>
+          <span>{t.jobCard.lastVerified} <strong>{job.lastVerifiedDate || "August 31, 2026"}</strong></span>
         </div>
       </div>
 
@@ -126,7 +129,7 @@ export default function JobCard({
         <div className="deadline-badge-group">
           <Clock size={14} className={isUrgent ? 'text-red' : 'text-muted'} />
           <span className={`deadline-text ${isUrgent ? 'deadline-urgent' : ''}`}>
-            Last Date: <strong>{job.lastDate}</strong>
+            {t.jobCard.lastDate} <strong>{job.lastDate}</strong>
           </span>
         </div>
 
@@ -154,17 +157,16 @@ export default function JobCard({
                 e.stopPropagation();
                 onToggleSave(job);
               }}
-              title={isSaved ? "Saved in bookmarks" : "Save job"}
+              title={isSaved ? "Saved" : "Save job"}
               aria-label="Save job"
             >
               <Bookmark size={15} fill={isSaved ? "currentColor" : "none"} />
             </button>
           )}
 
-          {/* View Details Primary Button */}
-          <Link 
-            href={`/jobs/${job.id}`}
-            className="btn btn-sm btn-primary view-details-btn"
+          {/* Details CTA Button */}
+          <button 
+            className="btn btn-sm btn-primary-soft card-view-btn"
             onClick={(e) => {
               if (onSelect) {
                 e.preventDefault();
@@ -172,9 +174,9 @@ export default function JobCard({
               }
             }}
           >
-            <span>Details</span>
+            <span>{t.jobCard.details}</span>
             <ChevronRight size={14} />
-          </Link>
+          </button>
         </div>
       </div>
     </article>

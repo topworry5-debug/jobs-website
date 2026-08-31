@@ -75,6 +75,8 @@ export const viewport = {
   maximumScale: 5,
 };
 
+import ClientProviders from '../components/ClientProviders';
+
 export default function RootLayout({ children }) {
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -121,13 +123,9 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
         />
-        <div className="app-container">
-          <Navbar />
-          <main className="main-content-wrapper">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <ClientProviders>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );
