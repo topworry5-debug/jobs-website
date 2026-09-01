@@ -1,6 +1,6 @@
 import '../styles/index.css';
 import '../styles/components.css';
-import { Inter, Outfit, JetBrains_Mono } from 'next/font/google';
+import { Inter, Outfit, JetBrains_Mono, Noto_Naskh_Arabic } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -20,6 +20,13 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-mono'
+});
+
+const notoNaskhArabic = Noto_Naskh_Arabic({
+  subsets: ['arabic'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-urdu'
 });
 
 export const metadata = {
@@ -112,7 +119,7 @@ export default function RootLayout({ children }) {
     <html 
       lang="en" 
       data-theme="dark" 
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${notoNaskhArabic.variable}`}
     >
       <body>
         <script

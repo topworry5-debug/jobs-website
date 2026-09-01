@@ -124,13 +124,13 @@ export default function Footer() {
 
           {/* City Portals */}
           <div className="footer-links-col">
-            <h4 className="footer-col-title">City Hubs</h4>
+            <h4 className="footer-col-title">{t.footer.cityHubsTitle || "City Hubs"}</h4>
             <ul className="footer-links-list">
-              <li><Link href="/city/lahore" className="footer-link-btn">Jobs in Lahore (Punjab)</Link></li>
-              <li><Link href="/city/karachi" className="footer-link-btn">Jobs in Karachi (Sindh)</Link></li>
-              <li><Link href="/city/islamabad" className="footer-link-btn">Jobs in Islamabad / Rawalpindi</Link></li>
-              <li><Link href="/city/peshawar" className="footer-link-btn">Jobs in Peshawar (KPK)</Link></li>
-              <li><Link href="/city/quetta" className="footer-link-btn">Jobs in Quetta (Balochistan)</Link></li>
+              <li><Link href="/city/lahore" className="footer-link-btn">{t.footer.lahore || "Jobs in Lahore (Punjab)"}</Link></li>
+              <li><Link href="/city/karachi" className="footer-link-btn">{t.footer.karachi || "Jobs in Karachi (Sindh)"}</Link></li>
+              <li><Link href="/city/islamabad" className="footer-link-btn">{t.footer.islamabad || "Jobs in Islamabad / Rawalpindi"}</Link></li>
+              <li><Link href="/city/peshawar" className="footer-link-btn">{t.footer.peshawar || "Jobs in Peshawar (KPK)"}</Link></li>
+              <li><Link href="/city/quetta" className="footer-link-btn">{t.footer.quetta || "Jobs in Quetta (Balochistan)"}</Link></li>
             </ul>
           </div>
 
@@ -148,13 +148,13 @@ export default function Footer() {
 
           {/* Company & Legal */}
           <div className="footer-links-col">
-            <h4 className="footer-col-title">Trust & Transparency</h4>
+            <h4 className="footer-col-title">{t.footer.trustTitle || "Trust & Transparency"}</h4>
             <ul className="footer-links-list">
-              <li><Link href="/about" className="footer-link-btn">About RozgarPK</Link></li>
-              <li><Link href="/contact" className="footer-link-btn">Contact Support Desk</Link></li>
-              <li><Link href="/privacy-policy" className="footer-link-btn">Privacy Policy</Link></li>
-              <li><Link href="/terms-of-service" className="footer-link-btn">Terms of Service</Link></li>
-              <li><Link href="/admin" className="footer-link-btn text-muted">Pipeline Telemetry</Link></li>
+              <li><Link href="/about" className="footer-link-btn">{t.footer.about || "About RozgarPK"}</Link></li>
+              <li><Link href="/contact" className="footer-link-btn">{t.footer.contact || "Contact Support Desk"}</Link></li>
+              <li><Link href="/privacy-policy" className="footer-link-btn">{t.footer.privacy || "Privacy Policy"}</Link></li>
+              <li><Link href="/terms-of-service" className="footer-link-btn">{t.footer.terms || "Terms of Service"}</Link></li>
+              <li><Link href="/admin" className="footer-link-btn text-muted">{t.footer.telemetry || "Pipeline Telemetry"}</Link></li>
             </ul>
           </div>
         </div>
@@ -164,14 +164,14 @@ export default function Footer() {
       <div className="footer-bottom-bar">
         <div className="container-xl footer-bottom-flex">
           <div className="footer-copyright">
-            {t.footer.copyright} • <Link href="/privacy-policy" className="hover:underline text-muted">Privacy</Link> • <Link href="/terms-of-service" className="hover:underline text-muted">Terms</Link> • <Link href="/contact" className="hover:underline text-muted">Contact</Link>
+            {t.footer.copyright} • <Link href="/privacy-policy" className="hover:underline text-muted">{t.footer.privacy || "Privacy"}</Link> • <Link href="/terms-of-service" className="hover:underline text-muted">{t.footer.terms || "Terms"}</Link> • <Link href="/contact" className="hover:underline text-muted">{t.footer.contact || "Contact"}</Link>
           </div>
           <div className="footer-badges-right">
             <span className="footer-badge-item">
               <Lock size={12} />
-              <span>SSL 256-Bit Encrypted</span>
+              <span>{t.footer.sslBadge || "SSL 256-Bit Encrypted"}</span>
             </span>
-            <span className="footer-badge-item">100% Gazette Verified</span>
+            <span className="footer-badge-item">{t.footer.gazetteBadge || "100% Gazette Verified"}</span>
           </div>
         </div>
       </div>

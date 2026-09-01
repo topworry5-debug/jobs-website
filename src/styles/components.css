@@ -5426,8 +5426,8 @@
   }
 }
 
-/* Tablets & Mobile Navigation Breakpoint (<= 1080px) */
-@media (max-width: 1080px) {
+/* Tablets & Mobile Navigation Breakpoint (<= 1140px) */
+@media (max-width: 1140px) {
   .desktop-nav-links {
     display: none !important;
   }

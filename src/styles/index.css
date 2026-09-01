@@ -379,9 +379,59 @@ button, input, select, textarea {
 .text-blue { color: var(--accent-blue) !important; }
 .text-red { color: var(--accent-red) !important; }
 .text-muted { color: var(--text-muted) !important; }
-.text-secondary { color: var(--text-secondary) !important; }
-.text-primary { color: var(--text-primary) !important; }
-
 .bg-surface { background-color: var(--bg-surface) !important; }
 .bg-surface-subtle { background-color: var(--bg-surface-subtle) !important; }
 .border-subtle { border-color: var(--border-subtle) !important; }
+
+/* ==========================================================================
+   URDU TYPOGRAPHY & RTL PRECISION SYSTEM
+   ========================================================================== */
+[dir='rtl'], 
+html[dir='rtl'], 
+body[dir='rtl'],
+.lang-ur {
+  font-family: var(--font-urdu, 'Noto Naskh Arabic', 'Segoe UI', Tahoma, Arial, sans-serif) !important;
+  letter-spacing: 0 !important;
+  line-height: 1.85 !important;
+}
+
+[dir='rtl'] h1, 
+[dir='rtl'] h2, 
+[dir='rtl'] h3, 
+[dir='rtl'] h4, 
+[dir='rtl'] .brand-title, 
+[dir='rtl'] .hero-title,
+[dir='rtl'] .feed-title {
+  font-family: var(--font-urdu, 'Noto Naskh Arabic', sans-serif) !important;
+  letter-spacing: 0 !important;
+  line-height: 1.55 !important;
+  font-weight: 700 !important;
+}
+
+[dir='rtl'] .btn,
+[dir='rtl'] .nav-link-item,
+[dir='rtl'] .badge,
+[dir='rtl'] .filter-item-btn {
+  font-family: var(--font-urdu, 'Noto Naskh Arabic', sans-serif) !important;
+  letter-spacing: 0 !important;
+}
+
+/* RTL Layout Directional Alignment */
+[dir='rtl'] .text-left {
+  text-align: right !important;
+}
+
+[dir='rtl'] .text-right {
+  text-align: left !important;
+}
+
+[dir='rtl'] .pl-8 {
+  padding-left: 0.75rem !important;
+  padding-right: 2rem !important;
+}
+
+[dir='rtl'] .pr-8 {
+  padding-right: 0.75rem !important;
+  padding-left: 2rem !important;
+}
+
