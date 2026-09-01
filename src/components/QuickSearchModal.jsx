@@ -46,15 +46,11 @@ export default function QuickSearchModal({
   }, [isOpen]);
 
   const filteredJobs = (searchTerm || '').trim().length > 0
-    ? allJobs.filter(j => 
-        j.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (j.department && j.department.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (j.company && j.company.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (j.city && j.city.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (j.agency && j.agency.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (j.bpsScale && j.bpsScale.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (j.qualification && j.qualification.toLowerCase().includes(searchTerm.toLowerCase()))
-      ).slice(0, 8)
+    ? allJobs.filter(j => {
+        const queryTerms = searchTerm.toLowerCase().split(/\s+/).filter(Boolean);
+        const searchableText = `${j.title || ''} ${j.department || ''} ${j.company || ''} ${j.city || ''} ${j.agency || ''} ${j.bpsScale || ''} ${j.category || ''} ${j.qualification || ''}`.toLowerCase();
+        return queryTerms.every(term => searchableText.includes(term));
+      }).slice(0, 8)
     : allJobs.slice(0, 5);
 
   useEffect(() => {

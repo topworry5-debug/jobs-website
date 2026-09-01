@@ -20,8 +20,7 @@ import {
   Languages, 
   ChevronDown, 
   Check,
-  Sparkles,
-  ArrowRight
+  Sparkles
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { JOBS_DATA } from '../data/jobsData';
@@ -77,13 +76,17 @@ export default function Navbar() {
     };
   }, [mobileMenuOpen]);
 
-  const navItems = [
+  const desktopNavItems = [
     { href: '/', label: t.nav.allJobs, icon: Briefcase },
     { href: '/jobs/govt', label: t.nav.govtJobs, icon: Landmark, badge: t.nav.officialBadge },
     { href: '/jobs/private', label: t.nav.privateJobs, icon: Building2, badge: t.nav.techBadge },
     { href: '/test-prep', label: t.nav.testPrep, icon: BookOpen, badge: t.nav.mcqBadge, highlight: true },
     { href: '/exams', label: t.nav.examCalendar, icon: Calendar },
-    { href: '/cv-builder', label: t.nav.cvBuilder, icon: FileText, badge: t.nav.freeBadge },
+    { href: '/cv-builder', label: t.nav.cvBuilder, icon: FileText, badge: t.nav.freeBadge }
+  ];
+
+  const allNavItems = [
+    ...desktopNavItems,
     { href: '/alerts', label: t.nav.alerts, icon: Bell }
   ];
 
@@ -102,7 +105,7 @@ export default function Navbar() {
           {/* Brand Logo */}
           <Link href="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
             <div className="logo-icon-box">
-              <ShieldCheck className="brand-icon" size={22} />
+              <ShieldCheck className="brand-icon" size={20} />
             </div>
             <div className="brand-text-box">
               <span className="brand-title font-display">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
@@ -110,9 +113,9 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links (Clean 6 links, no wrap) */}
           <nav className="desktop-nav-links" aria-label="Main Navigation">
-            {navItems.map((item) => {
+            {desktopNavItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
 
@@ -122,7 +125,7 @@ export default function Navbar() {
                   href={item.href}
                   className={`nav-link-item ${active ? 'active' : ''} ${item.highlight ? 'highlight-item' : ''}`}
                 >
-                  <Icon size={15} className="nav-icon" />
+                  <Icon size={14} className="nav-icon" />
                   <span>{item.label}</span>
                   {item.badge && (
                     <span className={`nav-badge ${item.badge === t.nav.officialBadge ? 'badge-official' : item.badge === t.nav.mcqBadge ? 'badge-mcq' : ''}`}>
@@ -134,7 +137,7 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right Utilities */}
+          {/* Right Utilities Cluster */}
           <div className="navbar-actions">
             {/* Quick Search Button */}
             <button
@@ -143,13 +146,23 @@ export default function Navbar() {
               title="Search Jobs (Ctrl + K / Cmd + K)"
               aria-label="Quick Search"
             >
-              <Search size={16} />
+              <Search size={15} />
               <span className="search-btn-label">{t.nav.quickSearch}</span>
               <kbd className="search-shortcut">⌘K</kbd>
             </button>
 
-            {/* 3-Language Switcher Dropdown */}
-            <div className="lang-switcher-wrapper" ref={langDropdownRef}>
+            {/* Alerts Quick Button */}
+            <Link
+              href="/alerts"
+              className={`action-btn desktop-alerts-btn ${isActive('/alerts') ? 'active' : ''}`}
+              title={t.nav.alerts}
+              aria-label="Job Alerts"
+            >
+              <Bell size={16} />
+            </Link>
+
+            {/* 3-Language Switcher Dropdown (Desktop Only) */}
+            <div className="lang-switcher-wrapper desktop-lang-switcher" ref={langDropdownRef}>
               <button
                 onClick={() => setLangMenuOpen(!langMenuOpen)}
                 className="action-btn lang-dropdown-trigger"
@@ -157,9 +170,9 @@ export default function Navbar() {
                 aria-label="Select Language"
                 aria-expanded={langMenuOpen}
               >
-                <Languages size={16} />
+                <Languages size={15} />
                 <span className="current-lang-text font-bold">{currentLangObj.native}</span>
-                <ChevronDown size={13} className={`transition-transform duration-200 ${langMenuOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown size={12} className={`transition-transform duration-200 ${langMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {langMenuOpen && (
@@ -200,7 +213,7 @@ export default function Navbar() {
               title={theme === 'dark' ? t.nav.themeLight : t.nav.themeDark}
               aria-label="Toggle Theme"
             >
-              {theme === 'dark' ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} className="text-indigo-600" />}
+              {theme === 'dark' ? <Sun size={16} className="text-amber-400" /> : <Moon size={16} className="text-indigo-500" />}
             </button>
 
             {/* Mobile Menu Toggle Button */}
@@ -210,7 +223,7 @@ export default function Navbar() {
               aria-label="Toggle mobile menu"
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
             </button>
           </div>
         </div>
@@ -223,7 +236,7 @@ export default function Navbar() {
               <div className="mobile-drawer-header">
                 <Link href="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
                   <div className="logo-icon-box">
-                    <ShieldCheck className="brand-icon" size={20} />
+                    <ShieldCheck className="brand-icon" size={18} />
                   </div>
                   <span className="brand-title font-display text-base">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
                 </Link>
@@ -232,7 +245,7 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}
                   aria-label="Close menu"
                 >
-                  <X size={18} />
+                  <X size={17} />
                 </button>
               </div>
 
@@ -282,7 +295,7 @@ export default function Navbar() {
                   Navigation
                 </span>
                 <div className="flex flex-col gap-1">
-                  {navItems.map((item) => {
+                  {allNavItems.map((item) => {
                     const Icon = item.icon;
                     const active = isActive(item.href);
 
@@ -295,7 +308,7 @@ export default function Navbar() {
                       >
                         <div className="flex items-center gap-3">
                           <div className={`nav-icon-box ${active ? 'active' : ''}`}>
-                            <Icon size={17} />
+                            <Icon size={16} />
                           </div>
                           <span className="font-semibold text-sm">{item.label}</span>
                         </div>
