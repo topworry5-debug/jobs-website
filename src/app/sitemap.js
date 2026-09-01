@@ -13,12 +13,16 @@ export default function sitemap() {
     '/exams',
     '/test-prep',
     '/cv-builder',
-    '/alerts'
+    '/alerts',
+    '/about',
+    '/contact',
+    '/privacy-policy',
+    '/terms-of-service'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified,
     changeFrequency: route === '' || route.startsWith('/jobs') ? 'hourly' : 'daily',
-    priority: route === '' ? 1.0 : 0.8,
+    priority: route === '' ? 1.0 : (route === '/about' || route === '/contact' || route.startsWith('/privacy') || route.startsWith('/terms') ? 0.6 : 0.8),
   }));
 
   // Individual Job Pages

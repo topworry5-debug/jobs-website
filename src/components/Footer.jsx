@@ -143,7 +143,18 @@ export default function Footer() {
               <li><Link href="/agency/spsc" className="footer-link-btn">SPSC Sindh Intelligence</Link></li>
               <li><Link href="/agency/kppsc" className="footer-link-btn">KPPSC Khyber Pakhtunkhwa</Link></li>
               <li><Link href="/agency/nts" className="footer-link-btn">NTS National Testing Service</Link></li>
-              <li><Link href="/admin" className="footer-link-btn text-muted">Internal Admin & Telemetry</Link></li>
+            </ul>
+          </div>
+
+          {/* Company & Legal */}
+          <div className="footer-links-col">
+            <h4 className="footer-col-title">Trust & Transparency</h4>
+            <ul className="footer-links-list">
+              <li><Link href="/about" className="footer-link-btn">About RozgarPK</Link></li>
+              <li><Link href="/contact" className="footer-link-btn">Contact Support Desk</Link></li>
+              <li><Link href="/privacy-policy" className="footer-link-btn">Privacy Policy</Link></li>
+              <li><Link href="/terms-of-service" className="footer-link-btn">Terms of Service</Link></li>
+              <li><Link href="/admin" className="footer-link-btn text-muted">Pipeline Telemetry</Link></li>
             </ul>
           </div>
         </div>
@@ -153,14 +164,14 @@ export default function Footer() {
       <div className="footer-bottom-bar">
         <div className="container-xl footer-bottom-flex">
           <div className="footer-copyright">
-            {t.footer.copyright}
+            {t.footer.copyright} • <Link href="/privacy-policy" className="hover:underline text-muted">Privacy</Link> • <Link href="/terms-of-service" className="hover:underline text-muted">Terms</Link> • <Link href="/contact" className="hover:underline text-muted">Contact</Link>
           </div>
           <div className="footer-badges-right">
             <span className="footer-badge-item">
               <Lock size={12} />
               <span>SSL 256-Bit Encrypted</span>
             </span>
-            <span className="footer-badge-item">Zero Ads Guarantee</span>
+            <span className="footer-badge-item">100% Gazette Verified</span>
           </div>
         </div>
       </div>
