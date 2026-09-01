@@ -205,14 +205,19 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Dark/Light Mode Toggle */}
+            {/* Modern Dual-Slot Dark/Light Mode Switch */}
             <button
               onClick={toggleTheme}
-              className="action-btn theme-toggle-btn"
+              className="theme-toggle-pill"
               title={theme === 'dark' ? t.nav.themeLight : t.nav.themeDark}
-              aria-label="Toggle Theme"
+              aria-label="Toggle Dark / Light Theme"
             >
-              {theme === 'dark' ? <Sun size={16} className="text-amber-400" /> : <Moon size={16} className="text-indigo-500" />}
+              <div className={`theme-icon-slot ${theme === 'light' ? 'active-slot' : ''}`}>
+                <Sun size={14} className={theme === 'light' ? 'text-amber-500' : ''} />
+              </div>
+              <div className={`theme-icon-slot ${theme === 'dark' ? 'active-slot' : ''}`}>
+                <Moon size={14} className={theme === 'dark' ? 'text-emerald-400' : ''} />
+              </div>
             </button>
 
             {/* Mobile Menu Toggle Button */}

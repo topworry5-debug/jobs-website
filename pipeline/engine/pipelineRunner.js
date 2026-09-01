@@ -12,6 +12,7 @@ import { scrapeSPSC, scrapeKPPSC } from '../scrapers/spscScraper.js';
 import { deduplicateJobs } from './deduplicator.js';
 import { filterActiveJobs } from './expiryManager.js';
 import { dispatchJobAlerts } from '../alerts/alertDispatcher.js';
+import { validateAndFilterPipelineJobs } from './validator.js';
 
 export async function runFullPipeline(existingJobs = [], subscribers = []) {
   const startTime = Date.now();
@@ -58,14 +59,20 @@ export async function runFullPipeline(existingJobs = [], subscribers = []) {
   handleResult(spscResult, "Sindh Public Service Commission (SPSC)");
   handleResult(kppscResult, "Khyber Pakhtunkhwa Public Service Commission (KPPSC)");
 
-  // 1. Deduplication
-  const deduplicationResult = deduplicateJobs(rawScrapedJobs, existingJobs);
+  // 1. Strict Validation & Anti-Fabrication Filter
+  const validationResult = validateAndFilterPipelineJobs(rawScrapedJobs);
+  if (validationResult.rejectedCount > 0) {
+    console.warn(`[RozgarPK Pipeline] Flagged & Blocked ${validationResult.rejectedCount} unverified/malformed jobs.`);
+  }
 
-  // 2. Auto-Expiry Check
+  // 2. Deduplication on Validated Jobs
+  const deduplicationResult = deduplicateJobs(validationResult.validJobs, existingJobs);
+
+  // 3. Auto-Expiry Check
   const allCombinedJobs = [...existingJobs, ...deduplicationResult.uniqueJobs];
   const expiryResult = filterActiveJobs(allCombinedJobs);
 
-  // 3. Dispatch Alerts for Unique Newly Ingested Jobs
+  // 4. Dispatch Alerts for Unique Newly Ingested Jobs
   const alertsDispatchReport = dispatchJobAlerts(deduplicationResult.uniqueJobs, subscribers);
 
   const durationMs = Date.now() - startTime;

@@ -353,6 +353,51 @@
   background: rgba(16, 185, 129, 0.12);
 }
 
+/* Dual-Slot Interactive Theme Toggle Pill */
+.theme-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.theme-toggle-pill:hover {
+  border-color: var(--primary-500);
+}
+
+.theme-icon-slot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.theme-icon-slot.active-slot {
+  background: var(--bg-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] .theme-icon-slot.active-slot {
+  background: #152238;
+  color: #34d399;
+}
+
+[data-theme='light'] .theme-icon-slot.active-slot {
+  background: #ffffff;
+  color: #f59e0b;
+}
+
 /* Mobile Menu Slide-Out Drawer */
 .mobile-menu-overlay {
   position: fixed;
