@@ -35,11 +35,10 @@ export const metadata = {
     default: "RozgarPK — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
     template: "%s | RozgarPK"
   },
-  description: "Find verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), high-growth tech careers, competitive exam schedules, past papers, and build ATS-ready resumes.",
+  description: "Find verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), competitive exam schedules, syllabus guidelines, and ATS-ready resume tools.",
   keywords: [
     "Government Jobs in Pakistan", "FPSC Jobs 2026", "PPSC Jobs 2026", "NTS Jobs", 
-    "SPSC Jobs", "KPPSC Jobs", "IT Jobs Lahore", "Software Engineer Karachi", 
-    "Islamabad Jobs", "CSS Exam 2027", "BPS-17 Jobs", "Rozgar PK"
+    "SPSC Jobs", "KPPSC Jobs", "CSS Exam 2027", "BPS-17 Jobs", "Rozgar PK"
   ],
   authors: [{ name: "RozgarPK Intelligence Team" }],
   creator: "RozgarPK",
@@ -61,13 +60,13 @@ export const metadata = {
     url: 'https://rozgar.pk',
     siteName: 'RozgarPK',
     title: "RozgarPK — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
-    description: "Official Federal & Provincial Public Service Commission intelligence, private tech careers, and ATS resume tools.",
+    description: "Official Federal & Provincial Public Service Commission intelligence, verified gazette notices, exam schedules, and ATS resume tools.",
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'RozgarPK Job Intelligence' }]
   },
   twitter: {
     card: 'summary_large_image',
     title: "RozgarPK — Verified Jobs in Pakistan",
-    description: "FPSC, PPSC, SPSC, KPPSC, and Tech jobs in Pakistan with verified application links.",
+    description: "FPSC, PPSC, SPSC, KPPSC, and NTS jobs in Pakistan with verified official application links.",
     creator: '@rozgarpk'
   },
   alternates: {

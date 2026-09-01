@@ -10,10 +10,12 @@ import {
   Calendar, 
   ArrowRight,
   Landmark,
-  Briefcase
+  Briefcase,
+  Layers
 } from 'lucide-react';
 import { CITIES } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
+import { computeJobMetrics, isClosingSoon } from '../utils/jobMetrics';
 
 export default function HeroSection({ 
   searchQuery = '', 
@@ -31,11 +33,8 @@ export default function HeroSection({
 
   const query = searchQuery || internalQuery;
 
-  // Dynamic statistics calculated from live data
-  const totalVacancies = jobs.reduce((sum, j) => sum + (j.vacancies || 1), 0);
-  const urgentCount = jobs.filter(j => j.urgent).length;
-  const verifiedDeptsCount = new Set(jobs.map(j => j.department || j.company)).size;
-  const upcomingExamsCount = examSchedules.length;
+  // Centralized single source of truth dynamic metrics
+  const metrics = computeJobMetrics(jobs, examSchedules);
 
   // Filter autosuggest results
   const autosuggestResults = (query || '').trim().length > 1
@@ -65,11 +64,11 @@ export default function HeroSection({
   };
 
   const quickPills = [
-    { label: 'FPSC BPS-17', query: 'FPSC' },
-    { label: 'PPSC Revenue', query: 'PPSC' },
-    { label: 'NTS WAPDA', query: 'NTS' },
-    { label: 'Remote IT / AI', query: 'Remote' },
-    { label: t.hero.closingIn3Days, query: 'urgent', isUrgentFilter: true }
+    { label: 'PPSC Revenue & Water', query: 'PPSC' },
+    { label: 'SPSC Sindh Cadre', query: 'SPSC' },
+    { label: 'NTS Projects', query: 'NTS' },
+    { label: 'FPSC CSS MPT', query: 'FPSC' },
+    { label: `${t.hero.closingIn3Days} (${metrics.urgentCount})`, query: 'urgent', isUrgentFilter: true }
   ];
 
   return (
@@ -145,7 +144,7 @@ export default function HeroSection({
               className="btn btn-primary hero-submit-btn"
               onClick={() => {
                 setSuggestionsOpen(false);
-                const resultsElement = document.getElementById('listings-section');
+                const resultsElement = document.getElementById('job-listings') || document.getElementById('listings-section');
                 if (resultsElement) resultsElement.scrollIntoView({ behavior: 'smooth' });
               }}
             >
@@ -168,7 +167,7 @@ export default function HeroSection({
                 >
                   <div className="autosuggest-item-left">
                     <div className={`suggest-badge ${job.type === 'govt' ? 'govt' : 'private'}`}>
-                      {job.type === 'govt' ? job.bpsScale || 'Govt' : 'Tech'}
+                      {job.type === 'govt' ? job.bpsScale || 'Govt' : 'Private'}
                     </div>
                     <div>
                       <div className="suggest-title">{job.title}</div>
@@ -200,6 +199,8 @@ export default function HeroSection({
                   } else {
                     setSearchQuery(pill.query);
                   }
+                  const resultsElement = document.getElementById('job-listings');
+                  if (resultsElement) resultsElement.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
                 {pill.isUrgentFilter && <Flame size={13} className="text-red" />}
@@ -209,7 +210,7 @@ export default function HeroSection({
           </div>
         </div>
 
-        {/* Primary Pathway Cards (Govt vs Private vs Exams) */}
+        {/* Primary Pathway Cards */}
         <div className="category-cards-grid">
           <Link 
             href="/jobs/govt"
@@ -219,37 +220,59 @@ export default function HeroSection({
               <div className="pathway-icon-wrapper govt">
                 <Landmark size={22} />
               </div>
-              <span className="pathway-badge govt">FPSC • PPSC • SPSC • NTS</span>
+              <span className="pathway-badge govt">FPSC • PPSC • SPSC • KPPSC</span>
             </div>
             <h3 className="pathway-title">{t.hero.trackGovtTitle}</h3>
             <p className="pathway-desc">
               {t.hero.trackGovtDesc}
             </p>
             <div className="pathway-footer">
-              <span>{t.hero.trackGovtAction}</span>
+              <span>{t.hero.trackGovtAction} ({metrics.govtCount})</span>
               <ArrowRight size={16} />
             </div>
           </Link>
 
-          <Link 
-            href="/jobs/private"
-            className="pathway-card tech-card"
-          >
-            <div className="pathway-header">
-              <div className="pathway-icon-wrapper tech">
-                <Briefcase size={22} />
+          {metrics.privateCount > 0 ? (
+            <Link 
+              href="/jobs/private"
+              className="pathway-card tech-card"
+            >
+              <div className="pathway-header">
+                <div className="pathway-icon-wrapper tech">
+                  <Briefcase size={22} />
+                </div>
+                <span className="pathway-badge tech">High-Growth Careers</span>
               </div>
-              <span className="pathway-badge tech">High-Growth IT & Remote</span>
-            </div>
-            <h3 className="pathway-title">{t.hero.trackPrivateTitle}</h3>
-            <p className="pathway-desc">
-              {t.hero.trackPrivateDesc}
-            </p>
-            <div className="pathway-footer">
-              <span>{t.hero.trackPrivateAction}</span>
-              <ArrowRight size={16} />
-            </div>
-          </Link>
+              <h3 className="pathway-title">{t.hero.trackPrivateTitle}</h3>
+              <p className="pathway-desc">
+                {t.hero.trackPrivateDesc}
+              </p>
+              <div className="pathway-footer">
+                <span>{t.hero.trackPrivateAction} ({metrics.privateCount})</span>
+                <ArrowRight size={16} />
+              </div>
+            </Link>
+          ) : (
+            <Link 
+              href="/agency/nts"
+              className="pathway-card tech-card"
+            >
+              <div className="pathway-header">
+                <div className="pathway-icon-wrapper tech">
+                  <ShieldCheck size={22} />
+                </div>
+                <span className="pathway-badge tech">NTS & Autonomous Authorities</span>
+              </div>
+              <h3 className="pathway-title">Testing Services & Authorities</h3>
+              <p className="pathway-desc">
+                Screening tests and recruitment projects for Sindh Social Protection Authority, Judiciary, and public sector corporations.
+              </p>
+              <div className="pathway-footer">
+                <span>Explore Testing Openings ({metrics.agencyCounts.NTS || 0})</span>
+                <ArrowRight size={16} />
+              </div>
+            </Link>
+          )}
 
           <Link 
             href="/exams"
@@ -266,7 +289,7 @@ export default function HeroSection({
               {t.hero.trackExamsDesc}
             </p>
             <div className="pathway-footer">
-              <span>{t.hero.trackExamsAction}</span>
+              <span>{t.hero.trackExamsAction} ({metrics.upcomingExamsCount})</span>
               <ArrowRight size={16} />
             </div>
           </Link>
@@ -277,7 +300,7 @@ export default function HeroSection({
           <div className="stats-bar-inner">
             <div className="stat-item">
               <div className="stat-number-wrapper">
-                <span className="stat-number">{totalVacancies}+</span>
+                <span className="stat-number">{metrics.totalListings}</span>
                 <span className="stat-indicator green" />
               </div>
               <span className="stat-label">{t.hero.statVacancies}</span>
@@ -287,7 +310,7 @@ export default function HeroSection({
 
             <div className="stat-item">
               <div className="stat-number-wrapper">
-                <span className="stat-number">{verifiedDeptsCount}</span>
+                <span className="stat-number">{metrics.verifiedDeptsCount}</span>
                 <ShieldCheck size={16} className="text-emerald" />
               </div>
               <span className="stat-label">{t.hero.statDepts}</span>
@@ -297,7 +320,7 @@ export default function HeroSection({
 
             <div className="stat-item">
               <div className="stat-number-wrapper">
-                <span className="stat-number text-urgent">{urgentCount}</span>
+                <span className="stat-number text-urgent">{metrics.urgentCount}</span>
                 <Flame size={16} className="text-red" />
               </div>
               <span className="stat-label">{t.hero.statUrgent}</span>
@@ -307,7 +330,7 @@ export default function HeroSection({
 
             <div className="stat-item">
               <div className="stat-number-wrapper">
-                <span className="stat-number">{upcomingExamsCount}</span>
+                <span className="stat-number">{metrics.upcomingExamsCount}</span>
                 <Calendar size={16} className="text-blue" />
               </div>
               <span className="stat-label">{t.hero.statExams}</span>

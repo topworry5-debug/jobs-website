@@ -21,6 +21,8 @@ import {
   X
 } from 'lucide-react';
 
+import { isClosingSoon } from '../utils/jobMetrics';
+
 export default function HomeClientFilter({ initialJobs = [], initialCategory = 'all' }) {
   const { t, isRtl } = useLanguage();
   const [jobs, setJobs] = useState(initialJobs);
@@ -77,15 +79,19 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
 
   // Filter Logic
   const filteredJobs = jobs.filter((job) => {
-    // 1. Search Query
+    // 1. Search Query & Quick Urgent Filter
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      const matchTitle = job.title?.toLowerCase().includes(q);
-      const matchDept = (job.department || job.company || '').toLowerCase().includes(q);
-      const matchCity = job.city?.toLowerCase().includes(q);
-      const matchAgency = (job.agency || '').toLowerCase().includes(q);
-      const matchCategory = (job.category || '').toLowerCase().includes(q);
-      if (!matchTitle && !matchDept && !matchCity && !matchAgency && !matchCategory) return false;
+      const q = searchQuery.toLowerCase().trim();
+      if (q === 'urgent' || q === 'closing soon') {
+        if (!isClosingSoon(job.lastDate, 3)) return false;
+      } else {
+        const matchTitle = job.title?.toLowerCase().includes(q);
+        const matchDept = (job.department || job.company || '').toLowerCase().includes(q);
+        const matchCity = job.city?.toLowerCase().includes(q);
+        const matchAgency = (job.agency || '').toLowerCase().includes(q);
+        const matchCategory = (job.category || '').toLowerCase().includes(q);
+        if (!matchTitle && !matchDept && !matchCity && !matchAgency && !matchCategory) return false;
+      }
     }
 
     // 2. Category
@@ -121,11 +127,9 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
       if (!job.qualification?.toLowerCase().includes(selectedQualification.toLowerCase())) return false;
     }
 
-    // 7. Urgent Only
+    // 7. Urgent Only (closing in <= 3 days)
     if (urgentOnly) {
-      const diff = new Date(job.lastDate).getTime() - new Date().getTime();
-      const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
-      if (daysLeft > 3 || daysLeft < 0) return false;
+      if (!isClosingSoon(job.lastDate, 3)) return false;
     }
 
     return true;
@@ -137,20 +141,34 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     return t.feed.allTitle;
   };
 
+  // Compute live category counts
+  const categoryCounts = {
+    all: jobs.length,
+    govt: jobs.filter(j => j.type === 'govt').length,
+    private: jobs.filter(j => j.type === 'private').length,
+    fpsc: jobs.filter(j => j.agency === 'FPSC').length,
+    ppsc: jobs.filter(j => j.agency === 'PPSC').length,
+    spsc: jobs.filter(j => j.agency === 'SPSC').length,
+    kppsc: jobs.filter(j => j.agency === 'KPPSC').length,
+    nts: jobs.filter(j => j.agency === 'NTS').length,
+    tech: jobs.filter(j => j.category === 'Software & IT').length
+  };
+
+  // Only display categories that have active jobs (or are the master 'all'/'govt' views)
+  const visibleCategories = CATEGORIES.filter(cat => {
+    const count = categoryCounts[cat.id] ?? 0;
+    if (cat.id === 'all' || cat.id === 'govt') return true;
+    return count > 0;
+  });
+
   return (
     <div className="home-filter-container">
       {/* Category Pills Header with clean horizontal scroll */}
       <div className="category-tabs-bar mb-5">
         <div className="category-scroll-wrapper">
-          {CATEGORIES.map((cat) => {
+          {visibleCategories.map((cat) => {
             const translatedLabel = t.categories[cat.id] || cat.label;
-            const count = cat.id === 'all' 
-              ? jobs.length 
-              : cat.id === 'govt' 
-              ? jobs.filter(j => j.type === 'govt').length 
-              : cat.id === 'private'
-              ? jobs.filter(j => j.type === 'private').length
-              : null;
+            const count = categoryCounts[cat.id] ?? null;
 
             return (
               <button

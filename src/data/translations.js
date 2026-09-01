@@ -27,12 +27,12 @@ export const TRANSLATIONS = {
       titlePrefix: "The Authority on Careers & Competitive Exams",
       titleIn: "in",
       titleCountry: "Pakistan",
-      subtitle: "Direct verified access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, NTS) and top-tier Private & Tech opportunities — all in one modern, ad-free interface.",
+      subtitle: "Direct verified access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, NTS) and testing service opportunities — all in one modern, ad-free interface.",
       searchPlaceholder: "Job title, department, BPS scale, or skills...",
       allCities: "All Cities",
       findJobs: "Find Jobs",
       popularSearches: "Popular Searches:",
-      closingIn3Days: "Closing in 3 Days",
+      closingIn3Days: "Closing in ≤ 3 Days",
       trackGovtTitle: "Government & Public Sector",
       trackGovtDesc: "Gazetted BPS-16 to BPS-21 openings, Armed Forces, Police, and Central Bank recruitment with official quota details.",
       trackGovtAction: "Explore Govt Openings",
@@ -42,10 +42,10 @@ export const TRANSLATIONS = {
       trackExamsTitle: "Competitive Exam Calendar",
       trackExamsDesc: "Screening test dates, roll number slip releases, and result timelines for all major testing agencies in Pakistan.",
       trackExamsAction: "View Exam Calendar",
-      statVacancies: "Active Vacancies Open",
+      statVacancies: "Verified Job Openings",
       statDepts: "Verified Depts & Agencies",
-      statUrgent: "Closing in < 3 Days",
-      statExams: "Upcoming Exam Cycles"
+      statUrgent: "Closing in ≤ 3 Days",
+      statExams: "Upcoming Exam Schedules"
     },
     categories: {
       all: "All Opportunities",
@@ -501,7 +501,7 @@ export const TRANSLATIONS = {
       titlePrefix: "Pakistan Mein Careers Aur Competitive Exams Ka",
       titleIn: "Sub Se Mufeed",
       titleCountry: "Platform",
-      subtitle: "Federal aur Provincial Public Service Commissions (FPSC, PPSC, SPSC, KPPSC, NTS) aur top IT jobs ka asan aur verified zariya — ek modern interface par.",
+      subtitle: "Federal aur Provincial Public Service Commissions (FPSC, PPSC, SPSC, KPPSC, NTS) aur testing service jobs ka asan aur verified zariya — ek modern interface par.",
       searchPlaceholder: "Job ka naam, department, BPS scale ya sheher likhein...",
       allCities: "Tamam Sheher",
       findJobs: "Jobs Talash Karein",
@@ -516,10 +516,10 @@ export const TRANSLATIONS = {
       trackExamsTitle: "Competitive Exam Calendar",
       trackExamsDesc: "Screening test ki tareekhein, roll number slips aur results ka mukammal schedule.",
       trackExamsAction: "Exam Schedule Dekhein",
-      statVacancies: "Total Khali Asamiyaan",
+      statVacancies: "Tasdeeq Shuda Jobs",
       statDepts: "Verified Departments",
-      statUrgent: "3 Din Mein Akhri Tareekh",
-      statExams: "Aane Wale Exams"
+      statUrgent: "≤ 3 Din Mein Akhri Tareekh",
+      statExams: "Aane Wale Exam Schedules"
     },
     commissionsBar: {
       heading: "Official Public Service Commissions Monitored",

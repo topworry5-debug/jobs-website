@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { getJobLogoUrl, getJobLogoAlt } from '../utils/logoResolver';
+import { calculateDaysLeft, isClosingSoon } from '../utils/jobMetrics';
 
 export default function JobCard({ 
   job, 
@@ -25,15 +26,9 @@ export default function JobCard({
   const { t, isRtl } = useLanguage();
   const isGovt = job.type === 'govt';
 
-  // Calculate days remaining to deadline
-  const calculateDaysLeft = (dateStr) => {
-    if (!dateStr) return 30;
-    const diff = new Date(dateStr).getTime() - new Date().getTime();
-    return Math.ceil(diff / (1000 * 60 * 60 * 24));
-  };
-
+  // Calculate days remaining to deadline using centralized helper
   const daysLeft = calculateDaysLeft(job.lastDate);
-  const isUrgent = daysLeft <= 3 && daysLeft >= 0;
+  const isUrgent = isClosingSoon(job.lastDate, 3);
 
   const logoUrl = getJobLogoUrl(job);
   const logoAlt = getJobLogoAlt(job);
