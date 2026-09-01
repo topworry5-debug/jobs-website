@@ -1,6 +1,6 @@
 import '../styles/index.css';
 import '../styles/components.css';
-import { Inter, Outfit, JetBrains_Mono, Noto_Naskh_Arabic } from 'next/font/google';
+import { Inter, Fraunces, Outfit, JetBrains_Mono, Noto_Naskh_Arabic } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ClientProviders from '../components/ClientProviders';
@@ -10,6 +10,12 @@ const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-sans'
+});
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-serif',
 });
 
 const outfit = Outfit({ 
@@ -123,7 +129,7 @@ export default function RootLayout({ children }) {
     <html 
       lang="en" 
       data-theme="dark" 
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${notoNaskhArabic.variable}`}
+      className={`${inter.variable} ${fraunces.variable} ${outfit.variable} ${jetbrainsMono.variable} ${notoNaskhArabic.variable}`}
     >
       <body>
         <script

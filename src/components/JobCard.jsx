@@ -7,6 +7,7 @@ import {
   Clock, 
   Users, 
   ShieldCheck, 
+  CheckCircle2,
   Flame, 
   Bookmark, 
   Share2, 
@@ -58,7 +59,7 @@ export default function JobCard({
         <div className="card-badges-group">
           {job.verified && (
             <span className="badge badge-verified" title="Cross-checked against official Gazette / Portal">
-              <ShieldCheck size={12} />
+              <CheckCircle2 size={12} />
               <span>{t.jobCard.verified}</span>
             </span>
           )}

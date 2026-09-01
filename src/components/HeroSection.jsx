@@ -90,7 +90,7 @@ export default function HeroSection({
 
         {/* Hero Title & Subtitle */}
         <h1 className="hero-title">
-          {t.hero.titlePrefix} {t.hero.titleIn} <span className="text-gradient-emerald">{t.hero.titleCountry}</span>
+          {t.hero.titlePrefix} {t.hero.titleIn} <span className="text-gold-accent font-serif">{t.hero.titleCountry}</span>
         </h1>
         <p className="hero-subtitle">
           {t.hero.subtitle}
