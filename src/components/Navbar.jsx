@@ -82,7 +82,8 @@ export default function Navbar() {
     { href: '/jobs/private', label: t.nav.privateJobs, icon: Building2, badge: t.nav.techBadge },
     { href: '/test-prep', label: t.nav.testPrep, icon: BookOpen, badge: t.nav.mcqBadge, highlight: true },
     { href: '/exams', label: t.nav.examCalendar, icon: Calendar },
-    { href: '/cv-builder', label: t.nav.cvBuilder, icon: FileText, badge: t.nav.freeBadge }
+    { href: '/cv-builder', label: t.nav.cvBuilder, icon: FileText, badge: t.nav.freeBadge },
+    { href: '/blog', label: t.nav.guides, icon: BookOpen }
   ];
 
   const allNavItems = [
