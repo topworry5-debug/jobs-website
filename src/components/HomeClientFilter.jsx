@@ -15,7 +15,10 @@ import {
   Building2, 
   Landmark, 
   ShieldCheck, 
-  AlertCircle
+  AlertCircle,
+  Filter,
+  SlidersHorizontal,
+  X
 } from 'lucide-react';
 
 export default function HomeClientFilter({ initialJobs = [], initialCategory = 'all' }) {
@@ -29,6 +32,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
   const [selectedQualification, setSelectedQualification] = useState('All Qualifications');
   const [urgentOnly, setUrgentOnly] = useState(false);
   const [selectedJobModal, setSelectedJobModal] = useState(null);
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [savedJobIds, setSavedJobIds] = useState(() => {
     try {
       const stored = localStorage.getItem('rozgar_saved_jobs');
@@ -61,6 +65,15 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     setSelectedQualification('All Qualifications');
     setUrgentOnly(false);
   };
+
+  const isFilterActive = 
+    selectedCategory !== 'all' || 
+    selectedProvince !== 'All Pakistan' || 
+    selectedCity !== 'All Cities' || 
+    selectedBps !== 'All BPS Scales' || 
+    selectedQualification !== 'All Qualifications' || 
+    urgentOnly ||
+    searchQuery.trim().length > 0;
 
   // Filter Logic
   const filteredJobs = jobs.filter((job) => {
@@ -126,11 +139,19 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
 
   return (
     <div className="home-filter-container">
-      {/* Category Pills Header */}
-      <div className="category-tabs-bar mb-6">
+      {/* Category Pills Header with clean horizontal scroll */}
+      <div className="category-tabs-bar mb-5">
         <div className="category-scroll-wrapper">
           {CATEGORIES.map((cat) => {
             const translatedLabel = t.categories[cat.id] || cat.label;
+            const count = cat.id === 'all' 
+              ? jobs.length 
+              : cat.id === 'govt' 
+              ? jobs.filter(j => j.type === 'govt').length 
+              : cat.id === 'private'
+              ? jobs.filter(j => j.type === 'private').length
+              : null;
+
             return (
               <button
                 key={cat.id}
@@ -138,9 +159,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 onClick={() => setSelectedCategory(cat.id)}
               >
                 <span>{translatedLabel}</span>
-                {cat.id === 'all' && <span className="cat-count-badge">{jobs.length}</span>}
-                {cat.id === 'govt' && <span className="cat-count-badge">{jobs.filter(j => j.type === 'govt').length}</span>}
-                {cat.id === 'private' && <span className="cat-count-badge">{jobs.filter(j => j.type === 'private').length}</span>}
+                {count !== null && <span className="cat-count-badge">{count}</span>}
               </button>
             );
           })}
@@ -148,8 +167,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
       </div>
 
       <div className="main-content-layout">
-        {/* Filter Sidebar */}
-        <aside className="filters-sidebar-col">
+        {/* Desktop Filter Sidebar */}
+        <aside className="filters-sidebar-col desktop-only-sidebar">
           <FilterSidebar
             selectedCity={selectedCity}
             setSelectedCity={setSelectedCity}
@@ -168,21 +187,31 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
           />
         </aside>
 
-        {/* Jobs Feed Grid */}
+        {/* Jobs Feed Column */}
         <section className="jobs-feed-col">
           {/* Feed Header */}
           <div className="feed-header-bar mb-4">
-            <div>
-              <h2 className="feed-title text-xl font-bold">
+            <div className="feed-title-block">
+              <h2 className="feed-title text-xl font-bold tracking-tight">
                 {getFeedTitle()}
               </h2>
-              <p className="feed-subtitle text-xs text-secondary">
-                {t.feed.subtitlePrefix} {filteredJobs.length} {t.feed.subtitleSuffix}
+              <p className="feed-subtitle text-xs text-secondary mt-0.5">
+                {t.feed.subtitlePrefix} <strong>{filteredJobs.length}</strong> {t.feed.subtitleSuffix}
               </p>
             </div>
 
             <div className="feed-controls-right">
-              <div className="relative">
+              {/* Mobile Filter Button (Visible on screens < 992px) */}
+              <button 
+                className={`mobile-filter-open-btn ${isFilterActive ? 'has-filters' : ''}`}
+                onClick={() => setMobileFilterOpen(true)}
+              >
+                <SlidersHorizontal size={15} />
+                <span>Filters</span>
+                {isFilterActive && <span className="active-filter-dot" />}
+              </button>
+
+              <div className="relative feed-search-input-wrapper">
                 <input
                   type="text"
                   placeholder={t.feed.searchFilterPlaceholder}
@@ -195,7 +224,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
             </div>
           </div>
 
-          {/* Job Cards */}
+          {/* Job Cards 2-Column Equalized Grid */}
           {filteredJobs.length > 0 ? (
             <div className="jobs-cards-grid">
               {filteredJobs.map((job) => (
@@ -227,6 +256,47 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
           )}
         </section>
       </div>
+
+      {/* Mobile Filter Drawer / Bottom Sheet */}
+      {mobileFilterOpen && (
+        <div className="mobile-drawer-overlay" onClick={() => setMobileFilterOpen(false)}>
+          <div className="mobile-filter-drawer-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-filter-drawer-header">
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal size={18} className="text-emerald-500" />
+                <h3 className="font-bold text-base text-primary">Filter Positions</h3>
+              </div>
+              <button 
+                className="action-btn-sm"
+                onClick={() => setMobileFilterOpen(false)}
+                aria-label="Close filters"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="mobile-filter-scroll-body p-4">
+              <FilterSidebar
+                selectedCity={selectedCity}
+                setSelectedCity={setSelectedCity}
+                selectedProvince={selectedProvince}
+                setSelectedProvince={setSelectedProvince}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                selectedBps={selectedBps}
+                setSelectedBps={setSelectedBps}
+                selectedQualification={selectedQualification}
+                setSelectedQualification={setSelectedQualification}
+                urgentOnly={urgentOnly}
+                setUrgentOnly={setUrgentOnly}
+                onResetFilters={handleResetFilters}
+                totalResults={filteredJobs.length}
+                onCloseMobileFilter={() => setMobileFilterOpen(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Selected Job Modal */}
       {selectedJobModal && (

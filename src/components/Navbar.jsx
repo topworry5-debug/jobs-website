@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   Briefcase, 
   Landmark, 
@@ -14,30 +14,47 @@ import {
   Search, 
   Menu, 
   X, 
-  ShieldCheck,
-  BookOpen,
-  Bell,
-  Languages,
-  ChevronDown,
-  Check
+  ShieldCheck, 
+  BookOpen, 
+  Bell, 
+  Languages, 
+  ChevronDown, 
+  Check,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { JOBS_DATA } from '../data/jobsData';
 import QuickSearchModal from './QuickSearchModal';
 
 const LANGUAGES = [
   { code: 'en', label: 'English', native: 'English', flag: '🇬🇧' },
   { code: 'ur', label: 'Urdu', native: 'اردو', flag: '🇵🇰' },
-  { code: 'roman', label: 'Roman Urdu', native: 'Roman Urdu', flag: '🇵🇰' }
+  { code: 'roman', label: 'Roman Urdu', native: 'Roman', flag: '🇵🇰' }
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { lang, setLang, t, theme, toggleTheme, isRtl } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const langDropdownRef = useRef(null);
 
+  // Global Cmd+K / Ctrl+K listener
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchModalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Close language dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (langDropdownRef.current && !langDropdownRef.current.contains(event.target)) {
@@ -47,6 +64,18 @@ export default function Navbar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   const navItems = [
     { href: '/', label: t.nav.allJobs, icon: Briefcase },
@@ -73,7 +102,7 @@ export default function Navbar() {
           {/* Brand Logo */}
           <Link href="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
             <div className="logo-icon-box">
-              <ShieldCheck className="brand-icon" size={24} />
+              <ShieldCheck className="brand-icon" size={22} />
             </div>
             <div className="brand-text-box">
               <span className="brand-title font-display">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
@@ -81,7 +110,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation Links */}
           <nav className="desktop-nav-links" aria-label="Main Navigation">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -93,7 +122,7 @@ export default function Navbar() {
                   href={item.href}
                   className={`nav-link-item ${active ? 'active' : ''} ${item.highlight ? 'highlight-item' : ''}`}
                 >
-                  <Icon size={16} className="nav-icon" />
+                  <Icon size={15} className="nav-icon" />
                   <span>{item.label}</span>
                   {item.badge && (
                     <span className={`nav-badge ${item.badge === t.nav.officialBadge ? 'badge-official' : item.badge === t.nav.mcqBadge ? 'badge-mcq' : ''}`}>
@@ -111,16 +140,16 @@ export default function Navbar() {
             <button
               onClick={() => setSearchModalOpen(true)}
               className="action-btn search-trigger-btn"
-              title="Search Jobs (Ctrl + K)"
+              title="Search Jobs (Ctrl + K / Cmd + K)"
               aria-label="Quick Search"
             >
-              <Search size={17} />
+              <Search size={16} />
               <span className="search-btn-label">{t.nav.quickSearch}</span>
-              <kbd className="search-shortcut">{t.nav.searchShortcut}</kbd>
+              <kbd className="search-shortcut">⌘K</kbd>
             </button>
 
             {/* 3-Language Switcher Dropdown */}
-            <div className="lang-switcher-wrapper relative" ref={langDropdownRef}>
+            <div className="lang-switcher-wrapper" ref={langDropdownRef}>
               <button
                 onClick={() => setLangMenuOpen(!langMenuOpen)}
                 className="action-btn lang-dropdown-trigger"
@@ -128,15 +157,15 @@ export default function Navbar() {
                 aria-label="Select Language"
                 aria-expanded={langMenuOpen}
               >
-                <Languages size={17} />
+                <Languages size={16} />
                 <span className="current-lang-text font-bold">{currentLangObj.native}</span>
-                <ChevronDown size={14} className={`transition-transform ${langMenuOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown size={13} className={`transition-transform duration-200 ${langMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {langMenuOpen && (
                 <div className="lang-dropdown-menu">
                   <div className="lang-dropdown-header">
-                    <span className="text-xs font-bold text-muted uppercase tracking-wider">{t.nav.selectLanguage}</span>
+                    <span className="text-[11px] font-bold text-muted uppercase tracking-wider">{t.nav.selectLanguage}</span>
                   </div>
                   {LANGUAGES.map((l) => {
                     const isSelected = lang === l.code;
@@ -150,7 +179,7 @@ export default function Navbar() {
                         }}
                       >
                         <div className="flex items-center gap-2">
-                          <span className="text-base">{l.flag}</span>
+                          <span className="text-sm">{l.flag}</span>
                           <div className="text-left">
                             <span className="font-semibold block text-xs text-primary">{l.native}</span>
                             <span className="text-[10px] text-muted block">{l.label}</span>
@@ -171,80 +200,129 @@ export default function Navbar() {
               title={theme === 'dark' ? t.nav.themeLight : t.nav.themeDark}
               aria-label="Toggle Theme"
             >
-              {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-indigo-600" />}
+              {theme === 'dark' ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} className="text-indigo-600" />}
             </button>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="mobile-menu-toggle"
+              className="action-btn mobile-menu-toggle"
               aria-label="Toggle mobile menu"
+              aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Slide-Out Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="mobile-nav-dropdown">
-            <div className="mobile-nav-container">
-              {/* Mobile Language Selector */}
-              <div className="mobile-lang-segmented mb-4 p-2 rounded-xl bg-surface-subtle border border-subtle">
-                <span className="text-xs font-bold text-muted block mb-2 px-1">{t.nav.selectLanguage}:</span>
-                <div className="grid grid-cols-3 gap-1">
+          <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
+            <div className="mobile-menu-drawer" onClick={(e) => e.stopPropagation()}>
+              {/* Drawer Header */}
+              <div className="mobile-drawer-header">
+                <Link href="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="logo-icon-box">
+                    <ShieldCheck className="brand-icon" size={20} />
+                  </div>
+                  <span className="brand-title font-display text-base">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
+                </Link>
+                <button 
+                  className="action-btn-sm" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Close menu"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Mobile Quick Search Button */}
+              <div className="p-3">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setSearchModalOpen(true);
+                  }}
+                  className="w-full flex items-center justify-between p-3 rounded-xl bg-surface-subtle border border-subtle text-sm text-secondary hover:text-primary transition-all"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Search size={16} className="text-emerald-500" />
+                    <span className="font-medium">{t.nav.quickSearch}</span>
+                  </div>
+                  <kbd className="px-2 py-0.5 text-xs rounded bg-surface border border-subtle font-mono text-muted">⌘K</kbd>
+                </button>
+              </div>
+
+              {/* Mobile 3-Language Segmented Picker */}
+              <div className="px-3 py-2">
+                <span className="text-[11px] font-bold text-muted uppercase tracking-wider block mb-2 px-1">
+                  {t.nav.selectLanguage}:
+                </span>
+                <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-surface-subtle border border-subtle">
                   {LANGUAGES.map((l) => (
                     <button
                       key={l.code}
-                      onClick={() => {
-                        setLang(l.code);
-                        setMobileMenuOpen(false);
-                      }}
-                      className={`text-xs py-1.5 px-2 rounded-lg font-bold transition-all text-center ${
+                      onClick={() => setLang(l.code)}
+                      className={`text-xs py-2 px-1 rounded-lg font-bold transition-all text-center flex items-center justify-center gap-1 ${
                         lang === l.code 
                           ? 'bg-emerald-600 text-white shadow-sm' 
-                          : 'bg-surface text-secondary hover:text-primary'
+                          : 'bg-transparent text-secondary hover:text-primary'
                       }`}
                     >
-                      {l.native}
+                      <span>{l.flag}</span>
+                      <span>{l.native}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const active = isActive(item.href);
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`mobile-nav-item ${active ? 'active' : ''}`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon size={18} />
-                      <span className="font-medium">{item.label}</span>
-                    </div>
-                    {item.badge && (
-                      <span className="nav-badge">{item.badge}</span>
-                    )}
-                  </Link>
-                );
-              })}
-
-              {/* Mobile Theme Toggle */}
-              <div className="mt-4 pt-3 border-t border-subtle flex items-center justify-between">
-                <span className="text-xs font-semibold text-secondary">
-                  {theme === 'dark' ? t.nav.themeDark : t.nav.themeLight}
+              {/* Mobile Nav Links List */}
+              <div className="mobile-nav-scroll-list px-3 py-2 flex-1 overflow-y-auto">
+                <span className="text-[11px] font-bold text-muted uppercase tracking-wider block mb-2 px-1">
+                  Navigation
                 </span>
+                <div className="flex flex-col gap-1">
+                  {navItems.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.href);
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`mobile-nav-item ${active ? 'active' : ''}`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`nav-icon-box ${active ? 'active' : ''}`}>
+                            <Icon size={17} />
+                          </div>
+                          <span className="font-semibold text-sm">{item.label}</span>
+                        </div>
+                        {item.badge && (
+                          <span className={`nav-badge ${item.badge === t.nav.officialBadge ? 'badge-official' : item.badge === t.nav.mcqBadge ? 'badge-mcq' : ''}`}>
+                            {item.badge}
+                          </span>
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Drawer Footer with Theme Toggle */}
+              <div className="mobile-drawer-footer p-3 border-t border-subtle bg-surface-subtle flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {theme === 'dark' ? <Moon size={16} className="text-emerald-400" /> : <Sun size={16} className="text-amber-500" />}
+                  <span className="text-xs font-semibold text-primary">
+                    {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                  </span>
+                </div>
                 <button
                   onClick={toggleTheme}
-                  className="btn btn-outline btn-sm flex items-center gap-2"
+                  className="btn btn-outline btn-sm py-1.5 px-3 text-xs"
                 >
-                  {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
-                  <span>{theme === 'dark' ? t.nav.themeLight : t.nav.themeDark}</span>
+                  Switch to {theme === 'dark' ? 'Light' : 'Dark'}
                 </button>
               </div>
             </div>
@@ -252,14 +330,15 @@ export default function Navbar() {
         )}
       </header>
 
-      {/* Quick Search Modal */}
+      {/* Quick Search Modal Overlay */}
       {searchModalOpen && (
         <QuickSearchModal 
           isOpen={searchModalOpen}
           onClose={() => setSearchModalOpen(false)}
+          jobs={JOBS_DATA}
           onSelectJob={(job) => {
             setSearchModalOpen(false);
-            window.location.href = `/jobs/${job.id}`;
+            router.push(`/jobs/${job.id}`);
           }}
         />
       )}
