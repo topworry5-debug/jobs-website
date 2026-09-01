@@ -24,12 +24,11 @@ export function LanguageProvider({ children }) {
       }
 
       const savedTheme = localStorage.getItem('rozgar_theme');
-      if (savedTheme && ['dark', 'light'].includes(savedTheme)) {
-        setThemeState(savedTheme);
-        document.documentElement.setAttribute('data-theme', savedTheme);
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
+      const initialTheme = (savedTheme && ['dark', 'light'].includes(savedTheme)) ? savedTheme : 'dark';
+      setThemeState(initialTheme);
+      document.documentElement.setAttribute('data-theme', initialTheme);
+      document.documentElement.classList.remove('theme-dark', 'theme-light');
+      document.documentElement.classList.add(initialTheme === 'dark' ? 'theme-dark' : 'theme-light');
     } catch {}
   }, []);
 
@@ -51,6 +50,8 @@ export function LanguageProvider({ children }) {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
     setThemeState(nextTheme);
     document.documentElement.setAttribute('data-theme', nextTheme);
+    document.documentElement.classList.remove('theme-dark', 'theme-light');
+    document.documentElement.classList.add(nextTheme === 'dark' ? 'theme-dark' : 'theme-light');
     try {
       localStorage.setItem('rozgar_theme', nextTheme);
     } catch {}
@@ -60,6 +61,8 @@ export function LanguageProvider({ children }) {
     if (!['dark', 'light'].includes(newTheme)) return;
     setThemeState(newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
+    document.documentElement.classList.remove('theme-dark', 'theme-light');
+    document.documentElement.classList.add(newTheme === 'dark' ? 'theme-dark' : 'theme-light');
     try {
       localStorage.setItem('rozgar_theme', newTheme);
     } catch {}
