@@ -5412,8 +5412,8 @@
   }
 }
 
-/* Medium Desktop / Small Laptop (1081px - 1280px) */
-@media (max-width: 1280px) {
+/* Medium Desktop / Small Laptop (1024px - 1280px) */
+@media (min-width: 1024px) and (max-width: 1280px) {
   .search-btn-label {
     display: none;
   }
@@ -5421,13 +5421,23 @@
     gap: 0.15rem;
   }
   .nav-link-item {
-    padding: 0.4rem 0.5rem;
-    font-size: 0.78125rem;
+    padding: 0.35rem 0.45rem !important;
+    font-size: 0.775rem !important;
+    gap: 0.25rem !important;
+  }
+  .nav-badge {
+    display: none !important;
+  }
+  .brand-tagline {
+    display: none !important;
+  }
+  .search-shortcut {
+    display: none !important;
   }
 }
 
-/* Tablets & Laptop Navigation Breakpoint (<= 1280px) */
-@media (max-width: 1280px) {
+/* Mobile & Small Tablets Navigation Breakpoint (<= 1023px) */
+@media (max-width: 1023px) {
   .desktop-nav-links {
     display: none !important;
   }
