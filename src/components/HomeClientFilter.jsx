@@ -241,16 +241,24 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
               ))}
             </div>
           ) : (
-            <div className="empty-state card text-center py-12 px-4">
-              <AlertCircle size={40} className="text-muted mx-auto mb-3" />
-              <h3 className="text-base font-bold mb-1">{t.feed.noResultsTitle}</h3>
-              <p className="text-xs text-secondary max-w-md mx-auto mb-4">
-                {t.feed.noResultsDesc}
+            <div className="empty-state card text-center py-12 px-6">
+              <div className="inline-flex items-center justify-center p-3 rounded-full bg-emerald-500/10 text-emerald-500 mb-3 mx-auto">
+                <ShieldCheck size={36} />
+              </div>
+              <h3 className="text-lg font-bold mb-2">
+                {(!jobs || jobs.length === 0) ? "Fresh Verified Gazettes Under Ingestion Audit" : t.feed.noResultsTitle}
+              </h3>
+              <p className="text-xs text-secondary max-w-md mx-auto mb-4 leading-relaxed">
+                {(!jobs || jobs.length === 0)
+                  ? "RozgarPK is conducting a source-by-source manual data audit. Live positions from PPSC, FPSC, SPSC, and KPPSC are currently undergoing line-by-line verification against official gazette circulars."
+                  : t.feed.noResultsDesc}
               </p>
-              <button onClick={handleResetFilters} className="btn btn-outline btn-sm mx-auto">
-                <RotateCcw size={14} />
-                <span>{t.filters.reset}</span>
-              </button>
+              {jobs && jobs.length > 0 && (
+                <button onClick={handleResetFilters} className="btn btn-outline btn-sm mx-auto">
+                  <RotateCcw size={14} />
+                  <span>{t.filters.reset}</span>
+                </button>
+              )}
             </div>
           )}
         </section>
