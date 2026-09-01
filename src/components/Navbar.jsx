@@ -147,7 +147,6 @@ export default function Navbar() {
               aria-label="Quick Search"
             >
               <Search size={15} />
-              <span className="search-btn-label">{t.nav.quickSearch}</span>
               <kbd className="search-shortcut">⌘K</kbd>
             </button>
 
@@ -227,27 +226,28 @@ export default function Navbar() {
             </button>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Slide-Out Drawer Menu */}
-        {mobileMenuOpen && (
-          <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
-            <div className="mobile-menu-drawer" onClick={(e) => e.stopPropagation()}>
-              {/* Drawer Header */}
-              <div className="mobile-drawer-header">
-                <Link href="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
-                  <div className="logo-icon-box">
-                    <ShieldCheck className="brand-icon" size={18} />
-                  </div>
-                  <span className="brand-title font-display text-base">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
-                </Link>
-                <button 
-                  className="action-btn-sm" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  aria-label="Close menu"
-                >
-                  <X size={17} />
-                </button>
-              </div>
+      {/* Mobile Slide-Out Drawer Menu (Outside Header for Full Viewport) */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
+          <div className="mobile-menu-drawer" onClick={(e) => e.stopPropagation()}>
+            {/* Drawer Header */}
+            <div className="mobile-drawer-header">
+              <Link href="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
+                <div className="logo-icon-box">
+                  <ShieldCheck className="brand-icon" size={18} />
+                </div>
+                <span className="brand-title font-display text-base">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
+              </Link>
+              <button 
+                className="action-btn-sm" 
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                <X size={17} />
+              </button>
+            </div>
 
               {/* Mobile Quick Search Button */}
               <div className="p-3">
@@ -341,7 +341,6 @@ export default function Navbar() {
             </div>
           </div>
         )}
-      </header>
 
       {/* Quick Search Modal Overlay */}
       {searchModalOpen && (
