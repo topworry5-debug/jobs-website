@@ -300,39 +300,102 @@ export default function BlogArticlePage({ params }) {
 }
 
 /**
- * Basic Markdown to HTML parser for tables, bold text, and lists
+ * Markdown to HTML parser for tables, bold text, lists, and headings
  */
 function formatMarkdownContent(markdown) {
   if (!markdown) return '';
 
-  let html = markdown;
+  const lines = markdown.split('\n');
+  let resultHtml = '';
+  let inTable = false;
+  let tableRows = [];
 
-  // Tables
-  html = html.replace(/\|(.+)\|/g, (match) => {
-    return match; // We will format tables via simple replace
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+
+    // Table Row Detection
+    if (line.startsWith('|') && line.endsWith('|')) {
+      if (!inTable) {
+        inTable = true;
+        tableRows = [];
+      }
+      // Skip separator row (| :--- | :--- |)
+      if (!line.includes('---')) {
+        const cells = line.split('|').filter((_, idx, arr) => idx > 0 && idx < arr.length - 1).map(c => c.trim());
+        tableRows.push(cells);
+      }
+      continue;
+    } else if (inTable) {
+      // Table ended, compile table HTML
+      resultHtml += renderTableHtml(tableRows);
+      inTable = false;
+      tableRows = [];
+    }
+
+    if (!line) {
+      resultHtml += '<br/>';
+      continue;
+    }
+
+    // Headings
+    if (line.startsWith('### ')) {
+      resultHtml += `<h3 class="text-base md:text-lg font-bold text-primary mt-4 mb-2 font-display">${parseInline(line.substring(4))}</h3>`;
+    } else if (line.startsWith('## ')) {
+      resultHtml += `<h2 class="text-lg md:text-xl font-bold text-primary mt-6 mb-3 pb-1 border-b border-subtle font-display">${parseInline(line.substring(3))}</h2>`;
+    } else if (line.startsWith('- ')) {
+      resultHtml += `<div class="flex items-start gap-2 ml-2 my-1.5"><span class="text-emerald-500 font-bold">•</span><div class="text-secondary">${parseInline(line.substring(2))}</div></div>`;
+    } else if (/^\d+\.\s/.test(line)) {
+      const match = line.match(/^(\d+)\.\s(.*)$/);
+      resultHtml += `<div class="flex items-start gap-2 ml-2 my-1.5"><span class="badge badge-bps text-[10px] px-1.5 py-0.5">${match[1]}</span><div class="text-secondary">${parseInline(match[2])}</div></div>`;
+    } else {
+      resultHtml += `<p class="leading-relaxed mb-3 text-secondary">${parseInline(line)}</p>`;
+    }
+  }
+
+  if (inTable) {
+    resultHtml += renderTableHtml(tableRows);
+  }
+
+  return resultHtml;
+}
+
+function parseInline(text) {
+  if (!text) return '';
+  let res = text;
+  // Bold
+  res = res.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-primary">$1</strong>');
+  // Inline Code
+  res = res.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-surface-subtle border border-subtle font-mono text-xs text-emerald-500">$1</code>');
+  // Right arrows
+  res = res.replace(/&rarr;/g, '→');
+  return res;
+}
+
+function renderTableHtml(rows) {
+  if (!rows || rows.length === 0) return '';
+  const header = rows[0];
+  const bodyRows = rows.slice(1);
+
+  let html = '<div class="table-responsive-wrapper my-5 overflow-x-auto rounded-xl border border-subtle"><table class="w-full text-xs text-left border-collapse bg-surface-subtle">';
+  
+  // Header
+  html += '<thead><tr class="bg-surface border-b border-subtle">';
+  header.forEach(h => {
+    html += `<th class="p-3 font-bold text-primary uppercase tracking-wider text-[11px]">${parseInline(h)}</th>`;
   });
+  html += '</tr></thead>';
 
-  // Headers
-  html = html.replace(/^### (.*$)/gim, '<h3 class="text-lg font-bold text-primary mt-4 mb-2">$1</h3>');
-  html = html.replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold text-primary mt-6 mb-3 pb-1 border-b border-subtle">$1</h2>');
-
-  // Bold text
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-primary">$1</strong>');
-
-  // Code inline
-  html = html.replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-surface-subtle border border-subtle font-mono text-xs text-emerald-600">$1</code>');
-
-  // Bullet points
-  html = html.replace(/^\- (.*$)/gim, '<li class="ml-4 list-disc">$1</li>');
-
-  // Numbered lists
-  html = html.replace(/^\d+\. (.*$)/gim, '<li class="ml-4 list-decimal">$1</li>');
-
-  // Paragraphs
-  html = html.split('\n\n').map(p => {
-    if (p.startsWith('<h') || p.startsWith('<li') || p.startsWith('<table') || p.includes('|')) return p;
-    return `<p class="leading-relaxed mb-3">${p}</p>`;
-  }).join('');
+  // Body
+  html += '<tbody>';
+  bodyRows.forEach((r, idx) => {
+    const isEven = idx % 2 === 0;
+    html += `<tr class="${isEven ? 'bg-surface/50' : 'bg-surface-subtle'} border-b border-subtle/50 hover:bg-surface transition-colors">`;
+    r.forEach(cell => {
+      html += `<td class="p-3 text-secondary">${parseInline(cell)}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
 
   return html;
 }

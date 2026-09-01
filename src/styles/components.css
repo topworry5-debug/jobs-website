@@ -5864,4 +5864,50 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   }
 }
 
+/* ==========================================================================
+   BLOG & SEO/GEO CONTENT HUB STYLES
+   ========================================================================== */
+.blog-hub-container {
+  width: 100%;
+}
 
+.filter-pill {
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+.filter-pill:hover {
+  transform: translateY(-1px);
+}
+
+.table-responsive-wrapper {
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-xs);
+}
+
+.table-responsive-wrapper table th {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--border-subtle);
+}
+
+.table-responsive-wrapper table td {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.prose-content p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.prose-content h2, .prose-content h3 {
+  color: var(--text-primary);
+  font-family: var(--font-display, sans-serif);
+}
+
+.scroll-mt-20 {
+  scroll-margin-top: 5rem;
+}
