@@ -1,6 +1,7 @@
 /**
  * RozgarPK — Live KPPSC (Khyber Pakhtunkhwa Public Service Commission) Scraper
  * Direct Live HTML parser for https://www.kppsc.gov.pk/advertisement
+ * Confirms live status: "No active advertisement!" -> 0 open vacancy listings.
  */
 
 export async function scrapeLiveKPPSC() {
@@ -23,48 +24,11 @@ export async function scrapeLiveKPPSC() {
     const html = await res.text();
     const scrapedJobs = [];
 
-    // Check if advertisement table has rows or "No active advertisement!"
+    // KPPSC advertisement status confirmation:
+    // If the official portal states "No active advertisement!", return 0 jobs accurately.
+    // Ongoing written examinations, physical tests, and interviews are routed to the Exam Calendar.
     if (html.includes("No active advertisement!")) {
-      // Extract active examination/recruitment schedule from live marquee
-      const marqueeRegex = /<a[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
-      let match;
-      
-      while ((match = marqueeRegex.exec(html)) !== null) {
-        const link = match[1];
-        const rawText = match[2].replace(/<[^>]+>/g, '').trim();
-
-        if (rawText.toLowerCase().includes('traffic warden') || rawText.toLowerCase().includes('pms officer') || rawText.toLowerCase().includes('sub inspector')) {
-          scrapedJobs.push({
-            id: `kppsc-live-${Date.now()}-${scrapedJobs.length + 1}`,
-            type: "govt",
-            title: `${rawText.replace(/^[0-9]+(?:th|st|nd|rd)\s*Schedule:?\s*/i, '')} - BPS-14/BPS-17`,
-            rawTitle: rawText,
-            department: "Khyber Pakhtunkhwa Police / S&GAD Department",
-            agency: "KPPSC",
-            category: "Police & Law Enforcement",
-            subCategory: "Law Enforcement & Provincial Civil Service",
-            bpsScale: rawText.toLowerCase().includes('pms') ? "BPS-17" : "BPS-14",
-            city: "Peshawar, Mardan, Swat, Abbottabad",
-            province: "KPK",
-            qualification: "Bachelor's / Master's Degree as per KPPSC Service Rules",
-            vacancies: 1,
-            ageLimit: "18 - 30 Years",
-            quota: "Zonal Allocation (Zone 1 to Zone 5)",
-            postDate: new Date().toISOString().split('T')[0],
-            lastDate: "2026-09-17",
-            urgent: false,
-            featured: false,
-            verified: true,
-            challanFee: "PKR 500 (Paid via JazzCash / EasyPaisa / Bank)",
-            officialUrl: "https://apply.kppsc.gov.pk/",
-            officialSourceLabel: `KPPSC Official Schedule Notice: ${rawText.substring(0, 40)}...`,
-            description: `Khyber Pakhtunkhwa Public Service Commission recruitment screening for ${rawText}. Applications and physical/written schedules managed via apply.kppsc.gov.pk.`,
-            lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-            isLiveScraped: true
-          });
-          break; // Keep to latest authentic post
-        }
-      }
+      console.log("[KPPSC Telemetry] Confirmed official status: No active advertisement currently open for new applications.");
     }
 
     return {

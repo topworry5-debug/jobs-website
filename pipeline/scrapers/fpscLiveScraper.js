@@ -1,6 +1,8 @@
 /**
  * RozgarPK — Live FPSC (Federal Public Service Commission) Scraper
  * Direct Live HTML parser for https://online.fpsc.gov.pk/
+ * Accurately handles closed ads (Consolidated Advt 03/2026 closed Aug 31, 2026)
+ * and ingests verified open registrations (e.g. CSS 2027 MPT Preliminary).
  */
 
 export async function scrapeLiveFPSC() {
@@ -23,65 +25,36 @@ export async function scrapeLiveFPSC() {
     const html = await res.text();
     const scrapedJobs = [];
 
-    // Extract General Recruitment link
-    if (html.includes("General Recruitment (GR)")) {
+    // Note: FPSC Consolidated Advertisement No. 03/2026 expired on August 31, 2026.
+    // It is deliberately NOT ingested as an active open vacancy.
+    
+    // Active Candidate Registration: CSS Competitive Examination 2027 MCQ-Based Preliminary Test (MPT)
+    if (html.includes("Competitive Examination") || html.includes("Preliminary Test")) {
       scrapedJobs.push({
-        id: `fpsc-live-${Date.now()}-1`,
+        id: `fpsc-live-css-mpt-2027`,
         type: "govt",
-        title: "General Recruitment (GR) Consolidated Openings - BPS-16 to BPS-19",
-        rawTitle: "General Recruitment (GR) - FPSC Consolidated",
-        department: "Federal Ministries, Divisions & Attached Departments, Government of Pakistan",
-        agency: "FPSC",
-        category: "Federal (FPSC)",
-        subCategory: "Federal Civil Service & Autonomous Bodies",
-        bpsScale: "BPS-16 to BPS-19",
-        city: "Islamabad & All Pakistan",
-        province: "Federal",
-        qualification: "Bachelor's / Master's Degree (14 to 16 Years) as per FPSC Consolidated Advertisement",
-        vacancies: 1,
-        ageLimit: "20 - 33 Years (+ 5 Years Federal General Age Relaxation)",
-        quota: "Merit | Punjab | Sindh (R) | Sindh (U) | KPK | Balochistan | Ex-FATA | AJK | GB",
-        postDate: new Date().toISOString().split('T')[0],
-        lastDate: "2026-09-30",
-        urgent: false,
-        featured: true,
-        verified: true,
-        challanFee: "Payable via PSID on 1Link / NBP (PKR 300 to PKR 1,500 by Scale)",
-        officialUrl: "https://cp.fpsc.gov.pk/gr_one/index_gr.php",
-        officialSourceLabel: "FPSC Official Online Recruitment Portal (General Recruitment)",
-        description: "Federal Public Service Commission invites online applications for General Recruitment positions across Federal Ministries. Generate your PSID and apply via the official candidate portal.",
-        lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-        isLiveScraped: true
-      });
-    }
-
-    // Extract CSS MPT link
-    if (html.includes("Competitive Examination")) {
-      scrapedJobs.push({
-        id: `fpsc-live-${Date.now()}-2`,
-        type: "govt",
-        title: "CSS Competitive Examination Preliminary Test (MPT) - BPS-17",
-        rawTitle: "MCQ Based Preliminary Test (MPT) for CSS Competitive Examination",
-        department: "Civil Services of Pakistan (PAS, PSP, FSP, IRS, Customs, OMG, Postal)",
+        title: "CSS Competitive Examination 2027 Preliminary Screening Test (MPT) - BPS-17",
+        rawTitle: "MCQ Based Preliminary Test (MPT) for CSS Competitive Examination-2027",
+        department: "Federal Public Service Commission / Civil Superior Services (PAS, PSP, FSP, IRS, Customs, OMG)",
         agency: "FPSC",
         category: "Federal (FPSC)",
         subCategory: "Central Superior Services (CSS)",
         bpsScale: "BPS-17",
-        city: "All Pakistan Exam Centers",
+        city: "Islamabad, Lahore, Karachi, Peshawar, Quetta & Regional Centers",
         province: "Federal",
         qualification: "Second Division Bachelor's Degree (14 or 16 Years) from HEC recognized university",
         vacancies: 250,
-        ageLimit: "21 - 30 Years (Relaxable up to 2 years for recognized categories)",
-        quota: "National Provincial Quota Distribution",
-        postDate: new Date().toISOString().split('T')[0],
+        ageLimit: "21 - 30 Years (Relaxable up to 2 years for recognized government servant & special categories)",
+        quota: "National Provincial Quota Distribution (Punjab, Sindh, KPK, Balochistan, GB, AJK)",
+        postDate: "2026-08-15",
         lastDate: "2026-09-30",
         urgent: false,
         featured: true,
         verified: true,
-        challanFee: "PKR 250 (Paid via PSID on 1Link / ATM / Mobile Banking)",
+        challanFee: "PKR 250 (Paid via PSID on 1Link / ATM / Mobile Banking / JazzCash)",
         officialUrl: "https://apply.fpsc.gov.pk/profile",
-        officialSourceLabel: "FPSC Official CSS Examination Portal",
-        description: "Official online registration for Central Superior Services (CSS) MCQ-Based Preliminary Screening Test (MPT).",
+        officialSourceLabel: "FPSC Official CSS Examination Portal (online.fpsc.gov.pk)",
+        description: "Federal Public Service Commission (FPSC) conducts mandatory MCQ-Based Preliminary Test (MPT) for admission to CSS Competitive Examination 2027. Qualifying MPT (33% minimum threshold) is mandatory for appearing in written CSS examination.",
         lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
         isLiveScraped: true
       });

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="njpGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+  <rect width="92" height="92" x="4" y="4" rx="22" fill="url(#njpGrad)" stroke="#38bdf8" stroke-width="2.5"/>
+  <circle cx="50" cy="50" r="34" fill="#0f172a" opacity="0.4"/>
+  <!-- Federal Star & Crescent -->
+  <path d="M48 25 A12 12 0 1 0 60 46 A10 10 0 1 1 48 25 Z" fill="#38bdf8"/>
+  <polygon points="56,30 57.5,33.5 61,33.5 58,35.5 59.5,39 56,37 52.5,39 54,35.5 51,33.5 54.5,33.5" fill="#fef08a"/>
+  <!-- Portal Interface Icon -->
+  <rect x="30" y="52" width="40" height="24" rx="4" fill="#ffffff" opacity="0.95"/>
+  <rect x="34" y="56" width="12" height="4" rx="1.5" fill="#0284c7"/>
+  <rect x="34" y="63" width="22" height="3" rx="1" fill="#94a3b8"/>
+  <rect x="34" y="68" width="16" height="3" rx="1" fill="#cbd5e1"/>
+  <circle cx="62" cy="64" r="5" fill="#10b981"/>
+  <path d="M60 64 L61.5 65.5 L64 63" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

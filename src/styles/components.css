@@ -6175,3 +6175,261 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
 .scroll-mt-20 {
   scroll-margin-top: 5rem;
 }
+
+/* ==========================================================================
+   ARTICLE VISUAL HEADER TREATMENTS & INFOGRAPHICS (2026 EDITION)
+   ========================================================================== */
+.article-hero-banner {
+  position: relative;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.04) 50%, var(--bg-surface-subtle) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme='dark'] .article-hero-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.article-hero-banner-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 768px) {
+  .article-hero-banner-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.75rem;
+  }
+}
+
+.article-hero-crest-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.article-crest-box {
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  border: 2px solid var(--border-subtle);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  flex-shrink: 0;
+  transition: transform var(--transition-normal);
+}
+
+.article-hero-banner:hover .article-crest-box {
+  transform: scale(1.04);
+  border-color: var(--primary-500);
+}
+
+.article-crest-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.article-crest-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.article-crest-dept-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+}
+
+.article-crest-dept-sub {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* Quick Metrics / Key Stats Pill Grid */
+.article-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .article-stat-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.article-stat-pill {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-fast);
+}
+
+.article-stat-pill:hover {
+  border-color: var(--primary-400);
+  transform: translateY(-1px);
+}
+
+.article-stat-pill-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.article-stat-pill-value {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+}
+
+/* Article Infographic Visual Breakdown Cards */
+.article-infographic-card {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.article-infographic-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.article-infographic-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.article-infographic-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .article-infographic-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .article-infographic-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.article-infographic-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.article-infographic-item-highlight {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.04) 0%, var(--bg-surface) 100%);
+}
+
+.article-infographic-item-num {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--primary-600);
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+[data-theme='dark'] .article-infographic-item-num {
+  color: #34d399;
+}
+
+.article-infographic-item-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.article-infographic-item-desc {
+  font-size: 0.78125rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Executive Summary Callout Box with Guaranteed Icon Spacing */
+.article-summary-box {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface-subtle);
+  border-left: 4px solid var(--primary-500);
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-xs);
+}
+
+.article-summary-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--primary-600);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+[data-theme='dark'] .article-summary-heading {
+  color: #34d399;
+}
+
+.article-summary-heading svg {
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+

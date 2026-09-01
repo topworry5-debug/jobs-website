@@ -1,7 +1,7 @@
 /**
  * RozgarPK — Live NTS (National Testing Service) Verified Scraper
  * Multi-Step Live Subpage Parser with Zero Fallbacks and Zero Guessed Dates.
- * Every project is cross-checked against its individual application subpage.
+ * Strictly extracts verified employment projects (excludes non-job admissions/TOEIC/NAT/GAT tests).
  */
 
 import { parseDateToISO } from '../utils/dateParser.js';
@@ -29,8 +29,6 @@ export async function scrapeNTS() {
     const scrapedJobs = [];
     let itemMatch;
 
-    const projectCandidates = [];
-
     while ((itemMatch = productItemRegex.exec(html)) !== null) {
       const itemHtml = itemMatch[1];
       const linkMatch = itemHtml.match(/<div[^>]*class=["']product-name["'][^>]*>[\s\S]*?<a[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/i);
@@ -39,85 +37,113 @@ export async function scrapeNTS() {
       const link = linkMatch[1].trim();
       const rawTitle = linkMatch[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 
-      const isJobOpportunity = rawTitle.toLowerCase().includes('career') || 
-                               rawTitle.toLowerCase().includes('vacancies') || 
-                               rawTitle.toLowerCase().includes('recruitment') || 
-                               rawTitle.toLowerCase().includes('posts') ||
-                               rawTitle.toLowerCase().includes('authority') ||
-                               rawTitle.toLowerCase().includes('screening');
+      // Filter out non-job admission tests, English tests, university admissions, and student degree registrations
+      const lower = rawTitle.toLowerCase();
+      const isAdmissionOrNonJob = lower.includes('admission') ||
+                                 lower.includes('toeic') ||
+                                 lower.includes('gat subject') ||
+                                 lower.includes('gat-general') ||
+                                 lower.includes('nat-') ||
+                                 lower.includes('degree program') ||
+                                 lower.includes('class of 2031');
 
-      if (rawTitle && isJobOpportunity && link) {
-        projectCandidates.push({
-          rawTitle,
-          link: link.startsWith('http') ? link : `https://www.nts.org.pk/new/${link}`
-        });
-      }
-    }
+      const isEmployment = lower.includes('career') || 
+                            lower.includes('vacancies') || 
+                            lower.includes('vacant') ||
+                            lower.includes('recruitment') || 
+                            lower.includes('posts') ||
+                            lower.includes('judge') ||
+                            lower.includes('authority') ||
+                            lower.includes('social protection') ||
+                            lower.includes('national grid') ||
+                            lower.includes('job opportunities');
 
-    // Step 2: Fetch and verify each candidate's exact subpage for verified deadline
-    for (const proj of projectCandidates) {
-      try {
-        const subRes = await fetch(proj.link, {
-          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
-        });
-
-        if (!subRes.ok) continue;
-
-        const subHtml = await subRes.text();
-        const dateMatch = subHtml.match(/Last Date for Application Submission\s*:\s*&nbsp;&nbsp;([^&<\n\r]+)/i) ||
-                          subHtml.match(/Last Date[^:]*:\s*([^&<\n\r]+)/i);
-
-        if (!dateMatch) {
-          // Zero tolerance: No explicit date on subpage = DO NOT INGEST
-          continue;
-        }
-
-        const dateStr = dateMatch[1].trim();
-        const isoDate = parseDateToISO(dateStr);
-
-        if (!isoDate) {
-          // Unparseable date = DO NOT INGEST
-          continue;
-        }
-
-        const deadlineTime = new Date(`${isoDate}T23:59:59`).getTime();
-        if (deadlineTime < now) {
-          // Expired project = DO NOT INGEST
-          continue;
-        }
-
-        scrapedJobs.push({
-          id: `nts-live-${Date.now()}-${scrapedJobs.length + 1}`,
-          type: "govt",
-          title: proj.rawTitle,
-          rawTitle: proj.rawTitle,
-          department: proj.rawTitle.split('(')[0].trim(),
-          agency: "NTS",
-          category: "Testing Services (NTS)",
-          subCategory: "Public Sector Recruitment",
-          bpsScale: "BPS-16 / BPS-17",
-          city: proj.rawTitle.toLowerCase().includes('karachi') ? 'Karachi' : (proj.rawTitle.toLowerCase().includes('islamabad') ? 'Islamabad' : (proj.rawTitle.toLowerCase().includes('lahore') ? 'Lahore' : 'Multiple Districts')),
-          province: proj.rawTitle.toLowerCase().includes('sindh') ? 'Sindh' : (proj.rawTitle.toLowerCase().includes('punjab') ? 'Punjab' : 'Federal'),
-          qualification: "As per NTS Project Advertisement Criteria",
-          vacancies: null,
-          ageLimit: "As per official criteria",
-          quota: "Open Merit & Regional Quota",
-          postDate: new Date().toISOString().split('T')[0],
-          lastDate: isoDate, // Strictly verified from subpage
-          urgent: false,
-          featured: false,
-          verified: true,
-          challanFee: "Payable via 1Link, EasyPaisa, JazzCash, or Bank",
-          officialUrl: proj.link,
-          officialSourceLabel: `NTS Official Project: ${proj.rawTitle.substring(0, 45)}...`,
-          description: `National Testing Service (NTS) is conducting recruitment screening for ${proj.rawTitle}. Check official notice and apply online before ${isoDate}.`,
-          lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-          isLiveScraped: true
-        });
-      } catch {
-        // Drop failed requests
+      if (!isEmployment || isAdmissionOrNonJob) {
         continue;
       }
+
+      // Check if date exists on main item HTML
+      let dateStr = "";
+      const dateMatch = itemHtml.match(/Submission is:?\s*&nbsp;&nbsp;([^&<\n\r]+)/i) ||
+                        itemHtml.match(/Submission is:?\s*<\/span>\s*&nbsp;([^&<]+)/i) ||
+                        itemHtml.match(/Last Date[^:]*:\s*([^&<\n\r]+)/i);
+
+      if (dateMatch) {
+        dateStr = dateMatch[1].trim();
+      }
+
+      const fullLink = link.startsWith('http') ? link : `https://www.nts.org.pk/new/${link}`;
+
+      // If date missing from summary or to verify, probe subpage
+      if (!dateStr || dateStr.length < 5) {
+        try {
+          const subRes = await fetch(fullLink, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+          });
+          if (subRes.ok) {
+            const subHtml = await subRes.text();
+            const subDateMatch = subHtml.match(/Last Date for Application Submission\s*:\s*&nbsp;&nbsp;([^&<\n\r]+)/i) ||
+                                 subHtml.match(/Last Date[^:]*:\s*([^&<\n\r]+)/i);
+            if (subDateMatch) {
+              dateStr = subDateMatch[1].trim();
+            }
+          }
+        } catch {
+          // ignore
+        }
+      }
+
+      if (!dateStr) continue;
+
+      const isoDate = parseDateToISO(dateStr);
+      if (!isoDate) continue;
+
+      const deadlineTime = new Date(`${isoDate}T23:59:59`).getTime();
+      if (deadlineTime < now) {
+        // Expired project = Exclude
+        continue;
+      }
+
+      let city = 'Multiple Districts';
+      if (lower.includes('karachi')) city = 'Karachi';
+      else if (lower.includes('islamabad')) city = 'Islamabad';
+      else if (lower.includes('lahore') || lower.includes('mianwali')) city = 'Lahore / Punjab Districts';
+      else if (lower.includes('tharparkar')) city = 'Tharparkar / Sindh';
+      else if (lower.includes('hyderabad')) city = 'Hyderabad / Sindh';
+
+      let province = 'Federal';
+      if (lower.includes('sindh') || lower.includes('tharparkar') || lower.includes('karachi')) province = 'Sindh';
+      else if (lower.includes('punjab') || lower.includes('lahore') || lower.includes('mianwali')) province = 'Punjab';
+      else if (lower.includes('kpk') || lower.includes('peshawar')) province = 'Khyber Pakhtunkhwa';
+
+      scrapedJobs.push({
+        id: `nts-live-${Date.now()}-${scrapedJobs.length + 1}`,
+        type: "govt",
+        title: rawTitle,
+        rawTitle,
+        department: rawTitle.split('(')[0].trim(),
+        agency: "NTS",
+        category: "Testing Services (NTS)",
+        subCategory: "Public Sector Recruitment",
+        bpsScale: "BPS-14 to BPS-18 / Corporate Scale",
+        city,
+        province,
+        qualification: "As per NTS Project Advertisement Criteria",
+        vacancies: null,
+        ageLimit: "As per official project criteria",
+        quota: "Open Merit & Provincial Quota",
+        postDate: new Date().toISOString().split('T')[0],
+        lastDate: isoDate,
+        urgent: false,
+        featured: scrapedJobs.length === 0,
+        verified: true,
+        challanFee: "Payable via 1Link, EasyPaisa, JazzCash, or Bank",
+        officialUrl: fullLink,
+        officialSourceLabel: `NTS Official Project: ${rawTitle.substring(0, 45)}...`,
+        description: `National Testing Service (NTS) is conducting recruitment screening for ${rawTitle}. Check official announcement and submit online before ${isoDate}.`,
+        lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        isLiveScraped: true
+      });
     }
 
     return {

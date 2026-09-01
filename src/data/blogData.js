@@ -30,6 +30,30 @@ export const BLOG_ARTICLES = [
       avatar: '/logos/ppsc.svg'
     },
     targetKeywords: ['ppsc jobs', 'ppsc online apply', 'ppsc challan fee', 'ppsc eligibility criteria 2026', 'ppsc test syllabus'],
+    heroBanner: {
+      departmentName: 'Punjab Public Service Commission (PPSC)',
+      departmentSub: 'Government of Punjab • Merit Recruitment Authority',
+      logo: '/logos/ppsc.svg',
+      quickStats: [
+        { label: 'Standard Fee', value: 'PKR 600' },
+        { label: 'Exam Pattern', value: '100 MCQs (90m)' },
+        { label: 'Negative Marking', value: '-0.25 Marks' },
+        { label: 'Domicile', value: 'Punjab Only' }
+      ]
+    },
+    infographics: [
+      {
+        id: 'ppsc-pattern-info',
+        sectionId: 'exam-pattern-syllabus',
+        title: 'PPSC 100-Mark Single Paper Exam Pattern & Marking Architecture',
+        items: [
+          { num: '100', title: 'Single Paper MCQs', desc: 'Standardized computer screening testing syllabus discipline (80%) and general knowledge (20%).' },
+          { num: '90m', title: 'Time Duration', desc: '1.5 hours total time. Candidates average 54 seconds per question.' },
+          { num: '-0.25', title: 'Negative Marking Penalty', desc: 'Every 4 incorrect answers subtract a full 1.0 point. Avoid blind guessing.', highlight: true },
+          { num: '40%', title: 'Passing Threshold', desc: 'Minimum 40 marks required to qualify for academic merit calculation.' }
+        ]
+      }
+    ],
     directAnswer: 'PPSC (Punjab Public Service Commission) recruits civil servants and specialists for BPS-11 through BPS-20 positions across the Government of Punjab. Candidates must hold Punjab domicile, register online via ppsc.gop.pk, pay a PKR 600 application fee via 1Link PSID ATM/Mobile Banking, and clear a 100-mark single-paper screening MCQ examination (90 minutes with 0.25 negative marking) followed by an academic evaluation and interview.',
     tableOfContents: [
       { id: 'what-is-ppsc', title: '1. What is PPSC and Which Positions Are Covered?' },
@@ -149,6 +173,30 @@ Only candidates holding a **valid Punjab Domicile** and computerised National Id
       avatar: '/logos/fpsc.svg'
     },
     targetKeywords: ['fpsc jobs', 'fpsc online apply 2026', 'fpsc challan form 32-a', 'fpsc syllabus', 'css exam 2027 schedule'],
+    heroBanner: {
+      departmentName: 'Federal Public Service Commission (FPSC)',
+      departmentSub: 'Federal Government of Pakistan • Constitutional Body',
+      logo: '/logos/fpsc.svg',
+      quickStats: [
+        { label: 'Challan Fee', value: 'PKR 300 (BPS-17)' },
+        { label: 'Negative Marking', value: 'Zero (0.0)' },
+        { label: 'Merit Quota', value: '7.5% Nationwide' },
+        { label: 'Exam Cycles', value: '4 Annual Phases' }
+      ]
+    },
+    infographics: [
+      {
+        id: 'fpsc-quota-info',
+        sectionId: 'provincial-quota-system',
+        title: 'Federal Provincial Quota & Allocation Distribution',
+        items: [
+          { num: '50%', title: 'Punjab & ICT Quota', desc: 'Combined provincial quota allocation for Punjab and Islamabad Capital Territory.' },
+          { num: '19%', title: 'Sindh (Rural / Urban)', desc: '11.4% reserved for Rural Sindh districts and 7.6% for Urban Karachi/Hyd/Sukkur.' },
+          { num: '11.5%', title: 'Khyber Pakhtunkhwa', desc: 'Covers settled provincial districts and merged tribal agencies (Ex-FATA).' },
+          { num: '7.5%', title: 'Open Merit Nationwide', desc: 'Top scoring candidates nationwide regardless of provincial domicile.', highlight: true }
+        ]
+      }
+    ],
     directAnswer: 'FPSC (Federal Public Service Commission) is the premier federal recruitment body for civilian officers across Pakistan. It administers all BPS-16 to BPS-22 gazetted recruitments for federal ministries (FIA, IB, FBR, ASF, Defence) and conducts the annual CSS (Central Superior Services) examination based on provincial and regional quota distributions.',
     tableOfContents: [
       { id: 'what-is-fpsc', title: '1. What is FPSC and What Institutions Does It Cover?' },
@@ -246,6 +294,30 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
       avatar: '/logos/verified.svg'
     },
     targetKeywords: ['today govt jobs in pakistan', 'free jobs in pakistan', 'government jobs in pakistan today online apply', 'govt jobs in pakistan 2026'],
+    heroBanner: {
+      departmentName: 'Official Gazette & Recruitment Digest',
+      departmentSub: 'RozgarPK Telemetry • Verified Pakistani Public Sector Openings',
+      logo: '/logos/verified.svg',
+      quickStats: [
+        { label: 'Audit Frequency', value: 'Every 6 Hours' },
+        { label: 'Coverage', value: 'FPSC, PPSC, SPSC, NTS' },
+        { label: 'Spam Rate', value: '0% Verified' },
+        { label: 'Access Cost', value: '100% Free' }
+      ]
+    },
+    infographics: [
+      {
+        id: 'gazette-cycle-info',
+        sectionId: 'daily-gazette-cycle',
+        title: 'Weekly Official Gazette Publication Timetable in Pakistan',
+        items: [
+          { num: 'Sundays', title: 'PPSC Punjab Circulars', desc: 'Consolidated provincial advertisements released on alternating Sunday mornings.' },
+          { num: '1st Fri', title: 'FPSC Federal Gazette', desc: 'Monthly consolidated Federal advertisements released on the first Friday.' },
+          { num: 'Bi-Wkly', title: 'SPSC Sindh Circulars', desc: 'Bi-weekly provincial notifications published via official Sindh Gazette.' },
+          { num: '24/7', title: 'RozgarPK Live Telemetry', desc: 'Automated scraping and manual fact-checking every 6 hours.', highlight: true }
+        ]
+      }
+    ],
     directAnswer: 'Today govt jobs in Pakistan encompass gazetted public service circulars issued by Federal (FPSC), Punjab (PPSC), Sindh (SPSC), Khyber Pakhtunkhwa (KPPSC), and testing bodies (NTS). RozgarPK audits these gazettes every 6 hours to eliminate duplicate, expired, or misleading circulars, providing job seekers direct application portals and authentic deadline countdowns.',
     tableOfContents: [
       { id: 'daily-gazette-cycle', title: '1. How Government Recruitment Gazettes Work in Pakistan' },
@@ -322,6 +394,30 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
       avatar: '/logos/njp.svg'
     },
     targetKeywords: ['national job portal', 'njp gov pk apply online', 'national job portal profile sign in', 'federal government jobs njp'],
+    heroBanner: {
+      departmentName: 'National Job Portal (njp.gov.pk)',
+      departmentSub: 'Ministry of IT & Telecom • Unified Federal Portal',
+      logo: '/logos/njp.svg',
+      quickStats: [
+        { label: 'Application Fee', value: 'Free (PKR 0)' },
+        { label: 'Profile System', value: 'Unified Digital CV' },
+        { label: 'Hiring Bodies', value: 'Federal Ministries' },
+        { label: 'Apply Speed', value: '1-Click Submit' }
+      ]
+    },
+    infographics: [
+      {
+        id: 'njp-steps-info',
+        sectionId: 'create-njp-profile',
+        title: 'NJP 5-Step 100% Profile Completion & One-Click Apply Flow',
+        items: [
+          { num: '01', title: 'CNIC Authentication', desc: '13-digit NADRA-linked identity sign-up verified with SMS OTP.' },
+          { num: '02', title: 'Academic Vault', desc: 'Chronological degree entries with HEC-verified grading scales.' },
+          { num: '03', title: 'Work Experience', desc: 'Structured public and private sector employment records.' },
+          { num: '04', title: '1-Click Submit', desc: 'Apply across dozens of federal openings with a single verified profile.', highlight: true }
+        ]
+      }
+    ],
     directAnswer: 'The National Job Portal (NJP - njp.gov.pk) is the central digital hiring platform launched by the Federal Government of Pakistan for contract and regular recruitments across federal ministries, autonomous authorities, and public sector enterprises. Unlike FPSC, NJP applications are typically fee-free and allow candidates to apply directly with a single digital profile.',
     tableOfContents: [
       { id: 'what-is-njp', title: '1. What is the National Job Portal (NJP)?' },
@@ -396,6 +492,30 @@ Key features of NJP include:
       avatar: '/logos/verified.svg'
     },
     targetKeywords: ['ppsc vs fpsc', 'difference between ppsc and fpsc', 'fpsc vs ppsc test pattern', 'ppsc syllabus vs fpsc'],
+    heroBanner: {
+      departmentName: 'Provincial vs Federal Services Comparison',
+      departmentSub: 'Constitutional Framework • PPSC vs FPSC Complete Analysis',
+      logo: '/logos/comparison.svg',
+      quickStats: [
+        { label: 'PPSC Penalty', value: '-0.25 Marks' },
+        { label: 'FPSC Penalty', value: 'Zero (0.0)' },
+        { label: 'PPSC Domicile', value: 'Punjab Strict' },
+        { label: 'FPSC Domicile', value: 'All Pakistan' }
+      ]
+    },
+    infographics: [
+      {
+        id: 'comp-scoring-info',
+        sectionId: 'test-patterns-marking',
+        title: 'Direct Scoring & Risk Strategy Matrix',
+        items: [
+          { num: '-0.25', title: 'PPSC Penalty Risk', desc: '4 incorrect answers deduct 1 full mark. Only attempt when 2 wrong options are eliminated.' },
+          { num: '0.00', title: 'FPSC Zero Penalty', desc: 'Zero penalty for wrong answers. Attempt all 100 questions before time expires.' },
+          { num: '90m', title: 'PPSC Time Limit', desc: '100 questions in 90 minutes (54 seconds per question).' },
+          { num: '100m', title: 'FPSC Time Limit', desc: '100 questions in 100 minutes (60 seconds per question).', highlight: true }
+        ]
+      }
+    ],
     directAnswer: 'The core difference between PPSC and FPSC lies in jurisdiction: PPSC conducts recruitments exclusively for the Government of Punjab and requires Punjab domicile, whereas FPSC recruits for the Federal Government of Pakistan across all provincial quotas. Additionally, PPSC enforces a 0.25 negative marking penalty in screening tests, while FPSC screening tests carry no negative marking penalty.',
     tableOfContents: [
       { id: 'comprehensive-comparison-table', title: '1. Comprehensive PPSC vs FPSC Comparison Table' },

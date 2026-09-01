@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { BLOG_ARTICLES, BLOG_CLUSTERS } from '../../data/blogData';
 import BlogClientHub from '../../components/BlogClientHub';
+import SectionBadge from '../../components/SectionBadge';
 import { generateBreadcrumbSchema } from '../../utils/seoHelpers';
 import { BookOpen, Sparkles, TrendingUp, ShieldCheck, ArrowRight } from 'lucide-react';
 
@@ -31,14 +32,12 @@ export default function BlogIndexPage() {
       {/* Hero Header */}
       <div className="blog-hero-header bg-gradient-subtle border-emerald-subtle">
         <div className="blog-trust-badges">
-          <span className="badge badge-govt flex items-center gap-1.5">
-            <BookOpen size={13} />
-            <span>Official Knowledge Hub</span>
-          </span>
-          <span className="badge badge-verified flex items-center gap-1.5">
-            <ShieldCheck size={13} />
-            <span>Fact-Checked & Gazette Verified</span>
-          </span>
+          <SectionBadge variant="govt" size="sm" icon={BookOpen}>
+            Official Knowledge Hub
+          </SectionBadge>
+          <SectionBadge variant="verified" size="sm" icon={ShieldCheck}>
+            Fact-Checked & Gazette Verified
+          </SectionBadge>
         </div>
 
         <h1 className="blog-hero-title font-display">
@@ -51,20 +50,53 @@ export default function BlogIndexPage() {
         {/* Featured Flagship Card */}
         {featuredArticle && (
           <div className="blog-flagship-card">
-            <div className="blog-flagship-badge">
-              <Sparkles size={14} className="text-emerald-500" />
-              <span>FLAGSHIP GUIDE • {featuredArticle.clusterLabel}</span>
+            <div className="flex items-center justify-between gap-4 flex-wrap mb-3">
+              <SectionBadge 
+                variant="flagship" 
+                size="sm" 
+                icon={Sparkles}
+                uppercase
+              >
+                FLAGSHIP GUIDE • {featuredArticle.clusterLabel}
+              </SectionBadge>
+              {featuredArticle.heroBanner?.quickStats && (
+                <div className="flex items-center gap-2 flex-wrap text-xs font-mono">
+                  {featuredArticle.heroBanner.quickStats.slice(0, 2).map((s, idx) => (
+                    <span key={idx} className="badge badge-bps">
+                      {s.label}: {s.value}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-            <h2 className="blog-flagship-title">
-              <Link href={`/blog/${featuredArticle.slug}`}>
-                {featuredArticle.title}
-              </Link>
-            </h2>
-            <p className="blog-flagship-desc">
-              {featuredArticle.metaDescription}
-            </p>
+
+            <div className="flex flex-col md:flex-row items-start gap-5">
+              {featuredArticle.heroBanner?.logo && (
+                <div className="article-crest-box hidden sm:flex">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src={featuredArticle.heroBanner.logo} 
+                    alt={featuredArticle.heroBanner.departmentName} 
+                    className="article-crest-img"
+                    width={56}
+                    height={56}
+                  />
+                </div>
+              )}
+              <div className="flex-1">
+                <h2 className="blog-flagship-title">
+                  <Link href={`/blog/${featuredArticle.slug}`}>
+                    {featuredArticle.title}
+                  </Link>
+                </h2>
+                <p className="blog-flagship-desc">
+                  {featuredArticle.metaDescription}
+                </p>
+              </div>
+            </div>
+
             <div className="blog-flagship-footer">
-              <div className="flex items-center gap-2 text-xs text-muted">
+              <div className="flex items-center gap-2 text-xs text-muted flex-wrap">
                 <span className="font-semibold text-primary">{featuredArticle.author.name}</span>
                 <span>•</span>
                 <span>{featuredArticle.readTime}</span>
@@ -76,7 +108,7 @@ export default function BlogIndexPage() {
                 className="btn btn-primary btn-sm flex items-center gap-1.5"
               >
                 <span>Read Full Guide</span>
-                <ArrowRight size={14} />
+                <ArrowRight size={14} className="flex-shrink-0" />
               </Link>
             </div>
           </div>

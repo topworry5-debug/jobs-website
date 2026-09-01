@@ -1,8 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { BLOG_ARTICLES } from '../../../data/blogData';
 import { generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
+import SectionBadge from '../../../components/SectionBadge';
 import { 
   Calendar, 
   Clock, 
@@ -18,7 +20,9 @@ import {
   Landmark,
   ShieldCheck,
   Sparkles,
-  HelpCircle
+  HelpCircle,
+  Award,
+  Layers
 } from 'lucide-react';
 
 export async function generateStaticParams() {
@@ -32,6 +36,7 @@ export async function generateMetadata({ params }) {
   if (!article) return { title: 'Guide Not Found | RozgarPK' };
 
   const canonical = `https://rozgar.pk/blog/${article.slug}`;
+  const bannerImage = article.heroBanner?.logo ? `https://rozgar.pk${article.heroBanner.logo}` : 'https://rozgar.pk/logo.png';
 
   return {
     title: `${article.metaTitle || article.title} | RozgarPK`,
@@ -47,6 +52,14 @@ export async function generateMetadata({ params }) {
       siteName: 'RozgarPK',
       title: article.title,
       description: article.metaDescription,
+      images: [
+        {
+          url: bannerImage,
+          width: 800,
+          height: 600,
+          alt: article.title
+        }
+      ],
       publishedTime: `${article.publishedDate}T00:00:00+05:00`,
       modifiedTime: `${article.updatedDate}T00:00:00+05:00`,
       authors: [article.author.name],
@@ -55,7 +68,8 @@ export async function generateMetadata({ params }) {
     twitter: {
       card: 'summary_large_image',
       title: article.title,
-      description: article.metaDescription
+      description: article.metaDescription,
+      images: [bannerImage]
     }
   };
 }
@@ -77,6 +91,7 @@ export default function BlogArticlePage({ params }) {
     "@type": "Article",
     "headline": article.title,
     "description": article.metaDescription,
+    "image": article.heroBanner?.logo ? `https://rozgar.pk${article.heroBanner.logo}` : 'https://rozgar.pk/logo.png',
     "datePublished": `${article.publishedDate}T00:00:00+05:00`,
     "dateModified": `${article.updatedDate}T00:00:00+05:00`,
     "author": {
@@ -125,19 +140,66 @@ export default function BlogArticlePage({ params }) {
         <span className="text-secondary font-medium truncate max-w-xs md:max-w-md">{article.title}</span>
       </nav>
 
+      {/* Featured Visual Hero Header Banner */}
+      {article.heroBanner && (
+        <div className="article-hero-banner">
+          <div className="article-hero-banner-inner">
+            <div className="article-hero-crest-wrapper">
+              <div className="article-crest-box">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img 
+                  src={article.heroBanner.logo} 
+                  alt={article.heroBanner.departmentName}
+                  className="article-crest-img"
+                  width={60}
+                  height={60}
+                />
+              </div>
+              <div className="article-crest-meta">
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <SectionBadge variant="govt" size="xs">
+                    {article.clusterLabel}
+                  </SectionBadge>
+                  <SectionBadge variant="verified" size="xs" icon={ShieldCheck}>
+                    Verified Gazette Authority
+                  </SectionBadge>
+                </div>
+                <h2 className="article-crest-dept-name">
+                  {article.heroBanner.departmentName}
+                </h2>
+                <p className="article-crest-dept-sub">
+                  {article.heroBanner.departmentSub}
+                </p>
+              </div>
+            </div>
+
+            {/* Quick Stats Grid */}
+            {article.heroBanner.quickStats && (
+              <div className="article-stat-grid">
+                {article.heroBanner.quickStats.map((stat, idx) => (
+                  <div key={idx} className="article-stat-pill">
+                    <span className="article-stat-pill-label">{stat.label}</span>
+                    <span className="article-stat-pill-value">{stat.value}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Main Article Prose Column (8 Columns) */}
         <main className="lg:col-span-8">
           <article className="card p-6 md:p-8 bg-surface">
-            {/* Badges & Meta */}
+            {/* Top Badges */}
             <div className="flex items-center gap-2 flex-wrap mb-3">
-              <span className="badge badge-govt">
+              <SectionBadge variant="govt" size="sm">
                 {article.clusterLabel}
-              </span>
-              <span className="badge badge-verified flex items-center gap-1">
-                <ShieldCheck size={12} />
-                <span>Verified Gazette Rules</span>
-              </span>
+              </SectionBadge>
+              <SectionBadge variant="verified" size="sm" icon={ShieldCheck}>
+                Verified Gazette Rules
+              </SectionBadge>
             </div>
 
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-primary mb-4 leading-tight font-display">
@@ -152,8 +214,8 @@ export default function BlogArticlePage({ params }) {
                 <span>{article.author.role}</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="flex items-center gap-1">
-                  <Clock size={13} />
+                <span className="flex items-center gap-1.5">
+                  <Clock size={13} className="text-emerald-500 flex-shrink-0" />
                   <span>{article.readTime}</span>
                 </span>
                 <span>•</span>
@@ -163,12 +225,17 @@ export default function BlogArticlePage({ params }) {
 
             {/* AEO / GEO Direct Answer Callout Box */}
             {article.directAnswer && (
-              <div className="my-6 p-4 md:p-5 rounded-xl bg-surface-subtle border-l-4 border-emerald-500 shadow-sm">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 mb-1.5 uppercase tracking-wider">
-                  <Sparkles size={14} />
-                  <span>Executive Summary & Key Takeaways</span>
-                </div>
-                <p className="text-secondary text-sm md:text-base leading-relaxed font-medium">
+              <div className="article-summary-box">
+                <SectionBadge 
+                  variant="flagship" 
+                  size="sm" 
+                  icon={Sparkles} 
+                  uppercase 
+                  className="mb-2"
+                >
+                  Executive Summary & Key Takeaways
+                </SectionBadge>
+                <p className="text-secondary text-sm md:text-base leading-relaxed font-medium mt-1">
                   {article.directAnswer}
                 </p>
               </div>
@@ -176,25 +243,59 @@ export default function BlogArticlePage({ params }) {
 
             {/* In-Depth Article Content Sections */}
             <div className="article-body-content mt-6 flex flex-col gap-8 text-secondary text-sm md:text-base leading-relaxed">
-              {article.contentSections.map((sec) => (
-                <section key={sec.id} id={sec.id} className="scroll-mt-20">
-                  <h2 className="text-xl md:text-2xl font-bold text-primary mb-3 pb-2 border-b border-subtle font-display">
-                    {sec.heading}
-                  </h2>
-                  <div 
-                    className="prose-content space-y-4"
-                    dangerouslySetInnerHTML={{ 
-                      __html: formatMarkdownContent(sec.content) 
-                    }}
-                  />
-                </section>
-              ))}
+              {article.contentSections.map((sec) => {
+                const sectionInfographic = article.infographics?.find(
+                  (info) => info.sectionId === sec.id
+                );
+
+                return (
+                  <section key={sec.id} id={sec.id} className="scroll-mt-20">
+                    <h2 className="text-xl md:text-2xl font-bold text-primary mb-3 pb-2 border-b border-subtle font-display">
+                      {sec.heading}
+                    </h2>
+                    
+                    <div 
+                      className="prose-content space-y-4"
+                      dangerouslySetInnerHTML={{ 
+                        __html: formatMarkdownContent(sec.content) 
+                      }}
+                    />
+
+                    {/* Embedded Supporting Visual Infographic Card */}
+                    {sectionInfographic && (
+                      <div className="article-infographic-card">
+                        <div className="article-infographic-header">
+                          <div className="article-infographic-title">
+                            <Layers size={18} className="text-emerald-500 flex-shrink-0" />
+                            <span>{sectionInfographic.title}</span>
+                          </div>
+                          <SectionBadge variant="emerald" size="xs">
+                            Official Pattern Breakdown
+                          </SectionBadge>
+                        </div>
+                        <div className={`article-infographic-grid ${sectionInfographic.items.length >= 3 ? 'article-infographic-grid-3' : ''}`}>
+                          {sectionInfographic.items.map((item, idx) => (
+                            <div 
+                              key={idx} 
+                              className={`article-infographic-item ${item.highlight ? 'article-infographic-item-highlight' : ''}`}
+                            >
+                              <div className="article-infographic-item-num">{item.num}</div>
+                              <div className="article-infographic-item-title">{item.title}</div>
+                              <div className="article-infographic-item-desc">{item.desc}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
 
               {/* Verified FAQs Section */}
               {article.faqs && article.faqs.length > 0 && (
                 <section id="faqs" className="scroll-mt-20 pt-4 border-t border-subtle">
                   <div className="flex items-center gap-2 mb-4">
-                    <HelpCircle size={20} className="text-emerald-500" />
+                    <HelpCircle size={20} className="text-emerald-500 flex-shrink-0" />
                     <h2 className="text-xl md:text-2xl font-bold text-primary font-display m-0">
                       Frequently Asked Questions (FAQs)
                     </h2>
@@ -243,10 +344,11 @@ export default function BlogArticlePage({ params }) {
           {/* Table of Contents Box */}
           {article.tableOfContents && (
             <div className="card p-5 bg-surface">
-              <h3 className="font-bold text-sm text-primary uppercase tracking-wider mb-3 pb-2 border-b border-subtle flex items-center gap-1.5">
-                <BookOpen size={14} className="text-emerald-500" />
-                <span>Table of Contents</span>
-              </h3>
+              <div className="mb-3 pb-2 border-b border-subtle">
+                <SectionBadge variant="emerald" size="sm" icon={BookOpen} uppercase>
+                  Table of Contents
+                </SectionBadge>
+              </div>
               <nav className="flex flex-col gap-2 text-xs">
                 {article.tableOfContents.map((item) => (
                   <a 
@@ -264,10 +366,11 @@ export default function BlogArticlePage({ params }) {
           {/* Related Tools Box */}
           {article.relatedTools && (
             <div className="card p-5 bg-surface">
-              <h3 className="font-bold text-sm text-primary uppercase tracking-wider mb-3 pb-2 border-b border-subtle flex items-center gap-1.5">
-                <Sparkles size={14} className="text-emerald-500" />
-                <span>Interactive Career Tools</span>
-              </h3>
+              <div className="mb-3 pb-2 border-b border-subtle">
+                <SectionBadge variant="emerald" size="sm" icon={Sparkles} uppercase>
+                  Interactive Career Tools
+                </SectionBadge>
+              </div>
               <div className="flex flex-col gap-3">
                 {article.relatedTools.map((tool, idx) => (
                   <Link 
@@ -290,7 +393,7 @@ export default function BlogArticlePage({ params }) {
             href="/blog" 
             className="text-xs font-bold text-emerald-600 hover:underline flex items-center gap-1.5 pl-1"
           >
-            <ArrowLeft size={14} />
+            <ArrowLeft size={14} className="flex-shrink-0" />
             <span>Back to All Career Guides</span>
           </Link>
         </aside>

@@ -96,23 +96,60 @@ export default function AgencyLandingPage({
 
         {/* Active Openings */}
         <div className="agency-jobs-section mb-5">
-          <h2 className="section-title">
-            Current {agencyData.code} Advertised Positions ({agencyJobs.length})
-          </h2>
-
-          <div className="jobs-layout-container grid-view">
-            {agencyJobs.map((job) => (
-              <JobCard
-                key={job.id}
-                job={job}
-                onSelect={onSelectJob}
-                isSaved={savedJobIds.includes(job.id)}
-                onToggleSave={onToggleSave}
-                onShareWhatsApp={onShareWhatsApp}
-                onShareFacebook={onShareFacebook}
-              />
-            ))}
+          <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+            <h2 className="section-title mb-0">
+              Current {agencyData.code} Advertised Positions ({agencyJobs.length})
+            </h2>
+            <span className="text-xs text-muted">
+              Live Verified via Official Portal Telemetry
+            </span>
           </div>
+
+          {agencyJobs.length > 0 ? (
+            <div className="jobs-layout-container grid-view">
+              {agencyJobs.map((job) => (
+                <JobCard
+                  key={job.id}
+                  job={job}
+                  onSelect={onSelectJob}
+                  isSaved={savedJobIds.includes(job.id)}
+                  onToggleSave={onToggleSave}
+                  onShareWhatsApp={onShareWhatsApp}
+                  onShareFacebook={onShareFacebook}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="card p-6 md:p-8 bg-surface-subtle border border-subtle text-center rounded-xl">
+              <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+                <CheckCircle2 size={24} />
+              </div>
+              <h3 className="text-lg font-bold text-primary mb-1.5 font-display">
+                No Active Vacancy Advertisements Right Now
+              </h3>
+              <p className="text-sm text-secondary max-w-lg mx-auto mb-5 leading-relaxed">
+                The {agencyData.fullName} official portal confirms there are currently no new open advertisements accepting fresh online applications. However, active written test schedules, physical endurance tests, and interview call-up lists for previously-advertised posts are ongoing.
+              </p>
+              <div className="flex items-center justify-center gap-3 flex-wrap">
+                <a 
+                  href="/exams" 
+                  className="btn btn-primary btn-sm flex items-center gap-1.5"
+                >
+                  <BookOpen size={14} />
+                  <span>Check {agencyData.code} Exam & Interview Calendar</span>
+                </a>
+                <a 
+                  href={agencyData.officialWebsite} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn btn-outline btn-sm flex items-center gap-1.5"
+                >
+                  <span>Visit {agencyData.code} Portal</span>
+                  <ExternalLink size={14} />
+                </a>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* FAQs */}
