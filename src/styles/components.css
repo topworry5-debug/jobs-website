@@ -5648,3 +5648,103 @@
     grid-column: span 1;
   }
 }
+
+/* ==========================================================================
+   ADSENSE LEGAL & TRUST PAGES (PRIVACY, TERMS, ABOUT, CONTACT)
+   ========================================================================== */
+.legal-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.legal-hero-card {
+  border-left: 4px solid var(--primary-500) !important;
+  margin-bottom: 1.5rem;
+}
+
+.legal-section-block {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.legal-section-block:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.legal-heading-flex {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.85rem;
+}
+
+.legal-list-bulleted {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.legal-info-box {
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.legal-info-box.alert-amber {
+  border-left: 4px solid var(--accent-amber);
+}
+
+.contact-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .contact-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-inbox-item {
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.contact-inbox-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.about-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.about-feature-item {
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+}
+

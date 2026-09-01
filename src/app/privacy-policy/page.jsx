@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Header Hero */}
-        <div className="card p-6 md:p-8 mb-8 border-l-4 border-l-emerald-500">
+        <div className="card p-6 md:p-8 legal-hero-card">
           <div className="flex items-center gap-2 mb-3">
             <span className="badge badge-verified">
               <ShieldCheck size={14} />
@@ -43,17 +43,17 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Content Body */}
-        <div className="card p-6 md:p-8 space-y-8 text-secondary text-sm md:text-base leading-relaxed">
+        <div className="card p-6 md:p-8 space-y-6 text-secondary leading-relaxed">
           {/* Section 1 */}
-          <section className="space-y-3">
-            <h2 className="text-lg md:text-xl font-bold text-primary flex items-center gap-2 border-b border-subtle pb-2">
-              <Eye size={18} className="text-emerald-500" />
-              1. Information We Collect & How It Is Handled
+          <section className="legal-section-block">
+            <h2 className="legal-heading-flex">
+              <Eye size={20} className="text-emerald-500 flex-shrink-0" />
+              <span>1. Information We Collect & How It Is Handled</span>
             </h2>
             <p>
               RozgarPK is designed from the ground up as a privacy-respecting career intelligence index. We minimize personal data collection to the minimum required for user-initiated tools:
             </p>
-            <ul className="list-disc pl-6 space-y-2 text-sm">
+            <ul className="legal-list-bulleted">
               <li>
                 <strong>Email Alert Subscriptions:</strong> When you subscribe to job alerts, we collect your email address and your chosen preference filters (e.g., Federal FPSC, Punjab PPSC, Sindh SPSC, or Software & IT). This information is solely used to send verified job notices matching your selected criteria. Every email alert includes an instant one-click unsubscribe mechanism.
               </li>

@@ -23,7 +23,7 @@ export default function TermsOfServicePage() {
         </div>
 
         {/* Header Hero */}
-        <div className="card p-6 md:p-8 mb-8 border-l-4 border-l-emerald-500">
+        <div className="card p-6 md:p-8 legal-hero-card">
           <div className="flex items-center gap-2 mb-3">
             <span className="badge badge-verified">
               <Scale size={14} />
@@ -42,12 +42,12 @@ export default function TermsOfServicePage() {
         </div>
 
         {/* Content Body */}
-        <div className="card p-6 md:p-8 space-y-8 text-secondary text-sm md:text-base leading-relaxed">
+        <div className="card p-6 md:p-8 space-y-6 text-secondary leading-relaxed">
           {/* Section 1 */}
-          <section className="space-y-3">
-            <h2 className="text-lg md:text-xl font-bold text-primary flex items-center gap-2 border-b border-subtle pb-2">
-              <Globe size={18} className="text-emerald-500" />
-              1. Nature of the Service (Information Aggregator & Intelligence Index)
+          <section className="legal-section-block">
+            <h2 className="legal-heading-flex">
+              <Globe size={20} className="text-emerald-500 flex-shrink-0" />
+              <span>1. Nature of the Service (Information Aggregator & Intelligence Index)</span>
             </h2>
             <p>
               RozgarPK is an independent, specialized digital career aggregator and exam intelligence platform. 
