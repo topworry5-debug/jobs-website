@@ -231,7 +231,6 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 <JobCard
                   key={job.id}
                   job={job}
-                  onSelect={(j) => setSelectedJobModal(j)}
                   isSaved={savedJobIds.includes(job.id)}
                   onToggleSave={handleToggleSave}
                   onShareWhatsApp={(j) => {

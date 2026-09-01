@@ -18,7 +18,6 @@ import { getJobLogoUrl, getJobLogoAlt } from '../utils/logoResolver';
 
 export default function JobCard({ 
   job, 
-  onSelect, 
   isSaved, 
   onToggleSave, 
   onShareWhatsApp 
@@ -28,6 +27,7 @@ export default function JobCard({
 
   // Calculate days remaining to deadline
   const calculateDaysLeft = (dateStr) => {
+    if (!dateStr) return 30;
     const diff = new Date(dateStr).getTime() - new Date().getTime();
     return Math.ceil(diff / (1000 * 60 * 60 * 24));
   };
@@ -82,16 +82,12 @@ export default function JobCard({
         </div>
       </div>
 
-      {/* Title with Direct Link */}
+      {/* Direct Clickable Title */}
       <h3 className="job-card-title">
         <Link 
-          href={`/jobs/${job.id}`} 
-          onClick={(e) => {
-            if (onSelect) {
-              e.preventDefault();
-              onSelect(job);
-            }
-          }}
+          href={`/jobs/${job.id}`}
+          className="job-card-title-link"
+          title={`View full details for ${job.title}`}
         >
           {job.title}
         </Link>
@@ -119,7 +115,7 @@ export default function JobCard({
         )}
       </div>
 
-      {/* Bottom Action Strip */}
+      {/* Bottom Action Strip with Direct Detail Link */}
       <div className="card-footer-row">
         <div className="card-deadline-info">
           <Clock size={13} className={isUrgent ? 'text-amber-500' : 'text-muted'} />
@@ -151,13 +147,15 @@ export default function JobCard({
             </button>
           )}
 
-          <button 
-            onClick={() => onSelect ? onSelect(job) : null}
+          {/* Direct Navigation Button to Detail Page */}
+          <Link 
+            href={`/jobs/${job.id}`}
             className="btn btn-sm btn-primary card-view-btn"
+            title={`View full details for ${job.title}`}
           >
             <span>{t.jobCard.viewDetails}</span>
             <ChevronRight size={14} />
-          </button>
+          </Link>
         </div>
       </div>
     </article>

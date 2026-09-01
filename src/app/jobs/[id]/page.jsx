@@ -23,6 +23,9 @@ import { JOBS_DATA } from '../../../data/jobsData';
 import { generateJobPostingSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
 import { getJobLogoUrl, getJobLogoAlt } from '../../../utils/logoResolver';
 
+export const dynamicParams = true;
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   return JOBS_DATA.map((job) => ({
     id: job.id,
@@ -31,7 +34,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { id } = params;
-  const job = JOBS_DATA.find((j) => j.id === id);
+  const job = JOBS_DATA.find((j) => j.id === id || j.id.toLowerCase() === (id || '').toLowerCase());
 
   if (!job) {
     return {
@@ -69,7 +72,7 @@ export async function generateMetadata({ params }) {
 
 export default function JobDetailPage({ params }) {
   const { id } = params;
-  const job = JOBS_DATA.find((j) => j.id === id);
+  const job = JOBS_DATA.find((j) => j.id === id || j.id.toLowerCase() === (id || '').toLowerCase());
 
   if (!job) {
     notFound();
