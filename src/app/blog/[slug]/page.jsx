@@ -309,12 +309,17 @@ function formatMarkdownContent(markdown) {
   let resultHtml = '';
   let inTable = false;
   let tableRows = [];
+  let inList = false;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
     // Table Row Detection
     if (line.startsWith('|') && line.endsWith('|')) {
+      if (inList) {
+        resultHtml += '</ul>';
+        inList = false;
+      }
       if (!inTable) {
         inTable = true;
         tableRows = [];
@@ -326,34 +331,47 @@ function formatMarkdownContent(markdown) {
       }
       continue;
     } else if (inTable) {
-      // Table ended, compile table HTML
       resultHtml += renderTableHtml(tableRows);
       inTable = false;
       tableRows = [];
     }
 
     if (!line) {
-      resultHtml += '<br/>';
+      if (inList) {
+        resultHtml += '</ul>';
+        inList = false;
+      }
       continue;
     }
 
     // Headings
     if (line.startsWith('### ')) {
-      resultHtml += `<h3 class="text-base md:text-lg font-bold text-primary mt-4 mb-2 font-display">${parseInline(line.substring(4))}</h3>`;
+      if (inList) { resultHtml += '</ul>'; inList = false; }
+      resultHtml += `<h3 class="text-base md:text-lg font-bold text-primary mt-5 mb-2 font-display">${parseInline(line.substring(4))}</h3>`;
     } else if (line.startsWith('## ')) {
+      if (inList) { resultHtml += '</ul>'; inList = false; }
       resultHtml += `<h2 class="text-lg md:text-xl font-bold text-primary mt-6 mb-3 pb-1 border-b border-subtle font-display">${parseInline(line.substring(3))}</h2>`;
     } else if (line.startsWith('- ')) {
-      resultHtml += `<div class="flex items-start gap-2 ml-2 my-1.5"><span class="text-emerald-500 font-bold">•</span><div class="text-secondary">${parseInline(line.substring(2))}</div></div>`;
+      if (!inList) {
+        resultHtml += '<ul class="article-bullet-list my-3 space-y-2 pl-5 list-disc text-secondary">';
+        inList = true;
+      }
+      resultHtml += `<li class="leading-relaxed">${parseInline(line.substring(2))}</li>`;
     } else if (/^\d+\.\s/.test(line)) {
+      if (inList) { resultHtml += '</ul>'; inList = false; }
       const match = line.match(/^(\d+)\.\s(.*)$/);
-      resultHtml += `<div class="flex items-start gap-2 ml-2 my-1.5"><span class="badge badge-bps text-[10px] px-1.5 py-0.5">${match[1]}</span><div class="text-secondary">${parseInline(match[2])}</div></div>`;
+      resultHtml += `<div class="flex items-start gap-2.5 my-2.5"><span class="badge badge-bps font-mono text-[11px] px-2 py-0.5 mt-0.5 flex-shrink-0">${match[1]}</span><div class="text-secondary leading-relaxed">${parseInline(match[2])}</div></div>`;
     } else {
+      if (inList) { resultHtml += '</ul>'; inList = false; }
       resultHtml += `<p class="leading-relaxed mb-3 text-secondary">${parseInline(line)}</p>`;
     }
   }
 
   if (inTable) {
     resultHtml += renderTableHtml(tableRows);
+  }
+  if (inList) {
+    resultHtml += '</ul>';
   }
 
   return resultHtml;

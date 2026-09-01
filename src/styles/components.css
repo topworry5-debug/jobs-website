@@ -5940,7 +5940,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   border-radius: var(--radius-xl);
   padding: 1.5rem;
   display: flex;
-  flex-col: column;
+  flex-direction: column;
   justify-content: space-between;
   transition: all var(--transition-normal);
   box-shadow: var(--shadow-xs);
