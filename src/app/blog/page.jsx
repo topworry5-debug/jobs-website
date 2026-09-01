@@ -29,43 +29,43 @@ export default function BlogIndexPage() {
       />
 
       {/* Hero Header */}
-      <div className="card p-6 md:p-8 mb-8 border-emerald-subtle bg-gradient-subtle">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="badge badge-govt">
+      <div className="blog-hero-header bg-gradient-subtle border-emerald-subtle">
+        <div className="blog-trust-badges">
+          <span className="badge badge-govt flex items-center gap-1.5">
             <BookOpen size={13} />
             <span>Official Knowledge Hub</span>
           </span>
-          <span className="badge badge-verified">
+          <span className="badge badge-verified flex items-center gap-1.5">
             <ShieldCheck size={13} />
             <span>Fact-Checked & Gazette Verified</span>
           </span>
         </div>
 
-        <h1 className="text-2xl md:text-4xl font-extrabold text-primary mb-3 leading-tight font-display">
+        <h1 className="blog-hero-title font-display">
           Pakistani Public Service & Career Intelligence Guides
         </h1>
-        <p className="text-secondary text-sm md:text-base max-w-3xl leading-relaxed">
+        <p className="blog-hero-desc leading-relaxed">
           Master the official application procedures, syllabus breakdowns, 1Link PSID challan steps, and exam strategies across Federal (FPSC) and Provincial Commissions (PPSC, SPSC, KPPSC).
         </p>
 
         {/* Featured Flagship Card */}
         {featuredArticle && (
-          <div className="mt-6 p-5 md:p-6 rounded-xl bg-surface border border-subtle hover:border-emerald-500 transition-all shadow-sm">
-            <div className="flex items-center gap-2 text-xs text-emerald-600 font-bold mb-2">
-              <Sparkles size={14} />
+          <div className="blog-flagship-card">
+            <div className="blog-flagship-badge">
+              <Sparkles size={14} className="text-emerald-500" />
               <span>FLAGSHIP GUIDE • {featuredArticle.clusterLabel}</span>
             </div>
-            <h2 className="text-lg md:text-2xl font-bold text-primary mb-2 font-display">
-              <Link href={`/blog/${featuredArticle.slug}`} className="hover:text-emerald-500 transition-colors">
+            <h2 className="blog-flagship-title">
+              <Link href={`/blog/${featuredArticle.slug}`}>
                 {featuredArticle.title}
               </Link>
             </h2>
-            <p className="text-secondary text-sm mb-4 line-clamp-2 leading-relaxed">
+            <p className="blog-flagship-desc">
               {featuredArticle.metaDescription}
             </p>
-            <div className="flex items-center justify-between flex-wrap gap-3 pt-3 border-t border-subtle">
+            <div className="blog-flagship-footer">
               <div className="flex items-center gap-2 text-xs text-muted">
-                <span>{featuredArticle.author.name}</span>
+                <span className="font-semibold text-primary">{featuredArticle.author.name}</span>
                 <span>•</span>
                 <span>{featuredArticle.readTime}</span>
                 <span>•</span>

@@ -49,14 +49,16 @@ export default function BlogClientHub({ articles = [], clusters = [] }) {
         </div>
 
         {/* Search Input */}
-        <div className="relative w-full md:w-72">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+        <div className="blog-search-box">
+          <div className="blog-search-icon">
+            <Search size={15} />
+          </div>
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search guides by keyword..."
-            className="input-field pl-9 py-2 text-xs"
+            className="blog-search-input"
           />
         </div>
       </div>
