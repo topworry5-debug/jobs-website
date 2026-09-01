@@ -265,19 +265,42 @@ export default function JobDetailPage({ params }) {
           )}
 
           {/* Exam Syllabus */}
-          {job.syllabus && job.syllabus.length > 0 && (
+          {job.syllabus && (
             <section className="job-section mb-6">
               <h2 className="text-lg font-bold mb-3">Official Examination Syllabus & Pattern</h2>
-              <div className="syllabus-grid">
-                {job.syllabus.map((syl, idx) => (
-                  <div key={idx} className="syllabus-card p-3 rounded-lg border border-subtle bg-surface-subtle">
-                    <span className="text-xs font-mono text-emerald-500 font-bold block mb-1">Module {idx + 1}</span>
-                    <span className="text-sm font-medium text-primary">{syl}</span>
-                  </div>
-                ))}
-              </div>
+              {Array.isArray(job.syllabus) ? (
+                <div className="syllabus-grid">
+                  {job.syllabus.map((syl, idx) => (
+                    <div key={idx} className="syllabus-card p-3 rounded-lg border border-subtle bg-surface-subtle">
+                      <span className="text-xs font-mono text-emerald-500 font-bold block mb-1">Module {idx + 1}</span>
+                      <span className="text-sm font-medium text-primary">{syl}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-3.5 rounded-lg border border-subtle bg-surface-subtle text-sm text-secondary leading-relaxed">
+                  {job.syllabus}
+                </div>
+              )}
             </section>
           )}
+
+          {/* Official Gazette Source Box */}
+          <div className="p-4 bg-emerald-50/50 border border-emerald-200/60 rounded-xl flex items-center justify-between gap-3 flex-wrap mb-6">
+            <div className="flex items-center gap-2.5 text-xs text-emerald-950 font-medium">
+              <ShieldCheck size={18} className="text-emerald-600 flex-shrink-0" />
+              <span>Full Details Verified: <strong>{job.officialSourceLabel || "Official Government Gazette Notification"}</strong></span>
+            </div>
+            <a 
+              href={job.officialNotificationUrl || job.officialUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-outline btn-xs flex items-center gap-1.5 text-xs font-semibold text-emerald-700 hover:text-emerald-800"
+            >
+              <span>View Official Gazette PDF / Portal</span>
+              <ExternalLink size={13} />
+            </a>
+          </div>
 
           {/* How to Apply */}
           <section className="job-section mb-6">

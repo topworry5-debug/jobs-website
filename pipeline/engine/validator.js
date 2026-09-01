@@ -90,10 +90,20 @@ export function validateJobEntry(job) {
 export function validateAndFilterPipelineJobs(jobs = []) {
   const validJobs = [];
   const rejectedJobs = [];
+  const seenDescriptions = new Map();
 
   for (const job of jobs) {
     const { isValid, errors, sanitizedJob } = validateJobEntry(job);
-    if (isValid) {
+    
+    // Uniqueness & anti-copy-paste guard
+    const desc = (job.description || '').trim();
+    if (desc && seenDescriptions.has(desc)) {
+      errors.push(`Duplicate copy-pasted description detected (identical to ${seenDescriptions.get(desc)})`);
+    } else if (desc) {
+      seenDescriptions.set(desc, job.title || job.id);
+    }
+
+    if (isValid && errors.length === 0) {
       validJobs.push(sanitizedJob);
     } else {
       rejectedJobs.push({
