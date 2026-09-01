@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { JOBS_DATA } from '../../../data/jobsData';
 import { generateJobPostingSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
+import { getJobLogoUrl, getJobLogoAlt } from '../../../utils/logoResolver';
 
 export async function generateStaticParams() {
   return JOBS_DATA.map((job) => ({
@@ -114,28 +115,39 @@ export default function JobDetailPage({ params }) {
         <article className="job-main-article card p-6">
           {/* Header */}
           <div className="job-header-flex mb-6">
-            <div>
-              <div className="flex items-center gap-2 mb-3 flex-wrap">
-                <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
-                  {isGovt ? '🏛️ Official Government Vacancy' : '💼 Private Sector Career'}
-                </span>
-                {job.bpsScale && (
-                  <span className="badge badge-bps font-mono">{job.bpsScale}</span>
-                )}
-                {job.verified && (
-                  <span className="badge badge-verified">
-                    <ShieldCheck size={13} />
-                    <span>Verified Gazette Notice</span>
-                  </span>
-                )}
+            <div className="flex items-start gap-3.5">
+              <div className="detail-page-logo-box flex-shrink-0">
+                <img 
+                  src={getJobLogoUrl(job)} 
+                  alt={getJobLogoAlt(job)} 
+                  className="detail-official-page-logo"
+                  width={56}
+                  height={56}
+                />
               </div>
+              <div>
+                <div className="flex items-center gap-2 mb-2.5 flex-wrap">
+                  <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
+                    {isGovt ? '🏛️ Official Government Vacancy' : '💼 Private Sector Career'}
+                  </span>
+                  {job.bpsScale && (
+                    <span className="badge badge-bps font-mono">{job.bpsScale}</span>
+                  )}
+                  {job.verified && (
+                    <span className="badge badge-verified">
+                      <ShieldCheck size={13} />
+                      <span>Verified Gazette Notice</span>
+                    </span>
+                  )}
+                </div>
 
-              <h1 className="job-hero-title text-2xl md:text-3xl font-extrabold text-primary mb-2">
-                {job.title}
-              </h1>
+                <h1 className="job-hero-title text-2xl md:text-3xl font-extrabold text-primary mb-2">
+                  {job.title}
+                </h1>
 
-              <div className="dept-subtitle text-base text-secondary font-medium">
-                {job.department || job.company} • <span className="text-primary font-semibold">{job.city}</span>
+                <div className="dept-subtitle text-base text-secondary font-medium">
+                  {job.department || job.company} • <span className="text-primary font-semibold">{job.city}</span>
+                </div>
               </div>
             </div>
 

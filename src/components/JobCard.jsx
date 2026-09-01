@@ -14,6 +14,7 @@ import {
   Sparkles 
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { getJobLogoUrl, getJobLogoAlt } from '../utils/logoResolver';
 
 export default function JobCard({ 
   job, 
@@ -34,15 +35,25 @@ export default function JobCard({
   const daysLeft = calculateDaysLeft(job.lastDate);
   const isUrgent = daysLeft <= 3 && daysLeft >= 0;
 
+  const logoUrl = getJobLogoUrl(job);
+  const logoAlt = getJobLogoAlt(job);
+
   return (
     <article className={`job-card-item ${isGovt ? 'govt-card-border' : 'tech-card-border'} ${job.featured ? 'featured-highlight' : ''}`}>
       {/* Card Header */}
       <div className="card-top-row">
         <div className="card-agency-box">
-          <div className={`dept-icon-circle ${isGovt ? 'govt-bg' : 'tech-bg'}`}>
-            {isGovt ? <Building2 size={16} /> : <Sparkles size={16} />}
+          <div className="card-logo-container">
+            <img 
+              src={logoUrl} 
+              alt={logoAlt} 
+              className="card-official-logo"
+              width={38}
+              height={38}
+              loading="lazy"
+            />
           </div>
-          <div>
+          <div className="card-dept-meta-col">
             <div className="card-dept-name">{job.department || job.company}</div>
             <div className="card-category-sub">{job.subCategory || job.category}</div>
           </div>
@@ -89,92 +100,62 @@ export default function JobCard({
       {/* Meta Grid */}
       <div className="card-meta-grid">
         <div className="meta-item">
-          <MapPin size={14} className="text-muted" />
-          <span>{job.city}</span>
+          <MapPin size={14} className="text-muted flex-shrink-0" />
+          <span className="truncate">{job.city}</span>
         </div>
 
         {job.vacancies && (
           <div className="meta-item">
-            <Users size={14} className="text-muted" />
+            <Users size={14} className="text-muted flex-shrink-0" />
             <span><strong>{job.vacancies}</strong> {job.vacancies === 1 ? t.jobCard.vacancy : t.jobCard.vacancies}</span>
           </div>
         )}
 
-        {isGovt && job.quota && (
+        {job.qualification && (
           <div className="meta-item full-width-meta">
-            <span className="quota-tag-label">{t.jobCard.quota}</span>
-            <span className="quota-tag-text">{job.quota.split('|')[0]}...</span>
+            <GraduationCap size={14} className="text-muted flex-shrink-0" />
+            <span className="meta-qual-text">{job.qualification}</span>
           </div>
         )}
-
-        {!isGovt && job.salaryRange && (
-          <div className="meta-item full-width-meta">
-            <span className="salary-tag-text">{job.salaryRange}</span>
-          </div>
-        )}
-
-        <div className="meta-item qualification-meta">
-          <GraduationCap size={14} className="text-muted" />
-          <span className="truncate-text">{job.qualification}</span>
-        </div>
-
-        <div className="meta-item full-width-meta verified-timestamp-meta">
-          <ShieldCheck size={13} className="text-emerald" />
-          <span>{t.jobCard.lastVerified} <strong>{job.lastVerifiedDate || "August 31, 2026"}</strong></span>
-        </div>
       </div>
 
-      {/* Deadline & Actions Footer */}
+      {/* Bottom Action Strip */}
       <div className="card-footer-row">
-        <div className="deadline-badge-group">
-          <Clock size={14} className={isUrgent ? 'text-red' : 'text-muted'} />
-          <span className={`deadline-text ${isUrgent ? 'deadline-urgent' : ''}`}>
-            {t.jobCard.lastDate} <strong>{job.lastDate}</strong>
+        <div className="card-deadline-info">
+          <Clock size={13} className={isUrgent ? 'text-amber-500' : 'text-muted'} />
+          <span className={`text-xs ${isUrgent ? 'font-bold text-amber-500' : 'text-secondary'}`}>
+            {t.jobCard.deadline}: {job.lastDate}
           </span>
         </div>
 
-        <div className="card-actions-group">
-          {/* WhatsApp Share Button */}
+        <div className="card-actions-cluster">
+          {onToggleSave && (
+            <button 
+              onClick={() => onToggleSave(job)}
+              className={`card-icon-btn ${isSaved ? 'saved' : ''}`}
+              title={isSaved ? t.jobCard.removeSaved : t.jobCard.saveJob}
+              aria-label="Save Job"
+            >
+              <Bookmark size={15} className={isSaved ? 'fill-emerald-500 text-emerald-500' : ''} />
+            </button>
+          )}
+
           {onShareWhatsApp && (
             <button 
-              className="card-icon-btn whatsapp" 
-              onClick={(e) => {
-                e.stopPropagation();
-                onShareWhatsApp(job);
-              }}
-              title="Share on WhatsApp"
-              aria-label="Share on WhatsApp"
+              onClick={() => onShareWhatsApp(job)}
+              className="card-icon-btn whatsapp-share-btn"
+              title={t.jobCard.shareWhatsApp}
+              aria-label="Share via WhatsApp"
             >
               <Share2 size={15} />
             </button>
           )}
 
-          {/* Bookmark Button */}
-          {onToggleSave && (
-            <button 
-              className={`card-icon-btn ${isSaved ? 'saved' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleSave(job);
-              }}
-              title={isSaved ? "Saved" : "Save job"}
-              aria-label="Save job"
-            >
-              <Bookmark size={15} fill={isSaved ? "currentColor" : "none"} />
-            </button>
-          )}
-
-          {/* Details CTA Button */}
           <button 
-            className="btn btn-sm btn-primary-soft card-view-btn"
-            onClick={(e) => {
-              if (onSelect) {
-                e.preventDefault();
-                onSelect(job);
-              }
-            }}
+            onClick={() => onSelect ? onSelect(job) : null}
+            className="btn btn-sm btn-primary card-view-btn"
           >
-            <span>{t.jobCard.details}</span>
+            <span>{t.jobCard.viewDetails}</span>
             <ChevronRight size={14} />
           </button>
         </div>

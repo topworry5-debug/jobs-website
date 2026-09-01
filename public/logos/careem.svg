@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="48" fill="#064e3b" stroke="#10b981" stroke-width="2.5"/>
+    <circle cx="50" cy="50" r="41" fill="#022c22" stroke="#059669" stroke-width="1.5"/>
+    <!-- Careem Green C & Smile -->
+    <path d="M64 34 C58 26 40 26 34 38 C28 50 34 64 48 64 C58 64 64 56 64 56" fill="none" stroke="#34d399" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="58" cy="42" r="3.5" fill="#34d399"/>
+    <text x="50" y="86" font-family="system-ui, sans-serif" font-size="7.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">CAREEM</text>
+  </svg>

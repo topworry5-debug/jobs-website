@@ -1,6 +1,6 @@
 import liveScrapedJobs from './liveScrapedJobs.json';
 
-const BASE_JOBS_DATA = [
+export const BASE_JOBS_DATA = [
   {
     id: "govt-fpsc-01",
     type: "govt",

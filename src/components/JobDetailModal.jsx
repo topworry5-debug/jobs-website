@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { generateJobPostingSchema } from '../utils/seoHelpers';
 import { useLanguage } from '../context/LanguageContext';
+import { getJobLogoUrl, getJobLogoAlt } from '../utils/logoResolver';
 
 export default function JobDetailModal({
   job,
@@ -37,6 +38,8 @@ export default function JobDetailModal({
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   const isGovt = job.type === 'govt';
+  const logoUrl = getJobLogoUrl(job);
+  const logoAlt = getJobLogoAlt(job);
 
   // Inject Schema.org JobPosting structured JSON-LD
   useEffect(() => {
@@ -115,8 +118,14 @@ export default function JobDetailModal({
           {/* Main Title & Agency */}
           <div className="job-detail-headline-section">
             <div className="headline-icon-row">
-              <div className={`detail-avatar-box ${isGovt ? 'govt' : 'tech'}`}>
-                {isGovt ? <Building2 size={26} /> : <Sparkles size={26} />}
+              <div className="detail-logo-wrapper">
+                <img 
+                  src={logoUrl} 
+                  alt={logoAlt} 
+                  className="detail-official-logo"
+                  width={56}
+                  height={56}
+                />
               </div>
               <div className="detail-title-block">
                 <h2 className="detail-job-title">{job.title}</h2>

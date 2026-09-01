@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="50" cy="50" r="48" fill="#064e3b" stroke="#34d399" stroke-width="2.5"/>
+    <circle cx="50" cy="50" r="41" fill="#0b1329" stroke="#10b981" stroke-width="1"/>
+    <!-- Wheat Stalks (Punjab Symbol) -->
+    <path d="M28 65 C26 50 32 35 44 26 C40 32 38 42 42 58" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M72 65 C74 50 68 35 56 26 C60 32 62 42 58 58" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Central Minar Crest -->
+    <path d="M47 32 L53 32 L53 68 L47 68 Z M45 68 L55 68 L57 74 L43 74 Z" fill="#34d399"/>
+    <circle cx="50" cy="27" r="3" fill="#fbbf24"/>
+    <text x="50" y="88" font-family="system-ui, sans-serif" font-size="8" font-weight="900" fill="#f8fafc" text-anchor="middle" letter-spacing="1.5">PPSC</text>
+  </svg>

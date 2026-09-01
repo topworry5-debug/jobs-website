@@ -26,15 +26,17 @@ export const metadata = {
   }
 };
 
+export const revalidate = 60;
+
 export default function HomePage() {
   const itemListSchema = generateItemListSchema(JOBS_DATA.slice(0, 20), "https://rozgar.pk");
 
   const officialAgencies = [
-    { name: "FPSC Federal", sub: "General Recruitment & CSS", count: JOBS_DATA.filter(j => j.agency === 'FPSC').length, href: "/agency/fpsc", icon: Landmark },
-    { name: "PPSC Punjab", sub: "Lecturers, Registrars & Admin", count: JOBS_DATA.filter(j => j.agency === 'PPSC').length, href: "/agency/ppsc", icon: Award },
-    { name: "SPSC Sindh", sub: "Municipal & Civil Services", count: JOBS_DATA.filter(j => j.agency === 'SPSC').length, href: "/agency/spsc", icon: Landmark },
-    { name: "KPPSC Khyber", sub: "Provincial Examination Cadre", count: JOBS_DATA.filter(j => j.agency === 'KPPSC').length, href: "/agency/kppsc", icon: Landmark },
-    { name: "NTS Testing", sub: "Judiciary & Public Authorities", count: JOBS_DATA.filter(j => j.agency === 'NTS').length, href: "/agency/nts", icon: ShieldCheck }
+    { name: "FPSC Federal", sub: "General Recruitment & CSS", count: JOBS_DATA.filter(j => j.agency === 'FPSC').length, href: "/agency/fpsc", logo: "/logos/fpsc.svg" },
+    { name: "PPSC Punjab", sub: "Lecturers, Registrars & Admin", count: JOBS_DATA.filter(j => j.agency === 'PPSC').length, href: "/agency/ppsc", logo: "/logos/ppsc.svg" },
+    { name: "SPSC Sindh", sub: "Municipal & Civil Services", count: JOBS_DATA.filter(j => j.agency === 'SPSC').length, href: "/agency/spsc", logo: "/logos/spsc.svg" },
+    { name: "KPPSC Khyber", sub: "Provincial Examination Cadre", count: JOBS_DATA.filter(j => j.agency === 'KPPSC').length, href: "/agency/kppsc", logo: "/logos/kppsc.svg" },
+    { name: "NTS Testing", sub: "Judiciary & Public Authorities", count: JOBS_DATA.filter(j => j.agency === 'NTS').length, href: "/agency/nts", logo: "/logos/nts.svg" }
   ];
 
   return (
@@ -64,12 +66,17 @@ export default function HomePage() {
 
           <div className="commissions-cards-grid">
             {officialAgencies.map((agency) => {
-              const Icon = agency.icon;
               return (
                 <Link key={agency.name} href={agency.href} className="commission-card-item">
                   <div className="flex items-center gap-3">
-                    <div className="dept-icon-circle govt-bg">
-                      <Icon size={16} />
+                    <div className="card-logo-container">
+                      <img 
+                        src={agency.logo} 
+                        alt={`${agency.name} Emblem`} 
+                        className="card-official-logo"
+                        width={36}
+                        height={36}
+                      />
                     </div>
                     <div>
                       <h3 className="font-bold text-xs text-primary">{agency.name}</h3>
