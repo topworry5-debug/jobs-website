@@ -4,21 +4,31 @@ import HomeClientFilter from '../../../components/HomeClientFilter';
 import { JOBS_DATA } from '../../../data/jobsData';
 import { generateItemListSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
 import { Building2, Sparkles, ShieldCheck, Landmark, ArrowRight } from 'lucide-react';
+import { getSiteUrl } from '../../../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "Private Sector & Corporate Jobs in Pakistan — RozgarPK",
   description: "Browse verified private sector and corporate career opportunities in Pakistan. Transparent compensation and verified employer listings.",
   alternates: {
-    canonical: "https://rozgar.pk/jobs/private"
+    canonical: `${siteUrl}/jobs/private`
+  },
+  openGraph: {
+    title: "Private Sector & Corporate Jobs in Pakistan — RozgarPK",
+    description: "Browse verified private sector and corporate career opportunities in Pakistan.",
+    url: `${siteUrl}/jobs/private`,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 
 export default function PrivateJobsPage() {
+  const currentUrl = getSiteUrl();
   const privateJobs = JOBS_DATA.filter((j) => j.type === 'private');
-  const itemListSchema = generateItemListSchema(privateJobs, "https://rozgar.pk/jobs/private");
+  const itemListSchema = generateItemListSchema(privateJobs, `${currentUrl}/jobs/private`);
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: "Private & Corporate Jobs", url: "https://rozgar.pk/jobs/private" }
+    { name: "Home", url: `${currentUrl}` },
+    { name: "Private & Corporate Jobs", url: `${currentUrl}/jobs/private` }
   ]);
 
   return (

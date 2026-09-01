@@ -6,6 +6,7 @@ import { JOBS_DATA, CITIES } from '../../../data/jobsData';
 import { CITY_LANDING_CONTENT } from '../../../data/landingPagesData';
 import { generateItemListSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
 import { MapPin, Building2, Landmark, ShieldCheck } from 'lucide-react';
+import { getSiteUrl } from '../../../utils/siteUrl';
 
 export async function generateStaticParams() {
   const citySlugs = Object.keys(CITY_LANDING_CONTENT);
@@ -17,6 +18,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { city } = params;
   const content = CITY_LANDING_CONTENT[city.toLowerCase()];
+  const siteUrl = getSiteUrl();
 
   if (!content) {
     return {
@@ -29,7 +31,13 @@ export async function generateMetadata({ params }) {
     title: content.metaTitle,
     description: content.metaDescription,
     alternates: {
-      canonical: `https://rozgar.pk/city/${city}`
+      canonical: `${siteUrl}/city/${city}`
+    },
+    openGraph: {
+      title: content.metaTitle,
+      description: content.metaDescription,
+      url: `${siteUrl}/city/${city}`,
+      images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
     }
   };
 }
@@ -37,6 +45,7 @@ export async function generateMetadata({ params }) {
 export default function CityLandingPage({ params }) {
   const { city } = params;
   const cityKey = city.toLowerCase();
+  const siteUrl = getSiteUrl();
   const content = CITY_LANDING_CONTENT[cityKey] || {
     cityName: city.charAt(0).toUpperCase() + city.slice(1),
     province: "Pakistan",
@@ -50,11 +59,11 @@ export default function CityLandingPage({ params }) {
     (j) => j.city?.toLowerCase().includes(cityKey) || j.city?.toLowerCase().includes('all pakistan')
   );
 
-  const itemListSchema = generateItemListSchema(cityJobs, `https://rozgar.pk/city/${city}`);
+  const itemListSchema = generateItemListSchema(cityJobs, `${siteUrl}/city/${city}`);
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: "Cities", url: "https://rozgar.pk" },
-    { name: content.cityName, url: `https://rozgar.pk/city/${city}` }
+    { name: "Home", url: `${siteUrl}` },
+    { name: "Cities", url: `${siteUrl}` },
+    { name: content.cityName, url: `${siteUrl}/city/${city}` }
   ]);
 
   return (

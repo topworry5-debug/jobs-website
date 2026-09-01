@@ -6,19 +6,29 @@ import { JOBS_DATA } from '../data/jobsData';
 import { EXAM_SCHEDULES } from '../data/examCalendarData';
 import { generateItemListSchema } from '../utils/seoHelpers';
 import { computeJobMetrics } from '../utils/jobMetrics';
+import { getSiteUrl } from '../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "RozgarPK — Verified Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC & NTS)",
   description: "Browse verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), gazette syllabus breakdowns, exam schedules, and test preparation.",
   alternates: {
-    canonical: "https://rozgar.pk"
+    canonical: siteUrl
+  },
+  openGraph: {
+    title: "RozgarPK — Verified Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC & NTS)",
+    description: "Browse verified Federal & Provincial Government jobs, gazette syllabus breakdowns, and exam schedules.",
+    url: siteUrl,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 
 export const revalidate = 60;
 
 export default function HomePage() {
-  const itemListSchema = generateItemListSchema(JOBS_DATA.slice(0, 20), "https://rozgar.pk");
+  const currentUrl = getSiteUrl();
+  const itemListSchema = generateItemListSchema(JOBS_DATA.slice(0, 20), currentUrl);
   const metrics = computeJobMetrics(JOBS_DATA, EXAM_SCHEDULES);
 
   return (

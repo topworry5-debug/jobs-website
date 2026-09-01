@@ -1,12 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
 import { ShieldCheck, Lock, Eye, FileText, Database, Server, RefreshCw, Mail, ArrowLeft } from 'lucide-react';
+import { getSiteUrl } from '../../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "Privacy Policy — RozgarPK",
   description: "Read the official RozgarPK Privacy Policy. Learn how we handle job alerts, local CV data, cookies, and ensure candidate privacy.",
   alternates: {
-    canonical: "https://rozgar.pk/privacy-policy"
+    canonical: `${siteUrl}/privacy-policy`
+  },
+  openGraph: {
+    title: "Privacy Policy — RozgarPK",
+    description: "Read the official RozgarPK Privacy Policy.",
+    url: `${siteUrl}/privacy-policy`,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 

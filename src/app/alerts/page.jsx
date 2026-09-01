@@ -1,20 +1,29 @@
 import React from 'react';
 import AlertsManager from '../../components/AlertsManager';
 import { generateBreadcrumbSchema } from '../../utils/seoHelpers';
-import { Mail, ShieldCheck } from 'lucide-react';
+import { getSiteUrl } from '../../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "Verified Email Job Alerts in Pakistan (FPSC, PPSC & Tech)",
   description: "Subscribe to verified Pakistani job alerts via email. Double opt-in confirmation, zero spam, instant match or daily digest with one-click unsubscribe.",
   alternates: {
-    canonical: "https://rozgar.pk/alerts"
+    canonical: `${siteUrl}/alerts`
+  },
+  openGraph: {
+    title: "Verified Email Job Alerts in Pakistan",
+    description: "Subscribe to verified Pakistani job alerts via email.",
+    url: `${siteUrl}/alerts`,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 
 export default function AlertsPage() {
+  const currentUrl = getSiteUrl();
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: "Email Alerts", url: "https://rozgar.pk/alerts" }
+    { name: "Home", url: `${currentUrl}` },
+    { name: "Email Alerts", url: `${currentUrl}/alerts` }
   ]);
 
   return (

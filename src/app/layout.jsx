@@ -3,6 +3,8 @@ import '../styles/components.css';
 import { Inter, Outfit, JetBrains_Mono, Noto_Naskh_Arabic } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import ClientProviders from '../components/ClientProviders';
+import { getSiteUrl } from '../utils/siteUrl';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -29,8 +31,10 @@ const notoNaskhArabic = Noto_Naskh_Arabic({
   variable: '--font-urdu'
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata = {
-  metadataBase: new URL('https://rozgar.pk'),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "RozgarPK — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
     template: "%s | RozgarPK"
@@ -57,20 +61,21 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_PK',
-    url: 'https://rozgar.pk',
+    url: siteUrl,
     siteName: 'RozgarPK',
     title: "RozgarPK — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
     description: "Official Federal & Provincial Public Service Commission intelligence, verified gazette notices, exam schedules, and ATS resume tools.",
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'RozgarPK Job Intelligence' }]
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: 'RozgarPK Job Intelligence' }]
   },
   twitter: {
     card: 'summary_large_image',
     title: "RozgarPK — Verified Jobs in Pakistan",
     description: "FPSC, PPSC, SPSC, KPPSC, and NTS jobs in Pakistan with verified official application links.",
+    images: [`${siteUrl}/og-image.png`],
     creator: '@rozgarpk'
   },
   alternates: {
-    canonical: 'https://rozgar.pk'
+    canonical: siteUrl
   }
 };
 
@@ -81,15 +86,15 @@ export const viewport = {
   maximumScale: 5,
 };
 
-import ClientProviders from '../components/ClientProviders';
-
 export default function RootLayout({ children }) {
+  const currentDomain = getSiteUrl();
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "RozgarPK",
-    "url": "https://rozgar.pk",
-    "logo": "https://rozgar.pk/logo.png",
+    "url": currentDomain,
+    "logo": `${currentDomain}/icons/logo.png`,
     "description": "Pakistan's leading career intelligence authority for verified Government and Private/IT jobs.",
     "foundingLocation": "Islamabad, Pakistan",
     "areaServed": {
@@ -106,10 +111,10 @@ export default function RootLayout({ children }) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "RozgarPK",
-    "url": "https://rozgar.pk",
+    "url": currentDomain,
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://rozgar.pk/search?q={search_term_string}",
+      "target": `${currentDomain}/search?q={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
   };
@@ -130,7 +135,13 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
         />
         <ClientProviders>
-          {children}
+          <div className="site-wrapper">
+            <Navbar />
+            <div className="main-content">
+              {children}
+            </div>
+            <Footer />
+          </div>
         </ClientProviders>
       </body>
     </html>

@@ -6,6 +6,7 @@ import { JOBS_DATA } from '../../../data/jobsData';
 import { AGENCY_LANDING_CONTENT } from '../../../data/landingPagesData';
 import { generateItemListSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
 import { Landmark, ShieldCheck, ExternalLink, Award, FileText } from 'lucide-react';
+import { getSiteUrl } from '../../../utils/siteUrl';
 
 export async function generateStaticParams() {
   const agencySlugs = Object.keys(AGENCY_LANDING_CONTENT);
@@ -17,6 +18,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { agency } = params;
   const content = AGENCY_LANDING_CONTENT[agency.toLowerCase()];
+  const siteUrl = getSiteUrl();
 
   if (!content) {
     return {
@@ -29,7 +31,13 @@ export async function generateMetadata({ params }) {
     title: content.metaTitle,
     description: content.metaDescription,
     alternates: {
-      canonical: `https://rozgar.pk/agency/${agency}`
+      canonical: `${siteUrl}/agency/${agency}`
+    },
+    openGraph: {
+      title: content.metaTitle,
+      description: content.metaDescription,
+      url: `${siteUrl}/agency/${agency}`,
+      images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
     }
   };
 }
@@ -37,6 +45,7 @@ export async function generateMetadata({ params }) {
 export default function AgencyLandingPage({ params }) {
   const { agency } = params;
   const agencyKey = agency.toLowerCase();
+  const siteUrl = getSiteUrl();
   const content = AGENCY_LANDING_CONTENT[agencyKey] || {
     agencyCode: agency.toUpperCase(),
     fullName: `${agency.toUpperCase()} Public Service Commission`,
@@ -52,11 +61,11 @@ export default function AgencyLandingPage({ params }) {
     return (j.agency || '').toUpperCase() === code || (j.category || '').toUpperCase().includes(code);
   });
 
-  const itemListSchema = generateItemListSchema(agencyJobs, `https://rozgar.pk/agency/${agency}`);
+  const itemListSchema = generateItemListSchema(agencyJobs, `${siteUrl}/agency/${agency}`);
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: "Public Service Commissions", url: "https://rozgar.pk/jobs/govt" },
-    { name: content.agencyCode, url: `https://rozgar.pk/agency/${agency}` }
+    { name: "Home", url: `${siteUrl}` },
+    { name: "Public Service Commissions", url: `${siteUrl}/jobs/govt` },
+    { name: content.agencyCode, url: `${siteUrl}/agency/${agency}` }
   ]);
 
   return (

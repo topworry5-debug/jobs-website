@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import SectionBadge from './SectionBadge';
 import { 
   Search, 
@@ -87,13 +88,13 @@ export default function BlogClientHub({ articles = [], clusters = [] }) {
                 <div className="flex items-start gap-3 mb-2">
                   {art.heroBanner?.logo && (
                     <div className="w-10 h-10 rounded-lg bg-surface-subtle border border-subtle flex items-center justify-center p-1.5 flex-shrink-0 mt-0.5">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img 
+                      <Image 
                         src={art.heroBanner.logo} 
                         alt="" 
                         className="w-full h-full object-contain"
                         width={28}
                         height={28}
+                        loading="lazy"
                       />
                     </div>
                   )}

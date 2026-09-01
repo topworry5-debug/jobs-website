@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { BLOG_ARTICLES } from '../../../data/blogData';
 import { generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
 import SectionBadge from '../../../components/SectionBadge';
+import { getSiteUrl } from '../../../utils/siteUrl';
 import { 
   Calendar, 
   Clock, 
@@ -35,8 +36,9 @@ export async function generateMetadata({ params }) {
   const article = BLOG_ARTICLES.find((a) => a.slug === params.slug);
   if (!article) return { title: 'Guide Not Found | RozgarPK' };
 
-  const canonical = `https://rozgar.pk/blog/${article.slug}`;
-  const bannerImage = article.heroBanner?.logo ? `https://rozgar.pk${article.heroBanner.logo}` : 'https://rozgar.pk/logo.png';
+  const siteUrl = getSiteUrl();
+  const canonical = `${siteUrl}/blog/${article.slug}`;
+  const bannerImage = article.heroBanner?.logo ? `${siteUrl}${article.heroBanner.logo}` : `${siteUrl}/og-image.png`;
 
   return {
     title: `${article.metaTitle || article.title} | RozgarPK`,
@@ -78,10 +80,11 @@ export default function BlogArticlePage({ params }) {
   const article = BLOG_ARTICLES.find((a) => a.slug === params.slug);
   if (!article) notFound();
 
+  const siteUrl = getSiteUrl();
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: "Guides & Blog", url: "https://rozgar.pk/blog" },
-    { name: article.title, url: `https://rozgar.pk/blog/${article.slug}` }
+    { name: "Home", url: `${siteUrl}` },
+    { name: "Guides & Blog", url: `${siteUrl}/blog` },
+    { name: article.title, url: `${siteUrl}/blog/${article.slug}` }
   ]);
 
   const faqSchema = generateFAQSchema(article.faqs || []);
@@ -91,25 +94,25 @@ export default function BlogArticlePage({ params }) {
     "@type": "Article",
     "headline": article.title,
     "description": article.metaDescription,
-    "image": article.heroBanner?.logo ? `https://rozgar.pk${article.heroBanner.logo}` : 'https://rozgar.pk/logo.png',
+    "image": article.heroBanner?.logo ? `${siteUrl}${article.heroBanner.logo}` : `${siteUrl}/og-image.png`,
     "datePublished": `${article.publishedDate}T00:00:00+05:00`,
     "dateModified": `${article.updatedDate}T00:00:00+05:00`,
     "author": {
       "@type": "Organization",
       "name": article.author.name,
-      "url": "https://rozgar.pk"
+      "url": `${siteUrl}`
     },
     "publisher": {
       "@type": "Organization",
       "name": "RozgarPK",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://rozgar.pk/logo.png"
+        "url": `${siteUrl}/icons/logo.png`
       }
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://rozgar.pk/blog/${article.slug}`
+      "@id": `${siteUrl}/blog/${article.slug}`
     }
   };
 
@@ -146,13 +149,13 @@ export default function BlogArticlePage({ params }) {
           <div className="article-hero-banner-inner">
             <div className="article-hero-crest-wrapper">
               <div className="article-crest-box">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
+                <Image 
                   src={article.heroBanner.logo} 
                   alt={article.heroBanner.departmentName}
                   className="article-crest-img"
                   width={60}
                   height={60}
+                  priority
                 />
               </div>
               <div className="article-crest-meta">

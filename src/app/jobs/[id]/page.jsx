@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { 
   Building2, 
@@ -22,6 +23,7 @@ import {
 import { JOBS_DATA } from '../../../data/jobsData';
 import { generateJobPostingSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
 import { getJobLogoUrl, getJobLogoAlt } from '../../../utils/logoResolver';
+import { getSiteUrl, getAbsoluteUrl } from '../../../utils/siteUrl';
 
 export const dynamicParams = true;
 export const revalidate = 60;
@@ -42,30 +44,34 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const siteUrl = getSiteUrl();
   const isGovt = job.type === 'govt';
   const agencyTitle = job.agency || (isGovt ? 'Government of Pakistan' : job.company);
   const pageTitle = `${job.title} - ${agencyTitle} (${job.city})`;
   const pageDesc = `Apply for ${job.title} at ${job.department || job.company}. Required: ${job.qualification}. Last date to apply: ${job.lastDate}. Verified on RozgarPK.`;
+  const canonicalUrl = `${siteUrl}/jobs/${job.id}`;
 
   return {
     title: pageTitle,
     description: pageDesc,
     keywords: [job.title, job.department, job.city, job.agency, job.bpsScale, "Pakistan Jobs", "Apply Online"].filter(Boolean),
     alternates: {
-      canonical: `https://rozgar.pk/jobs/${job.id}`,
+      canonical: canonicalUrl,
     },
     openGraph: {
       title: pageTitle,
       description: pageDesc,
-      url: `https://rozgar.pk/jobs/${job.id}`,
+      url: canonicalUrl,
       type: 'article',
       publishedTime: job.postDate,
       modifiedTime: job.lastDate,
+      images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: job.title }]
     },
     twitter: {
       card: 'summary_large_image',
       title: pageTitle,
       description: pageDesc,
+      images: [`${siteUrl}/og-image.png`]
     }
   };
 }
@@ -79,11 +85,12 @@ export default function JobDetailPage({ params }) {
   }
 
   const isGovt = job.type === 'govt';
+  const siteUrl = getSiteUrl();
   const jobPostingSchema = generateJobPostingSchema(job);
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: isGovt ? "Government Jobs" : "Private Jobs", url: `https://rozgar.pk/jobs/${isGovt ? 'govt' : 'private'}` },
-    { name: job.title, url: `https://rozgar.pk/jobs/${job.id}` }
+    { name: "Home", url: `${siteUrl}` },
+    { name: isGovt ? "Government Jobs" : "Private Jobs", url: `${siteUrl}/jobs/${isGovt ? 'govt' : 'private'}` },
+    { name: job.title, url: `${siteUrl}/jobs/${job.id}` }
   ]);
 
   const relatedJobs = JOBS_DATA.filter(
@@ -120,12 +127,13 @@ export default function JobDetailPage({ params }) {
           <div className="job-header-flex mb-6">
             <div className="flex items-start gap-3.5">
               <div className="detail-page-logo-box flex-shrink-0">
-                <img 
+                <Image 
                   src={getJobLogoUrl(job)} 
                   alt={getJobLogoAlt(job)} 
                   className="detail-official-page-logo"
                   width={56}
                   height={56}
+                  priority
                 />
               </div>
               <div>

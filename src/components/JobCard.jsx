@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Building2, 
   MapPin, 
@@ -39,7 +40,7 @@ export default function JobCard({
       <div className="card-top-row">
         <div className="card-agency-box">
           <div className="card-logo-container">
-            <img 
+            <Image 
               src={logoUrl} 
               alt={logoAlt} 
               className="card-official-logo"

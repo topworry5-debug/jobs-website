@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FilterSidebar from './FilterSidebar';
 import JobCard from './JobCard';
+import JobCardSkeleton from './JobCardSkeleton';
 import JobDetailModal from './JobDetailModal';
 import { CITIES, PROVINCES, BPS_SCALES, QUALIFICATIONS, CATEGORIES } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
@@ -161,6 +162,35 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     return count > 0;
   });
 
+  // Lock body scroll when mobile filter drawer is open
+  useEffect(() => {
+    if (mobileFilterOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileFilterOpen]);
+
+  const activeFilterCount = (selectedCategory !== 'all' ? 1 : 0) +
+    (selectedProvince !== 'All Pakistan' ? 1 : 0) +
+    (selectedCity !== 'All Cities' ? 1 : 0) +
+    (selectedBps !== 'All BPS Scales' ? 1 : 0) +
+    (selectedQualification !== 'All Qualifications' ? 1 : 0) +
+    (urgentOnly ? 1 : 0);
+
+  const [visibleCount, setVisibleCount] = useState(12);
+
+  // Reset pagination when filters change
+  useEffect(() => {
+    setVisibleCount(12);
+  }, [selectedCategory, selectedProvince, selectedCity, selectedBps, selectedQualification, urgentOnly, searchQuery]);
+
+  const displayedJobs = filteredJobs.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredJobs.length;
+
   return (
     <div className="home-filter-container">
       {/* Category Pills Header with clean horizontal scroll */}
@@ -223,10 +253,13 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
               <button 
                 className={`mobile-filter-open-btn ${isFilterActive ? 'has-filters' : ''}`}
                 onClick={() => setMobileFilterOpen(true)}
+                aria-label="Filters"
               >
-                <SlidersHorizontal size={15} />
+                <SlidersHorizontal size={16} />
                 <span>Filters</span>
-                {isFilterActive && <span className="active-filter-dot" />}
+                {activeFilterCount > 0 && (
+                  <span className="active-filter-badge">{activeFilterCount}</span>
+                )}
               </button>
 
               <div className="relative feed-search-input-wrapper">
@@ -244,20 +277,33 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
 
           {/* Job Cards 2-Column Equalized Grid */}
           {filteredJobs.length > 0 ? (
-            <div className="jobs-cards-grid">
-              {filteredJobs.map((job) => (
-                <JobCard
-                  key={job.id}
-                  job={job}
-                  isSaved={savedJobIds.includes(job.id)}
-                  onToggleSave={handleToggleSave}
-                  onShareWhatsApp={(j) => {
-                    const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via RozgarPK: https://rozgar.pk/jobs/${j.id}`);
-                    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-                  }}
-                />
-              ))}
-            </div>
+            <>
+              <div className="jobs-cards-grid">
+                {displayedJobs.map((job) => (
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    isSaved={savedJobIds.includes(job.id)}
+                    onToggleSave={handleToggleSave}
+                    onShareWhatsApp={(j) => {
+                      const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via RozgarPK: https://rozgar.pk/jobs/${j.id}`);
+                      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+                    }}
+                  />
+                ))}
+              </div>
+
+              {hasMore && (
+                <div className="load-more-section text-center mt-6 pt-4 border-t border-subtle">
+                  <button 
+                    onClick={() => setVisibleCount(prev => prev + 12)}
+                    className="btn btn-primary px-8 py-3 font-semibold shadow-md hover:shadow-lg transition-all"
+                  >
+                    <span>Load More Positions ({filteredJobs.length - visibleCount} Remaining)</span>
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="empty-state card text-center py-12 px-6">
               <div className="inline-flex items-center justify-center p-3 rounded-full bg-emerald-500/10 text-emerald-500 mb-3 mx-auto">

@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "lighthouse": "^13.4.1",
     "puppeteer-core": "^25.9.0"
   }
 }

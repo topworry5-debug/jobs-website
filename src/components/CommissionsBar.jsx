@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -44,12 +45,13 @@ export default function CommissionsBar({ jobsCountMap = {} }) {
               <Link key={agency.key} href={agency.href} className="commission-card-item">
                 <div className="flex items-center gap-3">
                   <div className="card-logo-container">
-                    <img 
+                    <Image 
                       src={agency.logo} 
                       alt={`${agency.name} Emblem`} 
                       className="card-official-logo"
                       width={36}
                       height={36}
+                      loading="lazy"
                     />
                   </div>
                   <div>

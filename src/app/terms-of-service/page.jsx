@@ -1,12 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
 import { Scale, AlertTriangle, ShieldCheck, FileCheck, CheckCircle2, Globe, ArrowLeft, Mail } from 'lucide-react';
+import { getSiteUrl } from '../../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "Terms of Service — RozgarPK",
   description: "Terms of Service for RozgarPK. Outlines service nature, official government disclaimers, candidate verification obligations, and legal parameters.",
   alternates: {
-    canonical: "https://rozgar.pk/terms-of-service"
+    canonical: `${siteUrl}/terms-of-service`
+  },
+  openGraph: {
+    title: "Terms of Service — RozgarPK",
+    description: "Terms of Service for RozgarPK.",
+    url: `${siteUrl}/terms-of-service`,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 

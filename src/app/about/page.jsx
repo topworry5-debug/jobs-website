@@ -1,12 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
 import { ShieldCheck, Target, Zap, Clock, Users, FileText, CheckCircle2, Award, Landmark, Building2, ArrowLeft } from 'lucide-react';
+import { getSiteUrl } from '../../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "About RozgarPK — Pakistan's Verified Career Intelligence Authority",
   description: "Learn why RozgarPK was built: to eliminate fake job ads, spam popups, and outdated listings with an automated 6-hour verified government gazette pipeline.",
   alternates: {
-    canonical: "https://rozgar.pk/about"
+    canonical: `${siteUrl}/about`
+  },
+  openGraph: {
+    title: "About RozgarPK — Pakistan's Verified Career Intelligence Authority",
+    description: "Learn why RozgarPK was built: 100% verified government gazette pipeline.",
+    url: `${siteUrl}/about`,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 

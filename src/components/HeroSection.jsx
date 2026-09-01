@@ -11,11 +11,13 @@ import {
   ArrowRight,
   Landmark,
   Briefcase,
-  Layers
+  Layers,
+  Sparkles
 } from 'lucide-react';
 import { CITIES } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
 import { computeJobMetrics, isClosingSoon } from '../utils/jobMetrics';
+import AnimatedCount from './AnimatedCount';
 
 export default function HeroSection({ 
   searchQuery = '', 
@@ -129,6 +131,7 @@ export default function HeroSection({
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
                 className="hero-city-select"
+                aria-label="Filter vacancies by city"
               >
                 <option value="All Cities">{t.hero.allCities}</option>
                 {CITIES.filter(c => c !== 'All Cities').map((city) => (
@@ -211,6 +214,7 @@ export default function HeroSection({
         </div>
 
         {/* Primary Pathway Cards */}
+        <h2 className="sr-only">Career Pathways and Recruitment Sectors</h2>
         <div className="category-cards-grid">
           <Link 
             href="/jobs/govt"
@@ -300,7 +304,9 @@ export default function HeroSection({
           <div className="stats-bar-inner">
             <div className="stat-item">
               <div className="stat-number-wrapper">
-                <span className="stat-number">{metrics.totalListings}</span>
+                <span className="stat-number">
+                  <AnimatedCount target={metrics.totalListings} suffix="+" />
+                </span>
                 <span className="stat-indicator green" />
               </div>
               <span className="stat-label">{t.hero.statVacancies}</span>
@@ -310,8 +316,10 @@ export default function HeroSection({
 
             <div className="stat-item">
               <div className="stat-number-wrapper">
-                <span className="stat-number">{metrics.verifiedDeptsCount}</span>
-                <ShieldCheck size={16} className="text-emerald" />
+                <span className="stat-number">
+                  <AnimatedCount target={metrics.verifiedDeptsCount} />
+                </span>
+                <ShieldCheck size={16} className="text-emerald-500" />
               </div>
               <span className="stat-label">{t.hero.statDepts}</span>
             </div>
@@ -320,8 +328,10 @@ export default function HeroSection({
 
             <div className="stat-item">
               <div className="stat-number-wrapper">
-                <span className="stat-number text-urgent">{metrics.urgentCount}</span>
-                <Flame size={16} className="text-red" />
+                <span className="stat-number text-urgent">
+                  <AnimatedCount target={metrics.urgentCount} />
+                </span>
+                <Flame size={16} className="text-red-500" />
               </div>
               <span className="stat-label">{t.hero.statUrgent}</span>
             </div>
@@ -330,8 +340,10 @@ export default function HeroSection({
 
             <div className="stat-item">
               <div className="stat-number-wrapper">
-                <span className="stat-number">{metrics.upcomingExamsCount}</span>
-                <Calendar size={16} className="text-blue" />
+                <span className="stat-number">
+                  <AnimatedCount target={metrics.upcomingExamsCount} />
+                </span>
+                <Calendar size={16} className="text-blue-500" />
               </div>
               <span className="stat-label">{t.hero.statExams}</span>
             </div>

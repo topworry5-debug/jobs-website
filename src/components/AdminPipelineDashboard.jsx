@@ -148,7 +148,7 @@ export default function AdminPipelineDashboard({ jobs, onUpdateJobs }) {
             </p>
           </div>
 
-          <div className="admin-header-actions">
+          <div className="admin-header-actions flex items-center gap-2.5">
             <button 
               className={`btn btn-primary ${pipelineLoading ? 'btn-loading' : ''}`}
               onClick={handleTriggerScraper}
@@ -156,6 +156,16 @@ export default function AdminPipelineDashboard({ jobs, onUpdateJobs }) {
             >
               <Play size={16} />
               <span>{pipelineLoading ? 'Running Scrapers...' : 'Run Scrapers Now'}</span>
+            </button>
+            <button
+              className="btn btn-outline text-xs px-3 py-2 border-subtle text-secondary hover:text-red-500"
+              onClick={async () => {
+                await fetch('/api/admin/auth', { method: 'DELETE' });
+                window.location.href = '/admin/login';
+              }}
+              title="Terminate Admin Session"
+            >
+              <span>Logout</span>
             </button>
           </div>
         </div>

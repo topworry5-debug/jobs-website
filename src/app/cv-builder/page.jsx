@@ -1,20 +1,29 @@
 import React from 'react';
 import CvBuilder from '../../components/CvBuilder';
 import { generateBreadcrumbSchema } from '../../utils/seoHelpers';
-import { FileText, ShieldCheck, Sparkles } from 'lucide-react';
+import { getSiteUrl } from '../../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "Free ATS CV & Resume Builder for Pakistan Jobs (Govt & Tech)",
   description: "Build an institutional, ATS-friendly Pakistani resume with BPS scale fields, provincial domicile, HEC education breakdown, and export high-res vector PDF for free.",
   alternates: {
-    canonical: "https://rozgar.pk/cv-builder"
+    canonical: `${siteUrl}/cv-builder`
+  },
+  openGraph: {
+    title: "Free ATS CV & Resume Builder for Pakistan Jobs",
+    description: "Build an institutional, ATS-friendly Pakistani resume.",
+    url: `${siteUrl}/cv-builder`,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 
 export default function CvBuilderPage() {
+  const currentUrl = getSiteUrl();
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: "CV Builder", url: "https://rozgar.pk/cv-builder" }
+    { name: "Home", url: `${currentUrl}` },
+    { name: "CV Builder", url: `${currentUrl}/cv-builder` }
   ]);
 
   return (
@@ -23,27 +32,6 @@ export default function CvBuilderPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-
-      <div className="page-category-hero card p-6 mb-6 no-print">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="badge badge-govt">
-            <FileText size={13} />
-            <span>ATS Resume Generator</span>
-          </span>
-          <span className="badge badge-verified">
-            <Sparkles size={13} />
-            <span>100% Free & No Sign-Up Required</span>
-          </span>
-        </div>
-
-        <h1 className="text-2xl md:text-3xl font-extrabold text-primary mb-2">
-          Institutional ATS CV Builder for Pakistani Careers
-        </h1>
-        <p className="text-secondary text-sm max-w-3xl leading-relaxed">
-          Craft professional, ATS-optimized CVs customized for Federal/Provincial Government applications (including Domicile, CNIC, and BPS History) and modern Tech/Private industry standards.
-        </p>
-      </div>
-
       <CvBuilder />
     </div>
   );

@@ -1,9 +1,10 @@
 import { JOBS_DATA } from '../data/jobsData';
 import { CITY_LANDING_CONTENT, AGENCY_LANDING_CONTENT } from '../data/landingPagesData';
 import { BLOG_ARTICLES } from '../data/blogData';
+import { getSiteUrl } from '../utils/siteUrl';
 
 export default function sitemap() {
-  const baseUrl = 'https://rozgar.pk';
+  const baseUrl = getSiteUrl();
   const lastModified = new Date().toISOString();
 
   // Core Static Pages

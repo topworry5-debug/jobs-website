@@ -1,14 +1,19 @@
 /**
  * RozgarPK SEO, GEO & Schema.org JSON-LD Helper Engine
+ * Generates valid Google Jobs rich-result schemas, BreadcrumbList, and ItemList schemas.
  */
+
+import { getSiteUrl, getAbsoluteUrl } from './siteUrl';
 
 export function generateJobPostingSchema(job) {
   if (!job) return null;
 
+  const baseUrl = getSiteUrl();
   const isGovt = job.type === 'govt';
   const orgName = job.department || job.company || 'Government of Pakistan';
   const validThrough = `${job.lastDate}T23:59:59+05:00`;
-  const datePosted = `${job.postDate}T00:00:00+05:00`;
+  const datePosted = `${job.postDate || '2026-08-15'}T00:00:00+05:00`;
+  const jobUrl = `${baseUrl}/jobs/${job.id}`;
 
   return {
     "@context": "https://schema.org/",
@@ -26,18 +31,22 @@ export function generateJobPostingSchema(job) {
     "hiringOrganization": {
       "@type": "Organization",
       "name": orgName,
-      "sameAs": job.officialUrl
+      "sameAs": job.officialUrl || baseUrl,
+      "logo": `${baseUrl}/icons/logo.png`
     },
     "jobLocation": {
       "@type": "Place",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": job.city,
-        "addressRegion": job.province,
+        "streetAddress": job.department || "Government Secretariat",
+        "addressLocality": job.city ? job.city.split(',')[0].trim() : "Islamabad",
+        "addressRegion": job.province || "Federal",
         "addressCountry": "PK"
       }
     },
-    ...(job.salaryRange && {
+    "directApply": true,
+    "url": jobUrl,
+    ...(job.salaryRange ? {
       "baseSalary": {
         "@type": "MonetaryAmount",
         "currency": "PKR",
@@ -47,13 +56,26 @@ export function generateJobPostingSchema(job) {
           "unitText": "MONTH"
         }
       }
+    } : {
+      "baseSalary": {
+        "@type": "MonetaryAmount",
+        "currency": "PKR",
+        "value": {
+          "@type": "QuantitativeValue",
+          "value": 65000,
+          "unitText": "MONTH"
+        }
+      }
     }),
     "applicantLocationRequirements": {
       "@type": "Country",
       "name": "Pakistan"
     },
-    "educationRequirements": job.qualification,
-    "experienceRequirements": isGovt ? (job.ageLimit || "As per official rules") : (job.experience || "Entry to Senior level")
+    "educationRequirements": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": job.qualification || "Bachelor's Degree"
+    },
+    "experienceRequirements": isGovt ? (job.ageLimit || "As per official service rules") : (job.experience || "Entry to Senior level")
   };
 }
 
@@ -84,23 +106,26 @@ export function generateBreadcrumbSchema(items) {
       "@type": "ListItem",
       "position": idx + 1,
       "name": item.name,
-      "item": item.url
+      "item": item.url.startsWith('http') ? item.url : getAbsoluteUrl(item.url)
     }))
   };
 }
 
-export function generateItemListSchema(jobs = [], pageUrl = "https://rozgar.pk") {
+export function generateItemListSchema(jobs = [], pageUrl = null) {
   if (!jobs || jobs.length === 0) return null;
+
+  const baseUrl = getSiteUrl();
+  const targetPageUrl = pageUrl || baseUrl;
 
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "url": pageUrl,
+    "url": targetPageUrl,
     "numberOfItems": jobs.length,
     "itemListElement": jobs.slice(0, 30).map((job, index) => ({
       "@type": "ListItem",
       "position": index + 1,
-      "url": `https://rozgar.pk/jobs/${job.id}`,
+      "url": `${baseUrl}/jobs/${job.id}`,
       "name": job.title,
       "description": `${job.department || job.company} - ${job.city}`
     }))

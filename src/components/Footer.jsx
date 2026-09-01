@@ -160,7 +160,6 @@ export default function Footer() {
               <li><Link href="/contact" className="footer-link-btn">{t.footer.contact || "Contact Support Desk"}</Link></li>
               <li><Link href="/privacy-policy" className="footer-link-btn">{t.footer.privacy || "Privacy Policy"}</Link></li>
               <li><Link href="/terms-of-service" className="footer-link-btn">{t.footer.terms || "Terms of Service"}</Link></li>
-              <li><Link href="/admin" className="footer-link-btn text-muted">{t.footer.telemetry || "Pipeline Telemetry"}</Link></li>
             </ul>
           </div>
         </div>

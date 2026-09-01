@@ -3,22 +3,32 @@ import Link from 'next/link';
 import HomeClientFilter from '../../../components/HomeClientFilter';
 import { JOBS_DATA } from '../../../data/jobsData';
 import { generateItemListSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
-import { Landmark, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Landmark, ShieldCheck } from 'lucide-react';
+import { getSiteUrl } from '../../../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "Government Jobs in Pakistan 2026 (FPSC, PPSC, SPSC, KPPSC & NTS)",
   description: "Explore all verified Federal & Provincial Government jobs in Pakistan. BPS-07 to BPS-20 scales with official syllabus, challan info, and verified direct links.",
   alternates: {
-    canonical: "https://rozgar.pk/jobs/govt"
+    canonical: `${siteUrl}/jobs/govt`
+  },
+  openGraph: {
+    title: "Government Jobs in Pakistan 2026 (FPSC, PPSC, SPSC, KPPSC & NTS)",
+    description: "Explore all verified Federal & Provincial Government jobs in Pakistan.",
+    url: `${siteUrl}/jobs/govt`,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 
 export default function GovtJobsPage() {
+  const currentUrl = getSiteUrl();
   const govtJobs = JOBS_DATA.filter((j) => j.type === 'govt');
-  const itemListSchema = generateItemListSchema(govtJobs, "https://rozgar.pk/jobs/govt");
+  const itemListSchema = generateItemListSchema(govtJobs, `${currentUrl}/jobs/govt`);
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: "Government Jobs", url: "https://rozgar.pk/jobs/govt" }
+    { name: "Home", url: `${currentUrl}` },
+    { name: "Government Jobs", url: `${currentUrl}/jobs/govt` }
   ]);
 
   return (

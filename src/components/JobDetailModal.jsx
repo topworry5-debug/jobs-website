@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { 
   X, 
   ShieldCheck, 
@@ -119,12 +120,13 @@ export default function JobDetailModal({
           <div className="job-detail-headline-section">
             <div className="headline-icon-row">
               <div className="detail-logo-wrapper">
-                <img 
+                <Image 
                   src={logoUrl} 
                   alt={logoAlt} 
                   className="detail-official-logo"
                   width={56}
                   height={56}
+                  loading="lazy"
                 />
               </div>
               <div className="detail-title-block">

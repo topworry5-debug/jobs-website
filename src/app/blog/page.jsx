@@ -1,23 +1,34 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BLOG_ARTICLES, BLOG_CLUSTERS } from '../../data/blogData';
 import BlogClientHub from '../../components/BlogClientHub';
 import SectionBadge from '../../components/SectionBadge';
 import { generateBreadcrumbSchema } from '../../utils/seoHelpers';
 import { BookOpen, Sparkles, TrendingUp, ShieldCheck, ArrowRight } from 'lucide-react';
+import { getSiteUrl } from '../../utils/siteUrl';
+
+const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "Career Guides & Exam Intelligence Hub (PPSC, FPSC & Govt Jobs) | RozgarPK",
   description: "Comprehensive, fact-checked guides on PPSC, FPSC, NJP, and Government of Pakistan recruitment processes, syllabus patterns, challan payment, and exam preparation.",
   alternates: {
-    canonical: "https://rozgar.pk/blog"
+    canonical: `${siteUrl}/blog`
+  },
+  openGraph: {
+    title: "Career Guides & Exam Intelligence Hub | RozgarPK",
+    description: "Fact-checked guides on PPSC, FPSC, NJP recruitment processes, syllabus, and exam preparation.",
+    url: `${siteUrl}/blog`,
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
 };
 
 export default function BlogIndexPage() {
+  const currentUrl = getSiteUrl();
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "https://rozgar.pk" },
-    { name: "Career Guides & Blog", url: "https://rozgar.pk/blog" }
+    { name: "Home", url: `${currentUrl}` },
+    { name: "Career Guides & Blog", url: `${currentUrl}/blog` }
   ]);
 
   const featuredArticle = BLOG_ARTICLES[0];
@@ -73,13 +84,13 @@ export default function BlogIndexPage() {
             <div className="flex flex-col md:flex-row items-start gap-5">
               {featuredArticle.heroBanner?.logo && (
                 <div className="article-crest-box hidden sm:flex">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
+                  <Image 
                     src={featuredArticle.heroBanner.logo} 
                     alt={featuredArticle.heroBanner.departmentName} 
                     className="article-crest-img"
                     width={56}
                     height={56}
+                    priority
                   />
                 </div>
               )}
