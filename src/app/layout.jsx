@@ -137,9 +137,9 @@ export default function RootLayout({ children }) {
         <ClientProviders>
           <div className="site-wrapper">
             <Navbar />
-            <div className="main-content">
+            <main className="main-content">
               {children}
-            </div>
+            </main>
             <Footer />
           </div>
         </ClientProviders>
