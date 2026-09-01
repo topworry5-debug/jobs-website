@@ -1,0 +1,128 @@
+'use client';
+
+import React, { useState, useMemo } from 'react';
+import Link from 'next/link';
+import { 
+  Search, 
+  BookOpen, 
+  Clock, 
+  Calendar, 
+  ArrowRight, 
+  Sparkles,
+  Filter,
+  CheckCircle2
+} from 'lucide-react';
+
+export default function BlogClientHub({ articles = [], clusters = [] }) {
+  const [selectedCluster, setSelectedCluster] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredArticles = useMemo(() => {
+    return articles.filter((art) => {
+      const matchCluster = selectedCluster === 'all' || art.cluster === selectedCluster;
+      const matchQuery = !searchQuery || 
+        art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        art.metaDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (art.targetKeywords && art.targetKeywords.some(kw => kw.toLowerCase().includes(searchQuery.toLowerCase())));
+      return matchCluster && matchQuery;
+    });
+  }, [articles, selectedCluster, searchQuery]);
+
+  return (
+    <div className="blog-hub-container">
+      {/* Search & Cluster Filter Bar */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-subtle">
+        {/* Cluster Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 no-scrollbar">
+          {clusters.map((cluster) => {
+            const isActive = selectedCluster === cluster.id;
+            return (
+              <button
+                key={cluster.id}
+                onClick={() => setSelectedCluster(cluster.id)}
+                className={`filter-pill whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  isActive 
+                    ? 'bg-emerald-600 text-white shadow-sm' 
+                    : 'bg-surface border border-subtle text-secondary hover:border-emerald-500 hover:text-primary'
+                }`}
+              >
+                {cluster.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Search Input */}
+        <div className="relative w-full md:w-72">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search guides by keyword..."
+            className="input-field pl-9 py-2 text-xs"
+          />
+        </div>
+      </div>
+
+      {/* Articles Grid */}
+      {filteredArticles.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredArticles.map((art) => (
+            <article 
+              key={art.slug} 
+              className="card p-5 flex flex-col justify-between hover:border-emerald-500 transition-all hover:-translate-y-1 shadow-sm"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="badge badge-govt text-[11px]">
+                    {art.clusterLabel}
+                  </span>
+                  <span className="text-[11px] text-muted flex items-center gap-1 font-mono">
+                    <Clock size={11} />
+                    <span>{art.readTime}</span>
+                  </span>
+                </div>
+
+                <h3 className="font-bold text-base md:text-lg text-primary mb-2 leading-snug font-display">
+                  <Link href={`/blog/${art.slug}`} className="hover:text-emerald-500 transition-colors">
+                    {art.title}
+                  </Link>
+                </h3>
+
+                <p className="text-secondary text-xs line-clamp-3 leading-relaxed mb-4">
+                  {art.metaDescription}
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-subtle flex items-center justify-between">
+                <span className="text-[11px] text-muted">
+                  Updated: {art.updatedDate}
+                </span>
+                <Link 
+                  href={`/blog/${art.slug}`}
+                  className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
+                >
+                  <span>Read Guide</span>
+                  <ArrowRight size={13} />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="card p-8 text-center bg-surface-subtle">
+          <BookOpen size={28} className="mx-auto text-muted mb-2" />
+          <h3 className="font-bold text-base text-primary">No guides found</h3>
+          <p className="text-secondary text-xs mt-1">Try searching for a different keyword or resetting your category filter.</p>
+          <button
+            onClick={() => { setSelectedCluster('all'); setSearchQuery(''); }}
+            className="btn btn-outline btn-sm mt-4 text-xs"
+          >
+            Reset Filters
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}

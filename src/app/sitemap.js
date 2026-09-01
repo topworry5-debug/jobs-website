@@ -1,5 +1,6 @@
 import { JOBS_DATA } from '../data/jobsData';
 import { CITY_LANDING_CONTENT, AGENCY_LANDING_CONTENT } from '../data/landingPagesData';
+import { BLOG_ARTICLES } from '../data/blogData';
 
 export default function sitemap() {
   const baseUrl = 'https://rozgar.pk';
@@ -14,6 +15,7 @@ export default function sitemap() {
     '/test-prep',
     '/cv-builder',
     '/alerts',
+    '/blog',
     '/about',
     '/contact',
     '/privacy-policy',
@@ -22,7 +24,7 @@ export default function sitemap() {
     url: `${baseUrl}${route}`,
     lastModified,
     changeFrequency: route === '' || route.startsWith('/jobs') ? 'hourly' : 'daily',
-    priority: route === '' ? 1.0 : (route === '/about' || route === '/contact' || route.startsWith('/privacy') || route.startsWith('/terms') ? 0.6 : 0.8),
+    priority: route === '' ? 1.0 : (route === '/blog' ? 0.9 : (route === '/about' || route === '/contact' || route.startsWith('/privacy') || route.startsWith('/terms') ? 0.6 : 0.8)),
   }));
 
   // Individual Job Pages
@@ -31,6 +33,14 @@ export default function sitemap() {
     lastModified: job.postDate || lastModified,
     changeFrequency: 'daily',
     priority: job.featured ? 0.9 : 0.7,
+  }));
+
+  // Blog / Career Guides Pages
+  const blogRoutes = BLOG_ARTICLES.map((article) => ({
+    url: `${baseUrl}/blog/${article.slug}`,
+    lastModified: article.updatedDate || lastModified,
+    changeFrequency: 'daily',
+    priority: 0.85,
   }));
 
   // City Landing Pages
@@ -49,5 +59,5 @@ export default function sitemap() {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...jobRoutes, ...cityRoutes, ...agencyRoutes];
+  return [...staticRoutes, ...jobRoutes, ...blogRoutes, ...cityRoutes, ...agencyRoutes];
 }

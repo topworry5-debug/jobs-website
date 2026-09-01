@@ -119,6 +119,12 @@ export default function Footer() {
                   <span>{t.footer.emailAlertsLink}</span>
                 </Link>
               </li>
+              <li>
+                <Link href="/blog" className="footer-link-btn">
+                  <BookOpen size={14} />
+                  <span>{t.footer.blogLink || "Career Guides & Blog"}</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
