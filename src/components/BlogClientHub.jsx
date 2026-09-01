@@ -31,20 +31,16 @@ export default function BlogClientHub({ articles = [], clusters = [] }) {
   return (
     <div className="blog-hub-container">
       {/* Search & Cluster Filter Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-subtle">
+      <div className="blog-filters-bar">
         {/* Cluster Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 no-scrollbar">
+        <div className="blog-cluster-tabs">
           {clusters.map((cluster) => {
             const isActive = selectedCluster === cluster.id;
             return (
               <button
                 key={cluster.id}
                 onClick={() => setSelectedCluster(cluster.id)}
-                className={`filter-pill whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                  isActive 
-                    ? 'bg-emerald-600 text-white shadow-sm' 
-                    : 'bg-surface border border-subtle text-secondary hover:border-emerald-500 hover:text-primary'
-                }`}
+                className={`blog-filter-btn ${isActive ? 'active' : ''}`}
               >
                 {cluster.label}
               </button>
@@ -67,11 +63,11 @@ export default function BlogClientHub({ articles = [], clusters = [] }) {
 
       {/* Articles Grid */}
       {filteredArticles.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="blog-grid">
           {filteredArticles.map((art) => (
             <article 
               key={art.slug} 
-              className="card p-5 flex flex-col justify-between hover:border-emerald-500 transition-all hover:-translate-y-1 shadow-sm"
+              className="blog-card"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -84,8 +80,8 @@ export default function BlogClientHub({ articles = [], clusters = [] }) {
                   </span>
                 </div>
 
-                <h3 className="font-bold text-base md:text-lg text-primary mb-2 leading-snug font-display">
-                  <Link href={`/blog/${art.slug}`} className="hover:text-emerald-500 transition-colors">
+                <h3 className="blog-card-title">
+                  <Link href={`/blog/${art.slug}`}>
                     {art.title}
                   </Link>
                 </h3>
@@ -95,7 +91,7 @@ export default function BlogClientHub({ articles = [], clusters = [] }) {
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-subtle flex items-center justify-between">
+              <div className="pt-3 border-t border-subtle flex items-center justify-between mt-auto">
                 <span className="text-[11px] text-muted">
                   Updated: {art.updatedDate}
                 </span>
