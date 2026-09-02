@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import FilterSidebar from './FilterSidebar';
 import JobCard from './JobCard';
 import JobCardSkeleton from './JobCardSkeleton';
 import JobDetailModal from './JobDetailModal';
 import { CITIES, PROVINCES, BPS_SCALES, QUALIFICATIONS, CATEGORIES } from '../data/jobsData';
+import { CATEGORIES_CONFIG, matchesJobCategory, getCategoryBySlug } from '../data/categoriesData';
 import { useLanguage } from '../context/LanguageContext';
 import { 
   Search, 
@@ -144,15 +145,13 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
 
     // 2. Category
     if (selectedCategory !== 'all') {
-      if (selectedCategory === 'govt' && job.type !== 'govt') return false;
-      if (selectedCategory === 'private' && job.type !== 'private') return false;
-      if (selectedCategory === 'fpsc' && (job.agency !== 'FPSC' && !job.category?.includes('Federal'))) return false;
-      if (selectedCategory === 'ppsc' && (job.agency !== 'PPSC' && !job.category?.includes('Punjab'))) return false;
-      if (selectedCategory === 'spsc' && (job.agency !== 'SPSC' && !job.category?.includes('Sindh'))) return false;
-      if (selectedCategory === 'kppsc' && (job.agency !== 'KPPSC' && !job.category?.includes('KPK'))) return false;
-      if (selectedCategory === 'nts' && (job.agency !== 'NTS' && !job.category?.includes('NTS'))) return false;
-      if (selectedCategory === 'tech' && job.category !== 'Software & IT') return false;
-      if (selectedCategory === 'banking' && job.category !== 'Banking & Finance') return false;
+      if (selectedCategory === 'govt') {
+        if (job.type !== 'govt') return false;
+      } else if (selectedCategory === 'private') {
+        if (job.type !== 'private') return false;
+      } else if (!matchesJobCategory(job, selectedCategory)) {
+        return false;
+      }
     }
 
     // 3. City
@@ -186,28 +185,38 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
   const getFeedTitle = () => {
     if (selectedCategory === 'govt') return t.feed.govtTitle;
     if (selectedCategory === 'private') return t.feed.privateTitle;
+    const catConfig = getCategoryBySlug(selectedCategory);
+    if (catConfig) return catConfig.name;
     return t.feed.allTitle;
   };
 
-  // Compute live category counts
-  const categoryCounts = {
-    all: jobs.length,
-    govt: jobs.filter(j => j.type === 'govt').length,
-    private: jobs.filter(j => j.type === 'private').length,
-    fpsc: jobs.filter(j => j.agency === 'FPSC').length,
-    ppsc: jobs.filter(j => j.agency === 'PPSC').length,
-    spsc: jobs.filter(j => j.agency === 'SPSC').length,
-    kppsc: jobs.filter(j => j.agency === 'KPPSC').length,
-    nts: jobs.filter(j => j.agency === 'NTS').length,
-    tech: jobs.filter(j => j.category === 'Software & IT').length
-  };
+  // Compute live category counts dynamically
+  const categoryCounts = useMemo(() => {
+    const counts = {
+      all: jobs.length,
+      govt: jobs.filter(j => j.type === 'govt').length,
+      private: jobs.filter(j => j.type === 'private').length,
+      fpsc: jobs.filter(j => j.agency === 'FPSC').length,
+      ppsc: jobs.filter(j => j.agency === 'PPSC').length,
+      spsc: jobs.filter(j => j.agency === 'SPSC').length,
+      kppsc: jobs.filter(j => j.agency === 'KPPSC').length,
+      nts: jobs.filter(j => j.agency === 'NTS').length,
+    };
+    CATEGORIES_CONFIG.forEach(cat => {
+      counts[cat.slug] = jobs.filter(j => matchesJobCategory(j, cat.id)).length;
+    });
+    return counts;
+  }, [jobs]);
 
   // Only display categories that have active jobs (or are the master 'all'/'govt' views)
-  const visibleCategories = CATEGORIES.filter(cat => {
-    const count = categoryCounts[cat.id] ?? 0;
-    if (cat.id === 'all' || cat.id === 'govt') return true;
-    return count > 0;
-  });
+  const visibleCategories = useMemo(() => {
+    const active = CATEGORIES.filter(cat => {
+      const count = categoryCounts[cat.id] ?? 0;
+      if (cat.id === 'all' || cat.id === 'govt' || cat.id === selectedCategory) return true;
+      return count > 0;
+    });
+    return active;
+  }, [categoryCounts, selectedCategory]);
 
   // Lock body scroll when mobile filter drawer is open
   useEffect(() => {

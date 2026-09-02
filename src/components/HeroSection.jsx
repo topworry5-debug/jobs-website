@@ -131,10 +131,11 @@ export default function HeroSection({
   };
 
   const quickPills = [
+    { label: 'Banking & SBP', query: 'Banking' },
     { label: 'PPSC Revenue & Water', query: 'PPSC' },
+    { label: 'WAPDA & Engineering', query: 'Engineering' },
+    { label: 'Armed Forces & Defence', query: 'Navy' },
     { label: 'SPSC Sindh Cadre', query: 'SPSC' },
-    { label: 'NTS Projects', query: 'NTS' },
-    { label: 'FPSC CSS MPT', query: 'FPSC' },
     { label: `${t.hero.closingIn3Days} (${metrics.urgentCount})`, query: 'urgent', isUrgentFilter: true }
   ];
 

@@ -1,4 +1,5 @@
 import { JOBS_DATA } from '../data/jobsData';
+import { CATEGORIES_CONFIG } from '../data/categoriesData';
 import { CITY_LANDING_CONTENT, AGENCY_LANDING_CONTENT } from '../data/landingPagesData';
 import { BLOG_ARTICLES } from '../data/blogData';
 import { getSiteUrl } from '../utils/siteUrl';
@@ -60,5 +61,13 @@ export default function sitemap() {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...jobRoutes, ...blogRoutes, ...cityRoutes, ...agencyRoutes];
+  // Category Landing Pages (14 Expanded Categories)
+  const categoryRoutes = CATEGORIES_CONFIG.map((cat) => ({
+    url: `${baseUrl}/jobs/${cat.slug}`,
+    lastModified,
+    changeFrequency: 'hourly',
+    priority: 0.85,
+  }));
+
+  return [...staticRoutes, ...categoryRoutes, ...jobRoutes, ...blogRoutes, ...cityRoutes, ...agencyRoutes];
 }

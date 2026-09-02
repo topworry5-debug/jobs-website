@@ -120,7 +120,7 @@ export default function FilterSidebar({
         </label>
       </div>
 
-      {/* Filter 3: Testing Agency / Sector */}
+      {/* Filter 3: Category / Cadre */}
       <div className="filter-section">
         <label className="filter-section-label">{t.filters.deptCadre}</label>
         <select
@@ -129,16 +129,32 @@ export default function FilterSidebar({
           className="input-field select-field"
         >
           <option value="all">{t.filters.allDepts}</option>
-          <optgroup label="Government Commissions">
+          <optgroup label="Government Sectors">
+            <option value="armed-forces">Armed Forces & Defence</option>
+            <option value="police-law-enforcement">Police & Law Enforcement</option>
+            <option value="judiciary-legal">Judiciary & Legal</option>
+            <option value="public-sector-enterprises">Public Sector Enterprises / PSEs</option>
+            <option value="teaching-education">Teaching & Education</option>
+            <option value="healthcare-medical">Healthcare & Medical</option>
+            <option value="local-government">Local Government / Municipal</option>
+          </optgroup>
+          <optgroup label="Private & Industry Careers">
+            <option value="banking-finance">Banking & Finance</option>
+            <option value="engineering">Engineering & Technical</option>
+            <option value="ngo-international">NGO & International Orgs</option>
+            <option value="internships-trainee">Internships & Trainee Programs</option>
+          </optgroup>
+          <optgroup label="Cross-Cutting & Remote">
+            <option value="overseas-gulf">Overseas & Gulf Jobs</option>
+            <option value="remote-freelance">Remote & Freelance</option>
+            <option value="exam-recruitment-hub">Exam-Based Recruitment Hub</option>
+          </optgroup>
+          <optgroup label="Public Service Commissions">
             <option value="fpsc">Federal (FPSC)</option>
             <option value="ppsc">Punjab (PPSC)</option>
             <option value="spsc">Sindh (SPSC)</option>
             <option value="kppsc">KPK (KPPSC)</option>
             <option value="nts">Testing Services (NTS)</option>
-          </optgroup>
-          <optgroup label="Private & Industry">
-            <option value="tech">Software & IT</option>
-            <option value="banking">Banking & Finance</option>
           </optgroup>
         </select>
       </div>
