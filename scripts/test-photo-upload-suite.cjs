@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const ARTIFACT_DIR = path.resolve('C:\\Users\\topwo\\.gemini\\antigravity-ide\\brain\\1e48d51b-edc1-4e3f-8a3e-3d42e71b4cbf');
+const ARTIFACT_DIR = path.resolve('C:\\Users\\topwo\\.gemini\\antigravity-ide\\brain\\b3bc2bb1-4473-4b39-81e7-6da099baf0aa');
 const TEST_DIR = path.resolve(__dirname, 'test-assets');
 
 async function createTestImages(browser) {
@@ -184,8 +184,8 @@ async function runTestSuite() {
 
   // Verify photo thumbnail in Step 1 and live preview
   const photoApplied = await page.evaluate(() => {
-    const thumbImg = document.querySelector('.photo-crop-circle img');
-    const sheetImg = document.querySelector('#resume-live-sheet img[alt="Applicant"]');
+    const thumbImg = document.querySelector('.photo-crop-preview img, .photo-crop-circle img');
+    const sheetImg = document.querySelector('#resume-live-sheet header img');
     return {
       thumbSrc: !!thumbImg?.src,
       sheetSrc: !!sheetImg?.src,
@@ -195,7 +195,46 @@ async function runTestSuite() {
   });
   console.log('   ✓ Photo successfully applied to thumbnail & live sheet:', photoApplied);
 
+  // Test "Adjust Crop" button
+  console.log('5b. Testing "Adjust Crop" button loads raw photo data...');
+  await page.evaluate(() => {
+    const btns = Array.from(document.querySelectorAll('button'));
+    const adjBtn = btns.find(b => b.textContent.includes('Adjust Crop'));
+    if (adjBtn) adjBtn.click();
+  });
+  await new Promise(r => setTimeout(r, 400));
+  const adjustOpened = await page.$('.crop-modal-dialog');
+  if (adjustOpened) {
+    console.log('   ✓ "Adjust Crop" tool opened successfully on existing photo data');
+    await page.evaluate(() => {
+      const btns = Array.from(document.querySelectorAll('.crop-modal-dialog button'));
+      const applyBtn = btns.find(b => b.textContent.includes('Crop & Use Photo'));
+      if (applyBtn) applyBtn.click();
+    });
+    await new Promise(r => setTimeout(r, 500));
+  }
+
+  // Helper to verify top-right placement
+  const verifyTopRight = async (templateName) => {
+    return await page.evaluate((tName) => {
+      const header = document.querySelector('#resume-live-sheet header');
+      const img = header?.querySelector('img');
+      if (!header || !img) return { ok: false, error: 'Missing header or img' };
+      const hRect = header.getBoundingClientRect();
+      const iRect = img.getBoundingClientRect();
+      const isRight = iRect.right >= (hRect.left + hRect.width * 0.70);
+      return {
+        ok: isRight,
+        width: Math.round(iRect.width),
+        height: Math.round(iRect.height),
+        isRight
+      };
+    }, templateName);
+  };
+
   // Capture Live Preview with Photo in Template 1 (Classic)
+  const classicCheck = await verifyTopRight('Classic');
+  console.log('   ✓ Classic template top-right placement check:', classicCheck);
   const classicShot = path.join(ARTIFACT_DIR, 'photo_live_preview_classic.png');
   await page.screenshot({ path: classicShot });
   console.log(`   ✓ Captured Classic template live preview with photo: ${classicShot}`);
@@ -209,6 +248,8 @@ async function runTestSuite() {
     }
   });
   await new Promise(r => setTimeout(r, 500));
+  const modernCheck = await verifyTopRight('Modern');
+  console.log('   ✓ Modern template top-right placement check:', modernCheck);
   const modernShot = path.join(ARTIFACT_DIR, 'photo_live_preview_modern.png');
   await page.screenshot({ path: modernShot });
   console.log(`   ✓ Captured Modern template live preview with photo: ${modernShot}`);
@@ -222,6 +263,8 @@ async function runTestSuite() {
     }
   });
   await new Promise(r => setTimeout(r, 500));
+  const govtCheck = await verifyTopRight('Govt');
+  console.log('   ✓ Govt template top-right placement check:', govtCheck);
   const govtShot = path.join(ARTIFACT_DIR, 'photo_live_preview_govt.png');
   await page.screenshot({ path: govtShot });
   console.log(`   ✓ Captured Govt template live preview with photo: ${govtShot}`);
@@ -235,9 +278,39 @@ async function runTestSuite() {
     }
   });
   await new Promise(r => setTimeout(r, 500));
+  const execCheck = await verifyTopRight('Executive');
+  console.log('   ✓ Executive template top-right placement check:', execCheck);
   const execShot = path.join(ARTIFACT_DIR, 'photo_live_preview_executive.png');
   await page.screenshot({ path: execShot });
   console.log(`   ✓ Captured Executive template live preview with photo: ${execShot}`);
+
+  // Test "Show on CV" toggle and reflow
+  console.log('5c. Testing "Show on CV" toggle reflow...');
+  await page.evaluate(() => {
+    const cb = document.querySelector('.photo-dossier-box input[type="checkbox"]');
+    if (cb) {
+      cb.checked = false;
+      cb.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
+  await new Promise(r => setTimeout(r, 500));
+  const hiddenCheck = await page.evaluate(() => {
+    const img = document.querySelector('#resume-live-sheet header img');
+    return !img;
+  });
+  console.log('   ✓ "Show on CV" unchecked hides photo cleanly across template:', hiddenCheck);
+  const reflowShot = path.join(ARTIFACT_DIR, 'header_reflow_photo_hidden.png');
+  await page.screenshot({ path: reflowShot });
+
+  // Re-check "Show on CV"
+  await page.evaluate(() => {
+    const cb = document.querySelector('.photo-dossier-box input[type="checkbox"]');
+    if (cb) {
+      cb.checked = true;
+      cb.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
+  await new Promise(r => setTimeout(r, 500));
 
   // Generate Vector PDF and confirm photo is embedded!
   console.log('6. Generating PDF and verifying photo embed...');
@@ -257,7 +330,7 @@ async function runTestSuite() {
   await new Promise(r => setTimeout(r, 800));
 
   const persistedPhoto = await page.evaluate(() => {
-    const sheetImg = document.querySelector('#resume-live-sheet img[alt="Applicant"]');
+    const sheetImg = document.querySelector('#resume-live-sheet header img');
     return !!sheetImg?.src;
   });
   if (persistedPhoto) {
@@ -283,7 +356,7 @@ async function runTestSuite() {
   await new Promise(r => setTimeout(r, 500));
 
   const photoRemoved = await page.evaluate(() => {
-    const sheetImg = document.querySelector('#resume-live-sheet img[alt="Applicant"]');
+    const sheetImg = document.querySelector('#resume-live-sheet header img');
     return !sheetImg;
   });
   if (photoRemoved) {

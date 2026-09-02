@@ -44,8 +44,11 @@ import {
   Globe,
   Sliders,
   Eye,
-  Edit3
+  Edit3,
+  Code
 } from 'lucide-react';
+
+const NEUTRAL_SILHOUETTE_PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23F1F5F9'/%3E%3Ccircle cx='60' cy='46' r='22' fill='%2394A3B8'/%3E%3Cpath d='M20 110 C20 80, 42 72, 60 72 C78 72, 100 80, 100 110 Z' fill='%2394A3B8'/%3E%3C/svg%3E";
 
 const STORAGE_KEY = 'rozgar_cv_builder_v2';
 
@@ -97,38 +100,88 @@ const PREWRITTEN_SUMMARIES = {
   }
 };
 
-const SUGGESTED_SKILLS = {
+const SKILL_RECOMMENDATIONS = {
   govt: [
-    "Public Policy Analysis", "Rules of Business 1973", "Official Correspondence", 
-    "Civil Service Regulations", "Budget Allocation & Planning", "PPRA Procurement Rules", 
-    "E-Office Management System", "Secretariat Procedures", "Urdu & English Drafting", 
-    "Public Grievance Redressal", "File & Dossier Management", "Inter-Provincial Coordination"
+    "Rules of Business 1973", "Public Procurement (PPRA Rules)", "E-Office Management System", 
+    "Civil Service Regulations", "Official Correspondence Drafting", "Budget Planning & Execution", 
+    "Cabinet Summary Writing", "Public Policy Analysis", "Regulatory Compliance"
   ],
   tech: [
-    "JavaScript (ES6+) / TypeScript", "React.js & Next.js", "Node.js & Express", 
-    "Python & FastAPI", "RESTful & GraphQL APIs", "PostgreSQL & MongoDB", 
-    "Docker & Kubernetes", "AWS Cloud Services", "Git & CI/CD Pipelines", 
+    "React.js & Next.js", "Node.js & Express", "TypeScript", "Python / Django", 
+    "PostgreSQL & MongoDB", "Docker & Kubernetes", "AWS Cloud Infrastructure", 
+    "REST & GraphQL APIs", "Git & CI/CD Pipelines", "Redis & In-Memory Caching",
     "Tailwind CSS", "Microservices Architecture", "Automated Unit Testing"
   ],
   engineering: [
-    "AutoCAD & SolidWorks", "Primavera P6 & MS Project", "PEC Standards & Compliance", 
-    "Site Supervision & Quality Control", "BOQ & Cost Estimation", "Structural Analysis", 
-    "HSE Safety Regulations", "HVAC / MEP Design", "Contract Administration"
+    "AutoCAD 2D/3D", "Primavera P6 Scheduling", "BOQ Preparation & Costing", 
+    "Structural Analysis (ETABS)", "Site Supervision & Inspection", "HSE Compliance Protocols", 
+    "Surveying & Leveling", "Quality Control / Material Testing", "Contract Management (FIDIC)"
   ],
   healthcare: [
-    "Clinical Diagnostics", "Emergency Patient Care", "PMDC Standards", 
-    "Medical Records & EHR", "Pharmacology & Dosage", "Surgical Prep & Assistance", 
-    "Infection Control Protocols", "BLS / ACLS Certified", "Medical Ethics"
+    "Emergency Triage & Resuscitation", "Clinical Diagnosis & Patient Care", "Electronic Health Records (EHR)", 
+    "BLS & ACLS Certified", "Infection Prevention & Control", "Pharmacotherapy Management", 
+    "Medical Ethics & PMDC Standards", "Cross-functional Team Leadership"
   ],
   finance: [
-    "Financial Modeling", "FBR Tax Filing & Returns", "Internal & External Auditing", 
+    "Financial Modeling & Forecasting", "IFRS & GAAP Standards", "Corporate Taxation (FBR)", 
     "SBP Compliance Regulations", "QuickBooks & Tally", "Balance Sheet Analysis", 
     "Cost Accounting & Budgeting", "Risk Management & Mitigation", "Reconciliation"
   ]
 };
 
-const INITIAL_CV_DATA = {
+const EMPTY_CV_DATA = {
   template: 'classic', // 'classic' | 'modern' | 'govt' | 'executive'
+  personal: {
+    fullName: "",
+    title: "",
+    email: "",
+    phone: "",
+    city: "",
+    linkedin: "",
+    portfolio: "",
+    photoUrl: "",
+    rawPhotoUrl: "",
+    showPhoto: false
+  },
+  summary: "",
+  experience: [
+    {
+      id: "exp-1",
+      role: "",
+      company: "",
+      city: "",
+      type: "Full-time",
+      startDate: "",
+      endDate: "",
+      current: false,
+      bullets: [""]
+    }
+  ],
+  education: [
+    {
+      id: "edu-1",
+      degree: "",
+      institution: "",
+      city: "",
+      startYear: "",
+      endYear: "",
+      ongoing: false,
+      grade: ""
+    }
+  ],
+  skills: [],
+  showSkillRatings: false,
+  extras: {
+    certifications: [],
+    languages: [],
+    projects: [],
+    referencesAvailable: false,
+    customReferences: []
+  }
+};
+
+const SAMPLE_CV_DATA = {
+  template: 'classic',
   personal: {
     fullName: "Muhammad Usman Ali",
     title: "Assistant Director (General Cadre / BPS-17)",
@@ -138,6 +191,7 @@ const INITIAL_CV_DATA = {
     linkedin: "linkedin.com/in/usman-ali-pk",
     portfolio: "usmanali.pk",
     photoUrl: "",
+    rawPhotoUrl: "",
     showPhoto: false
   },
   summary: "Dedicated and integrity-driven public administration professional with 4+ years of experience in civil service procedures, regulatory compliance, and inter-departmental coordination under Federal Service Rules. Proven track record drafting official notifications, managing provincial quotas, and executing budgetary allocations with zero audit objections.",
@@ -223,6 +277,8 @@ const INITIAL_CV_DATA = {
   }
 };
 
+const INITIAL_CV_DATA = EMPTY_CV_DATA;
+
 const STEP_DEFINITIONS = [
   { id: 0, key: 'template', label: 'Template', icon: LayoutTemplate },
   { id: 1, key: 'personal', label: 'Personal Info', icon: User },
@@ -236,34 +292,74 @@ const STEP_DEFINITIONS = [
 
 const TEMPLATE_CARDS = [
   {
-    id: 'classic',
-    name: 'Classic Professional',
-    tagline: 'Single-column with traditional serif headers & horizontal dividing rules.',
-    atsScore: '100% ATS Safe',
-    badgeClass: 'badge-verified'
-  },
-  {
-    id: 'modern',
-    name: 'Modern Minimal',
-    tagline: 'Streamlined sans-serif with subtle emerald accent bar and clean dates.',
+    id: 'executive',
+    name: 'Executive Minimalist',
+    tagline: 'Authoritative serif display headings with dual tone and executive focus.',
     atsScore: '100% ATS Safe',
     badgeClass: 'badge-verified'
   },
   {
     id: 'govt',
-    name: 'Government / Formal',
-    tagline: 'Conservative, high-contrast B&W layout tailored for FPSC, PPSC, and civil service dossiers.',
+    name: 'Govt & Academic Standard',
+    tagline: 'Conservative, high-contrast B&W layout tailored for FPSC, PPSC, HEC, and civil service dossiers.',
     atsScore: 'Civil Gazette Standard',
     badgeClass: 'badge-verified'
   },
   {
-    id: 'executive',
-    name: 'Executive Leadership',
-    tagline: 'Authoritative Fraunces display headings with dual emerald/charcoal tone.',
+    id: 'modern',
+    name: 'Modern Tech & Software',
+    tagline: 'Streamlined sans-serif with subtle emerald accent bar, tech skills & projects emphasis.',
+    atsScore: '100% ATS Safe',
+    badgeClass: 'badge-verified'
+  },
+  {
+    id: 'classic',
+    name: 'Classic Professional',
+    tagline: 'Single-column with traditional serif headers & horizontal dividing rules.',
     atsScore: '100% ATS Safe',
     badgeClass: 'badge-verified'
   }
 ];
+
+// Sanitization helper to protect returning visitors with corrupted cached data in localStorage
+const sanitizeLoadedCvData = (data) => {
+  if (!data || typeof data !== 'object') return EMPTY_CV_DATA;
+  
+  const cleaned = { ...data };
+  if (!cleaned.personal) cleaned.personal = { ...EMPTY_CV_DATA.personal };
+  
+  const photo = cleaned.personal.photoUrl || '';
+  const rawPhoto = cleaned.personal.rawPhotoUrl || '';
+  
+  const isBadPhoto = (val) => {
+    if (!val || typeof val !== 'string') return false;
+    const lower = val.toLowerCase();
+    // Detect any site branding, hero banner references, or marketing phrases
+    if (lower.includes('authority') || lower.includes('careers') || lower.includes('hero') || 
+        lower.includes('banner') || lower.includes('logo') || lower.includes('rozgar') ||
+        lower.includes('competitive') || lower.includes('exam')) {
+      return true;
+    }
+    // Must be a valid base64 data URI image; site URLs and file paths are invalid
+    if (!val.startsWith('data:image/')) {
+      return true;
+    }
+    return false;
+  };
+
+  if (isBadPhoto(photo) || isBadPhoto(rawPhoto)) {
+    cleaned.personal.photoUrl = '';
+    cleaned.personal.rawPhotoUrl = '';
+    cleaned.personal.showPhoto = false;
+  }
+  
+  if (!cleaned.personal.photoUrl) {
+    cleaned.personal.photoUrl = '';
+    cleaned.personal.rawPhotoUrl = '';
+  }
+
+  return cleaned;
+};
 
 export default function CvBuilder() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -272,18 +368,34 @@ export default function CvBuilder() {
   const [saveStatus, setSaveStatus] = useState('Saved');
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load from localStorage on client mount
+  // Load and sanitize from localStorage on client mount (protects returning users with corrupted cached data)
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
           const parsed = JSON.parse(stored);
-          setCvData(parsed);
-          setDebouncedData(parsed);
+          const sanitized = sanitizeLoadedCvData(parsed);
+          
+          // If sanitization modified the data, write the cleaned version back to localStorage immediately
+          if (JSON.stringify(parsed) !== JSON.stringify(sanitized)) {
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitized));
+            } catch (writeErr) {
+              console.warn("Failed to persist sanitized CV data", writeErr);
+            }
+          }
+          
+          setCvData(sanitized);
+          setDebouncedData(sanitized);
+        } else {
+          setCvData(EMPTY_CV_DATA);
+          setDebouncedData(EMPTY_CV_DATA);
         }
       } catch (e) {
-        console.error("Failed to load CV from storage", e);
+        console.error("Failed to load CV from storage, resetting to empty state", e);
+        setCvData(EMPTY_CV_DATA);
+        setDebouncedData(EMPTY_CV_DATA);
       }
       setIsLoaded(true);
     }
@@ -539,10 +651,23 @@ export default function CvBuilder() {
     setPhotoError('');
     const reader = new FileReader();
     reader.onload = (event) => {
-      setCropRawImage(event.target.result);
-      setCropZoom(1);
-      setCropPan({ x: 0, y: 0 });
-      setIsCropModalOpen(true);
+      const result = event.target?.result;
+      if (typeof result === 'string') {
+        setCropRawImage(result);
+        setCropZoom(1);
+        setCropPan({ x: 0, y: 0 });
+        setIsCropModalOpen(true);
+        setCvData(prev => ({
+          ...prev,
+          personal: {
+            ...prev.personal,
+            rawPhotoUrl: result
+          }
+        }));
+      }
+    };
+    reader.onerror = () => {
+      setPhotoError("Failed to read image file. Please select another image.");
     };
     reader.readAsDataURL(file);
   };
@@ -582,20 +707,14 @@ export default function CvBuilder() {
     if (!cropRawImage) return;
     const img = new Image();
     img.onload = () => {
-      const targetSize = 320;
+      const targetSize = 360; // 360x360 high-resolution passport square
       const canvas = document.createElement('canvas');
       canvas.width = targetSize;
       canvas.height = targetSize;
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Circular clip
-      ctx.beginPath();
-      ctx.arc(targetSize / 2, targetSize / 2, targetSize / 2, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.clip();
-
-      const modalSize = 260; // dimension of preview container
+      const modalSize = 250; // dimension of preview container (250x250)
       const scaleToCanvas = targetSize / modalSize;
 
       const imgRatio = img.naturalWidth / img.naturalHeight;
@@ -614,19 +733,24 @@ export default function CvBuilder() {
       const drawX = (targetSize - scaledW) / 2 + (cropPan.x * scaleToCanvas);
       const drawY = (targetSize - scaledH) / 2 + (cropPan.y * scaleToCanvas);
 
+      // Clean square passport draw - no circular clip
       ctx.drawImage(img, drawX, drawY, scaledW, scaledH);
 
-      const croppedDataUrl = canvas.toDataURL('image/png');
+      const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.95);
       setCvData(prev => ({
         ...prev,
         personal: {
           ...prev.personal,
           photoUrl: croppedDataUrl,
+          rawPhotoUrl: cropRawImage,
           showPhoto: true
         }
       }));
       setIsCropModalOpen(false);
       setPhotoError('');
+    };
+    img.onerror = () => {
+      setPhotoError("Failed to process cropped photo. Please try again.");
     };
     img.src = cropRawImage;
   };
@@ -637,6 +761,7 @@ export default function CvBuilder() {
       personal: {
         ...prev.personal,
         photoUrl: '',
+        rawPhotoUrl: '',
         showPhoto: false
       }
     }));
@@ -835,7 +960,7 @@ export default function CvBuilder() {
 
       const element = previewSheetRef.current;
       const cleanName = (cvData.personal.fullName || 'Resume').replace(/[^a-zA-Z0-9]/g, '_');
-      const filename = `${cleanName}_ATS_Resume_RozgarPK.pdf`;
+      const filename = `${cleanName}_ATS_Resume.pdf`;
 
       const opt = {
         margin: [10, 10, 10, 10],
@@ -892,16 +1017,8 @@ export default function CvBuilder() {
 
   // Reset Everything Handler
   const handleResetConfirmed = () => {
-    setCvData({
-      template: 'classic',
-      personal: { fullName: "", title: "", email: "", phone: "", city: "", linkedin: "", portfolio: "", photoUrl: "", showPhoto: false },
-      summary: "",
-      experience: [{ id: "exp-1", role: "", company: "", city: "", type: "Full-time", startDate: "", endDate: "", current: false, bullets: [""] }],
-      education: [{ id: "edu-1", degree: "", institution: "", city: "", startYear: "", endYear: "", ongoing: false, grade: "" }],
-      skills: [],
-      showSkillRatings: false,
-      extras: { certifications: [], languages: [], projects: [], referencesAvailable: true, customReferences: [] }
-    });
+    setCvData(EMPTY_CV_DATA);
+    setDebouncedData(EMPTY_CV_DATA);
     setCurrentStep(0);
     setShowResetModal(false);
     try {
@@ -928,7 +1045,7 @@ export default function CvBuilder() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => setCvData(INITIAL_CV_DATA)}
+              onClick={() => setCvData(SAMPLE_CV_DATA)}
               className="btn btn-outline btn-sm text-xs py-1 px-3"
               title="Preload authentic Pakistani candidate credentials"
             >
@@ -1076,7 +1193,7 @@ export default function CvBuilder() {
                 {/* Photo Upload Box with Govt Disclaimer & Interactive Cropper */}
                 <div className="photo-dossier-box p-4 rounded-xl bg-surface-subtle border border-subtle">
                   <div className="flex items-start gap-4">
-                    <div className="photo-crop-circle" style={{ width: '64px', height: '64px', minWidth: '64px', minHeight: '64px', flexShrink: 0 }}>
+                    <div className="photo-crop-preview" style={{ width: '64px', height: '64px', minWidth: '64px', minHeight: '64px', flexShrink: 0 }}>
                       {cvData.personal.photoUrl ? (
                         <div className="relative" style={{ width: '64px', height: '64px' }}>
                           <img 
@@ -1087,7 +1204,7 @@ export default function CvBuilder() {
                               height: '64px',
                               minWidth: '64px',
                               minHeight: '64px',
-                              borderRadius: '50%',
+                              borderRadius: '6px',
                               objectFit: 'cover',
                               border: `2px solid ${cvData.personal.showPhoto ? '#059669' : '#9CA3AF'}`,
                               opacity: cvData.personal.showPhoto ? 1 : 0.6,
@@ -1095,14 +1212,14 @@ export default function CvBuilder() {
                             }}
                           />
                           {!cvData.personal.showPhoto && (
-                            <span className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full text-[9px] text-white font-bold uppercase">
+                            <span className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-md text-[9px] text-white font-bold uppercase">
                               Hidden
                             </span>
                           )}
                         </div>
                       ) : (
-                        <div style={{ width: '64px', height: '64px', minWidth: '64px', borderRadius: '50%' }} className="bg-surface border border-subtle flex items-center justify-center text-muted">
-                          <Camera size={22} />
+                        <div style={{ width: '64px', height: '64px', minWidth: '64px', borderRadius: '6px', overflow: 'hidden' }} className="bg-surface border border-subtle flex items-center justify-center">
+                          <img src={NEUTRAL_SILHOUETTE_PLACEHOLDER} alt="Placeholder" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </div>
                       )}
                     </div>
@@ -1110,20 +1227,18 @@ export default function CvBuilder() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-primary">Passport Photo (Optional)</span>
-                        {cvData.personal.photoUrl && (
-                          <label className="flex items-center gap-1.5 text-xs text-secondary cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={cvData.personal.showPhoto}
-                              onChange={(e) => setCvData(prev => ({
-                                ...prev,
-                                personal: { ...prev.personal, showPhoto: e.target.checked }
-                              }))}
-                              className="rounded text-emerald-600"
-                            />
-                            <span>Show on CV</span>
-                          </label>
-                        )}
+                        <label className="flex items-center gap-1.5 text-xs text-secondary cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={cvData.personal.showPhoto}
+                            onChange={(e) => setCvData(prev => ({
+                              ...prev,
+                              personal: { ...prev.personal, showPhoto: e.target.checked }
+                            }))}
+                            className="rounded text-emerald-600"
+                          />
+                          <span>Show on CV</span>
+                        </label>
                       </div>
                       <p className="text-[11px] text-muted leading-normal mt-1 mb-2">
                         Notice: Photos are optional and not recommended for most Federal/Provincial civil service submissions unless specifically requested by the gazette notice.
@@ -1151,13 +1266,16 @@ export default function CvBuilder() {
                             <button
                               type="button"
                               onClick={() => {
-                                setCropRawImage(cvData.personal.photoUrl);
-                                setCropZoom(1);
-                                setCropPan({ x: 0, y: 0 });
-                                setIsCropModalOpen(true);
+                                const rawImg = cvData.personal.rawPhotoUrl || cvData.personal.photoUrl;
+                                if (rawImg) {
+                                  setCropRawImage(rawImg);
+                                  setCropZoom(1);
+                                  setCropPan({ x: 0, y: 0 });
+                                  setIsCropModalOpen(true);
+                                }
                               }}
                               className="btn btn-outline btn-sm py-1.5 px-3 text-xs"
-                              title="Re-open circular crop tool"
+                              title="Re-open passport photo crop tool"
                             >
                               <Crop size={13} />
                               <span>Adjust Crop</span>
@@ -1987,6 +2105,83 @@ export default function CvBuilder() {
                   </div>
                 </div>
 
+                {/* Key Projects Accordion */}
+                <div className="border border-subtle rounded-xl p-4 bg-surface-subtle">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-bold text-xs text-primary flex items-center gap-2">
+                      <Code size={15} className="text-emerald-600" />
+                      <span>Key Projects & Technical Initiatives</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setCvData(prev => ({
+                        ...prev,
+                        extras: {
+                          ...prev.extras,
+                          projects: [...(prev.extras.projects || []), { id: `p-${Date.now()}`, title: "", description: "", link: "" }]
+                        }
+                      }))}
+                      className="btn btn-outline btn-sm py-0.5 px-2.5 text-xs"
+                    >
+                      <Plus size={11} />
+                      <span>Add</span>
+                    </button>
+                  </div>
+
+                  <div className="space-y-3">
+                    {(cvData.extras.projects || []).map((proj, idx) => (
+                      <div key={proj.id || idx} className="p-3 rounded-lg bg-surface border border-subtle space-y-2">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            className="input-field text-xs flex-1"
+                            placeholder="Project Title (e.g. Federal E-Cabinet Dossier Integration)"
+                            value={proj.title}
+                            onChange={(e) => {
+                              const updated = [...cvData.extras.projects];
+                              updated[idx].title = e.target.value;
+                              setCvData(prev => ({ ...prev, extras: { ...prev.extras, projects: updated } }));
+                            }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updated = cvData.extras.projects.filter((_, i) => i !== idx);
+                              setCvData(prev => ({ ...prev, extras: { ...prev.extras, projects: updated } }));
+                            }}
+                            className="action-btn-sm text-red-500"
+                            title="Delete project"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                        <textarea
+                          rows={2}
+                          className="input-field text-xs"
+                          placeholder="Brief description of project scope, tools used, and quantifiable outcome..."
+                          value={proj.description}
+                          onChange={(e) => {
+                            const updated = [...cvData.extras.projects];
+                            updated[idx].description = e.target.value;
+                            setCvData(prev => ({ ...prev, extras: { ...prev.extras, projects: updated } }));
+                          }}
+                        />
+                        <input
+                          type="text"
+                          className="input-field text-xs"
+                          placeholder="Optional Project Link or Repository URL"
+                          value={proj.link || ''}
+                          onChange={(e) => {
+                            const updated = [...cvData.extras.projects];
+                            updated[idx].link = e.target.value;
+                            setCvData(prev => ({ ...prev, extras: { ...prev.extras, projects: updated } }));
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Languages Accordion */}
                 <div className="border border-subtle rounded-xl p-4 bg-surface-subtle">
                   <div className="flex items-center justify-between mb-3">
@@ -2297,19 +2492,44 @@ export default function CvBuilder() {
                 {/* TEMPLATE 1: CLASSIC PROFESSIONAL */}
                 {debouncedData.template === 'classic' && (
                   <div className="sheet-classic-layout">
-                    {/* Header */}
-                    <header className="text-center pb-3 mb-3 border-b border-gray-400">
-                      {debouncedData.personal.photoUrl && debouncedData.personal.showPhoto && (
-                        <div className="flex justify-center mb-2.5">
+                    {/* Header Row: Left Info (~75%) + Top-Right Passport Photo */}
+                    <header className="pb-3 mb-3 border-b border-gray-400 flex items-start justify-between gap-4">
+                      <div className={debouncedData.personal.photoUrl && debouncedData.personal.showPhoto ? "flex-1 min-w-0" : "w-full"}>
+                        <h1 className="text-2xl font-serif font-bold text-gray-900 tracking-tight uppercase mb-1">
+                          {debouncedData.personal.fullName || "Your Full Name"}
+                        </h1>
+                        <div className="text-xs font-semibold text-gray-700 tracking-wide mb-1.5">
+                          {debouncedData.personal.title || "Professional Title"}
+                        </div>
+                        <div className="text-[10.5px] text-gray-600 flex flex-wrap gap-x-3 gap-y-1">
+                          {debouncedData.personal.email && <span>{debouncedData.personal.email}</span>}
+                          {debouncedData.personal.phone && <span>• {debouncedData.personal.phone}</span>}
+                          {debouncedData.personal.city && <span>• {debouncedData.personal.city}</span>}
+                          {debouncedData.personal.linkedin && <span>• {debouncedData.personal.linkedin}</span>}
+                        </div>
+                      </div>
+                      {debouncedData.personal.showPhoto && (
+                        <div
+                          className="flex-shrink-0"
+                          style={{
+                            width: '110px',
+                            height: '110px',
+                            minWidth: '110px',
+                            minHeight: '110px',
+                            maxWidth: '110px',
+                            maxHeight: '110px',
+                            overflow: 'hidden'
+                          }}
+                        >
                           <img
-                            src={debouncedData.personal.photoUrl}
+                            src={debouncedData.personal.photoUrl || NEUTRAL_SILHOUETTE_PLACEHOLDER}
                             alt={debouncedData.personal.fullName || "Applicant"}
                             style={{
-                              width: '64px',
-                              height: '64px',
-                              minWidth: '64px',
-                              minHeight: '64px',
-                              borderRadius: '50%',
+                              width: '110px',
+                              height: '110px',
+                              minWidth: '110px',
+                              minHeight: '110px',
+                              borderRadius: '6px',
                               objectFit: 'cover',
                               border: '1.5px solid #4B5563',
                               display: 'block'
@@ -2317,18 +2537,6 @@ export default function CvBuilder() {
                           />
                         </div>
                       )}
-                      <h1 className="text-2xl font-serif font-bold text-gray-900 tracking-tight uppercase mb-1">
-                        {debouncedData.personal.fullName || "Your Full Name"}
-                      </h1>
-                      <div className="text-xs font-semibold text-gray-700 tracking-wide mb-1.5">
-                        {debouncedData.personal.title || "Professional Title"}
-                      </div>
-                      <div className="text-[10.5px] text-gray-600 flex flex-wrap justify-center gap-x-3 gap-y-1">
-                        {debouncedData.personal.email && <span>{debouncedData.personal.email}</span>}
-                        {debouncedData.personal.phone && <span>• {debouncedData.personal.phone}</span>}
-                        {debouncedData.personal.city && <span>• {debouncedData.personal.city}</span>}
-                        {debouncedData.personal.linkedin && <span>• {debouncedData.personal.linkedin}</span>}
-                      </div>
                     </header>
 
                     {/* Summary */}
@@ -2452,30 +2660,52 @@ export default function CvBuilder() {
                 {/* TEMPLATE 2: MODERN MINIMAL */}
                 {debouncedData.template === 'modern' && (
                   <div className="sheet-modern-layout">
-                    <header className="pb-3 mb-3 border-b-2 border-emerald-800 flex justify-between items-center">
-                      <div>
+                    {/* Header Row: Left Info + Contact + Top-Right Passport Photo */}
+                    <header className="pb-3 mb-3 border-b-2 border-emerald-800 flex items-start justify-between gap-4">
+                      <div className={debouncedData.personal.photoUrl && debouncedData.personal.showPhoto ? "flex-1 min-w-0" : "w-full"}>
                         <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
                           {debouncedData.personal.fullName || "Your Full Name"}
                         </h1>
-                        <div className="text-xs font-semibold text-emerald-800 uppercase tracking-wide mt-0.5">
+                        <div className="text-xs font-semibold text-emerald-800 uppercase tracking-wide mt-0.5 mb-2">
                           {debouncedData.personal.title || "Professional Role"}
                         </div>
+                        <div className="text-[10.5px] text-gray-600 flex flex-wrap gap-x-3 gap-y-1 bg-gray-100 p-2 rounded">
+                          {debouncedData.personal.email && <span>✉ {debouncedData.personal.email}</span>}
+                          {debouncedData.personal.phone && <span>📞 {debouncedData.personal.phone}</span>}
+                          {debouncedData.personal.city && <span>📍 {debouncedData.personal.city}</span>}
+                          {debouncedData.personal.linkedin && <span>🔗 {debouncedData.personal.linkedin}</span>}
+                        </div>
                       </div>
-                      {debouncedData.personal.photoUrl && debouncedData.personal.showPhoto && (
-                        <img
-                          src={debouncedData.personal.photoUrl}
-                          alt="Applicant"
-                          style={{ width: '64px', height: '64px', minWidth: '64px', minHeight: '64px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #0B3D2E', display: 'block' }}
-                        />
+                      {debouncedData.personal.showPhoto && (
+                        <div
+                          className="flex-shrink-0"
+                          style={{
+                            width: '110px',
+                            height: '110px',
+                            minWidth: '110px',
+                            minHeight: '110px',
+                            maxWidth: '110px',
+                            maxHeight: '110px',
+                            overflow: 'hidden'
+                          }}
+                        >
+                          <img
+                            src={debouncedData.personal.photoUrl || NEUTRAL_SILHOUETTE_PLACEHOLDER}
+                            alt={debouncedData.personal.fullName || "Applicant"}
+                            style={{
+                              width: '110px',
+                              height: '110px',
+                              minWidth: '110px',
+                              minHeight: '110px',
+                              borderRadius: '50%',
+                              objectFit: 'cover',
+                              border: '2px solid #0B3D2E',
+                              display: 'block'
+                            }}
+                          />
+                        </div>
                       )}
                     </header>
-
-                    <div className="text-[10.5px] text-gray-600 flex flex-wrap gap-x-4 gap-y-1 mb-3 bg-gray-100 p-2 rounded">
-                      {debouncedData.personal.email && <span>✉ {debouncedData.personal.email}</span>}
-                      {debouncedData.personal.phone && <span>📞 {debouncedData.personal.phone}</span>}
-                      {debouncedData.personal.city && <span>📍 {debouncedData.personal.city}</span>}
-                      {debouncedData.personal.linkedin && <span>🔗 {debouncedData.personal.linkedin}</span>}
-                    </div>
 
                     {debouncedData.summary && (
                       <section className="mb-3.5">
@@ -2567,6 +2797,24 @@ export default function CvBuilder() {
                       </section>
                     )}
 
+                    {/* Projects in Modern Tech & Software */}
+                    {debouncedData.extras?.projects?.length > 0 && debouncedData.extras.projects.some(p => p.title) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-modern">Technical Projects & Key Initiatives</h2>
+                        <div className="space-y-2 text-[11px] text-gray-800">
+                          {debouncedData.extras.projects.map((p, i) => p.title && (
+                            <div key={p.id || i} className="p-2 rounded bg-gray-50 border border-gray-200/60">
+                              <div className="font-bold text-gray-900 flex justify-between items-baseline">
+                                <span>{p.title}</span>
+                                {p.link && <span className="text-[10px] text-emerald-700 font-mono font-normal">{p.link}</span>}
+                              </div>
+                              {p.description && <p className="text-gray-700 text-[10.5px] mt-0.5">{p.description}</p>}
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+
                     {/* References */}
                     {debouncedData.extras?.referencesAvailable && (
                       <section className="mb-2">
@@ -2580,42 +2828,55 @@ export default function CvBuilder() {
                 {/* TEMPLATE 3: GOVERNMENT / FORMAL */}
                 {debouncedData.template === 'govt' && (
                   <div className="sheet-govt-layout">
-                    <header className="text-center pb-2 mb-3 border-b-2 border-black">
-                      <div className="text-[9.5px] font-mono uppercase tracking-widest text-gray-600">
-                        Islamic Republic of Pakistan • Curriculum Vitae (BPS Cadre Format)
+                    <div className="text-[9.5px] font-mono uppercase tracking-widest text-gray-600 text-center pb-1 mb-2 border-b border-gray-300">
+                      Islamic Republic of Pakistan • Curriculum Vitae (BPS Cadre Format)
+                    </div>
+                    {/* Header Row: Left Info (~75%) + Top-Right Square Passport Photo */}
+                    <header className="pb-2 mb-3 border-b-2 border-black flex items-start justify-between gap-4">
+                      <div className={debouncedData.personal.photoUrl && debouncedData.personal.showPhoto ? "flex-1 min-w-0" : "w-full"}>
+                        <h1 className="text-2xl font-serif font-bold text-black uppercase tracking-tight mb-0.5">
+                          {debouncedData.personal.fullName || "YOUR FULL NAME"}
+                        </h1>
+                        <div className="text-xs font-bold text-black uppercase tracking-wider mb-2">
+                          {debouncedData.personal.title || "TARGET CADRE"}
+                        </div>
+                        {/* Single-Column Contact Matrix */}
+                        <div className="text-[10.5px] text-black border border-gray-400 p-2 leading-relaxed">
+                          <div><strong>Address / Station:</strong> {debouncedData.personal.city || "Pakistan"}</div>
+                          <div><strong>Contact:</strong> {debouncedData.personal.phone} | {debouncedData.personal.email}</div>
+                          {debouncedData.personal.linkedin && <div><strong>Profile:</strong> {debouncedData.personal.linkedin}</div>}
+                        </div>
                       </div>
-                      {debouncedData.personal.photoUrl && debouncedData.personal.showPhoto && (
-                        <div className="flex justify-center my-2">
+                      {debouncedData.personal.showPhoto && (
+                        <div
+                          className="flex-shrink-0"
+                          style={{
+                            width: '110px',
+                            height: '110px',
+                            minWidth: '110px',
+                            minHeight: '110px',
+                            maxWidth: '110px',
+                            maxHeight: '110px',
+                            overflow: 'hidden'
+                          }}
+                        >
                           <img
-                            src={debouncedData.personal.photoUrl}
+                            src={debouncedData.personal.photoUrl || NEUTRAL_SILHOUETTE_PLACEHOLDER}
                             alt={debouncedData.personal.fullName || "Applicant"}
                             style={{
-                              width: '60px',
-                              height: '60px',
-                              minWidth: '60px',
-                              minHeight: '60px',
-                              borderRadius: '50%',
+                              width: '110px',
+                              height: '110px',
+                              minWidth: '110px',
+                              minHeight: '110px',
+                              borderRadius: '0px',
                               objectFit: 'cover',
-                              border: '1.5px solid #000000',
+                              border: '1px solid #000000',
                               display: 'block'
                             }}
                           />
                         </div>
                       )}
-                      <h1 className="text-2xl font-serif font-bold text-black uppercase tracking-tight mt-1 mb-0.5">
-                        {debouncedData.personal.fullName || "YOUR FULL NAME"}
-                      </h1>
-                      <div className="text-xs font-bold text-black uppercase tracking-wider">
-                        {debouncedData.personal.title || "TARGET CADRE"}
-                      </div>
                     </header>
-
-                    {/* Single-Column Contact Matrix */}
-                    <div className="text-[10.5px] text-black border border-gray-400 p-2 mb-3 leading-relaxed">
-                      <div><strong>Address / Station:</strong> {debouncedData.personal.city || "Pakistan"}</div>
-                      <div><strong>Contact:</strong> {debouncedData.personal.phone} | {debouncedData.personal.email}</div>
-                      {debouncedData.personal.linkedin && <div><strong>Profile:</strong> {debouncedData.personal.linkedin}</div>}
-                    </div>
 
                     {debouncedData.summary && (
                       <section className="mb-3">
@@ -2698,6 +2959,21 @@ export default function CvBuilder() {
                       </section>
                     )}
 
+                    {/* Official Projects & Assignments in Govt & Academic Standard */}
+                    {debouncedData.extras?.projects?.length > 0 && debouncedData.extras.projects.some(p => p.title) && (
+                      <section className="mb-3">
+                        <h2 className="section-title-govt">Official Projects & Special Assignments</h2>
+                        <div className="space-y-1.5 text-[11px] text-black">
+                          {debouncedData.extras.projects.map((p, i) => p.title && (
+                            <div key={p.id || i}>
+                              <div className="font-bold">{p.title}</div>
+                              {p.description && <p className="text-gray-800 text-justify">{p.description}</p>}
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+
                     {/* References */}
                     {debouncedData.extras?.referencesAvailable && (
                       <section className="mb-2">
@@ -2711,38 +2987,52 @@ export default function CvBuilder() {
                 {/* TEMPLATE 4: EXECUTIVE */}
                 {debouncedData.template === 'executive' && (
                   <div className="sheet-executive-layout">
-                    <header className="pb-3 mb-3 border-b-2 border-emerald-900 flex justify-between items-center">
-                      <div>
+                    {/* Header Row: Left Info + Contact + Top-Right Square Passport Photo */}
+                    <header className="pb-3 mb-3 border-b-2 border-emerald-900 flex items-start justify-between gap-4">
+                      <div className={debouncedData.personal.photoUrl && debouncedData.personal.showPhoto ? "flex-1 min-w-0" : "w-full"}>
                         <h1 className="text-2xl font-serif font-bold text-gray-900 tracking-tight">
                           {debouncedData.personal.fullName || "Your Full Name"}
                         </h1>
-                        <div className="text-xs font-bold text-emerald-900 uppercase tracking-widest mt-1">
+                        <div className="text-xs font-bold text-emerald-900 uppercase tracking-widest mt-1 mb-2">
                           {debouncedData.personal.title || "Executive Role"}
                         </div>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10.5px] text-gray-600">
+                          {debouncedData.personal.email && <span>✉ {debouncedData.personal.email}</span>}
+                          {debouncedData.personal.phone && <span>📞 {debouncedData.personal.phone}</span>}
+                          {debouncedData.personal.city && <span>📍 {debouncedData.personal.city}</span>}
+                          {debouncedData.personal.linkedin && <span>🔗 {debouncedData.personal.linkedin}</span>}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        {debouncedData.personal.photoUrl && debouncedData.personal.showPhoto && (
+                      {debouncedData.personal.showPhoto && (
+                        <div
+                          className="flex-shrink-0"
+                          style={{
+                            width: '110px',
+                            height: '110px',
+                            minWidth: '110px',
+                            minHeight: '110px',
+                            maxWidth: '110px',
+                            maxHeight: '110px',
+                            overflow: 'hidden'
+                          }}
+                        >
                           <img
-                            src={debouncedData.personal.photoUrl}
-                            alt="Applicant"
+                            src={debouncedData.personal.photoUrl || NEUTRAL_SILHOUETTE_PLACEHOLDER}
+                            alt={debouncedData.personal.fullName || "Applicant"}
                             style={{
-                              width: '64px',
-                              height: '64px',
-                              minWidth: '64px',
-                              minHeight: '64px',
-                              borderRadius: '50%',
+                              width: '110px',
+                              height: '110px',
+                              minWidth: '110px',
+                              minHeight: '110px',
+                              borderRadius: '6px',
                               objectFit: 'cover',
-                              border: '2px solid #0B3D2E',
+                              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                              border: '1px solid #d1d5db',
                               display: 'block'
                             }}
                           />
-                        )}
-                        <div className="text-right text-[10.5px] text-gray-600 space-y-0.5">
-                          {debouncedData.personal.email && <div>{debouncedData.personal.email}</div>}
-                          {debouncedData.personal.phone && <div>{debouncedData.personal.phone}</div>}
-                          {debouncedData.personal.city && <div>{debouncedData.personal.city}</div>}
                         </div>
-                      </div>
+                      )}
                     </header>
 
                     {debouncedData.summary && (
@@ -2826,6 +3116,24 @@ export default function CvBuilder() {
                       </section>
                     )}
 
+                    {/* Strategic Initiatives & Projects in Executive Minimalist */}
+                    {debouncedData.extras?.projects?.length > 0 && debouncedData.extras.projects.some(p => p.title) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-executive">Strategic Initiatives & Projects</h2>
+                        <div className="space-y-2 text-xs">
+                          {debouncedData.extras.projects.map((p, i) => p.title && (
+                            <div key={p.id || i} className="leading-relaxed">
+                              <div className="font-bold text-gray-900 flex justify-between">
+                                <span>{p.title}</span>
+                                {p.link && <span className="text-[10.5px] text-emerald-800 font-normal">{p.link}</span>}
+                              </div>
+                              {p.description && <p className="text-gray-700 text-justify text-[11px]">{p.description}</p>}
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+
                     {/* References */}
                     {debouncedData.extras?.referencesAvailable && (
                       <section className="mb-2">
@@ -2872,7 +3180,7 @@ export default function CvBuilder() {
         </div>
       )}
 
-      {/* Interactive Circular Crop Modal */}
+      {/* Interactive Passport Photo Crop Modal */}
       {isCropModalOpen && (
         <div className="crop-modal-overlay" onClick={() => setIsCropModalOpen(false)}>
           <div className="crop-modal-dialog" onClick={(e) => e.stopPropagation()}>
@@ -2891,10 +3199,10 @@ export default function CvBuilder() {
             </div>
 
             <p className="text-xs text-muted leading-relaxed mb-1">
-              Drag image to center your face inside the circle. Adjust the zoom slider to frame your headshot.
+              Drag image to position your headshot within the passport frame. Adjust the zoom slider to frame your head and shoulders.
             </p>
 
-            {/* Circular Viewport */}
+            {/* Square Passport Viewport */}
             <div
               className="crop-viewport-container"
               onMouseDown={handleCropMouseDown}
@@ -2912,11 +3220,12 @@ export default function CvBuilder() {
                   className="crop-image-render"
                   style={{
                     transform: `translate(calc(-50% + ${cropPan.x}px), calc(-50% + ${cropPan.y}px)) scale(${cropZoom})`,
-                    maxHeight: '260px'
+                    maxHeight: '250px'
                   }}
                   draggable={false}
                 />
               )}
+              <div className="crop-passport-guide" />
             </div>
 
             {/* Zoom Slider */}
