@@ -21,6 +21,33 @@
   flex-direction: row-reverse;
 }
 
+/* RTL Truncation & Bidirectional Text Protection
+   Prevents English/Latin-script text from truncating from the beginning in RTL mode.
+   Enforces end-truncation (left-to-right) for English fields while preserving natural Urdu RTL flow. */
+[dir="rtl"] [dir="auto"],
+[dir="rtl"] .card-dept-name,
+[dir="rtl"] .card-category-sub,
+[dir="rtl"] .job-card-title,
+[dir="rtl"] .job-card-title a,
+[dir="rtl"] .job-card-title-link,
+[dir="rtl"] .meta-item span,
+[dir="rtl"] .meta-qual-text,
+[dir="rtl"] .detail-job-title,
+[dir="rtl"] .detail-org-name,
+[dir="rtl"] .job-hero-title,
+[dir="rtl"] .dept-subtitle,
+[dir="rtl"] .spec-value,
+[dir="rtl"] .saved-dept-text,
+[dir="rtl"] .saved-job-title,
+[dir="rtl"] .quick-result-title,
+[dir="rtl"] .quick-result-sub,
+[dir="rtl"] .suggest-title,
+[dir="rtl"] .suggest-dept,
+[dir="rtl"] .breadcrumb-list li.current {
+  unicode-bidi: plaintext;
+  text-align: right;
+}
+
 .prep-pill {
   background: rgba(245, 158, 11, 0.15);
   color: #d97706;

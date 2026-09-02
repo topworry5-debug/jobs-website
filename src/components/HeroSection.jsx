@@ -250,8 +250,8 @@ export default function HeroSection({
                       {job.type === 'govt' ? job.bpsScale || 'Govt' : 'Private'}
                     </div>
                     <div>
-                      <div className="suggest-title">{job.title}</div>
-                      <div className="suggest-dept">
+                      <div className="suggest-title" dir="auto">{job.title}</div>
+                      <div className="suggest-dept" dir="auto">
                         {job.department || job.company} • {job.city}
                       </div>
                     </div>

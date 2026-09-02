@@ -130,9 +130,9 @@ export default function JobDetailModal({
                 />
               </div>
               <div className="detail-title-block">
-                <h2 className="detail-job-title">{job.title}</h2>
+                <h2 className="detail-job-title" dir="auto">{job.title}</h2>
                 <div className="detail-dept-row">
-                  <span className="detail-org-name">{job.department || job.company}</span>
+                  <span className="detail-org-name" dir="auto">{job.department || job.company}</span>
                   {job.bpsScale && <span className="bps-pill font-mono">{job.bpsScale}</span>}
                 </div>
               </div>
@@ -140,7 +140,7 @@ export default function JobDetailModal({
 
             {/* Official Source Reference */}
             {job.officialSourceLabel && (
-              <div className="official-source-bar">
+              <div className="official-source-bar" dir="auto">
                 <ShieldCheck size={15} className="text-emerald" />
                 <span>{t.jobDetail.sourceRef} <strong>{job.officialSourceLabel}</strong> • {t.jobDetail.lastVerifiedAgainst} <strong>{job.lastVerifiedDate || "August 31, 2026"}</strong></span>
               </div>
@@ -186,7 +186,7 @@ export default function JobDetailModal({
           <div className="spec-matrix-grid">
             <div className="spec-item-card">
               <span className="spec-label">📍 {t.jobDetail.jobLocation}</span>
-              <span className="spec-value">{job.city}</span>
+              <span className="spec-value" dir="auto">{job.city}</span>
             </div>
 
             <div className="spec-item-card">
@@ -197,28 +197,28 @@ export default function JobDetailModal({
             {isGovt && job.ageLimit && (
               <div className="spec-item-card">
                 <span className="spec-label">🎂 {t.jobDetail.ageLimit}</span>
-                <span className="spec-value">{job.ageLimit}</span>
+                <span className="spec-value" dir="auto">{job.ageLimit}</span>
               </div>
             )}
 
             {isGovt && job.challanFee && (
               <div className="spec-item-card">
                 <span className="spec-label">💳 {t.jobDetail.challanFee}</span>
-                <span className="spec-value text-emerald-500">{job.challanFee}</span>
+                <span className="spec-value text-emerald-500" dir="auto">{job.challanFee}</span>
               </div>
             )}
 
             {!isGovt && job.salaryRange && (
               <div className="spec-item-card">
                 <span className="spec-label">💰 {t.jobDetail.payScale}</span>
-                <span className="spec-value text-emerald-500">{job.salaryRange}</span>
+                <span className="spec-value text-emerald-500" dir="auto">{job.salaryRange}</span>
               </div>
             )}
 
             {job.qualification && (
               <div className="spec-item-card">
                 <span className="spec-label">🎓 {t.jobDetail.minQualification}</span>
-                <span className="spec-value">{job.qualification}</span>
+                <span className="spec-value" dir="auto">{job.qualification}</span>
               </div>
             )}
           </div>
@@ -229,7 +229,7 @@ export default function JobDetailModal({
               <FileText size={17} className="text-emerald" />
               <span>{t.jobDetail.descTitle}</span>
             </h4>
-            <p className="detail-text-p">{job.description}</p>
+            <p className="detail-text-p" dir="auto">{job.description}</p>
           </div>
 
           {/* Section: Quota Breakdown (Govt specific) */}
@@ -241,7 +241,7 @@ export default function JobDetailModal({
               </h4>
               <div className="quota-display-card">
                 {job.quota.split('|').map((q, idx) => (
-                  <div key={idx} className="quota-item-pill">
+                  <div key={idx} className="quota-item-pill" dir="auto">
                     {q.trim()}
                   </div>
                 ))}
@@ -260,7 +260,7 @@ export default function JobDetailModal({
                 {job.eligibilityCriteria.map((item, idx) => (
                   <li key={idx} className="criteria-item">
                     <CheckCircle2 size={16} className="criteria-icon text-emerald" />
-                    <span>{item}</span>
+                    <span dir="auto">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -279,12 +279,12 @@ export default function JobDetailModal({
                   {job.syllabus.map((syl, idx) => (
                     <div key={idx} className="syllabus-item-card">
                       <span className="syl-number">0{idx + 1}</span>
-                      <span className="syl-text">{syl}</span>
+                      <span className="syl-text" dir="auto">{syl}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="p-3.5 bg-surface-subtle border border-subtle rounded-lg text-sm text-secondary leading-relaxed">
+                <div className="p-3.5 bg-surface-subtle border border-subtle rounded-lg text-sm text-secondary leading-relaxed" dir="auto">
                   {job.syllabus}
                 </div>
               )}

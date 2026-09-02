@@ -51,8 +51,8 @@ export default function JobCard({
             />
           </div>
           <div className="card-dept-meta-col">
-            <div className="card-dept-name">{job.department || job.company}</div>
-            <div className="card-category-sub">{job.subCategory || job.category}</div>
+            <div className="card-dept-name" dir="auto">{job.department || job.company}</div>
+            <div className="card-category-sub" dir="auto">{job.subCategory || job.category}</div>
           </div>
         </div>
 
@@ -80,11 +80,12 @@ export default function JobCard({
       </div>
 
       {/* Direct Clickable Title */}
-      <h3 className="job-card-title">
+      <h3 className="job-card-title" dir="auto">
         <Link 
           href={`/jobs/${job.id}`}
           className="job-card-title-link"
           title={`View full details for ${job.title}`}
+          dir="auto"
         >
           {job.title}
         </Link>
@@ -94,7 +95,7 @@ export default function JobCard({
       <div className="card-meta-grid">
         <div className="meta-item">
           <MapPin size={14} className="text-muted flex-shrink-0" />
-          <span className="truncate">{job.city}</span>
+          <span className="truncate" dir="auto">{job.city}</span>
         </div>
 
         {job.vacancies && (
@@ -107,7 +108,7 @@ export default function JobCard({
         {job.qualification && (
           <div className="meta-item full-width-meta">
             <GraduationCap size={14} className="text-muted flex-shrink-0" />
-            <span className="meta-qual-text">{job.qualification}</span>
+            <span className="meta-qual-text" dir="auto">{job.qualification}</span>
           </div>
         )}
       </div>

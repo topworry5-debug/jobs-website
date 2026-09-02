@@ -116,7 +116,7 @@ export default function JobDetailPage({ params }) {
           <li className="separator">/</li>
           <li><Link href={`/jobs/${isGovt ? 'govt' : 'private'}`}>{isGovt ? 'Government Jobs' : 'Private Jobs'}</Link></li>
           <li className="separator">/</li>
-          <li className="current" aria-current="page">{job.title}</li>
+          <li className="current" aria-current="page" dir="auto">{job.title}</li>
         </ol>
       </nav>
 
@@ -152,11 +152,11 @@ export default function JobDetailPage({ params }) {
                   )}
                 </div>
 
-                <h1 className="job-hero-title text-2xl md:text-3xl font-extrabold text-primary mb-2">
+                <h1 className="job-hero-title text-2xl md:text-3xl font-extrabold text-primary mb-2" dir="auto">
                   {job.title}
                 </h1>
 
-                <div className="dept-subtitle text-base text-secondary font-medium">
+                <div className="dept-subtitle text-base text-secondary font-medium" dir="auto">
                   {job.department || job.company} • <span className="text-primary font-semibold">{job.city}</span>
                 </div>
               </div>
@@ -179,7 +179,7 @@ export default function JobDetailPage({ params }) {
           <div className="official-verification-banner card p-4 mb-6">
             <div className="flex items-start gap-3">
               <ShieldCheck size={22} className="text-emerald-500 flex-shrink-0 mt-0.5" />
-              <div>
+              <div dir="auto">
                 <div className="font-bold text-sm text-primary mb-1">
                   100% Authentic Official Listing
                 </div>
@@ -198,11 +198,11 @@ export default function JobDetailPage({ params }) {
             <div className="spec-matrix-grid">
               <div className="spec-item-card">
                 <span className="spec-label">🏢 Authority / Dept</span>
-                <span className="spec-value">{job.department || job.company}</span>
+                <span className="spec-value" dir="auto">{job.department || job.company}</span>
               </div>
               <div className="spec-item-card">
                 <span className="spec-label">📍 Job Location</span>
-                <span className="spec-value">{job.city}</span>
+                <span className="spec-value" dir="auto">{job.city}</span>
               </div>
               <div className="spec-item-card">
                 <span className="spec-label">⏳ Application Deadline</span>
@@ -210,7 +210,7 @@ export default function JobDetailPage({ params }) {
               </div>
               <div className="spec-item-card">
                 <span className="spec-label">🎓 Minimum Qualification</span>
-                <span className="spec-value">{job.qualification || "As per official service rules"}</span>
+                <span className="spec-value" dir="auto">{job.qualification || "As per official service rules"}</span>
               </div>
               {job.bpsScale && (
                 <div className="spec-item-card">
@@ -227,13 +227,13 @@ export default function JobDetailPage({ params }) {
               {job.ageLimit && (
                 <div className="spec-item-card">
                   <span className="spec-label">🎂 Age Limit</span>
-                  <span className="spec-value">{job.ageLimit}</span>
+                  <span className="spec-value" dir="auto">{job.ageLimit}</span>
                 </div>
               )}
               {job.challanFee && (
                 <div className="spec-item-card">
                   <span className="spec-label">💳 Application / Challan Fee</span>
-                  <span className="spec-value text-emerald-500">{job.challanFee}</span>
+                  <span className="spec-value text-emerald-500" dir="auto">{job.challanFee}</span>
                 </div>
               )}
             </div>
@@ -242,7 +242,7 @@ export default function JobDetailPage({ params }) {
           {/* Description & Overview */}
           <section className="job-section mb-6">
             <h2 className="text-lg font-bold mb-3">Job Description & Official Scope</h2>
-            <p className="text-secondary leading-relaxed text-sm">
+            <p className="text-secondary leading-relaxed text-sm" dir="auto">
               {job.description || `Applications are invited by ${job.department || job.company} for the position of ${job.title}. Eligible candidates across Pakistan meeting the required academic qualifications and experience criteria are encouraged to apply online through the official portal before the closing deadline of ${job.lastDate}.`}
             </p>
           </section>

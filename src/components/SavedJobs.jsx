@@ -62,7 +62,7 @@ export default function SavedJobs({
                       <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
                         {isGovt ? job.bpsScale || 'Govt' : 'Tech'}
                       </span>
-                      <span className="saved-dept-text">{job.department || job.company}</span>
+                      <span className="saved-dept-text" dir="auto">{job.department || job.company}</span>
                     </div>
 
                     <button 
@@ -74,14 +74,14 @@ export default function SavedJobs({
                     </button>
                   </div>
 
-                  <h3 className="saved-job-title" onClick={() => onSelectJob(job)}>
+                  <h3 className="saved-job-title" onClick={() => onSelectJob(job)} dir="auto">
                     {job.title}
                   </h3>
 
                   <div className="saved-meta-row">
                     <div className="meta-sub-item">
                       <MapPin size={14} className="text-muted" />
-                      <span>{job.city}</span>
+                      <span dir="auto">{job.city}</span>
                     </div>
                     <div className="meta-sub-item">
                       <Clock size={14} className="text-red" />
