@@ -89,6 +89,9 @@ export async function scrapeLivePPSC() {
         const description = meta.description || `PPSC Case No. ${caseNo} (${postName}) under ${department}. Single-paper 100-mark MCQ test. Apply online via PPSC Candidate Portal before ${isoClosingDate}.`;
         const syllabus = meta.syllabus || "100-mark single paper MCQ (90 minutes): 80% Subject-specific qualification + 20% General Ability & Pakistan Studies.";
 
+        const daysRemaining = Math.ceil((deadlineTime - now) / (1000 * 60 * 60 * 24));
+        const isUrgent = daysRemaining <= 2 && daysRemaining >= 0;
+
         scrapedJobs.push({
           id: `ppsc-live-${caseNo.toLowerCase().replace(/[^a-z0-9]/g, '') || Date.now()}-${scrapedJobs.length + 1}`,
           type: "govt",
@@ -110,7 +113,7 @@ export async function scrapeLivePPSC() {
           syllabus: syllabus,
           postDate: isoPostDate,
           lastDate: isoClosingDate,
-          urgent: false,
+          urgent: isUrgent,
           featured: scrapedJobs.length < 3,
           verified: true,
           challanFee: fee ? `PKR ${fee} (Paid online via 1Link / 1Bill / ATM / Mobile Banking / JazzCash)` : "PKR 600",

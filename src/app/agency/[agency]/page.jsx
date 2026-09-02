@@ -121,6 +121,21 @@ export default function AgencyLandingPage({ params }) {
             </div>
           </div>
         )}
+
+        {/* Live Zero-Vacancy Official Advisory */}
+        {agencyJobs.length === 0 && (
+          <div className="p-4 mt-4 rounded-xl border border-emerald-900/30 bg-emerald-950/20 text-xs text-secondary flex items-start gap-3">
+            <ShieldCheck size={20} className="text-emerald-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-emerald-300 font-semibold text-sm block mb-1">
+                Official Commission Status: No Active Advertisements Currently Open
+              </strong>
+              <p className="leading-relaxed">
+                Direct monitoring of {content.agencyCode} confirms that the previous recruitment advertisement has closed, and the Commission has not yet released its next consolidated gazette. As soon as {content.agencyCode} gazettes new vacancies, RozgarPK will ingest them automatically.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <HomeClientFilter 

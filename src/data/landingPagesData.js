@@ -113,17 +113,17 @@ export const AGENCY_LANDING_PAGES = {
     agencyCode: "FPSC",
     fullName: "Federal Public Service Commission",
     jurisdiction: "All Pakistan (Federal Cadres)",
-    officialWebsite: "https://online.fpsc.gov.pk",
-    officialPortalUrl: "https://online.fpsc.gov.pk",
+    officialWebsite: "https://www.fpsc.gov.pk",
+    officialPortalUrl: "https://www.fpsc.gov.pk/Jobs?section=GR",
     metaTitle: "FPSC Jobs 2026 — Official Online Application & Consolidated Advt",
     metaDescription: "Apply online for Federal Public Service Commission (FPSC) General Recruitment and CSS Examination 2027. Verified syllabus, challan forms, and criteria.",
     h1: "FPSC Jobs 2026 (Federal Public Service Commission)",
     tagline: "Official recruitment intelligence for Central Superior Services (CSS) and Federal General Recruitment (BPS-16 to BPS-21).",
-    challanGuide: "Deposit PKR 300 (BPS-16/17), PKR 750 (BPS-18), or PKR 1200 (BPS-19) under Major Head C02101 - State Bank / National Bank of Pakistan.",
+    challanGuide: "Deposit PKR 300 (BPS-16/17), PKR 750 (BPS-18), or PKR 1200 (BPS-19) under Major Head C02101 - State Bank / National Bank of Pakistan or via 1Link PSID.",
     faqs: [
       {
-        question: "How to download FPSC Admission Certificate / Roll Number Slip?",
-        answer: "Visit online.fpsc.gov.pk, click 'Admission Certificates', enter your CNIC number, and download your printable PDF slip 10 to 14 days before the screening test."
+        question: "How to apply online on the new FPSC website?",
+        answer: "Visit www.fpsc.gov.pk/Jobs?section=GR to view active advertisements. Online applications are submitted through the FPSC Candidate Portal (cp.fpsc.gov.pk) with your CNIC and paid PSID fee verification."
       },
       {
         question: "What documents are required inside the FPSC examination hall?",
