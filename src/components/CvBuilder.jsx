@@ -2221,30 +2221,54 @@ export default function CvBuilder() {
                       </section>
                     )}
 
-                    {/* Extras */}
-                    {(debouncedData.extras.certifications.length > 0 || debouncedData.extras.languages.length > 0) && (
-                      <section className="pt-1 border-t border-gray-300 grid grid-cols-2 gap-4">
-                        {debouncedData.extras.certifications.length > 0 && (
-                          <div>
-                            <h2 className="section-title-classic text-[10.5px]">Certifications</h2>
-                            <ul className="list-disc pl-4 text-[10.5px] text-gray-800 space-y-0.5">
-                              {debouncedData.extras.certifications.map((c, i) => c.name && (
-                                <li key={i}>{c.name} {c.year ? `(${c.year})` : ''}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
+                    {/* Certifications (Strict Single-Column Stacked) */}
+                    {debouncedData.extras?.certifications?.length > 0 && debouncedData.extras.certifications.some(c => c.name) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-classic">Certifications & Statutory Licenses</h2>
+                        <ul className="list-disc pl-4 text-[11px] text-gray-800 space-y-0.5">
+                          {debouncedData.extras.certifications.map((c, i) => c.name && (
+                            <li key={i}>
+                              <strong>{c.name}</strong>{c.issuer ? ` — ${c.issuer}` : ''}{c.year ? ` (${c.year})` : ''}
+                            </li>
+                          ))}
+                        </ul>
+                      </section>
+                    )}
 
-                        {debouncedData.extras.languages.length > 0 && (
-                          <div>
-                            <h2 className="section-title-classic text-[10.5px]">Languages</h2>
-                            <div className="text-[10.5px] text-gray-800 space-y-0.5">
-                              {debouncedData.extras.languages.map((l, i) => l.name && (
-                                <div key={i}><strong>{l.name}</strong>: {l.level}</div>
-                              ))}
+                    {/* Languages (Strict Single-Column Stacked Below Certifications) */}
+                    {debouncedData.extras?.languages?.length > 0 && debouncedData.extras.languages.some(l => l.name) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-classic">Languages</h2>
+                        <ul className="list-disc pl-4 text-[11px] text-gray-800 space-y-0.5">
+                          {debouncedData.extras.languages.map((l, i) => l.name && (
+                            <li key={i}>
+                              <strong>{l.name}</strong>: {l.level}
+                            </li>
+                          ))}
+                        </ul>
+                      </section>
+                    )}
+
+                    {/* Projects (Strict Single-Column Stacked Below Languages) */}
+                    {debouncedData.extras?.projects?.length > 0 && debouncedData.extras.projects.some(p => p.title) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-classic">Key Projects</h2>
+                        <div className="space-y-1.5 text-[11px] text-gray-800">
+                          {debouncedData.extras.projects.map((p, i) => p.title && (
+                            <div key={i}>
+                              <strong>{p.title}</strong>
+                              {p.description && <p className="text-[10.5px] text-gray-700 mt-0.5">{p.description}</p>}
                             </div>
-                          </div>
-                        )}
+                          ))}
+                        </div>
+                      </section>
+                    )}
+
+                    {/* References */}
+                    {debouncedData.extras?.referencesAvailable && (
+                      <section className="mb-2">
+                        <h2 className="section-title-classic">References</h2>
+                        <p className="text-[10.5px] italic text-gray-700">References available upon request</p>
                       </section>
                     )}
                   </div>
@@ -2327,7 +2351,7 @@ export default function CvBuilder() {
                     )}
 
                     {debouncedData.skills.length > 0 && (
-                      <section className="mb-3">
+                      <section className="mb-3.5">
                         <h2 className="section-title-modern">Skills</h2>
                         <div className="flex flex-wrap gap-1.5 pt-1">
                           {debouncedData.skills.map((s, i) => (
@@ -2336,6 +2360,43 @@ export default function CvBuilder() {
                             </span>
                           ))}
                         </div>
+                      </section>
+                    )}
+
+                    {/* Certifications (Strict Single-Column Stacked) */}
+                    {debouncedData.extras?.certifications?.length > 0 && debouncedData.extras.certifications.some(c => c.name) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-modern">Certifications & Statutory Licenses</h2>
+                        <div className="space-y-1 text-[11px] text-gray-800">
+                          {debouncedData.extras.certifications.map((c, i) => c.name && (
+                            <div key={i} className="flex justify-between items-baseline">
+                              <span><strong>{c.name}</strong>{c.issuer ? ` — ${c.issuer}` : ''}</span>
+                              {c.year && <span className="text-[10px] font-mono text-gray-500">{c.year}</span>}
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+
+                    {/* Languages (Strict Single-Column Stacked Below Certifications) */}
+                    {debouncedData.extras?.languages?.length > 0 && debouncedData.extras.languages.some(l => l.name) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-modern">Languages</h2>
+                        <div className="flex flex-wrap gap-2 text-[10.5px] text-gray-800">
+                          {debouncedData.extras.languages.map((l, i) => l.name && (
+                            <span key={i} className="px-2 py-0.5 rounded bg-gray-100">
+                              <strong>{l.name}</strong> ({l.level})
+                            </span>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+
+                    {/* References */}
+                    {debouncedData.extras?.referencesAvailable && (
+                      <section className="mb-2">
+                        <h2 className="section-title-modern">References</h2>
+                        <p className="text-[10.5px] italic text-gray-600">References available upon request</p>
                       </section>
                     )}
                   </div>
@@ -2418,6 +2479,39 @@ export default function CvBuilder() {
                         </p>
                       </section>
                     )}
+
+                    {/* Certifications (Strict Single-Column Stacked) */}
+                    {debouncedData.extras?.certifications?.length > 0 && debouncedData.extras.certifications.some(c => c.name) && (
+                      <section className="mb-3">
+                        <h2 className="section-title-govt">Statutory Licenses & Certified Trainings</h2>
+                        <div className="space-y-1 text-[11px] text-black">
+                          {debouncedData.extras.certifications.map((c, i) => c.name && (
+                            <div key={i} className="flex justify-between">
+                              <span>{c.name}{c.issuer ? ` (${c.issuer})` : ''}</span>
+                              {c.year && <span className="font-mono text-[10.5px]">{c.year}</span>}
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+
+                    {/* Languages (Strict Single-Column Stacked Below Certifications) */}
+                    {debouncedData.extras?.languages?.length > 0 && debouncedData.extras.languages.some(l => l.name) && (
+                      <section className="mb-3">
+                        <h2 className="section-title-govt">Language Proficiencies</h2>
+                        <p className="text-[11px] text-black leading-relaxed">
+                          {debouncedData.extras.languages.map(l => `${l.name} (${l.level})`).join("; ")}
+                        </p>
+                      </section>
+                    )}
+
+                    {/* References */}
+                    {debouncedData.extras?.referencesAvailable && (
+                      <section className="mb-2">
+                        <h2 className="section-title-govt">References</h2>
+                        <p className="text-[10.5px] text-black italic">Verified references and statutory service verifications provided upon request.</p>
+                      </section>
+                    )}
                   </div>
                 )}
 
@@ -2488,11 +2582,44 @@ export default function CvBuilder() {
                     )}
 
                     {debouncedData.skills.length > 0 && (
-                      <section className="mb-3">
+                      <section className="mb-3.5">
                         <h2 className="section-title-executive">Executive Competencies</h2>
                         <p className="text-[11px] text-gray-800 leading-relaxed">
                           {debouncedData.skills.map(s => s.name).join(" • ")}
                         </p>
+                      </section>
+                    )}
+
+                    {/* Certifications (Strict Single-Column Stacked) */}
+                    {debouncedData.extras?.certifications?.length > 0 && debouncedData.extras.certifications.some(c => c.name) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-executive">Certifications & Board Accreditations</h2>
+                        <div className="space-y-1 text-[11px] text-gray-800">
+                          {debouncedData.extras.certifications.map((c, i) => c.name && (
+                            <div key={i} className="flex justify-between items-baseline">
+                              <span><strong>{c.name}</strong>{c.issuer ? ` • ${c.issuer}` : ''}</span>
+                              {c.year && <span className="text-[10px] font-mono text-gray-500">{c.year}</span>}
+                            </div>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+
+                    {/* Languages (Strict Single-Column Stacked Below Certifications) */}
+                    {debouncedData.extras?.languages?.length > 0 && debouncedData.extras.languages.some(l => l.name) && (
+                      <section className="mb-3.5">
+                        <h2 className="section-title-executive">Languages</h2>
+                        <p className="text-[11px] text-gray-800 leading-relaxed">
+                          {debouncedData.extras.languages.map(l => `${l.name} (${l.level})`).join(" • ")}
+                        </p>
+                      </section>
+                    )}
+
+                    {/* References */}
+                    {debouncedData.extras?.referencesAvailable && (
+                      <section className="mb-2">
+                        <h2 className="section-title-executive">References</h2>
+                        <p className="text-[10.5px] text-gray-600 italic">Executive references available upon request</p>
                       </section>
                     )}
                   </div>
