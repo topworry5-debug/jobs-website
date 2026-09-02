@@ -1,187 +1,362 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
-  FileText, 
-  Download, 
-  Printer, 
-  Sparkles, 
-  Plus, 
-  Trash2, 
-  Eye, 
-  Edit3, 
-  ShieldCheck, 
   User, 
+  FileText, 
   Briefcase, 
   GraduationCap, 
+  Sparkles, 
   Award, 
-  Code2, 
+  Languages, 
+  Download, 
+  Printer, 
+  ChevronRight, 
+  ChevronLeft, 
+  Plus, 
+  Trash2, 
+  RotateCcw, 
+  Check, 
   CheckCircle2, 
-  RotateCcw,
-  Camera,
-  Upload,
-  X,
-  MapPin,
-  Mail,
-  Phone,
-  Linkedin,
-  Github,
-  Globe,
-  Check,
+  X, 
+  Upload, 
+  Camera, 
+  Eye, 
+  Edit3, 
+  AlertCircle, 
+  ShieldCheck, 
+  MapPin, 
+  Mail, 
+  Phone, 
+  Linkedin, 
+  Globe, 
+  ExternalLink,
+  Layers,
   Palette,
-  Lightbulb,
-  Sliders,
-  FolderGit2
+  Info
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-const SAMPLE_PHOTO_URL = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23059669'/%3E%3Cstop offset='100%25' stop-color='%23047857'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g)'/%3E%3Ccircle cx='100' cy='75' r='38' fill='%23ffffff' opacity='0.9'/%3E%3Cpath d='M30 185 C30 135, 70 120, 100 120 C130 120, 170 135, 170 185 Z' fill='%23ffffff' opacity='0.9'/%3E%3C/svg%3E";
+const LOCAL_STORAGE_KEY = 'rozgar_cv_data';
 
-const ACCENT_COLORS = [
-  { id: 'emerald', label: 'Emerald Green (Trust & Govt)', hex: '#059669', light: '#ecfdf5', border: '#a7f3d0' },
-  { id: 'navy', label: 'Midnight Navy (Executive)', hex: '#0f172a', light: '#f8fafc', border: '#cbd5e1' },
-  { id: 'teal', label: 'Forest Teal (Modern SaaS)', hex: '#0d9488', light: '#f0fdfa', border: '#99f6e4' },
-  { id: 'indigo', label: 'Tech Indigo (Software)', hex: '#4f46e5', light: '#eef2ff', border: '#c7d2fe' },
-  { id: 'burgundy', label: 'Regal Burgundy (Academic)', hex: '#881337', light: '#fff1f2', border: '#fecdd3' }
-];
+// Skill Suggestion Knowledge Base for Pakistani Career Categories
+const SKILL_SUGGESTIONS = {
+  govt: {
+    category: "Government & Public Administration",
+    matchKeywords: ['govt', 'officer', 'assistant', 'bps', 'inspector', 'admin', 'revenue', 'commissioner', 'clerk', 'secretariat', 'css', 'pms'],
+    skills: [
+      "Public Policy Analysis", "Official Correspondence", "Rules of Business 1973", 
+      "Civil Service Regulations", "Budget Allocation & Auditing", "Secretariat Procedures", 
+      "Urdu & English Drafting", "File & Record Management", "Public Procurement (PPRA Rules)", 
+      "E-Office Management System", "Inter-Departmental Coordination", "Public Relations"
+    ]
+  },
+  tech: {
+    category: "IT & Software Engineering",
+    matchKeywords: ['developer', 'software', 'engineer', 'frontend', 'backend', 'full stack', 'react', 'python', 'java', 'web', 'data', 'cloud'],
+    skills: [
+      "JavaScript / TypeScript", "React.js & Next.js", "Node.js & Express", 
+      "Python & Django", "RESTful & GraphQL APIs", "PostgreSQL & MongoDB", 
+      "Docker & Kubernetes", "AWS Cloud Services", "Git & CI/CD Pipelines", 
+      "Microservices Architecture", "Tailwind CSS", "Unit Testing (Jest)"
+    ]
+  },
+  engineering: {
+    category: "Engineering & Technical",
+    matchKeywords: ['engineer', 'civil', 'electrical', 'mechanical', 'structural', 'autocad', 'site'],
+    skills: [
+      "AutoCAD & SolidWorks", "Project Planning & Primavera P6", "Site Supervision", 
+      "Quality Assurance & Inspection", "PEC Code Compliance", "BOQ & Cost Estimation", 
+      "Circuit Analysis & PCB Design", "Health & Safety (HSE Standards)", "Structural Analysis"
+    ]
+  },
+  finance: {
+    category: "Finance & Accounting",
+    matchKeywords: ['finance', 'accountant', 'audit', 'bank', 'banking', 'tax', 'accounts'],
+    skills: [
+      "Financial Modeling", "Tax Filing & FBR Compliance", "Internal & External Auditing", 
+      "State Bank of Pakistan (SBP) Regulations", "QuickBooks & Tally", "Balance Sheet Analysis", 
+      "Cost Accounting & Budgeting", "Risk Management", "Payroll Administration"
+    ]
+  },
+  healthcare: {
+    category: "Healthcare & Medicine",
+    matchKeywords: ['doctor', 'nurse', 'medical', 'mbbs', 'pharmacist', 'hospital', 'clinical'],
+    skills: [
+      "Clinical Diagnostics", "Patient Care & Monitoring", "Emergency Medicine Protocol", 
+      "PMDC / PMC Regulations", "Pharmacology & Dosage Calculation", "Electronic Health Records (EHR)", 
+      "Infection Control & Sterilization", "Surgical Assistance", "Medical Ethics"
+    ]
+  }
+};
 
-const SAMPLE_RESUME_DATA = {
+const SAMPLE_PHOTO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230B3D2E'/%3E%3Cstop offset='100%25' stop-color='%231B7458'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g)'/%3E%3Ccircle cx='100' cy='75' r='38' fill='%23FAF8F3' opacity='0.95'/%3E%3Cpath d='M30 185 C30 135, 70 120, 100 120 C130 120, 170 135, 170 185 Z' fill='%23FAF8F3' opacity='0.95'/%3E%3C/svg%3E";
+
+const SAMPLE_DATA = {
   personal: {
-    fullName: "Muhammad Hamza Khan",
-    title: "Senior Full Stack Engineer & Systems Architect",
-    email: "hamza.khan@gmail.com",
+    fullName: "Muhammad Usman Ali",
+    title: "Assistant Director (General Cadre / BPS-17)",
+    email: "usman.ali@email.com",
     phone: "+92 300 1234567",
-    city: "Islamabad, Pakistan",
+    city: "Islamabad",
     domicile: "Punjab (Rawalpindi District)",
     cnic: "37405-1234567-1",
-    linkedin: "linkedin.com/in/hamzakhan-pk",
-    github: "github.com/hamzakhan-dev",
-    portfolio: "hamzakhan.dev",
-    fatherName: "Tariq Mahmood Khan",
-    dob: "14-Aug-1996",
-    photoUrl: SAMPLE_PHOTO_URL
+    linkedin: "linkedin.com/in/usman-ali-pk",
+    portfolio: "usmanali.dev",
+    photoUrl: SAMPLE_PHOTO,
+    showPhoto: true
   },
-  showPhoto: true,
-  summary: "Results-driven Software Engineer with 5+ years of experience architecting high-scale web platforms, distributed microservices, and cloud systems. Proven track record delivering mission-critical applications across Pakistani enterprise and international fintech clients. Well-versed in civil service technical cadre standards and private tech benchmarks.",
+  summary: "Dedicated and result-oriented public administration professional with 4+ years of institutional experience in regulatory compliance, civil secretariat operations, and digital governance initiatives. Proven ability to draft official gazettes, coordinate inter-provincial public sector projects, and maintain high standards of accountability under Federal Service Rules.",
   experience: [
     {
       id: "exp-1",
-      role: "Senior Full Stack Engineer",
-      company: "Systems Limited",
-      location: "Islamabad (Hybrid)",
+      role: "Assistant Director (Operations)",
+      company: "Ministry of Federal Education & Professional Training",
+      city: "Islamabad",
       startDate: "Jan 2023",
       endDate: "Present",
-      description: "Led development of core banking API layer serving 2M+ daily active requests with 99.98% uptime. Mentored 6 junior engineers and migrated legacy monolithic services to Dockerized microservices on AWS (EKS & RDS)."
+      current: true,
+      description: "• Spearheaded digitization of curriculum inspection logs across 42 federal institutes, reducing review turnaround by 35%.\n• Drafted 18+ official summaries and notifications for Cabinet approval in compliance with Rules of Business 1973.\n• Monitored budgetary execution of PKR 450M allocated to national scholarship programs with zero audit objections."
     },
     {
       id: "exp-2",
-      role: "Software Developer",
-      company: "Arbisoft",
-      location: "Lahore",
-      startDate: "Jul 2021",
+      role: "Administrative Officer (BPS-16)",
+      company: "Higher Education Commission (HEC)",
+      city: "Islamabad",
+      startDate: "Aug 2020",
       endDate: "Dec 2022",
-      description: "Engineered responsive frontend interfaces in React & Next.js. Reduced page bundle load times by 42% through code-splitting, asset optimization, and CDN caching."
+      current: false,
+      description: "• Managed degree verification correspondence for 12,000+ national and overseas applicants annually.\n• Coordinated with provincial universities to implement standardized degree equivalence criteria."
     }
   ],
   education: [
     {
       id: "edu-1",
-      degree: "BS Computer Science (4 Years)",
-      institution: "National University of Sciences and Technology (NUST), Islamabad",
-      year: "2017 - 2021",
-      grade: "CGPA: 3.82 / 4.0 (Dean's Honor List)"
+      degree: "Master of Public Administration (MPA)",
+      institution: "Quaid-i-Azam University (QAU), Islamabad",
+      city: "Islamabad",
+      year: "2018 - 2020",
+      grade: "CGPA: 3.75 / 4.00 (First Division)"
     },
     {
       id: "edu-2",
-      degree: "F.Sc (Pre-Engineering)",
-      institution: "Punjab Group of Colleges, Rawalpindi",
-      year: "2015 - 2017",
-      grade: "Grade: A+ (945 / 1100) — 1st Division"
-    }
-  ],
-  projects: [
-    {
-      id: "proj-1",
-      name: "PakGovt Exam Tracker & Syllabus Scraper",
-      tech: "Python, FastAPI, React, PostgreSQL",
-      description: "Built automated alerting system indexing FPSC & PPSC gazettes with over 15,000 active monthly subscribers."
+      degree: "B.Sc (Hons) Economics & Political Science",
+      institution: "Government College University (GCU), Lahore",
+      city: "Lahore",
+      year: "2014 - 2018",
+      grade: "CGPA: 3.60 / 4.00"
     }
   ],
   skills: [
-    "JavaScript / TypeScript", "React & Next.js", "Node.js & Python", 
-    "PostgreSQL & Redis", "Docker & Kubernetes", "AWS Cloud (EKS, RDS)", 
-    "RESTful & GraphQL APIs", "Git & CI/CD Pipelines", "Public Administration"
+    "Public Policy Analysis", "Rules of Business 1973", "Official Correspondence", 
+    "Civil Service Regulations", "Budget Planning & Execution", "PPRA Procurement Rules", 
+    "E-Office Systems", "Inter-Departmental Coordination", "Urdu & English Drafting"
   ],
   certifications: [
-    "AWS Certified Solutions Architect – Associate (2024)",
-    "FPSC Screening Aptitude Examination (92nd Percentile)",
-    "PEC Registered Professional Engineer (COMP/14290)"
+    {
+      id: "cert-1",
+      name: "National Institute of Management Certificate in Public Sector Governance",
+      issuer: "NIM / NSPP",
+      year: "2023"
+    },
+    {
+      id: "cert-2",
+      name: "Public Procurement Regulatory Authority (PPRA) Basic Certification",
+      issuer: "Federal PPRA Authority",
+      year: "2022"
+    }
   ],
-  languages: ["English (Professional)", "Urdu (Native / Bilingual)"]
+  languages: [
+    { id: "lang-1", name: "English", level: "Professional Working Proficiency" },
+    { id: "lang-2", name: "Urdu", level: "Native / Bilingual" },
+    { id: "lang-3", name: "Punjabi", level: "Conversational" }
+  ]
 };
+
+const INITIAL_EMPTY_DATA = {
+  personal: {
+    fullName: "",
+    title: "",
+    email: "",
+    phone: "",
+    city: "",
+    domicile: "",
+    cnic: "",
+    linkedin: "",
+    portfolio: "",
+    photoUrl: "",
+    showPhoto: false
+  },
+  summary: "",
+  experience: [
+    { id: "exp-0", role: "", company: "", city: "", startDate: "", endDate: "", current: false, description: "" }
+  ],
+  education: [
+    { id: "edu-0", degree: "", institution: "", city: "", year: "", grade: "" }
+  ],
+  skills: [],
+  certifications: [
+    { id: "cert-0", name: "", issuer: "", year: "" }
+  ],
+  languages: [
+    { id: "lang-0", name: "English", level: "Professional" },
+    { id: "lang-1", name: "Urdu", level: "Native" }
+  ]
+};
+
+const STEPS = [
+  { id: 1, key: 'personal', title: 'Personal Info', icon: User },
+  { id: 2, key: 'summary', title: 'Summary', icon: FileText },
+  { id: 3, key: 'experience', title: 'Experience', icon: Briefcase },
+  { id: 4, key: 'education', title: 'Education', icon: GraduationCap },
+  { id: 5, key: 'skills', title: 'Skills', icon: Sparkles },
+  { id: 6, key: 'certifications', title: 'Certifications', icon: Award },
+  { id: 7, key: 'languages', title: 'Languages', icon: Languages },
+  { id: 8, key: 'preview', title: 'Preview & Export', icon: Eye }
+];
+
+const TEMPLATES = [
+  { id: 'classic', name: 'Classic Professional', desc: 'Single-column traditional layout with maximum ATS parsing score.' },
+  { id: 'modern', name: 'Modern Minimal', desc: 'Editorial layout with subtle emerald subheaders and clean spec matrix.' },
+  { id: 'govt', name: 'Government / Formal', desc: 'Pakistani civil service format with father name, CNIC, and domicile quota.' }
+];
+
+const ACCENT_COLORS = [
+  { id: 'forest', name: 'Forest Emerald', hex: '#0B3D2E' },
+  { id: 'gold', name: 'Muted Gold', hex: '#C9A227' },
+  { id: 'navy', name: 'Executive Navy', hex: '#0F172A' },
+  { id: 'burgundy', name: 'Regal Burgundy', hex: '#881337' }
+];
 
 export default function CvBuilder() {
   const { t, isRtl } = useLanguage();
-  const [template, setTemplate] = useState('executive'); // 'executive' | 'govt' | 'tech'
-  const [accentColor, setAccentColor] = useState(ACCENT_COLORS[0]);
-  const [resumeData, setResumeData] = useState(SAMPLE_RESUME_DATA);
-  const [activeTab, setActiveTab] = useState('personal'); // 'personal' | 'experience' | 'education' | 'projects' | 'skills'
-  const [mobileViewMode, setMobileViewMode] = useState('editor'); // 'editor' | 'preview'
+  const [currentStep, setCurrentStep] = useState(1);
+  const [selectedTemplate, setSelectedTemplate] = useState('classic');
+  const [selectedColor, setSelectedColor] = useState(ACCENT_COLORS[0]);
+  const [mobileView, setMobileView] = useState('form'); // 'form' | 'preview'
+  const [isExporting, setIsExporting] = useState(false);
+  const [skillInput, setSkillInput] = useState('');
+  const [formErrors, setFormErrors] = useState({});
+  const [showConfirmReset, setShowConfirmReset] = useState(false);
+  const previewRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  const handlePrint = () => {
-    window.print();
+  // Resume Data State with LocalStorage Loading
+  const [cvData, setCvData] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (stored) return JSON.parse(stored);
+      } catch (e) {
+        console.error("Failed to load local CV data", e);
+      }
+    }
+    return SAMPLE_DATA;
+  });
+
+  // Debounced Live Preview State (150ms)
+  const [debouncedData, setDebouncedData] = useState(cvData);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedData(cvData);
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cvData));
+      } catch (e) {}
+    }, 150);
+
+    return () => clearTimeout(handler);
+  }, [cvData]);
+
+  // Determine Recommended Skill Bundles based on current Job Title / Headline
+  const getRelevantSkillBundle = () => {
+    const title = (cvData.personal?.title || '').toLowerCase();
+    for (const key in SKILL_SUGGESTIONS) {
+      const bundle = SKILL_SUGGESTIONS[key];
+      if (bundle.matchKeywords.some(kw => title.includes(kw))) {
+        return bundle;
+      }
+    }
+    return SKILL_SUGGESTIONS.govt; // Default for Pakistani public authority
   };
 
-  const handleLoadSample = () => {
-    setResumeData(SAMPLE_RESUME_DATA);
+  const currentBundle = getRelevantSkillBundle();
+
+  // Inline Validation for Current Step
+  const validateCurrentStep = () => {
+    const errors = {};
+    if (currentStep === 1) {
+      if (!cvData.personal.fullName?.trim()) {
+        errors.fullName = "Full name is required";
+      }
+      if (!cvData.personal.title?.trim()) {
+        errors.title = "Target job title / headline is required";
+      }
+      if (!cvData.personal.email?.trim()) {
+        errors.email = "Email address is required";
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cvData.personal.email)) {
+        errors.email = "Please enter a valid email format";
+      }
+      if (!cvData.personal.phone?.trim()) {
+        errors.phone = "Phone number is required";
+      }
+      if (!cvData.personal.city?.trim()) {
+        errors.city = "City is required";
+      }
+    } else if (currentStep === 2) {
+      if (!cvData.summary?.trim()) {
+        errors.summary = "A brief professional summary is recommended for ATS score";
+      }
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
-  const handleClear = () => {
-    setResumeData({
-      personal: {
-        fullName: "",
-        title: "",
-        email: "",
-        phone: "",
-        city: "",
-        domicile: "",
-        cnic: "",
-        linkedin: "",
-        github: "",
-        portfolio: "",
-        fatherName: "",
-        dob: "",
-        photoUrl: ""
-      },
-      showPhoto: false,
-      summary: "",
-      experience: [],
-      education: [],
-      projects: [],
-      skills: [],
-      certifications: [],
-      languages: []
-    });
+  const handleNextStep = () => {
+    if (validateCurrentStep()) {
+      if (currentStep < 8) {
+        setCurrentStep(prev => prev + 1);
+        window.scrollTo({ top: 180, behavior: 'smooth' });
+      }
+    }
   };
 
+  const handlePrevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+      window.scrollTo({ top: 180, behavior: 'smooth' });
+    }
+  };
+
+  // Field Updater Helpers
+  const updatePersonalInfo = (field, value) => {
+    setCvData(prev => ({
+      ...prev,
+      personal: { ...prev.personal, [field]: value }
+    }));
+    if (formErrors[field]) {
+      setFormErrors(prev => ({ ...prev, [field]: null }));
+    }
+  };
+
+  // Profile Photo Upload Handler
   const handlePhotoUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert("Please upload a valid image file (JPG, PNG, or WebP).");
+      alert("Please upload an image file (JPG, PNG, WebP).");
       return;
     }
 
     const reader = new FileReader();
     reader.onload = (event) => {
-      setResumeData(prev => ({
+      setCvData(prev => ({
         ...prev,
-        showPhoto: true,
         personal: {
           ...prev.personal,
-          photoUrl: event.target.result
+          photoUrl: event.target.result,
+          showPhoto: true
         }
       }));
     };
@@ -189,455 +364,662 @@ export default function CvBuilder() {
   };
 
   const handleRemovePhoto = () => {
-    setResumeData(prev => ({
+    setCvData(prev => ({
       ...prev,
       personal: {
         ...prev.personal,
-        photoUrl: ""
+        photoUrl: "",
+        showPhoto: false
       }
     }));
   };
 
+  // Experience Handlers
+  const addExperience = () => {
+    setCvData(prev => ({
+      ...prev,
+      experience: [
+        ...prev.experience,
+        {
+          id: `exp-${Date.now()}`,
+          role: "",
+          company: "",
+          city: "",
+          startDate: "",
+          endDate: "",
+          current: false,
+          description: ""
+        }
+      ]
+    }));
+  };
+
+  const updateExperience = (index, field, value) => {
+    setCvData(prev => {
+      const updated = [...prev.experience];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, experience: updated };
+    });
+  };
+
+  const removeExperience = (index) => {
+    setCvData(prev => ({
+      ...prev,
+      experience: prev.experience.filter((_, i) => i !== index)
+    }));
+  };
+
+  // Education Handlers
+  const addEducation = () => {
+    setCvData(prev => ({
+      ...prev,
+      education: [
+        ...prev.education,
+        {
+          id: `edu-${Date.now()}`,
+          degree: "",
+          institution: "",
+          city: "",
+          year: "",
+          grade: ""
+        }
+      ]
+    }));
+  };
+
+  const updateEducation = (index, field, value) => {
+    setCvData(prev => {
+      const updated = [...prev.education];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, education: updated };
+    });
+  };
+
+  const removeEducation = (index) => {
+    setCvData(prev => ({
+      ...prev,
+      education: prev.education.filter((_, i) => i !== index)
+    }));
+  };
+
+  // Skills Tag Input Handlers
+  const handleAddSkill = (skillText) => {
+    const trimmed = (skillText || skillInput).trim();
+    if (trimmed && !cvData.skills.includes(trimmed)) {
+      setCvData(prev => ({
+        ...prev,
+        skills: [...prev.skills, trimmed]
+      }));
+      setSkillInput('');
+    }
+  };
+
+  const handleRemoveSkill = (skillToRemove) => {
+    setCvData(prev => ({
+      ...prev,
+      skills: prev.skills.filter(s => s !== skillToRemove)
+    }));
+  };
+
+  // Certifications Handlers
+  const addCertification = () => {
+    setCvData(prev => ({
+      ...prev,
+      certifications: [
+        ...prev.certifications,
+        { id: `cert-${Date.now()}`, name: "", issuer: "", year: "" }
+      ]
+    }));
+  };
+
+  const updateCertification = (index, field, value) => {
+    setCvData(prev => {
+      const updated = [...prev.certifications];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, certifications: updated };
+    });
+  };
+
+  const removeCertification = (index) => {
+    setCvData(prev => ({
+      ...prev,
+      certifications: prev.certifications.filter((_, i) => i !== index)
+    }));
+  };
+
+  // Languages Handlers
+  const addLanguage = () => {
+    setCvData(prev => ({
+      ...prev,
+      languages: [
+        ...prev.languages,
+        { id: `lang-${Date.now()}`, name: "", level: "Professional" }
+      ]
+    }));
+  };
+
+  const updateLanguage = (index, field, value) => {
+    setCvData(prev => {
+      const updated = [...prev.languages];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, languages: updated };
+    });
+  };
+
+  const removeLanguage = (index) => {
+    setCvData(prev => ({
+      ...prev,
+      languages: prev.languages.filter((_, i) => i !== index)
+    }));
+  };
+
+  // Start Over / Reset Handlers
+  const handleStartOver = () => {
+    setCvData(INITIAL_EMPTY_DATA);
+    setCurrentStep(1);
+    setShowConfirmReset(false);
+    try {
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+    } catch (e) {}
+  };
+
+  const handleLoadSample = () => {
+    setCvData(SAMPLE_DATA);
+    setFormErrors({});
+  };
+
+  // Lazy-Loaded High-Res PDF Export
+  const handleDownloadPdf = async () => {
+    if (!previewRef.current) return;
+    setIsExporting(true);
+
+    try {
+      // Dynamically import html2pdf only when requested
+      const html2pdfModule = await import('html2pdf.js');
+      const html2pdf = html2pdfModule.default || html2pdfModule;
+
+      const element = previewRef.current;
+      const fileName = `${cvData.personal.fullName ? cvData.personal.fullName.replace(/\s+/g, '_') : 'Resume'}_CV_RozgarPK.pdf`;
+
+      const opt = {
+        margin: [8, 8, 8, 8],
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true,
+          letterRendering: true,
+          scrollX: 0,
+          scrollY: 0
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+
+      await html2pdf().set(opt).from(element).save();
+    } catch (error) {
+      console.error("PDF Export error, falling back to print", error);
+      window.print();
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
-    <div className="cv-builder-page-container">
-      <div className="cv-builder-header no-print">
-        <div className="container-xl">
-          <div className="cv-header-flex">
-            <div>
-              <div className="badge badge-verified mb-2">
+    <div className="cv-builder-root">
+      {/* Top Value Header */}
+      <div className="cv-builder-hero mb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="badge badge-verified">
                 <ShieldCheck size={13} />
-                <span>{t.cvBuilder.badge}</span>
-              </div>
-              <h1 className="cv-builder-title">{t.cvBuilder.title}</h1>
-              <p className="cv-builder-subtitle">
-                {t.cvBuilder.subtitle}
-              </p>
+                <span>HEC & Gazette ATS Standard</span>
+              </span>
+              <span className="text-xs text-muted font-medium">Free Vector PDF Export</span>
             </div>
-
-            <div className="cv-header-actions">
-              <button className="btn btn-outline btn-sm" onClick={handleLoadSample}>
-                <Sparkles size={14} className="text-emerald" />
-                <span>{t.cvBuilder.loadSample}</span>
-              </button>
-              <button className="btn btn-outline btn-sm" onClick={handleClear}>
-                <RotateCcw size={14} />
-                <span>{t.cvBuilder.clear}</span>
-              </button>
-              <button className="btn btn-primary" onClick={handlePrint}>
-                <Printer size={16} />
-                <span>{t.cvBuilder.printPdf}</span>
-              </button>
-            </div>
+            <h1 className="text-2xl md:text-3xl font-bold font-display tracking-tight text-primary">
+              Institutional ATS Resume Builder
+            </h1>
+            <p className="text-xs md:text-sm text-secondary max-w-2xl mt-1 leading-relaxed">
+              Craft a verified Pakistani government (BPS-11 to BPS-21) and enterprise-ready resume with provincial quota, HEC education breakdown, and action-oriented achievements.
+            </p>
           </div>
 
-          <div className="cv-customizer-toolbar">
-            <div className="customizer-group">
-              <span className="customizer-label">{t.cvBuilder.templateDesign}</span>
-              <div className="template-options-row">
-                <button
-                  className={`template-tab-btn ${template === 'executive' ? 'active' : ''}`}
-                  onClick={() => setTemplate('executive')}
-                >
-                  1. Executive Minimalist (Corporate)
-                </button>
-                <button
-                  className={`template-tab-btn ${template === 'govt' ? 'active' : ''}`}
-                  onClick={() => setTemplate('govt')}
-                >
-                  2. Govt & Academic Standard (FPSC / PPSC)
-                </button>
-                <button
-                  className={`template-tab-btn ${template === 'tech' ? 'active' : ''}`}
-                  onClick={() => setTemplate('tech')}
-                >
-                  3. Modern Tech & Sidebar
-                </button>
-              </div>
-            </div>
-
-            <div className="customizer-group">
-              <span className="customizer-label">{t.cvBuilder.themeColor}</span>
-              <div className="color-swatches-row">
-                {ACCENT_COLORS.map((c) => (
-                  <button
-                    key={c.id}
-                    className={`color-swatch-btn ${accentColor.id === c.id ? 'active' : ''}`}
-                    style={{ backgroundColor: c.hex }}
-                    onClick={() => setAccentColor(c)}
-                    title={c.label}
-                  >
-                    {accentColor.id === c.id && <Check size={13} color="#ffffff" />}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="customizer-group">
-              <label className="photo-toggle-label">
-                <input
-                  type="checkbox"
-                  checked={resumeData.showPhoto}
-                  onChange={(e) => setResumeData({ ...resumeData, showPhoto: e.target.checked })}
-                  className="styled-checkbox"
-                />
-                <span className="photo-toggle-text">{t.cvBuilder.showPhoto}</span>
-              </label>
-            </div>
-          </div>
-
-          <div className="mobile-view-mode-bar">
-            <button
-              className={`mobile-view-btn ${mobileViewMode === 'editor' ? 'active' : ''}`}
-              onClick={() => setMobileViewMode('editor')}
+          {/* Quick Utility Actions */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <button 
+              type="button" 
+              onClick={handleLoadSample}
+              className="btn btn-outline btn-sm text-xs"
+              title="Preload authentic Pakistani civil service & tech credentials"
             >
-              <Edit3 size={15} />
-              <span>Edit CV Content</span>
+              <Sparkles size={14} className="text-gold-accent" />
+              <span>Load Sample</span>
             </button>
-            <button
-              className={`mobile-view-btn ${mobileViewMode === 'preview' ? 'active' : ''}`}
-              onClick={() => setMobileViewMode('preview')}
+            <button 
+              type="button" 
+              onClick={() => setShowConfirmReset(true)}
+              className="btn btn-outline btn-sm text-xs text-muted hover:text-red-500"
+              title="Wipe form and start fresh"
             >
-              <Eye size={15} />
-              <span>Live ATS Preview</span>
+              <RotateCcw size={14} />
+              <span>Start Over</span>
             </button>
           </div>
         </div>
+
+        {/* Mobile Viewport Segmented Switch */}
+        <div className="mobile-view-toggle-bar mt-4 lg:hidden">
+          <button
+            type="button"
+            className={`mobile-view-tab ${mobileView === 'form' ? 'active' : ''}`}
+            onClick={() => setMobileView('form')}
+          >
+            <Edit3 size={15} />
+            <span>Edit Form (Step {currentStep}/8)</span>
+          </button>
+          <button
+            type="button"
+            className={`mobile-view-tab ${mobileView === 'preview' ? 'active' : ''}`}
+            onClick={() => setMobileView('preview')}
+          >
+            <Eye size={15} />
+            <span>Live Preview</span>
+          </button>
+        </div>
       </div>
 
-      <div className="container-xl cv-workspace-grid">
-        <div className={`cv-editor-panel card no-print ${mobileViewMode === 'preview' ? 'mobile-hidden' : ''}`}>
-          <div className="editor-nav-tabs">
-            <button 
-              className={`editor-tab ${activeTab === 'personal' ? 'active' : ''}`}
-              onClick={() => setActiveTab('personal')}
-            >
-              <User size={15} />
-              <span>{t.cvBuilder.tabPersonal}</span>
-            </button>
-            <button 
-              className={`editor-tab ${activeTab === 'experience' ? 'active' : ''}`}
-              onClick={() => setActiveTab('experience')}
-            >
-              <Briefcase size={15} />
-              <span>{t.cvBuilder.tabExperience}</span>
-            </button>
-            <button 
-              className={`editor-tab ${activeTab === 'education' ? 'active' : ''}`}
-              onClick={() => setActiveTab('education')}
-            >
-              <GraduationCap size={15} />
-              <span>{t.cvBuilder.tabEducation}</span>
-            </button>
-            <button 
-              className={`editor-tab ${activeTab === 'projects' ? 'active' : ''}`}
-              onClick={() => setActiveTab('projects')}
-            >
-              <FolderGit2 size={15} />
-              <span>{t.cvBuilder.tabProjects}</span>
-            </button>
-            <button 
-              className={`editor-tab ${activeTab === 'skills' ? 'active' : ''}`}
-              onClick={() => setActiveTab('skills')}
-            >
-              <Award size={15} />
-              <span>{t.cvBuilder.tabSkills}</span>
-            </button>
-          </div>
+      {/* Multi-Step Progress Stepper */}
+      <div className="cv-stepper-container mb-6">
+        <div className="cv-stepper-track">
+          {STEPS.map((step) => {
+            const Icon = step.icon;
+            const isCompleted = currentStep > step.id;
+            const isCurrent = currentStep === step.id;
 
-          <div className="editor-tab-body">
-            {activeTab === 'personal' && (
-              <div className="form-section-stack">
-                {/* Photo Upload Box */}
-                <div className="photo-upload-container">
+            return (
+              <button
+                key={step.id}
+                type="button"
+                className={`cv-step-pill ${isCurrent ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
+                onClick={() => {
+                  if (validateCurrentStep()) setCurrentStep(step.id);
+                }}
+              >
+                <div className="cv-step-icon-box">
+                  {isCompleted ? <Check size={14} /> : <Icon size={14} />}
+                </div>
+                <span className="cv-step-label">{step.title}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Main Builder Grid: Form Editor (Left) & Real-Time A4 Preview (Right) */}
+      <div className="cv-builder-grid">
+        {/* LEFT COLUMN: Guided Step Form */}
+        <div className={`cv-form-panel ${mobileView === 'preview' ? 'hidden-on-mobile' : ''}`}>
+          <div className="cv-card card p-6">
+            {/* Step Header */}
+            <div className="flex items-center justify-between border-b border-subtle pb-4 mb-5">
+              <div>
+                <span className="text-[11px] font-mono font-bold text-muted uppercase tracking-wider">
+                  Step {currentStep} of 8
+                </span>
+                <h2 className="text-xl font-bold font-display text-primary mt-0.5">
+                  {STEPS[currentStep - 1].title}
+                </h2>
+              </div>
+              <div className="text-xs text-secondary font-medium">
+                Auto-saved locally ✓
+              </div>
+            </div>
+
+            {/* STEP 1: PERSONAL INFO */}
+            {currentStep === 1 && (
+              <div className="space-y-4 animate-fade-in">
+                {/* Photo Upload & Preview Row */}
+                <div className="photo-upload-row flex items-center gap-4 p-4 rounded-lg bg-surface-subtle border border-subtle">
                   <div className="photo-preview-box">
-                    {resumeData.personal.photoUrl ? (
-                      <img src={resumeData.personal.photoUrl} alt="Preview" className="photo-img-preview" />
+                    {cvData.personal.photoUrl ? (
+                      <img 
+                        src={cvData.personal.photoUrl} 
+                        alt="Profile Preview" 
+                        style={{ width: '60px', height: '60px', minWidth: '60px', minHeight: '60px', borderRadius: '9999px', objectFit: 'cover', border: '2px solid var(--emerald-500)' }}
+                      />
                     ) : (
-                      <div className="photo-placeholder">
-                        <Camera size={26} className="text-muted" />
-                        <span>No Photo</span>
+                      <div style={{ width: '60px', height: '60px', minWidth: '60px', minHeight: '60px', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }} className="text-muted">
+                        <Camera size={22} />
                       </div>
                     )}
                   </div>
-
-                  <div className="photo-upload-controls">
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      onChange={handlePhotoUpload}
-                      accept="image/png, image/jpeg, image/webp"
-                      style={{ display: 'none' }}
-                    />
-                    <div className="photo-btns-row">
-                      <button 
-                        type="button" 
-                        className="btn btn-sm btn-outline"
+                  <div className="flex-1">
+                    <span className="text-xs font-bold text-primary block">Passport Photo (Optional)</span>
+                    <span className="text-[11px] text-muted block mb-2">Standard for Pakistani government dossiers & medical registrations</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
                         onClick={() => fileInputRef.current?.click()}
+                        className="btn btn-outline btn-sm py-1 px-2.5 text-xs"
                       >
-                        <Upload size={14} />
+                        <Upload size={12} />
                         <span>Upload Photo</span>
                       </button>
-                      {resumeData.personal.photoUrl && (
-                        <button 
-                          type="button" 
-                          className="btn btn-sm btn-outline text-red"
+                      {cvData.personal.photoUrl && (
+                        <button
+                          type="button"
                           onClick={handleRemovePhoto}
+                          className="btn btn-outline btn-sm py-1 px-2.5 text-xs text-red-500 hover:text-red-600"
                         >
-                          <Trash2 size={14} />
+                          <X size={12} />
                           <span>Remove</span>
                         </button>
                       )}
+                      <input 
+                        ref={fileInputRef} 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }}
+                        onChange={handlePhotoUpload} 
+                      />
                     </div>
-                    <span className="photo-hint-text">
-                      Recommended: Professional square or passport portrait (JPG, PNG, max 2MB).
-                    </span>
                   </div>
                 </div>
 
-                <div className="grid-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="form-group">
-                    <label>Full Name *</label>
+                    <label className="form-label">
+                      Full Legal Name <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="text"
-                      className="input-field"
-                      placeholder="e.g. Muhammad Hamza Khan"
-                      value={resumeData.personal.fullName}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, fullName: e.target.value }
-                      })}
+                      className={`input-field ${formErrors.fullName ? 'border-red-500' : ''}`}
+                      placeholder="e.g. Muhammad Usman Ali"
+                      value={cvData.personal.fullName}
+                      onChange={(e) => updatePersonalInfo('fullName', e.target.value)}
                     />
+                    {formErrors.fullName && <p className="form-error-msg">{formErrors.fullName}</p>}
                   </div>
 
                   <div className="form-group">
-                    <label>Target Title / Profession *</label>
+                    <label className="form-label">
+                      Professional Headline / Target Role <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="text"
-                      className="input-field"
-                      placeholder="e.g. Senior Software Engineer"
-                      value={resumeData.personal.title}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, title: e.target.value }
-                      })}
+                      className={`input-field ${formErrors.title ? 'border-red-500' : ''}`}
+                      placeholder="e.g. Assistant Director (BPS-17) / Software Engineer"
+                      value={cvData.personal.title}
+                      onChange={(e) => updatePersonalInfo('title', e.target.value)}
                     />
+                    {formErrors.title && <p className="form-error-msg">{formErrors.title}</p>}
                   </div>
-                </div>
 
-                <div className="grid-2">
                   <div className="form-group">
-                    <label>Email Address *</label>
+                    <label className="form-label">
+                      Email Address <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="email"
-                      className="input-field"
-                      placeholder="e.g. hamza@gmail.com"
-                      value={resumeData.personal.email}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, email: e.target.value }
-                      })}
+                      className={`input-field ${formErrors.email ? 'border-red-500' : ''}`}
+                      placeholder="usman.ali@example.com"
+                      value={cvData.personal.email}
+                      onChange={(e) => updatePersonalInfo('email', e.target.value)}
                     />
+                    {formErrors.email && <p className="form-error-msg">{formErrors.email}</p>}
                   </div>
 
                   <div className="form-group">
-                    <label>Mobile Number (Pakistan) *</label>
+                    <label className="form-label">
+                      Mobile / WhatsApp <span className="text-red-500">*</span>
+                    </label>
                     <input
-                      type="text"
-                      className="input-field"
+                      type="tel"
+                      className={`input-field ${formErrors.phone ? 'border-red-500' : ''}`}
                       placeholder="+92 300 1234567"
-                      value={resumeData.personal.phone}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, phone: e.target.value }
-                      })}
+                      value={cvData.personal.phone}
+                      onChange={(e) => updatePersonalInfo('phone', e.target.value)}
                     />
+                    {formErrors.phone && <p className="form-error-msg">{formErrors.phone}</p>}
                   </div>
-                </div>
 
-                <div className="grid-2">
                   <div className="form-group">
-                    <label>City & Address</label>
+                    <label className="form-label">
+                      City of Residence <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="text"
-                      className="input-field"
-                      placeholder="e.g. Islamabad, Pakistan"
-                      value={resumeData.personal.city}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, city: e.target.value }
-                      })}
+                      className={`input-field ${formErrors.city ? 'border-red-500' : ''}`}
+                      placeholder="e.g. Islamabad, Lahore, Karachi"
+                      value={cvData.personal.city}
+                      onChange={(e) => updatePersonalInfo('city', e.target.value)}
                     />
+                    {formErrors.city && <p className="form-error-msg">{formErrors.city}</p>}
                   </div>
 
                   <div className="form-group">
-                    <label>Domicile & District (Crucial for Govt)</label>
+                    <label className="form-label">
+                      Provincial Domicile & District <span className="text-xs text-muted font-normal">(Govt Quota)</span>
+                    </label>
                     <input
                       type="text"
                       className="input-field"
                       placeholder="e.g. Punjab (Rawalpindi District)"
-                      value={resumeData.personal.domicile}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, domicile: e.target.value }
-                      })}
+                      value={cvData.personal.domicile}
+                      onChange={(e) => updatePersonalInfo('domicile', e.target.value)}
                     />
                   </div>
-                </div>
 
-                <div className="grid-2">
                   <div className="form-group">
-                    <label>CNIC Number (Govt Format)</label>
+                    <label className="form-label">
+                      CNIC Number <span className="text-xs text-muted font-normal">(Optional for civil service)</span>
+                    </label>
                     <input
                       type="text"
-                      className="input-field"
+                      className="input-field font-mono"
                       placeholder="37405-1234567-1"
-                      value={resumeData.personal.cnic}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, cnic: e.target.value }
-                      })}
+                      value={cvData.personal.cnic}
+                      onChange={(e) => updatePersonalInfo('cnic', e.target.value)}
                     />
                   </div>
 
                   <div className="form-group">
-                    <label>Father's Name (Govt standard)</label>
-                    <input
-                      type="text"
-                      className="input-field"
-                      placeholder="e.g. Tariq Mahmood Khan"
-                      value={resumeData.personal.fatherName}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, fatherName: e.target.value }
-                      })}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid-2">
-                  <div className="form-group">
-                    <label>LinkedIn Profile</label>
+                    <label className="form-label">
+                      LinkedIn / Public Profile URL
+                    </label>
                     <input
                       type="text"
                       className="input-field"
                       placeholder="linkedin.com/in/username"
-                      value={resumeData.personal.linkedin}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, linkedin: e.target.value }
-                      })}
+                      value={cvData.personal.linkedin}
+                      onChange={(e) => updatePersonalInfo('linkedin', e.target.value)}
                     />
                   </div>
-
-                  <div className="form-group">
-                    <label>GitHub / Portfolio URL</label>
-                    <input
-                      type="text"
-                      className="input-field"
-                      placeholder="github.com/username"
-                      value={resumeData.personal.github}
-                      onChange={(e) => setResumeData({
-                        ...resumeData,
-                        personal: { ...resumeData.personal, github: e.target.value }
-                      })}
-                    />
-                  </div>
-                </div>
-
-                {/* Professional Summary */}
-                <div className="form-group">
-                  <div className="form-label-with-tip">
-                    <label>Professional Summary & Bio</label>
-                    <span className="pro-tip-badge">
-                      <Lightbulb size={12} />
-                      <span>Pro-tip: 3–4 concise lines emphasizing key metrics & tech/govt eligibility</span>
-                    </span>
-                  </div>
-                  <textarea
-                    rows={4}
-                    className="input-field"
-                    placeholder="Results-oriented professional with 5+ years of experience delivering measurable impact..."
-                    value={resumeData.summary}
-                    onChange={(e) => setResumeData({ ...resumeData, summary: e.target.value })}
-                  />
                 </div>
               </div>
             )}
 
-            {/* TAB: Work Experience */}
-            {activeTab === 'experience' && (
-              <div className="form-section-stack">
-                <div className="section-head-with-add">
-                  <span className="form-label-bold">Work Experience & Positions</span>
-                  <button className="btn btn-sm btn-primary" onClick={addExperience}>
-                    <Plus size={14} />
-                    <span>Add Position</span>
+            {/* STEP 2: PROFESSIONAL SUMMARY */}
+            {currentStep === 2 && (
+              <div className="space-y-4 animate-fade-in">
+                <div className="p-3.5 rounded-lg bg-surface-subtle border border-subtle flex items-start gap-3">
+                  <Info size={18} className="text-emerald mt-0.5 flex-shrink-0" />
+                  <p className="text-xs text-secondary leading-relaxed">
+                    <strong>ATS Best Practice:</strong> Keep summary to 3–4 concise sentences. Highlight your core domain (e.g. public sector administration, full stack development), years of experience, and your strongest competitive credential.
+                  </p>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label flex items-center justify-between">
+                    <span>Executive Summary Statement</span>
+                    <span className="text-xs text-muted">
+                      {cvData.summary.length} characters
+                    </span>
+                  </label>
+                  <textarea
+                    rows={6}
+                    className={`input-field ${formErrors.summary ? 'border-red-500' : ''}`}
+                    placeholder="Results-driven professional with X years of experience leading projects in..."
+                    value={cvData.summary}
+                    onChange={(e) => {
+                      setCvData(prev => ({ ...prev, summary: e.target.value }));
+                      if (formErrors.summary) setFormErrors(prev => ({ ...prev, summary: null }));
+                    }}
+                  />
+                  {formErrors.summary && <p className="form-error-msg">{formErrors.summary}</p>}
+                </div>
+
+                {/* Quick Insert Starter Snippets */}
+                <div className="summary-suggestions mt-2">
+                  <span className="text-xs font-bold text-muted uppercase tracking-wider block mb-2">
+                    Quick Insert Starters:
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      className="suggestion-chip text-xs"
+                      onClick={() => setCvData(prev => ({
+                        ...prev,
+                        summary: prev.summary + (prev.summary ? " " : "") + "Proven track record delivering mission-critical public deliverables in compliance with statutory frameworks."
+                      }))}
+                    >
+                      + Compliance & Statutory Track Record
+                    </button>
+                    <button
+                      type="button"
+                      className="suggestion-chip text-xs"
+                      onClick={() => setCvData(prev => ({
+                        ...prev,
+                        summary: prev.summary + (prev.summary ? " " : "") + "Recognized for streamlining departmental workflows and achieving measurable reductions in administrative turnaround times."
+                      }))}
+                    >
+                      + Administrative Streamlining
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 3: WORK EXPERIENCE */}
+            {currentStep === 3 && (
+              <div className="space-y-6 animate-fade-in">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-secondary">
+                    Add your previous and current professional roles in reverse chronological order.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={addExperience}
+                    className="btn btn-outline btn-sm py-1 px-3 text-xs"
+                  >
+                    <Plus size={13} />
+                    <span>Add Role</span>
                   </button>
                 </div>
 
-                {resumeData.experience.map((exp, index) => (
-                  <div key={exp.id} className="dynamic-entry-card">
-                    <div className="entry-card-header">
-                      <span className="entry-index-badge">Experience #{index + 1}</span>
-                      <button className="delete-entry-btn" onClick={() => removeExperience(exp.id)}>
-                        <Trash2 size={14} />
-                      </button>
+                {cvData.experience.map((exp, idx) => (
+                  <div key={exp.id || idx} className="repeatable-card card p-4 border border-subtle relative">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="badge badge-bps text-xs font-bold">
+                        Position #{idx + 1}
+                      </span>
+                      {cvData.experience.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeExperience(idx)}
+                          className="action-btn-sm text-red-500 hover:text-red-700"
+                          title="Remove position"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      )}
                     </div>
 
-                    <div className="grid-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                       <div className="form-group">
-                        <label>Job Title / Role</label>
+                        <label className="form-label">Job Title / Designation *</label>
                         <input
                           type="text"
                           className="input-field"
-                          placeholder="e.g. Senior Software Engineer"
+                          placeholder="e.g. Senior Software Engineer / Assistant Director"
                           value={exp.role}
-                          onChange={(e) => updateExperience(exp.id, 'role', e.target.value)}
+                          onChange={(e) => updateExperience(idx, 'role', e.target.value)}
                         />
                       </div>
+
                       <div className="form-group">
-                        <label>Company / Department</label>
+                        <label className="form-label">Organization / Department *</label>
                         <input
                           type="text"
                           className="input-field"
-                          placeholder="e.g. Systems Limited / FIA"
+                          placeholder="e.g. Ministry of Finance / Systems Limited"
                           value={exp.company}
-                          onChange={(e) => updateExperience(exp.id, 'company', e.target.value)}
+                          onChange={(e) => updateExperience(idx, 'company', e.target.value)}
                         />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Location / City</label>
+                        <input
+                          type="text"
+                          className="input-field"
+                          placeholder="e.g. Islamabad (Hybrid)"
+                          value={exp.city}
+                          onChange={(e) => updateExperience(idx, 'city', e.target.value)}
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="form-group">
+                          <label className="form-label">Start Date</label>
+                          <input
+                            type="text"
+                            className="input-field"
+                            placeholder="e.g. Jan 2022"
+                            value={exp.startDate}
+                            onChange={(e) => updateExperience(idx, 'startDate', e.target.value)}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label">End Date</label>
+                          <input
+                            type="text"
+                            className="input-field"
+                            placeholder={exp.current ? "Present" : "e.g. Dec 2023"}
+                            disabled={exp.current}
+                            value={exp.current ? "Present" : exp.endDate}
+                            onChange={(e) => updateExperience(idx, 'endDate', e.target.value)}
+                          />
+                        </div>
                       </div>
                     </div>
 
-                    <div className="grid-2">
-                      <div className="form-group">
-                        <label>Start Date</label>
-                        <input
-                          type="text"
-                          className="input-field"
-                          placeholder="e.g. Jan 2023"
-                          value={exp.startDate}
-                          onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>End Date</label>
-                        <input
-                          type="text"
-                          className="input-field"
-                          placeholder="e.g. Present"
-                          value={exp.endDate}
-                          onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)}
-                        />
-                      </div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <input
+                        type="checkbox"
+                        id={`current-job-${idx}`}
+                        checked={exp.current || false}
+                        onChange={(e) => updateExperience(idx, 'current', e.target.checked)}
+                        className="rounded text-emerald"
+                      />
+                      <label htmlFor={`current-job-${idx}`} className="text-xs font-semibold cursor-pointer">
+                        Currently working in this role
+                      </label>
                     </div>
 
                     <div className="form-group">
-                      <label>Responsibilities & Quantified Achievements</label>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="form-label mb-0">Key Responsibilities & Measurable Achievements</label>
+                        <span className="text-[11px] text-muted">Use bullet points (•)</span>
+                      </div>
                       <textarea
-                        rows={3}
-                        className="input-field"
-                        placeholder="Detail key responsibilities, scale of systems, and quantifiable achievements..."
+                        rows={4}
+                        className="input-field text-xs font-sans leading-relaxed"
+                        placeholder="• Spearheaded departmental audit reconciliation, resulting in 100% compliance.&#10;• Led cross-functional team of 6 officers, processing 5,000+ public complaints under citizen portal.&#10;• Reduced filing latency by 25% via e-Office automation."
                         value={exp.description}
-                        onChange={(e) => updateExperience(exp.id, 'description', e.target.value)}
+                        onChange={(e) => updateExperience(idx, 'description', e.target.value)}
                       />
                     </div>
                   </div>
@@ -645,68 +1027,83 @@ export default function CvBuilder() {
               </div>
             )}
 
-            {/* TAB: Education */}
-            {activeTab === 'education' && (
-              <div className="form-section-stack">
-                <div className="section-head-with-add">
-                  <span className="form-label-bold">Academic Qualifications</span>
-                  <button className="btn btn-sm btn-primary" onClick={addEducation}>
-                    <Plus size={14} />
+            {/* STEP 4: EDUCATION */}
+            {currentStep === 4 && (
+              <div className="space-y-6 animate-fade-in">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-secondary">
+                    List your academic degrees in reverse chronological order (HEC recognized qualifications).
+                  </p>
+                  <button
+                    type="button"
+                    onClick={addEducation}
+                    className="btn btn-outline btn-sm py-1 px-3 text-xs"
+                  >
+                    <Plus size={13} />
                     <span>Add Degree</span>
                   </button>
                 </div>
 
-                {resumeData.education.map((edu, index) => (
-                  <div key={edu.id} className="dynamic-entry-card">
-                    <div className="entry-card-header">
-                      <span className="entry-index-badge">Degree #{index + 1}</span>
-                      <button className="delete-entry-btn" onClick={() => removeEducation(edu.id)}>
-                        <Trash2 size={14} />
-                      </button>
+                {cvData.education.map((edu, idx) => (
+                  <div key={edu.id || idx} className="repeatable-card card p-4 border border-subtle relative">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="badge badge-bps text-xs font-bold">
+                        Academic Qualification #{idx + 1}
+                      </span>
+                      {cvData.education.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeEducation(idx)}
+                          className="action-btn-sm text-red-500 hover:text-red-700"
+                          title="Remove degree"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      )}
                     </div>
 
-                    <div className="grid-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div className="form-group">
-                        <label>Degree / Certificate Title</label>
+                        <label className="form-label">Degree / Certificate *</label>
                         <input
                           type="text"
                           className="input-field"
-                          placeholder="e.g. BS Computer Science (4 Years)"
+                          placeholder="e.g. Master of Public Administration (MPA) / BS CS"
                           value={edu.degree}
-                          onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
+                          onChange={(e) => updateEducation(idx, 'degree', e.target.value)}
                         />
                       </div>
-                      <div className="form-group">
-                        <label>Institution / Board / University</label>
-                        <input
-                          type="text"
-                          className="input-field"
-                          placeholder="e.g. NUST Islamabad"
-                          value={edu.institution}
-                          onChange={(e) => updateEducation(edu.id, 'institution', e.target.value)}
-                        />
-                      </div>
-                    </div>
 
-                    <div className="grid-2">
                       <div className="form-group">
-                        <label>Passing Year</label>
+                        <label className="form-label">University / Board / Institution *</label>
                         <input
                           type="text"
                           className="input-field"
-                          placeholder="e.g. 2017 - 2021"
-                          value={edu.year}
-                          onChange={(e) => updateEducation(edu.id, 'year', e.target.value)}
+                          placeholder="e.g. Quaid-i-Azam University (QAU), Islamabad"
+                          value={edu.institution}
+                          onChange={(e) => updateEducation(idx, 'institution', e.target.value)}
                         />
                       </div>
+
                       <div className="form-group">
-                        <label>Grade / CGPA / Division</label>
+                        <label className="form-label">Graduation Year / Period</label>
                         <input
                           type="text"
                           className="input-field"
-                          placeholder="e.g. CGPA: 3.82 / 4.0 or 1st Division"
+                          placeholder="e.g. 2018 - 2022"
+                          value={edu.year}
+                          onChange={(e) => updateEducation(idx, 'year', e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Grade / CGPA / Division</label>
+                        <input
+                          type="text"
+                          className="input-field"
+                          placeholder="e.g. CGPA: 3.8 / 4.0 (1st Division)"
                           value={edu.grade}
-                          onChange={(e) => updateEducation(edu.id, 'grade', e.target.value)}
+                          onChange={(e) => updateEducation(idx, 'grade', e.target.value)}
                         />
                       </div>
                     </div>
@@ -715,555 +1112,728 @@ export default function CvBuilder() {
               </div>
             )}
 
-            {/* TAB: Projects */}
-            {activeTab === 'projects' && (
-              <div className="form-section-stack">
-                <div className="section-head-with-add">
-                  <span className="form-label-bold">Key Projects & Open Source</span>
-                  <button className="btn btn-sm btn-primary" onClick={addProject}>
-                    <Plus size={14} />
-                    <span>Add Project</span>
+            {/* STEP 5: SKILLS WITH DYNAMIC SUGGESTIONS */}
+            {currentStep === 5 && (
+              <div className="space-y-5 animate-fade-in">
+                {/* Tag Input Box */}
+                <div className="form-group">
+                  <label className="form-label">
+                    Add Core Technical & Administrative Skills (Press Enter to Add)
+                  </label>
+                  <div className="flex gap-2 mb-3">
+                    <input
+                      type="text"
+                      className="input-field flex-1"
+                      placeholder="Type a skill and press Enter (e.g. Public Policy, React, PPRA Rules)..."
+                      value={skillInput}
+                      onChange={(e) => setSkillInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleAddSkill();
+                        }
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleAddSkill()}
+                      className="btn btn-primary px-4 py-2 text-xs"
+                    >
+                      <Plus size={14} />
+                      <span>Add</span>
+                    </button>
+                  </div>
+
+                  {/* Active Skill Chips */}
+                  <div className="skill-chips-container min-h-[50px] p-3 rounded-lg bg-surface-subtle border border-subtle flex flex-wrap gap-2">
+                    {cvData.skills.length > 0 ? (
+                      cvData.skills.map((skill, idx) => (
+                        <span key={idx} className="skill-tag-pill">
+                          <span>{skill}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveSkill(skill)}
+                            className="skill-remove-btn"
+                            title={`Remove ${skill}`}
+                          >
+                            <X size={12} />
+                          </button>
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-xs text-muted">No skills added yet. Type above or click recommendations below.</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Intelligent Recommended Skills Bundle */}
+                <div className="suggested-skills-card p-4 rounded-lg bg-surface border border-subtle">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <Sparkles size={16} className="text-gold-accent" />
+                      <span className="text-xs font-bold text-primary">
+                        Recommended for: {currentBundle.category}
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-muted">Click to add directly</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {currentBundle.skills.map((s, i) => {
+                      const isAdded = cvData.skills.includes(s);
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          disabled={isAdded}
+                          onClick={() => handleAddSkill(s)}
+                          className={`suggestion-chip text-xs ${isAdded ? 'opacity-40 cursor-not-allowed' : ''}`}
+                        >
+                          {isAdded ? <Check size={12} className="text-emerald" /> : <Plus size={12} />}
+                          <span>{s}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 6: CERTIFICATIONS */}
+            {currentStep === 6 && (
+              <div className="space-y-5 animate-fade-in">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-secondary">
+                    Add statutory licenses (PEC, PMDC, Bar Council, HEC) or professional certificates.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={addCertification}
+                    className="btn btn-outline btn-sm py-1 px-3 text-xs"
+                  >
+                    <Plus size={13} />
+                    <span>Add Certificate</span>
                   </button>
                 </div>
 
-                {(resumeData.projects || []).map((proj, index) => (
-                  <div key={proj.id} className="dynamic-entry-card">
-                    <div className="entry-card-header">
-                      <span className="entry-index-badge">Project #{index + 1}</span>
-                      <button className="delete-entry-btn" onClick={() => removeProject(proj.id)}>
-                        <Trash2 size={14} />
-                      </button>
+                {cvData.certifications.map((cert, idx) => (
+                  <div key={cert.id || idx} className="repeatable-card card p-4 border border-subtle relative">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="badge badge-bps text-xs font-bold">
+                        Certificate #{idx + 1}
+                      </span>
+                      {cvData.certifications.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeCertification(idx)}
+                          className="action-btn-sm text-red-500 hover:text-red-700"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      )}
                     </div>
 
-                    <div className="grid-2">
-                      <div className="form-group">
-                        <label>Project Name</label>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div className="form-group md:col-span-2">
+                        <label className="form-label">Certificate Title / Credential *</label>
                         <input
                           type="text"
                           className="input-field"
-                          placeholder="e.g. Microservices Gateway"
-                          value={proj.name}
-                          onChange={(e) => updateProject(proj.id, 'name', e.target.value)}
+                          placeholder="e.g. PEC Registered Professional Engineer (COMP/14290)"
+                          value={cert.name}
+                          onChange={(e) => updateCertification(idx, 'name', e.target.value)}
                         />
                       </div>
+
                       <div className="form-group">
-                        <label>Technologies Used</label>
+                        <label className="form-label">Year Acquired</label>
                         <input
                           type="text"
                           className="input-field"
-                          placeholder="e.g. Python, Docker, React"
-                          value={proj.tech}
-                          onChange={(e) => updateProject(proj.id, 'tech', e.target.value)}
+                          placeholder="e.g. 2023"
+                          value={cert.year}
+                          onChange={(e) => updateCertification(idx, 'year', e.target.value)}
                         />
                       </div>
-                    </div>
-
-                    <div className="form-group">
-                      <label>Project Summary & Impact</label>
-                      <textarea
-                        rows={2}
-                        className="input-field"
-                        placeholder="Brief overview of problem solved and impact..."
-                        value={proj.description}
-                        onChange={(e) => updateProject(proj.id, 'description', e.target.value)}
-                      />
                     </div>
                   </div>
                 ))}
               </div>
             )}
 
-            {/* TAB: Skills & Certs */}
-            {activeTab === 'skills' && (
-              <div className="form-section-stack">
-                <div className="form-group">
-                  <label>Skills & Competencies (Comma-separated)</label>
-                  <input
-                    type="text"
-                    className="input-field"
-                    placeholder="React, TypeScript, Python, Public Administration, Land Laws, SQL..."
-                    value={resumeData.skills.join(', ')}
-                    onChange={(e) => setResumeData({
-                      ...resumeData,
-                      skills: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
-                    })}
-                  />
-                  <span className="input-hint">Rendered as clean modern badge tags in the generated CV</span>
+            {/* STEP 7: LANGUAGES */}
+            {currentStep === 7 && (
+              <div className="space-y-5 animate-fade-in">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-secondary">
+                    List languages you can read, write, or conduct official business in.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={addLanguage}
+                    className="btn btn-outline btn-sm py-1 px-3 text-xs"
+                  >
+                    <Plus size={13} />
+                    <span>Add Language</span>
+                  </button>
                 </div>
 
-                <div className="form-group">
-                  <label>Certifications & Public Service Exams (One per line)</label>
-                  <textarea
-                    rows={4}
-                    className="input-field"
-                    placeholder="AWS Certified Solutions Architect&#10;FPSC Screening Examination Cleared&#10;PEC License Registration"
-                    value={resumeData.certifications.join('\n')}
-                    onChange={(e) => setResumeData({
-                      ...resumeData,
-                      certifications: e.target.value.split('\n').filter(Boolean)
-                    })}
-                  />
+                {cvData.languages.map((lang, idx) => (
+                  <div key={lang.id || idx} className="grid grid-cols-1 md:grid-cols-2 gap-3 p-3 rounded-lg bg-surface-subtle border border-subtle items-center">
+                    <div className="form-group mb-0">
+                      <label className="form-label text-xs">Language Name</label>
+                      <input
+                        type="text"
+                        className="input-field"
+                        placeholder="e.g. English, Urdu, Sindhi, Pashto"
+                        value={lang.name}
+                        onChange={(e) => updateLanguage(idx, 'name', e.target.value)}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="form-group mb-0 flex-1">
+                        <label className="form-label text-xs">Proficiency Level</label>
+                        <select
+                          className="input-field"
+                          value={lang.level}
+                          onChange={(e) => updateLanguage(idx, 'level', e.target.value)}
+                        >
+                          <option value="Native / Bilingual">Native / Bilingual</option>
+                          <option value="Professional Working Proficiency">Professional Working</option>
+                          <option value="Conversational">Conversational</option>
+                          <option value="Elementary">Elementary</option>
+                        </select>
+                      </div>
+                      {cvData.languages.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeLanguage(idx)}
+                          className="action-btn-sm text-red-500 mt-4"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* STEP 8: PREVIEW & DOWNLOAD */}
+            {currentStep === 8 && (
+              <div className="space-y-6 animate-fade-in">
+                {/* Template Selector */}
+                <div>
+                  <label className="form-label flex items-center gap-1.5 mb-2">
+                    <Layers size={15} className="text-emerald" />
+                    <span>Choose ATS Resume Template:</span>
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {TEMPLATES.map((tpl) => (
+                      <button
+                        key={tpl.id}
+                        type="button"
+                        className={`template-select-card ${selectedTemplate === tpl.id ? 'active' : ''}`}
+                        onClick={() => setSelectedTemplate(tpl.id)}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-bold text-xs text-primary">{tpl.name}</span>
+                          {selectedTemplate === tpl.id && <CheckCircle2 size={14} className="text-emerald" />}
+                        </div>
+                        <p className="text-[11px] text-muted text-left leading-normal">{tpl.desc}</p>
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label>Languages (Comma-separated)</label>
-                  <input
-                    type="text"
-                    className="input-field"
-                    placeholder="English (Fluent), Urdu (Native), Punjabi"
-                    value={(resumeData.languages || []).join(', ')}
-                    onChange={(e) => setResumeData({
-                      ...resumeData,
-                      languages: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
-                    })}
-                  />
+                {/* Accent Palette Selector */}
+                <div>
+                  <label className="form-label flex items-center gap-1.5 mb-2">
+                    <Palette size={15} className="text-emerald" />
+                    <span>Accent Tone:</span>
+                  </label>
+                  <div className="flex items-center gap-3">
+                    {ACCENT_COLORS.map((col) => (
+                      <button
+                        key={col.id}
+                        type="button"
+                        className={`w-7 h-7 rounded-full border-2 transition-transform ${selectedColor.id === col.id ? 'scale-125 border-emerald shadow-md' : 'border-transparent'}`}
+                        style={{ backgroundColor: col.hex }}
+                        onClick={() => setSelectedColor(col)}
+                        title={col.name}
+                      />
+                    ))}
+                    <span className="text-xs font-semibold text-secondary ml-2">{selectedColor.name}</span>
+                  </div>
+                </div>
+
+                {/* Download CTA Bar */}
+                <div className="p-4 rounded-xl bg-surface-subtle border border-subtle space-y-3">
+                  <div className="flex items-center gap-2 text-emerald">
+                    <ShieldCheck size={18} />
+                    <span className="text-xs font-bold">100% Vector PDF Generator Ready</span>
+                  </div>
+                  <p className="text-xs text-secondary leading-relaxed">
+                    Your resume is formatted strictly to A4 page dimensions with crisp vector text, embedded fonts, and ATS-parseable headings.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={handleDownloadPdf}
+                      disabled={isExporting}
+                      className="btn btn-primary flex-1 py-3"
+                    >
+                      <Download size={16} />
+                      <span>{isExporting ? "Generating PDF..." : "Download Official PDF"}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => window.print()}
+                      className="btn btn-outline py-3 px-4 text-xs"
+                    >
+                      <Printer size={16} />
+                      <span>Print Document</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
+
+            {/* Bottom Form Navigation Controls */}
+            <div className="cv-form-footer border-t border-subtle pt-5 mt-6 flex items-center justify-between">
+              {currentStep > 1 ? (
+                <button
+                  type="button"
+                  onClick={handlePrevStep}
+                  className="btn btn-outline btn-sm py-2 px-4"
+                >
+                  <ChevronLeft size={16} />
+                  <span>Back</span>
+                </button>
+              ) : <div />}
+
+              {currentStep < 8 ? (
+                <button
+                  type="button"
+                  onClick={handleNextStep}
+                  className="btn btn-primary btn-sm py-2 px-5 ml-auto"
+                >
+                  <span>Continue to {STEPS[currentStep].title}</span>
+                  <ChevronRight size={16} />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleDownloadPdf}
+                  disabled={isExporting}
+                  className="btn btn-primary btn-sm py-2 px-6 ml-auto"
+                >
+                  <Download size={16} />
+                  <span>Download PDF</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* RIGHT COLUMN: LIVE ATS RESUME PREVIEW */}
-        <div className={`cv-preview-panel ${mobileViewMode === 'editor' ? 'mobile-hidden' : ''}`}>
-          <div className="preview-toolbar no-print">
-            <div className="preview-label">
-              <Eye size={15} className="text-emerald" />
-              <span>Live ATS Document Preview ({template.toUpperCase()} • {accentColor.id.toUpperCase()})</span>
+        {/* RIGHT COLUMN: Live Interactive A4 Preview Sheet */}
+        <div className={`cv-preview-panel ${mobileView === 'form' ? 'hidden-on-mobile' : ''}`}>
+          <div className="cv-preview-sticky-wrap">
+            <div className="preview-top-toolbar flex items-center justify-between pb-3 mb-3 border-b border-subtle">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs font-bold font-mono text-primary uppercase">Live ATS Preview</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleDownloadPdf}
+                  disabled={isExporting}
+                  className="btn btn-primary btn-sm py-1 px-3 text-xs"
+                  title="Download vector PDF"
+                >
+                  <Download size={13} />
+                  <span>Download</span>
+                </button>
+              </div>
             </div>
-            <button className="btn btn-sm btn-primary" onClick={handlePrint}>
-              <Download size={14} />
-              <span>Download PDF</span>
-            </button>
-          </div>
 
-          {/* Printable Document Paper */}
-          <div 
-            className={`printable-resume-sheet template-${template}`} 
-            style={{ 
-              '--cv-accent': accentColor.hex,
-              '--cv-accent-light': accentColor.light,
-              '--cv-accent-border': accentColor.border
-            }}
-          >
-            {/* ====================================================================
-               TEMPLATE 1: EXECUTIVE MINIMALIST (UNIVERSAL / CORPORATE)
-               ==================================================================== */}
-            {template === 'executive' && (
-              <div className="resume-sheet-content executive-design">
-                <header className="exec-header-grid">
-                  <div className="exec-header-left">
-                    <h1 className="exec-name" style={{ color: accentColor.hex }}>
-                      {resumeData.personal.fullName || "Your Full Name"}
-                    </h1>
-                    <div className="exec-title">{resumeData.personal.title || "Professional Title"}</div>
+            {/* A4 Sheet Container */}
+            <div className="a4-sheet-container">
+              <div 
+                ref={previewRef} 
+                id="resume-preview-sheet" 
+                className={`resume-paper template-${selectedTemplate}`}
+                style={{ '--accent-theme': selectedColor.hex }}
+              >
+                {/* TEMPLATE 1: CLASSIC PROFESSIONAL */}
+                {selectedTemplate === 'classic' && (
+                  <div className="tpl-classic-inner">
+                    {/* Header */}
+                    <div className="tpl-header text-center border-b-2 pb-4 mb-4" style={{ borderColor: selectedColor.hex }}>
+                      <h1 className="text-2xl font-bold font-serif text-primary tracking-tight uppercase">
+                        {debouncedData.personal.fullName || "Your Full Name"}
+                      </h1>
+                      <div className="text-xs font-semibold text-secondary mt-1">
+                        {debouncedData.personal.title || "Target Career Title"}
+                      </div>
+                      <div className="text-[11px] text-muted flex flex-wrap justify-center gap-3 mt-2">
+                        {debouncedData.personal.email && <span>✉ {debouncedData.personal.email}</span>}
+                        {debouncedData.personal.phone && <span>📞 {debouncedData.personal.phone}</span>}
+                        {debouncedData.personal.city && <span>📍 {debouncedData.personal.city}</span>}
+                        {debouncedData.personal.domicile && <span>🏛 Domicile: {debouncedData.personal.domicile}</span>}
+                        {debouncedData.personal.cnic && <span>🪪 CNIC: {debouncedData.personal.cnic}</span>}
+                      </div>
+                    </div>
 
-                    {/* Micro-Contact Badges */}
-                    <div className="exec-contact-row">
-                      {resumeData.personal.email && (
-                        <span className="exec-contact-item">
-                          <Mail size={12} style={{ color: accentColor.hex }} />
-                          {resumeData.personal.email}
-                        </span>
+                    {/* Summary */}
+                    {debouncedData.summary && (
+                      <div className="tpl-section mb-4">
+                        <h2 className="tpl-section-title font-bold text-xs uppercase tracking-wider mb-1.5" style={{ color: selectedColor.hex }}>
+                          Professional Profile
+                        </h2>
+                        <p className="text-[11.5px] text-primary leading-relaxed text-justify">
+                          {debouncedData.summary}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Experience */}
+                    {debouncedData.experience.length > 0 && debouncedData.experience.some(e => e.role || e.company) && (
+                      <div className="tpl-section mb-4">
+                        <h2 className="tpl-section-title font-bold text-xs uppercase tracking-wider mb-2" style={{ color: selectedColor.hex }}>
+                          Professional Experience
+                        </h2>
+                        <div className="space-y-3">
+                          {debouncedData.experience.map((exp, i) => (
+                            (exp.role || exp.company) && (
+                              <div key={i} className="tpl-entry">
+                                <div className="flex justify-between items-baseline">
+                                  <span className="font-bold text-[12px] text-primary">{exp.role}</span>
+                                  <span className="text-[10.5px] font-mono text-muted">{exp.startDate} – {exp.current ? "Present" : exp.endDate}</span>
+                                </div>
+                                <div className="text-[11px] font-semibold text-secondary">
+                                  {exp.company}{exp.city ? ` • ${exp.city}` : ''}
+                                </div>
+                                {exp.description && (
+                                  <div className="text-[11px] text-primary mt-1 whitespace-pre-line leading-relaxed pl-1">
+                                    {exp.description}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Education */}
+                    {debouncedData.education.length > 0 && debouncedData.education.some(e => e.degree || e.institution) && (
+                      <div className="tpl-section mb-4">
+                        <h2 className="tpl-section-title font-bold text-xs uppercase tracking-wider mb-2" style={{ color: selectedColor.hex }}>
+                          Education & Academic Credentials
+                        </h2>
+                        <div className="space-y-2.5">
+                          {debouncedData.education.map((edu, i) => (
+                            (edu.degree || edu.institution) && (
+                              <div key={i} className="tpl-entry">
+                                <div className="flex justify-between items-baseline">
+                                  <span className="font-bold text-[12px] text-primary">{edu.degree}</span>
+                                  <span className="text-[10.5px] font-mono text-muted">{edu.year}</span>
+                                </div>
+                                <div className="text-[11px] text-secondary">
+                                  {edu.institution}{edu.grade ? ` • ${edu.grade}` : ''}
+                                </div>
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Skills */}
+                    {debouncedData.skills.length > 0 && (
+                      <div className="tpl-section mb-4">
+                        <h2 className="tpl-section-title font-bold text-xs uppercase tracking-wider mb-1.5" style={{ color: selectedColor.hex }}>
+                          Core Competencies & Technical Skills
+                        </h2>
+                        <p className="text-[11px] text-primary leading-relaxed">
+                          {debouncedData.skills.join(" • ")}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Certifications & Languages Grid */}
+                    <div className="grid grid-cols-2 gap-4 mt-2 pt-2 border-t border-subtle">
+                      {debouncedData.certifications.length > 0 && debouncedData.certifications.some(c => c.name) && (
+                        <div>
+                          <h2 className="tpl-section-title font-bold text-[11px] uppercase tracking-wider mb-1" style={{ color: selectedColor.hex }}>
+                            Certifications & Licenses
+                          </h2>
+                          <ul className="list-disc pl-3 text-[10.5px] text-primary space-y-0.5">
+                            {debouncedData.certifications.map((c, i) => c.name && (
+                              <li key={i}>{c.name} {c.year ? `(${c.year})` : ''}</li>
+                            ))}
+                          </ul>
+                        </div>
                       )}
-                      {resumeData.personal.phone && (
-                        <span className="exec-contact-item">
-                          <Phone size={12} style={{ color: accentColor.hex }} />
-                          {resumeData.personal.phone}
-                        </span>
-                      )}
-                      {resumeData.personal.city && (
-                        <span className="exec-contact-item">
-                          <MapPin size={12} style={{ color: accentColor.hex }} />
-                          {resumeData.personal.city}
-                        </span>
-                      )}
-                      {resumeData.personal.linkedin && (
-                        <span className="exec-contact-item">
-                          <Linkedin size={12} style={{ color: accentColor.hex }} />
-                          {resumeData.personal.linkedin}
-                        </span>
-                      )}
-                      {resumeData.personal.github && (
-                        <span className="exec-contact-item">
-                          <Github size={12} style={{ color: accentColor.hex }} />
-                          {resumeData.personal.github}
-                        </span>
+
+                      {debouncedData.languages.length > 0 && debouncedData.languages.some(l => l.name) && (
+                        <div>
+                          <h2 className="tpl-section-title font-bold text-[11px] uppercase tracking-wider mb-1" style={{ color: selectedColor.hex }}>
+                            Languages
+                          </h2>
+                          <div className="text-[10.5px] text-primary space-y-0.5">
+                            {debouncedData.languages.map((l, i) => l.name && (
+                              <div key={i}><strong>{l.name}</strong>: {l.level}</div>
+                            ))}
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
-
-                  {resumeData.showPhoto && resumeData.personal.photoUrl && (
-                    <div className="exec-photo-wrapper">
-                      <img src={resumeData.personal.photoUrl} alt="Profile" className="exec-photo-img" />
-                    </div>
-                  )}
-                </header>
-
-                <div className="exec-divider-line" style={{ backgroundColor: accentColor.hex }} />
-
-                {/* Summary */}
-                {resumeData.summary && (
-                  <section className="cv-sec-block">
-                    <h2 className="cv-sec-title" style={{ color: accentColor.hex }}>Executive Summary</h2>
-                    <p className="cv-sec-body">{resumeData.summary}</p>
-                  </section>
                 )}
 
-                {/* Experience */}
-                {resumeData.experience.length > 0 && (
-                  <section className="cv-sec-block">
-                    <h2 className="cv-sec-title" style={{ color: accentColor.hex }}>Work Experience</h2>
-                    {resumeData.experience.map((exp) => (
-                      <div key={exp.id} className="cv-item-block">
-                        <div className="cv-item-header">
-                          <strong className="cv-item-role">{exp.role || "Role"}</strong>
-                          <span className="cv-item-dates">{exp.startDate} – {exp.endDate}</span>
-                        </div>
-                        <div className="cv-item-sub">
-                          <span className="company-bold">{exp.company}</span>
-                          {exp.location && <span className="text-muted"> • {exp.location}</span>}
-                        </div>
-                        <p className="cv-item-desc">{exp.description}</p>
-                      </div>
-                    ))}
-                  </section>
-                )}
-
-                {/* Projects */}
-                {resumeData.projects && resumeData.projects.length > 0 && (
-                  <section className="cv-sec-block">
-                    <h2 className="cv-sec-title" style={{ color: accentColor.hex }}>Key Projects & Initiatives</h2>
-                    {resumeData.projects.map((proj) => (
-                      <div key={proj.id} className="cv-item-block">
-                        <div className="cv-item-header">
-                          <strong className="cv-item-role">{proj.name}</strong>
-                          {proj.tech && <span className="cv-item-tech-tag">{proj.tech}</span>}
-                        </div>
-                        <p className="cv-item-desc">{proj.description}</p>
-                      </div>
-                    ))}
-                  </section>
-                )}
-
-                {/* Education */}
-                {resumeData.education.length > 0 && (
-                  <section className="cv-sec-block">
-                    <h2 className="cv-sec-title" style={{ color: accentColor.hex }}>Education & Qualifications</h2>
-                    {resumeData.education.map((edu) => (
-                      <div key={edu.id} className="cv-item-block">
-                        <div className="cv-item-header">
-                          <strong className="cv-item-role">{edu.degree}</strong>
-                          <span className="cv-item-dates">{edu.year}</span>
-                        </div>
-                        <div className="cv-item-sub">
-                          <span>{edu.institution}</span>
-                          {edu.grade && <span className="grade-highlight"> • {edu.grade}</span>}
+                {/* TEMPLATE 2: MODERN MINIMAL */}
+                {selectedTemplate === 'modern' && (
+                  <div className="tpl-modern-inner">
+                    <div className="tpl-modern-header flex items-center justify-between pb-4 mb-4 border-b border-subtle">
+                      <div>
+                        <h1 className="text-2xl font-bold font-display tracking-tight text-primary">
+                          {debouncedData.personal.fullName || "Your Full Name"}
+                        </h1>
+                        <div className="text-xs font-semibold tracking-wide uppercase mt-0.5" style={{ color: selectedColor.hex }}>
+                          {debouncedData.personal.title || "Professional Role"}
                         </div>
                       </div>
-                    ))}
-                  </section>
-                )}
-
-                {/* Skills */}
-                {resumeData.skills.length > 0 && (
-                  <section className="cv-sec-block">
-                    <h2 className="cv-sec-title" style={{ color: accentColor.hex }}>Core Competencies & Skills</h2>
-                    <div className="cv-skills-pills-wrap">
-                      {resumeData.skills.map((skill, idx) => (
-                        <span key={idx} className="cv-skill-pill" style={{ borderColor: accentColor.border }}>
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </section>
-                )}
-
-                {/* Certifications */}
-                {resumeData.certifications.length > 0 && (
-                  <section className="cv-sec-block">
-                    <h2 className="cv-sec-title" style={{ color: accentColor.hex }}>Certifications & Honors</h2>
-                    <ul className="cv-bullet-list">
-                      {resumeData.certifications.map((cert, idx) => (
-                        <li key={idx}>{cert}</li>
-                      ))}
-                    </ul>
-                  </section>
-                )}
-              </div>
-            )}
-
-            {/* ====================================================================
-               TEMPLATE 2: GOVT & ACADEMIC STANDARD (FPSC / PPSC OFFICIAL)
-               ==================================================================== */}
-            {template === 'govt' && (
-              <div className="resume-sheet-content govt-design">
-                {/* Official Header */}
-                <header className="govt-header-box">
-                  <div className="govt-header-top">
-                    <div className="govt-header-title-col">
-                      <div className="govt-cv-title-tag">CURRICULUM VITAE (PAKISTAN PUBLIC SERVICE CADRE)</div>
-                      <h1 className="govt-full-name">{resumeData.personal.fullName || "FULL NAME"}</h1>
-                      <div className="govt-post-applied">{resumeData.personal.title || "CANDIDATE"}</div>
+                      {debouncedData.personal.photoUrl && debouncedData.personal.showPhoto && (
+                        <img 
+                          src={debouncedData.personal.photoUrl} 
+                          alt="Applicant" 
+                          style={{ width: '56px', height: '56px', minWidth: '56px', minHeight: '56px', borderRadius: '9999px', objectFit: 'cover', border: `2px solid ${selectedColor.hex}` }}
+                        />
+                      )}
                     </div>
 
-                    {resumeData.showPhoto && resumeData.personal.photoUrl && (
-                      <div className="govt-photo-frame">
-                        <img src={resumeData.personal.photoUrl} alt="Passport Photo" className="govt-photo-img" />
-                        <span className="photo-frame-lbl">Passport Size Photo</span>
+                    <div className="modern-contact-bar flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-secondary mb-4 p-2.5 rounded bg-surface-subtle">
+                      {debouncedData.personal.email && <span>{debouncedData.personal.email}</span>}
+                      {debouncedData.personal.phone && <span>{debouncedData.personal.phone}</span>}
+                      {debouncedData.personal.city && <span>{debouncedData.personal.city}</span>}
+                      {debouncedData.personal.domicile && <span>Domicile: {debouncedData.personal.domicile}</span>}
+                    </div>
+
+                    {debouncedData.summary && (
+                      <div className="mb-4">
+                        <div className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: selectedColor.hex }}>
+                          Executive Summary
+                        </div>
+                        <p className="text-[11.5px] text-primary leading-relaxed">
+                          {debouncedData.summary}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Experience */}
+                    {debouncedData.experience.length > 0 && debouncedData.experience.some(e => e.role) && (
+                      <div className="mb-4">
+                        <div className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: selectedColor.hex }}>
+                          Experience
+                        </div>
+                        <div className="space-y-3">
+                          {debouncedData.experience.map((exp, i) => exp.role && (
+                            <div key={i} className="border-l-2 pl-3" style={{ borderColor: selectedColor.hex }}>
+                              <div className="flex justify-between items-baseline">
+                                <span className="font-bold text-[12px] text-primary">{exp.role}</span>
+                                <span className="text-[10px] font-mono text-muted">{exp.startDate} — {exp.current ? 'Present' : exp.endDate}</span>
+                              </div>
+                              <div className="text-[11px] text-secondary font-medium">{exp.company} • {exp.city}</div>
+                              {exp.description && (
+                                <div className="text-[11px] text-primary mt-1 whitespace-pre-line leading-relaxed">
+                                  {exp.description}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Education */}
+                    {debouncedData.education.length > 0 && debouncedData.education.some(e => e.degree) && (
+                      <div className="mb-4">
+                        <div className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: selectedColor.hex }}>
+                          Education
+                        </div>
+                        <div className="space-y-2">
+                          {debouncedData.education.map((edu, i) => edu.degree && (
+                            <div key={i} className="flex justify-between items-baseline border-b border-subtle pb-1.5">
+                              <div>
+                                <span className="font-bold text-[11.5px] text-primary">{edu.degree}</span>
+                                <div className="text-[10.5px] text-secondary">{edu.institution} {edu.grade ? `(${edu.grade})` : ''}</div>
+                              </div>
+                              <span className="text-[10px] font-mono text-muted">{edu.year}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Skills */}
+                    {debouncedData.skills.length > 0 && (
+                      <div className="mb-3">
+                        <div className="text-xs font-bold uppercase tracking-wider mb-1.5" style={{ color: selectedColor.hex }}>
+                          Skills & Competencies
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {debouncedData.skills.map((sk, i) => (
+                            <span key={i} className="px-2 py-0.5 rounded bg-surface-subtle text-[10.5px] font-medium text-primary">
+                              {sk}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
+                )}
 
-                  {/* Statutory Credential Grid */}
-                  <div className="govt-credential-grid">
-                    <div className="cred-item"><strong>Father's Name:</strong> {resumeData.personal.fatherName || "N/A"}</div>
-                    <div className="cred-item"><strong>CNIC Number:</strong> {resumeData.personal.cnic || "N/A"}</div>
-                    <div className="cred-item"><strong>Domicile & District:</strong> {resumeData.personal.domicile || "N/A"}</div>
-                    <div className="cred-item"><strong>Contact Number:</strong> {resumeData.personal.phone || "N/A"}</div>
-                    <div className="cred-item"><strong>Email Address:</strong> {resumeData.personal.email || "N/A"}</div>
-                    <div className="cred-item"><strong>Postal Address:</strong> {resumeData.personal.city || "N/A"}</div>
-                  </div>
-                </header>
+                {/* TEMPLATE 3: GOVERNMENT / FORMAL */}
+                {selectedTemplate === 'govt' && (
+                  <div className="tpl-govt-inner">
+                    <div className="govt-sheet-header text-center border-b-2 pb-3 mb-3" style={{ borderColor: selectedColor.hex }}>
+                      <div className="text-[10px] font-bold tracking-widest text-muted uppercase">Curriculum Vitae (Pakistani Civil & Public Sector Format)</div>
+                      <h1 className="text-2xl font-bold font-serif text-primary mt-1 tracking-tight">
+                        {debouncedData.personal.fullName || "YOUR FULL NAME"}
+                      </h1>
+                      <div className="text-xs font-bold uppercase tracking-wide mt-0.5" style={{ color: selectedColor.hex }}>
+                        {debouncedData.personal.title || "PROSPECTIVE POSITION CADRE"}
+                      </div>
+                    </div>
 
-                {/* 1. Academic Record Table */}
-                {resumeData.education.length > 0 && (
-                  <section className="govt-section">
-                    <h2 className="govt-sec-heading">1. ACADEMIC & EDUCATIONAL QUALIFICATIONS</h2>
-                    <table className="govt-formal-table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: '32%' }}>Degree / Certificate</th>
-                          <th style={{ width: '36%' }}>Board / University</th>
-                          <th style={{ width: '14%' }}>Passing Year</th>
-                          <th style={{ width: '18%' }}>Division / CGPA</th>
-                        </tr>
-                      </thead>
+                    {/* Gazette Dossier Table */}
+                    <table className="w-full text-[10.5px] mb-3 border border-subtle">
                       <tbody>
-                        {resumeData.education.map((edu) => (
-                          <tr key={edu.id}>
-                            <td><strong>{edu.degree}</strong></td>
-                            <td>{edu.institution}</td>
-                            <td>{edu.year}</td>
-                            <td>{edu.grade}</td>
-                          </tr>
-                        ))}
+                        <tr className="border-b border-subtle bg-surface-subtle">
+                          <td className="p-1.5 font-bold w-1/4">CNIC No:</td>
+                          <td className="p-1.5 font-mono w-1/4">{debouncedData.personal.cnic || "N/A"}</td>
+                          <td className="p-1.5 font-bold w-1/4">Provincial Domicile:</td>
+                          <td className="p-1.5 w-1/4">{debouncedData.personal.domicile || "Pakistan"}</td>
+                        </tr>
+                        <tr className="border-b border-subtle">
+                          <td className="p-1.5 font-bold">Contact Phone:</td>
+                          <td className="p-1.5">{debouncedData.personal.phone || "N/A"}</td>
+                          <td className="p-1.5 font-bold">Email Address:</td>
+                          <td className="p-1.5">{debouncedData.personal.email || "N/A"}</td>
+                        </tr>
+                        <tr>
+                          <td className="p-1.5 font-bold">Station / City:</td>
+                          <td className="p-1.5">{debouncedData.personal.city || "Pakistan"}</td>
+                          <td className="p-1.5 font-bold">Verification:</td>
+                          <td className="p-1.5 text-emerald font-semibold">Gazette Verified Format</td>
+                        </tr>
                       </tbody>
                     </table>
-                  </section>
-                )}
 
-                {/* 2. Employment History */}
-                {resumeData.experience.length > 0 && (
-                  <section className="govt-section">
-                    <h2 className="govt-sec-heading">2. RECORD OF PUBLIC / PRIVATE EMPLOYMENT</h2>
-                    <div className="govt-exp-list">
-                      {resumeData.experience.map((exp) => (
-                        <div key={exp.id} className="govt-exp-card">
-                          <div className="govt-exp-top-row">
-                            <span className="role-bold">{exp.role}</span>
-                            <span className="org-italic">{exp.company}</span>
-                            <span className="period-tag">({exp.startDate} – {exp.endDate})</span>
-                          </div>
-                          <p className="govt-desc-p">{exp.description}</p>
+                    {debouncedData.summary && (
+                      <div className="mb-3">
+                        <div className="bg-surface-subtle px-2 py-1 font-bold text-[11px] uppercase border-l-4" style={{ borderColor: selectedColor.hex }}>
+                          Statement of Purpose & Public Service Record
                         </div>
-                      ))}
-                    </div>
-                  </section>
-                )}
-
-                {/* 3. Skills */}
-                {resumeData.skills.length > 0 && (
-                  <section className="govt-section">
-                    <h2 className="govt-sec-heading">3. PROFESSIONAL SKILLS & DOMAIN KNOWLEDGE</h2>
-                    <p className="govt-inline-skills">{resumeData.skills.join('  •  ')}</p>
-                  </section>
-                )}
-
-                {/* 4. Certifications */}
-                {resumeData.certifications.length > 0 && (
-                  <section className="govt-section">
-                    <h2 className="govt-sec-heading">4. STATUTORY CERTIFICATIONS & REGISTRATIONS</h2>
-                    <ul className="govt-bullet-ul">
-                      {resumeData.certifications.map((c, idx) => (
-                        <li key={idx}>{c}</li>
-                      ))}
-                    </ul>
-                  </section>
-                )}
-
-                {/* Declaration */}
-                <div className="govt-declaration-block">
-                  <p>
-                    <em>I hereby solemnly affirm that the facts mentioned above are true, complete and correct to the best of my knowledge and belief.</em>
-                  </p>
-                  <div className="govt-signature-row">
-                    <span>Date: ____________________</span>
-                    <span>Signature of Candidate: ____________________</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ====================================================================
-               TEMPLATE 3: MODERN TECH & SOFTWARE (SIDEBAR LAYOUT)
-               ==================================================================== */}
-            {template === 'tech' && (
-              <div className="resume-sheet-content tech-sidebar-design">
-                {/* LEFT SIDEBAR */}
-                <aside className="tech-left-sidebar" style={{ backgroundColor: accentColor.light, borderColor: accentColor.border }}>
-                  {resumeData.showPhoto && resumeData.personal.photoUrl && (
-                    <div className="tech-avatar-box">
-                      <img src={resumeData.personal.photoUrl} alt="Avatar" className="tech-avatar-img" />
-                    </div>
-                  )}
-
-                  <div className="tech-side-contact-block">
-                    <h3 className="tech-side-title" style={{ color: accentColor.hex }}>Contact</h3>
-                    {resumeData.personal.email && (
-                      <div className="tech-side-contact-item">
-                        <Mail size={12} />
-                        <span>{resumeData.personal.email}</span>
+                        <p className="text-[11px] text-primary p-2 leading-relaxed text-justify">
+                          {debouncedData.summary}
+                        </p>
                       </div>
                     )}
-                    {resumeData.personal.phone && (
-                      <div className="tech-side-contact-item">
-                        <Phone size={12} />
-                        <span>{resumeData.personal.phone}</span>
+
+                    {/* Official Experience */}
+                    {debouncedData.experience.length > 0 && (
+                      <div className="mb-3">
+                        <div className="bg-surface-subtle px-2 py-1 font-bold text-[11px] uppercase border-l-4 mb-2" style={{ borderColor: selectedColor.hex }}>
+                          Chronological Employment & Administrative Record
+                        </div>
+                        <div className="space-y-2.5 px-2">
+                          {debouncedData.experience.map((exp, i) => exp.role && (
+                            <div key={i} className="text-[11px]">
+                              <div className="flex justify-between font-bold">
+                                <span>{exp.role} — {exp.company}</span>
+                                <span className="font-mono text-muted text-[10px]">{exp.startDate} to {exp.current ? 'Present' : exp.endDate}</span>
+                              </div>
+                              {exp.description && (
+                                <div className="whitespace-pre-line text-primary mt-0.5 leading-normal text-[10.5px]">
+                                  {exp.description}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
-                    {resumeData.personal.city && (
-                      <div className="tech-side-contact-item">
-                        <MapPin size={12} />
-                        <span>{resumeData.personal.city}</span>
-                      </div>
-                    )}
-                    {resumeData.personal.linkedin && (
-                      <div className="tech-side-contact-item">
-                        <Linkedin size={12} />
-                        <span>{resumeData.personal.linkedin}</span>
-                      </div>
-                    )}
-                    {resumeData.personal.github && (
-                      <div className="tech-side-contact-item">
-                        <Github size={12} />
-                        <span>{resumeData.personal.github}</span>
+
+                    {/* Academic Table */}
+                    {debouncedData.education.length > 0 && (
+                      <div className="mb-3">
+                        <div className="bg-surface-subtle px-2 py-1 font-bold text-[11px] uppercase border-l-4 mb-2" style={{ borderColor: selectedColor.hex }}>
+                          Educational Qualifications (HEC Standard)
+                        </div>
+                        <table className="w-full text-[10.5px] border border-subtle">
+                          <thead>
+                            <tr className="bg-surface-subtle text-left border-b border-subtle">
+                              <th className="p-1.5">Degree / Certificate</th>
+                              <th className="p-1.5">Board / University</th>
+                              <th className="p-1.5">Period</th>
+                              <th className="p-1.5">Division / CGPA</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {debouncedData.education.map((edu, i) => edu.degree && (
+                              <tr key={i} className="border-b border-subtle">
+                                <td className="p-1.5 font-semibold">{edu.degree}</td>
+                                <td className="p-1.5">{edu.institution}</td>
+                                <td className="p-1.5 font-mono">{edu.year}</td>
+                                <td className="p-1.5">{edu.grade || "Passed"}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     )}
                   </div>
-
-                  {/* Skills Cloud */}
-                  {resumeData.skills.length > 0 && (
-                    <div className="tech-side-section">
-                      <h3 className="tech-side-title" style={{ color: accentColor.hex }}>Core Stack</h3>
-                      <div className="tech-skill-cloud">
-                        {resumeData.skills.map((s, idx) => (
-                          <span key={idx} className="tech-skill-chip" style={{ borderColor: accentColor.border }}>
-                            {s}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Certifications */}
-                  {resumeData.certifications.length > 0 && (
-                    <div className="tech-side-section">
-                      <h3 className="tech-side-title" style={{ color: accentColor.hex }}>Certifications</h3>
-                      <ul className="tech-cert-list">
-                        {resumeData.certifications.map((cert, idx) => (
-                          <li key={idx}>{cert}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Languages */}
-                  {resumeData.languages && resumeData.languages.length > 0 && (
-                    <div className="tech-side-section">
-                      <h3 className="tech-side-title" style={{ color: accentColor.hex }}>Languages</h3>
-                      <div className="tech-lang-list">
-                        {resumeData.languages.map((l, idx) => (
-                          <div key={idx} className="tech-lang-item">{l}</div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </aside>
-
-                {/* RIGHT MAIN CONTENT */}
-                <main className="tech-main-content">
-                  <header className="tech-header-block">
-                    <h1 className="tech-name" style={{ color: accentColor.hex }}>
-                      {resumeData.personal.fullName || "Your Full Name"}
-                    </h1>
-                    <div className="tech-role-tag">{resumeData.personal.title || "Full Stack Engineer"}</div>
-                  </header>
-
-                  {/* Summary */}
-                  {resumeData.summary && (
-                    <section className="tech-content-section">
-                      <h2 className="tech-section-h" style={{ color: accentColor.hex }}>About</h2>
-                      <p className="tech-bio-p">{resumeData.summary}</p>
-                    </section>
-                  )}
-
-                  {/* Experience */}
-                  {resumeData.experience.length > 0 && (
-                    <section className="tech-content-section">
-                      <h2 className="tech-section-h" style={{ color: accentColor.hex }}>Experience</h2>
-                      {resumeData.experience.map((exp) => (
-                        <div key={exp.id} className="tech-exp-row">
-                          <div className="tech-exp-meta">
-                            <strong className="tech-exp-role">{exp.role}</strong>
-                            <span className="tech-exp-duration">{exp.startDate} – {exp.endDate}</span>
-                          </div>
-                          <div className="tech-exp-org">
-                            <span>{exp.company}</span>
-                            {exp.location && <span className="text-muted"> • {exp.location}</span>}
-                          </div>
-                          <p className="tech-exp-desc">{exp.description}</p>
-                        </div>
-                      ))}
-                    </section>
-                  )}
-
-                  {/* Projects */}
-                  {resumeData.projects && resumeData.projects.length > 0 && (
-                    <section className="tech-content-section">
-                      <h2 className="tech-section-h" style={{ color: accentColor.hex }}>Key Projects</h2>
-                      {resumeData.projects.map((p) => (
-                        <div key={p.id} className="tech-exp-row">
-                          <div className="tech-exp-meta">
-                            <strong className="tech-exp-role">{p.name}</strong>
-                            {p.tech && <span className="tech-badge">{p.tech}</span>}
-                          </div>
-                          <p className="tech-exp-desc">{p.description}</p>
-                        </div>
-                      ))}
-                    </section>
-                  )}
-
-                  {/* Education */}
-                  {resumeData.education.length > 0 && (
-                    <section className="tech-content-section">
-                      <h2 className="tech-section-h" style={{ color: accentColor.hex }}>Education</h2>
-                      {resumeData.education.map((edu) => (
-                        <div key={edu.id} className="tech-exp-row">
-                          <div className="tech-exp-meta">
-                            <strong className="tech-exp-role">{edu.degree}</strong>
-                            <span className="tech-exp-duration">{edu.year}</span>
-                          </div>
-                          <div className="tech-exp-org">{edu.institution} • {edu.grade}</div>
-                        </div>
-                      ))}
-                    </section>
-                  )}
-                </main>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Confirmation Modal for Resetting */}
+      {showConfirmReset && (
+        <div className="modal-overlay" onClick={() => setShowConfirmReset(false)}>
+          <div className="modal-dialog card p-6 max-w-sm mx-auto" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center gap-3 text-red-500 mb-3">
+              <AlertCircle size={24} />
+              <h3 className="font-bold text-lg text-primary">Start Over?</h3>
+            </div>
+            <p className="text-xs text-secondary mb-5 leading-relaxed">
+              This will erase your current drafted information from your browser&apos;s storage. You cannot undo this action.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setShowConfirmReset(false)}
+                className="btn btn-outline btn-sm"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleStartOver}
+                className="btn btn-primary btn-sm bg-red-600 hover:bg-red-700"
+              >
+                Yes, Start Over
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
