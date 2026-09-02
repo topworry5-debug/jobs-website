@@ -10,7 +10,7 @@ export default function AnimatedCount({ target = 0, suffix = '', duration = 1200
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    if (!window.IntersectionObserver) {
+    if (!window.IntersectionObserver || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setCount(typeof target === 'number' ? target : parseInt(target, 10) || 0);
       return;
     }

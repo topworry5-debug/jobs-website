@@ -71,15 +71,19 @@ export default function QuickSearchModal({
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         setSelectedIndex((prev) => (prev > 0 ? prev - 1 : filteredJobs.length - 1));
-      } else if (e.key === 'Enter' && filteredJobs[selectedIndex]) {
+      } else if (e.key === 'Enter') {
         e.preventDefault();
-        handleSelect(filteredJobs[selectedIndex]);
+        if (filteredJobs[selectedIndex]) {
+          handleSelect(filteredJobs[selectedIndex]);
+        } else if (searchTerm.trim()) {
+          handleSearchAll(searchTerm.trim());
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, filteredJobs, selectedIndex]);
+  }, [isOpen, filteredJobs, selectedIndex, searchTerm]);
 
   const handleSelect = (job) => {
     onClose();
@@ -88,6 +92,18 @@ export default function QuickSearchModal({
     } else {
       router.push(`/jobs/${job.id}`);
     }
+  };
+
+  const handleSearchAll = (term) => {
+    if (!term || !term.trim()) return;
+    onClose();
+    const q = term.trim();
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('rozgar:filter-change', {
+        detail: { query: q, city: 'All Cities' }
+      }));
+    }
+    router.push(`/?q=${encodeURIComponent(q)}#job-listings`);
   };
 
   if (!isOpen) return null;
@@ -109,34 +125,35 @@ export default function QuickSearchModal({
             placeholder={t.hero.searchPlaceholder || "Search by job title, department, BPS scale, or city..."}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="quick-search-native-input"
+            className="quick-search-input"
           />
           {searchTerm && (
             <button 
-              className="clear-search-btn" 
-              onClick={() => {
-                setSearchTerm('');
-                inputRef.current?.focus();
-              }}
+              className="quick-clear-btn" 
+              onClick={() => setSearchTerm('')}
               title="Clear"
             >
               <X size={16} />
             </button>
           )}
-          <kbd className="esc-badge" onClick={onClose}>ESC</kbd>
+          <button 
+            className="quick-close-btn"
+            onClick={onClose}
+            title="Close (Esc)"
+          >
+            <kbd>ESC</kbd>
+          </button>
         </div>
 
-        {/* Quick Suggestions & Results */}
-        <div className="quick-results-scroll">
-          <div className="quick-results-section-header">
-            <span>{searchTerm ? `Matching Openings (${filteredJobs.length})` : 'Trending & Verified Openings'}</span>
-            <span className="text-[11px] text-muted font-normal">Use ↑ ↓ arrows to navigate</span>
-          </div>
-
+        {/* Results List */}
+        <div className="quick-search-body">
           {filteredJobs.length > 0 ? (
             <div className="quick-results-list">
+              <div className="quick-results-header">
+                <span>{searchTerm ? `Results for "${searchTerm}"` : 'Recent Active Opportunities'}</span>
+                <span className="text-[11px] font-mono opacity-70">↑↓ to navigate, Enter to select</span>
+              </div>
               {filteredJobs.map((job, idx) => {
-                const isGovt = job.type === 'govt';
                 const isSelected = idx === selectedIndex;
                 return (
                   <div
@@ -145,39 +162,66 @@ export default function QuickSearchModal({
                     onClick={() => handleSelect(job)}
                     onMouseEnter={() => setSelectedIndex(idx)}
                   >
-                    <div className={`quick-result-icon ${isGovt ? 'govt' : 'tech'}`}>
-                      {isGovt ? <Building2 size={16} /> : <Sparkles size={16} />}
+                    <div className="quick-result-icon">
+                      {job.type === 'govt' ? <Landmark size={16} className="text-emerald-500" /> : <Building2 size={16} className="text-blue-400" />}
                     </div>
 
                     <div className="quick-result-info">
                       <div className="quick-result-title-row">
                         <span className="quick-result-title">{job.title}</span>
-                        {job.bpsScale && <span className="bps-badge-mini font-mono">{job.bpsScale}</span>}
+                        {job.bpsScale && <span className="quick-result-bps font-mono">{job.bpsScale}</span>}
                         {job.verified && <ShieldCheck size={13} className="text-emerald-500 flex-shrink-0" />}
                       </div>
-                      <div className="quick-result-sub">
-                        {job.department || job.company} • <span className="text-primary font-medium">{job.city}</span>
+                      <div className="quick-result-meta">
+                        <span>{job.department || job.company}</span>
+                        <span className="mx-1.5 opacity-40">•</span>
+                        <span>📍 {job.city}</span>
                         {job.lastDate && <span className="ml-2 text-muted text-[11px]">⏳ {job.lastDate}</span>}
                       </div>
                     </div>
 
                     <div className="quick-result-enter-hint">
-                      {isSelected ? (
+                      {isSelected && (
                         <span className="flex items-center gap-1 text-[11px] font-semibold text-emerald-400">
                           Select <CornerDownLeft size={11} />
                         </span>
-                      ) : (
-                        <ArrowRight size={14} className="text-muted" />
                       )}
                     </div>
                   </div>
                 );
               })}
+
+              {searchTerm.trim().length > 0 && (
+                <div 
+                  className="quick-result-item view-all-row"
+                  onClick={() => handleSearchAll(searchTerm.trim())}
+                >
+                  <div className="quick-result-icon">
+                    <Search size={16} className="text-amber-500" />
+                  </div>
+                  <div className="quick-result-info">
+                    <span className="quick-result-title text-amber-500 font-semibold">
+                      View all listings matching &ldquo;{searchTerm.trim()}&rdquo; on feed
+                    </span>
+                  </div>
+                  <div className="quick-result-enter-hint">
+                    <CornerDownLeft size={13} className="text-amber-500" />
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="quick-search-empty py-8 text-center">
               <p className="text-sm font-semibold text-primary mb-1">No matching positions found</p>
-              <p className="text-xs text-muted">Try searching with a different keyword, BPS scale (e.g. BPS-17), or city.</p>
+              <p className="text-xs text-muted mb-3">Try searching with a different keyword, BPS scale (e.g. BPS-17), or city.</p>
+              {searchTerm.trim() && (
+                <button
+                  className="btn btn-outline btn-sm mx-auto"
+                  onClick={() => handleSearchAll(searchTerm.trim())}
+                >
+                  Search &ldquo;{searchTerm.trim()}&rdquo; on main feed
+                </button>
+              )}
             </div>
           )}
         </div>

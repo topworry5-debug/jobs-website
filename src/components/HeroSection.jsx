@@ -20,32 +20,55 @@ import { computeJobMetrics, isClosingSoon } from '../utils/jobMetrics';
 import AnimatedCount from './AnimatedCount';
 
 export default function HeroSection({ 
-  searchQuery = '', 
-  setSearchQuery = () => {}, 
-  selectedCity = 'All Cities', 
-  setSelectedCity = () => {}, 
+  searchQuery: propQuery = '', 
+  setSearchQuery: propSetQuery = () => {}, 
+  selectedCity: propCity = 'All Cities', 
+  setSelectedCity: propSetCity = () => {}, 
   jobs = [], 
   examSchedules = [],
   onJobClick = () => {}
 }) {
   const { t, isRtl } = useLanguage();
-  const [internalQuery, setInternalQuery] = useState(searchQuery);
+  const [localQuery, setLocalQuery] = useState(propQuery || '');
+  const [localCity, setLocalCity] = useState(propCity || 'All Cities');
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const searchContainerRef = useRef(null);
 
-  const query = searchQuery || internalQuery;
+  // Sync with prop changes if parent provides them
+  useEffect(() => {
+    if (propQuery !== undefined && propQuery !== '') {
+      setLocalQuery(propQuery);
+    }
+  }, [propQuery]);
+
+  useEffect(() => {
+    if (propCity !== undefined && propCity !== 'All Cities') {
+      setLocalCity(propCity);
+    }
+  }, [propCity]);
+
+  // Read URL search params on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q') || params.get('query');
+      const c = params.get('city');
+      if (q) setLocalQuery(q);
+      if (c) setLocalCity(c);
+    }
+  }, []);
 
   // Centralized single source of truth dynamic metrics
   const metrics = computeJobMetrics(jobs, examSchedules);
 
   // Filter autosuggest results
-  const autosuggestResults = (query || '').trim().length > 1
+  const autosuggestResults = (localQuery || '').trim().length > 1
     ? jobs.filter(j => 
-        j.title.toLowerCase().includes((query || '').toLowerCase()) ||
-        (j.department && j.department.toLowerCase().includes((query || '').toLowerCase())) ||
-        (j.company && j.company.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        j.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (j.bpsScale && j.bpsScale.toLowerCase().includes(searchQuery.toLowerCase()))
+        j.title.toLowerCase().includes((localQuery || '').toLowerCase()) ||
+        (j.department && j.department.toLowerCase().includes((localQuery || '').toLowerCase())) ||
+        (j.company && j.company.toLowerCase().includes((localQuery || '').toLowerCase())) ||
+        j.city.toLowerCase().includes((localQuery || '').toLowerCase()) ||
+        (j.bpsScale && j.bpsScale.toLowerCase().includes((localQuery || '').toLowerCase()))
       ).slice(0, 5)
     : [];
 
@@ -59,9 +82,51 @@ export default function HeroSection({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSuggestionClick = (job) => {
-    setSearchQuery(job.title);
+  const handleSearchSubmit = (overrideQuery, overrideCity) => {
+    const q = (overrideQuery !== undefined ? overrideQuery : localQuery).trim();
+    const city = overrideCity !== undefined ? overrideCity : localCity;
+
     setSuggestionsOpen(false);
+
+    // 1. Notify parent prop if provided
+    propSetQuery(q);
+    propSetCity(city);
+
+    // 2. Dispatch window event for immediate reactivity
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('rozgar:filter-change', {
+        detail: { query: q, city }
+      }));
+
+      // 3. Update URL with search params
+      const params = new URLSearchParams(window.location.search);
+      if (q) {
+        params.set('q', q);
+      } else {
+        params.delete('q');
+      }
+      if (city && city !== 'All Cities') {
+        params.set('city', city);
+      } else {
+        params.delete('city');
+      }
+
+      const qs = params.toString();
+      const newUrl = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
+      window.history.pushState(null, '', newUrl);
+
+      // 4. Smooth scroll down to listings section
+      const resultsElement = document.getElementById('job-listings') || document.getElementById('listings-section');
+      if (resultsElement) {
+        resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
+  const handleSuggestionClick = (job) => {
+    setLocalQuery(job.title);
+    setSuggestionsOpen(false);
+    handleSearchSubmit(job.title, undefined);
     onJobClick(job);
   };
 
@@ -81,7 +146,7 @@ export default function HeroSection({
 
       <div className="container-xl hero-content">
         {/* Trust Pill */}
-        <div className="trust-announcement-pill">
+        <div className="trust-announcement-pill hero-fade-in-1">
           <span className="trust-icon-wrapper">
             <ShieldCheck size={15} />
           </span>
@@ -89,15 +154,15 @@ export default function HeroSection({
         </div>
 
         {/* Hero Title & Subtitle */}
-        <h1 className="hero-title">
+        <h1 className="hero-title hero-fade-in-2">
           {t.hero.titlePrefix} {t.hero.titleIn} <span className="text-gold-accent font-serif">{t.hero.titleCountry}</span>
         </h1>
-        <p className="hero-subtitle">
+        <p className="hero-subtitle hero-fade-in-3">
           {t.hero.subtitle}
         </p>
 
         {/* Interactive Main Search Bar */}
-        <div className="hero-search-wrapper" ref={searchContainerRef}>
+        <div className="hero-search-wrapper hero-fade-in-4" ref={searchContainerRef}>
           <div className="hero-search-card">
             {/* Keyword Input */}
             <div className="search-input-group flex-2">
@@ -105,19 +170,29 @@ export default function HeroSection({
               <input
                 type="text"
                 placeholder={t.hero.searchPlaceholder}
-                value={searchQuery}
+                value={localQuery}
                 onChange={(e) => {
-                  setSearchQuery(e.target.value);
+                  setLocalQuery(e.target.value);
                   setSuggestionsOpen(true);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleSearchSubmit();
+                  }
                 }}
                 onFocus={() => setSuggestionsOpen(true)}
                 className="hero-search-input"
               />
-              {searchQuery && (
+              {localQuery && (
                 <button 
                   className="clear-query-btn" 
-                  onClick={() => setSearchQuery('')}
+                  onClick={() => {
+                    setLocalQuery('');
+                    handleSearchSubmit('');
+                  }}
                   title="Clear"
+                  aria-label="Clear search query"
                 >
                   ×
                 </button>
@@ -128,8 +203,12 @@ export default function HeroSection({
             <div className="search-input-group flex-1 border-left-divider">
               <MapPin className="search-icon" size={18} />
               <select
-                value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
+                value={localCity}
+                onChange={(e) => {
+                  const newCity = e.target.value;
+                  setLocalCity(newCity);
+                  handleSearchSubmit(undefined, newCity);
+                }}
                 className="hero-city-select"
                 aria-label="Filter vacancies by city"
               >
@@ -144,12 +223,10 @@ export default function HeroSection({
 
             {/* Search CTA */}
             <button 
+              id="hero-find-jobs-btn"
               className="btn btn-primary hero-submit-btn"
-              onClick={() => {
-                setSuggestionsOpen(false);
-                const resultsElement = document.getElementById('job-listings') || document.getElementById('listings-section');
-                if (resultsElement) resultsElement.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => handleSearchSubmit()}
+              aria-label="Find Jobs"
             >
               <Search size={18} />
               <span>{t.hero.findJobs}</span>
@@ -189,7 +266,7 @@ export default function HeroSection({
         </div>
 
         {/* Quick Search Tag Pills */}
-        <div className="quick-tags-container">
+        <div className="quick-tags-container hero-fade-in-5">
           <span className="quick-tags-label">{t.hero.popularSearches}</span>
           <div className="quick-tags-list">
             {quickPills.map((pill, idx) => (
@@ -197,13 +274,9 @@ export default function HeroSection({
                 key={idx}
                 className={`quick-pill-btn ${pill.isUrgentFilter ? 'urgent-pill' : ''}`}
                 onClick={() => {
-                  if (pill.isUrgentFilter) {
-                    setSearchQuery('urgent');
-                  } else {
-                    setSearchQuery(pill.query);
-                  }
-                  const resultsElement = document.getElementById('job-listings');
-                  if (resultsElement) resultsElement.scrollIntoView({ behavior: 'smooth' });
+                  const q = pill.isUrgentFilter ? 'urgent' : pill.query;
+                  setLocalQuery(q);
+                  handleSearchSubmit(q, undefined);
                 }}
               >
                 {pill.isUrgentFilter && <Flame size={13} className="text-red" />}

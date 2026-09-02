@@ -45,6 +45,46 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     }
   });
 
+  // Read URL search params on initial mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q') || params.get('query');
+      const c = params.get('city');
+      const cat = params.get('category');
+      if (q) setSearchQuery(q);
+      if (c && c !== 'All Cities') setSelectedCity(c);
+      if (cat && cat !== 'all') setSelectedCategory(cat);
+    }
+  }, []);
+
+  // Listen to filter change events from hero search bar, navbar, and browser history navigation
+  useEffect(() => {
+    const handleFilterChange = (e) => {
+      if (e && e.detail) {
+        if (e.detail.query !== undefined) setSearchQuery(e.detail.query);
+        if (e.detail.city !== undefined) setSelectedCity(e.detail.city);
+        if (e.detail.category !== undefined) setSelectedCategory(e.detail.category);
+      }
+    };
+
+    const handlePopState = () => {
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        setSearchQuery(params.get('q') || params.get('query') || '');
+        setSelectedCity(params.get('city') || 'All Cities');
+        setSelectedCategory(params.get('category') || initialCategory);
+      }
+    };
+
+    window.addEventListener('rozgar:filter-change', handleFilterChange);
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('rozgar:filter-change', handleFilterChange);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [initialCategory]);
+
   const handleToggleSave = (job) => {
     const isSaved = savedJobIds.includes(job.id);
     let nextSaved;
@@ -67,6 +107,13 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     setSelectedBps('All BPS Scales');
     setSelectedQualification('All Qualifications');
     setUrgentOnly(false);
+
+    if (typeof window !== 'undefined') {
+      window.history.replaceState(null, '', window.location.pathname);
+      window.dispatchEvent(new CustomEvent('rozgar:filter-change', {
+        detail: { query: '', city: 'All Cities', category: 'all' }
+      }));
+    }
   };
 
   const isFilterActive = 
@@ -279,17 +326,22 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
           {filteredJobs.length > 0 ? (
             <>
               <div className="jobs-cards-grid">
-                {displayedJobs.map((job) => (
-                  <JobCard
-                    key={job.id}
-                    job={job}
-                    isSaved={savedJobIds.includes(job.id)}
-                    onToggleSave={handleToggleSave}
-                    onShareWhatsApp={(j) => {
-                      const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via RozgarPK: https://rozgar.pk/jobs/${j.id}`);
-                      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-                    }}
-                  />
+                {displayedJobs.map((job, idx) => (
+                  <div 
+                    key={job.id} 
+                    className="job-card-entrance-wrapper"
+                    style={{ animationDelay: `${Math.min(idx * 60, 600)}ms` }}
+                  >
+                    <JobCard
+                      job={job}
+                      isSaved={savedJobIds.includes(job.id)}
+                      onToggleSave={handleToggleSave}
+                      onShareWhatsApp={(j) => {
+                        const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via RozgarPK: https://rozgar.pk/jobs/${j.id}`);
+                        window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+                      }}
+                    />
+                  </div>
                 ))}
               </div>
 
@@ -306,23 +358,29 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
             </>
           ) : (
             <div className="empty-state card text-center py-12 px-6">
-              <div className="inline-flex items-center justify-center p-3 rounded-full bg-emerald-500/10 text-emerald-500 mb-3 mx-auto">
-                <ShieldCheck size={36} />
+              <div className="inline-flex items-center justify-center p-4 rounded-full bg-emerald-500/10 text-emerald-600 mb-3 mx-auto">
+                <AlertCircle size={36} />
               </div>
-              <h3 className="text-lg font-bold mb-2">
-                {(!jobs || jobs.length === 0) ? "Fresh Verified Gazettes Under Ingestion Audit" : t.feed.noResultsTitle}
+              <h3 className="text-xl font-bold font-display mb-2">
+                {searchQuery.trim() 
+                  ? `No positions found for "${searchQuery.trim()}"` 
+                  : selectedCity !== 'All Cities' 
+                    ? `No positions found in ${selectedCity}`
+                    : t.feed.noResultsTitle}
               </h3>
-              <p className="text-xs text-secondary max-w-md mx-auto mb-4 leading-relaxed">
-                {(!jobs || jobs.length === 0)
-                  ? "RozgarPK is conducting a source-by-source manual data audit. Live positions from PPSC, FPSC, SPSC, and KPPSC are currently undergoing line-by-line verification against official gazette circulars."
+              <p className="text-sm text-secondary max-w-md mx-auto mb-5 leading-relaxed">
+                {searchQuery.trim() || selectedCity !== 'All Cities'
+                  ? `We could not find active verified jobs matching your criteria in ${selectedCity !== 'All Cities' ? selectedCity : 'all regions'}. Try using a broader keyword, selecting "All Cities", or clearing all active filters.`
                   : t.feed.noResultsDesc}
               </p>
-              {jobs && jobs.length > 0 && (
-                <button onClick={handleResetFilters} className="btn btn-outline btn-sm mx-auto">
-                  <RotateCcw size={14} />
-                  <span>{t.filters.reset}</span>
-                </button>
-              )}
+              <button 
+                id="clear-all-filters-btn"
+                onClick={handleResetFilters} 
+                className="btn btn-primary btn-sm mx-auto"
+              >
+                <RotateCcw size={14} />
+                <span>Clear All Filters</span>
+              </button>
             </div>
           )}
         </section>
