@@ -24,6 +24,7 @@ import {
   X, 
   Upload, 
   Camera, 
+  Crop,
   Check, 
   RotateCcw, 
   Info, 
@@ -301,6 +302,15 @@ export default function CvBuilder() {
   const [showResetModal, setShowResetModal] = useState(false);
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
 
+  // Circular Photo Cropper States
+  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
+  const [cropRawImage, setCropRawImage] = useState('');
+  const [cropZoom, setCropZoom] = useState(1);
+  const [cropPan, setCropPan] = useState({ x: 0, y: 0 });
+  const [isCropDragging, setIsCropDragging] = useState(false);
+  const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
+  const [photoError, setPhotoError] = useState('');
+
   const previewSheetRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -506,28 +516,132 @@ export default function CvBuilder() {
     }
   };
 
-  // Photo Upload Handler with Crop Validation
-  const handlePhotoUpload = (e) => {
+  // Photo Upload & Interactive Cropper Handlers
+  const handlePhotoSelect = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      alert("Please upload a valid JPG or PNG image file.");
+    // Reset input so selecting the same file again triggers change
+    if (fileInputRef.current) fileInputRef.current.value = '';
+
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      setPhotoError("Unsupported image format. Please select a JPG, PNG, or WEBP photo.");
       return;
     }
 
+    const maxSize = 5 * 1024 * 1024; // 5MB limit
+    if (file.size > maxSize) {
+      setPhotoError(`Selected image is too large (${(file.size / (1024 * 1024)).toFixed(1)} MB). Maximum allowed size is 5MB.`);
+      return;
+    }
+
+    setPhotoError('');
     const reader = new FileReader();
     reader.onload = (event) => {
+      setCropRawImage(event.target.result);
+      setCropZoom(1);
+      setCropPan({ x: 0, y: 0 });
+      setIsCropModalOpen(true);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCropMouseDown = (e) => {
+    e.preventDefault();
+    setIsCropDragging(true);
+    setDragStartPos({ x: e.clientX - cropPan.x, y: e.clientY - cropPan.y });
+  };
+
+  const handleCropMouseMove = (e) => {
+    if (!isCropDragging) return;
+    setCropPan({ x: e.clientX - dragStartPos.x, y: e.clientY - dragStartPos.y });
+  };
+
+  const handleCropMouseUp = () => {
+    setIsCropDragging(false);
+  };
+
+  const handleCropTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      setIsCropDragging(true);
+      setDragStartPos({ x: e.touches[0].clientX - cropPan.x, y: e.touches[0].clientY - cropPan.y });
+    }
+  };
+
+  const handleCropTouchMove = (e) => {
+    if (!isCropDragging || e.touches.length !== 1) return;
+    setCropPan({ x: e.touches[0].clientX - dragStartPos.x, y: e.touches[0].clientY - dragStartPos.y });
+  };
+
+  const handleCropTouchEnd = () => {
+    setIsCropDragging(false);
+  };
+
+  const handleApplyCrop = () => {
+    if (!cropRawImage) return;
+    const img = new Image();
+    img.onload = () => {
+      const targetSize = 320;
+      const canvas = document.createElement('canvas');
+      canvas.width = targetSize;
+      canvas.height = targetSize;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Circular clip
+      ctx.beginPath();
+      ctx.arc(targetSize / 2, targetSize / 2, targetSize / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+
+      const modalSize = 260; // dimension of preview container
+      const scaleToCanvas = targetSize / modalSize;
+
+      const imgRatio = img.naturalWidth / img.naturalHeight;
+      let baseW, baseH;
+      if (imgRatio >= 1) {
+        baseH = modalSize;
+        baseW = modalSize * imgRatio;
+      } else {
+        baseW = modalSize;
+        baseH = modalSize / imgRatio;
+      }
+
+      const scaledW = baseW * cropZoom * scaleToCanvas;
+      const scaledH = baseH * cropZoom * scaleToCanvas;
+
+      const drawX = (targetSize - scaledW) / 2 + (cropPan.x * scaleToCanvas);
+      const drawY = (targetSize - scaledH) / 2 + (cropPan.y * scaleToCanvas);
+
+      ctx.drawImage(img, drawX, drawY, scaledW, scaledH);
+
+      const croppedDataUrl = canvas.toDataURL('image/png');
       setCvData(prev => ({
         ...prev,
         personal: {
           ...prev.personal,
-          photoUrl: event.target.result,
+          photoUrl: croppedDataUrl,
           showPhoto: true
         }
       }));
+      setIsCropModalOpen(false);
+      setPhotoError('');
     };
-    reader.readAsDataURL(file);
+    img.src = cropRawImage;
+  };
+
+  const handleRemovePhoto = () => {
+    setCvData(prev => ({
+      ...prev,
+      personal: {
+        ...prev.personal,
+        photoUrl: '',
+        showPhoto: false
+      }
+    }));
+    if (fileInputRef.current) fileInputRef.current.value = '';
+    setPhotoError('');
   };
 
   // Work Experience Handlers
@@ -959,18 +1073,35 @@ export default function CvBuilder() {
             {/* STEP 1: PERSONAL INFO */}
             {currentStep === 1 && (
               <div className="space-y-5 animate-fade-in">
-                {/* Photo Upload Box with Govt Disclaimer */}
+                {/* Photo Upload Box with Govt Disclaimer & Interactive Cropper */}
                 <div className="photo-dossier-box p-4 rounded-xl bg-surface-subtle border border-subtle">
                   <div className="flex items-start gap-4">
-                    <div className="photo-crop-circle">
-                      {cvData.personal.photoUrl && cvData.personal.showPhoto ? (
-                        <img 
-                          src={cvData.personal.photoUrl} 
-                          alt="Applicant" 
-                          className="w-16 h-16 rounded-full object-cover border-2 border-emerald-600"
-                        />
+                    <div className="photo-crop-circle" style={{ width: '64px', height: '64px', minWidth: '64px', minHeight: '64px', flexShrink: 0 }}>
+                      {cvData.personal.photoUrl ? (
+                        <div className="relative" style={{ width: '64px', height: '64px' }}>
+                          <img 
+                            src={cvData.personal.photoUrl} 
+                            alt="Applicant" 
+                            style={{
+                              width: '64px',
+                              height: '64px',
+                              minWidth: '64px',
+                              minHeight: '64px',
+                              borderRadius: '50%',
+                              objectFit: 'cover',
+                              border: `2px solid ${cvData.personal.showPhoto ? '#059669' : '#9CA3AF'}`,
+                              opacity: cvData.personal.showPhoto ? 1 : 0.6,
+                              display: 'block'
+                            }}
+                          />
+                          {!cvData.personal.showPhoto && (
+                            <span className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full text-[9px] text-white font-bold uppercase">
+                              Hidden
+                            </span>
+                          )}
+                        </div>
                       ) : (
-                        <div className="w-16 h-16 rounded-full bg-surface border border-subtle flex items-center justify-center text-muted">
+                        <div style={{ width: '64px', height: '64px', minWidth: '64px', borderRadius: '50%' }} className="bg-surface border border-subtle flex items-center justify-center text-muted">
                           <Camera size={22} />
                         </div>
                       )}
@@ -979,50 +1110,76 @@ export default function CvBuilder() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-primary">Passport Photo (Optional)</span>
-                        <label className="flex items-center gap-1.5 text-xs text-secondary cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={cvData.personal.showPhoto}
-                            onChange={(e) => setCvData(prev => ({
-                              ...prev,
-                              personal: { ...prev.personal, showPhoto: e.target.checked }
-                            }))}
-                            className="rounded text-emerald-600"
-                          />
-                          <span>Show on CV</span>
-                        </label>
+                        {cvData.personal.photoUrl && (
+                          <label className="flex items-center gap-1.5 text-xs text-secondary cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={cvData.personal.showPhoto}
+                              onChange={(e) => setCvData(prev => ({
+                                ...prev,
+                                personal: { ...prev.personal, showPhoto: e.target.checked }
+                              }))}
+                              className="rounded text-emerald-600"
+                            />
+                            <span>Show on CV</span>
+                          </label>
+                        )}
                       </div>
                       <p className="text-[11px] text-muted leading-normal mt-1 mb-2">
                         Notice: Photos are optional and not recommended for most Federal/Provincial civil service submissions unless specifically requested by the gazette notice.
                       </p>
-                      <div className="flex items-center gap-2">
+
+                      {photoError && (
+                        <div className="p-2 mb-2 rounded bg-red-500/10 border border-red-500/30 text-red-600 text-xs flex items-center gap-1.5">
+                          <AlertCircle size={13} className="flex-shrink-0" />
+                          <span>{photoError}</span>
+                        </div>
+                      )}
+
+                      <div className="flex flex-wrap items-center gap-2">
                         <button
                           type="button"
                           onClick={() => fileInputRef.current?.click()}
-                          className="btn btn-outline btn-sm py-1 px-2.5 text-xs"
+                          className="btn btn-outline btn-sm py-1.5 px-3 text-xs"
                         >
-                          <Upload size={12} />
-                          <span>Upload Image</span>
+                          <Upload size={13} />
+                          <span>{cvData.personal.photoUrl ? 'Change Photo' : 'Upload Photo'}</span>
                         </button>
+
                         {cvData.personal.photoUrl && (
-                          <button
-                            type="button"
-                            onClick={() => setCvData(prev => ({
-                              ...prev,
-                              personal: { ...prev.personal, photoUrl: "", showPhoto: false }
-                            }))}
-                            className="btn btn-outline btn-sm py-1 px-2.5 text-xs text-red-500"
-                          >
-                            <X size={12} />
-                            <span>Remove</span>
-                          </button>
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCropRawImage(cvData.personal.photoUrl);
+                                setCropZoom(1);
+                                setCropPan({ x: 0, y: 0 });
+                                setIsCropModalOpen(true);
+                              }}
+                              className="btn btn-outline btn-sm py-1.5 px-3 text-xs"
+                              title="Re-open circular crop tool"
+                            >
+                              <Crop size={13} />
+                              <span>Adjust Crop</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleRemovePhoto}
+                              className="btn btn-outline btn-sm py-1.5 px-3 text-xs text-red-500 hover:text-red-700"
+                              title="Remove photo from resume"
+                            >
+                              <Trash2 size={13} />
+                              <span>Remove Photo</span>
+                            </button>
+                          </>
                         )}
+
                         <input
                           ref={fileInputRef}
                           type="file"
-                          accept="image/*"
+                          accept="image/jpeg,image/png,image/webp"
                           style={{ display: 'none' }}
-                          onChange={handlePhotoUpload}
+                          onChange={handlePhotoSelect}
                         />
                       </div>
                     </div>
@@ -2142,6 +2299,24 @@ export default function CvBuilder() {
                   <div className="sheet-classic-layout">
                     {/* Header */}
                     <header className="text-center pb-3 mb-3 border-b border-gray-400">
+                      {debouncedData.personal.photoUrl && debouncedData.personal.showPhoto && (
+                        <div className="flex justify-center mb-2.5">
+                          <img
+                            src={debouncedData.personal.photoUrl}
+                            alt={debouncedData.personal.fullName || "Applicant"}
+                            style={{
+                              width: '64px',
+                              height: '64px',
+                              minWidth: '64px',
+                              minHeight: '64px',
+                              borderRadius: '50%',
+                              objectFit: 'cover',
+                              border: '1.5px solid #4B5563',
+                              display: 'block'
+                            }}
+                          />
+                        </div>
+                      )}
                       <h1 className="text-2xl font-serif font-bold text-gray-900 tracking-tight uppercase mb-1">
                         {debouncedData.personal.fullName || "Your Full Name"}
                       </h1>
@@ -2290,7 +2465,7 @@ export default function CvBuilder() {
                         <img
                           src={debouncedData.personal.photoUrl}
                           alt="Applicant"
-                          style={{ width: '56px', height: '56px', minWidth: '56px', minHeight: '56px', borderRadius: '9999px', objectFit: 'cover' }}
+                          style={{ width: '64px', height: '64px', minWidth: '64px', minHeight: '64px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #0B3D2E', display: 'block' }}
                         />
                       )}
                     </header>
@@ -2409,6 +2584,24 @@ export default function CvBuilder() {
                       <div className="text-[9.5px] font-mono uppercase tracking-widest text-gray-600">
                         Islamic Republic of Pakistan • Curriculum Vitae (BPS Cadre Format)
                       </div>
+                      {debouncedData.personal.photoUrl && debouncedData.personal.showPhoto && (
+                        <div className="flex justify-center my-2">
+                          <img
+                            src={debouncedData.personal.photoUrl}
+                            alt={debouncedData.personal.fullName || "Applicant"}
+                            style={{
+                              width: '60px',
+                              height: '60px',
+                              minWidth: '60px',
+                              minHeight: '60px',
+                              borderRadius: '50%',
+                              objectFit: 'cover',
+                              border: '1.5px solid #000000',
+                              display: 'block'
+                            }}
+                          />
+                        </div>
+                      )}
                       <h1 className="text-2xl font-serif font-bold text-black uppercase tracking-tight mt-1 mb-0.5">
                         {debouncedData.personal.fullName || "YOUR FULL NAME"}
                       </h1>
@@ -2527,10 +2720,28 @@ export default function CvBuilder() {
                           {debouncedData.personal.title || "Executive Role"}
                         </div>
                       </div>
-                      <div className="text-right text-[10.5px] text-gray-600 space-y-0.5">
-                        {debouncedData.personal.email && <div>{debouncedData.personal.email}</div>}
-                        {debouncedData.personal.phone && <div>{debouncedData.personal.phone}</div>}
-                        {debouncedData.personal.city && <div>{debouncedData.personal.city}</div>}
+                      <div className="flex items-center gap-3">
+                        {debouncedData.personal.photoUrl && debouncedData.personal.showPhoto && (
+                          <img
+                            src={debouncedData.personal.photoUrl}
+                            alt="Applicant"
+                            style={{
+                              width: '64px',
+                              height: '64px',
+                              minWidth: '64px',
+                              minHeight: '64px',
+                              borderRadius: '50%',
+                              objectFit: 'cover',
+                              border: '2px solid #0B3D2E',
+                              display: 'block'
+                            }}
+                          />
+                        )}
+                        <div className="text-right text-[10.5px] text-gray-600 space-y-0.5">
+                          {debouncedData.personal.email && <div>{debouncedData.personal.email}</div>}
+                          {debouncedData.personal.phone && <div>{debouncedData.personal.phone}</div>}
+                          {debouncedData.personal.city && <div>{debouncedData.personal.city}</div>}
+                        </div>
                       </div>
                     </header>
 
@@ -2655,6 +2866,108 @@ export default function CvBuilder() {
                 className="btn btn-primary btn-sm bg-red-600 hover:bg-red-700"
               >
                 Yes, Start New
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Interactive Circular Crop Modal */}
+      {isCropModalOpen && (
+        <div className="crop-modal-overlay" onClick={() => setIsCropModalOpen(false)}>
+          <div className="crop-modal-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-subtle">
+              <div className="flex items-center gap-2">
+                <Crop size={16} className="text-emerald-600" />
+                <h3 className="font-bold text-sm text-primary">Crop & Adjust Passport Photo</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsCropModalOpen(false)}
+                className="action-btn-sm text-muted hover:text-primary"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <p className="text-xs text-muted leading-relaxed mb-1">
+              Drag image to center your face inside the circle. Adjust the zoom slider to frame your headshot.
+            </p>
+
+            {/* Circular Viewport */}
+            <div
+              className="crop-viewport-container"
+              onMouseDown={handleCropMouseDown}
+              onMouseMove={handleCropMouseMove}
+              onMouseUp={handleCropMouseUp}
+              onMouseLeave={handleCropMouseUp}
+              onTouchStart={handleCropTouchStart}
+              onTouchMove={handleCropTouchMove}
+              onTouchEnd={handleCropTouchEnd}
+            >
+              {cropRawImage && (
+                <img
+                  src={cropRawImage}
+                  alt="Crop preview"
+                  className="crop-image-render"
+                  style={{
+                    transform: `translate(calc(-50% + ${cropPan.x}px), calc(-50% + ${cropPan.y}px)) scale(${cropZoom})`,
+                    maxHeight: '260px'
+                  }}
+                  draggable={false}
+                />
+              )}
+            </div>
+
+            {/* Zoom Slider */}
+            <div className="space-y-1 px-2 my-2.5">
+              <div className="flex justify-between text-xs text-muted">
+                <span>Zoom Level</span>
+                <span className="font-mono font-bold text-primary">{Math.round(cropZoom * 100)}%</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setCropZoom(prev => Math.max(1, +(prev - 0.1).toFixed(2)))}
+                  className="action-btn-sm text-xs font-bold"
+                >
+                  -
+                </button>
+                <input
+                  type="range"
+                  min="1"
+                  max="3"
+                  step="0.02"
+                  value={cropZoom}
+                  onChange={(e) => setCropZoom(parseFloat(e.target.value))}
+                  className="crop-zoom-slider"
+                />
+                <button
+                  type="button"
+                  onClick={() => setCropZoom(prev => Math.min(3, +(prev + 0.1).toFixed(2)))}
+                  className="action-btn-sm text-xs font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex justify-end gap-2 pt-2.5 border-t border-subtle">
+              <button
+                type="button"
+                onClick={() => setIsCropModalOpen(false)}
+                className="btn btn-outline btn-sm py-1.5 px-4 text-xs"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleApplyCrop}
+                className="btn btn-primary btn-sm py-1.5 px-5 text-xs"
+              >
+                <Check size={14} />
+                <span>Crop & Use Photo</span>
               </button>
             </div>
           </div>
