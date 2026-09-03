@@ -4,6 +4,7 @@ import { Inter, Fraunces, Outfit, JetBrains_Mono, Noto_Naskh_Arabic } from 'next
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ClientProviders from '../components/ClientProviders';
+import { Analytics } from '@vercel/analytics/next';
 import { getSiteUrl } from '../utils/siteUrl';
 
 const inter = Inter({ 
@@ -149,6 +150,7 @@ export default function RootLayout({ children }) {
             <Footer />
           </div>
         </ClientProviders>
+        <Analytics />
       </body>
     </html>
   );
