@@ -120,7 +120,11 @@ export const TRANSLATIONS = {
       save: "Save",
       saved: "Saved",
       details: "Details",
-      applyNow: "Apply Now"
+      applyNow: "Apply Now",
+      apply: "Apply",
+      closesToday: "Closes today",
+      applicationsClosed: "Applications Closed",
+      viewDetails: "View Details"
     },
     jobDetail: {
       breadcrumbHome: "Home",
@@ -371,6 +375,26 @@ export const TRANSLATIONS = {
       noResultsTitle: "کوئی مماثل نوکری نہیں ملی",
       noResultsDesc: "براہ کرم اپنے فلٹرز تبدیل کریں یا 'پورا پاکستان' منتخب کریں۔"
     },
+    jobCard: {
+      verified: "تصدیق شدہ",
+      bpsScale: "بی پی ایس",
+      closingIn: "باقی دن:",
+      days: "دن",
+      vacancies: "اسامیاں",
+      vacancy: "اسامی",
+      quota: "کوٹہ:",
+      lastVerified: "سرکاری گزٹ سے تصدیق شدہ",
+      lastDate: "آخری تاریخ:",
+      share: "شیئر کریں",
+      save: "محفوظ کریں",
+      saved: "محفوظ شدہ",
+      details: "تفصیلات",
+      applyNow: "درخواست دیں",
+      apply: "درخواست دیں",
+      closesToday: "آج آخری تاریخ ہے",
+      applicationsClosed: "درخواستیں بند ہو چکی ہیں",
+      viewDetails: "تفصیلات دیکھیں"
+    },
     footer: {
       directoryHeading: "سرکاری پورٹلز کی ڈائریکٹری (براہ راست لنکس)",
       desc: "پاکستان کا سب سے معتبر کیریئر انٹیلیجنس پورٹل۔ جعلی اشتہارات اور اخبارات کی دھندلی تراشوں کے بغیر سرکاری گزٹ کے مطابق مستند معلومات۔",
@@ -390,7 +414,7 @@ export const TRANSLATIONS = {
       peshawar: "پشاور میں نوکریاں (خیبر پختونخوا)",
       quetta: "کوئٹہ میں نوکریاں (بلوچستان)",
       trustTitle: "اعتماد و شفافیت",
-      about: "روزگار پی کے کا تعارف",
+      about: "تعیناتی کا تعارف",
       contact: "رابطہ و سپورٹ ڈیسک",
       privacy: "پرائیویسی پالیسی",
       terms: "استعمال کی شرائط",
@@ -640,7 +664,11 @@ export const TRANSLATIONS = {
       save: "Save Karein",
       saved: "Saved",
       details: "Tafseelat",
-      applyNow: "Abhi Apply Karein"
+      applyNow: "Abhi Apply Karein",
+      apply: "Apply",
+      closesToday: "Aaj aakhri din",
+      applicationsClosed: "Applications Closed",
+      viewDetails: "Tafseelat Dekhein"
     },
     jobDetail: {
       breadcrumbHome: "Home",
