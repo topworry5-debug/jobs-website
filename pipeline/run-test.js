@@ -1,5 +1,5 @@
 /**
- * RozgarPK Pipeline CLI Test Runner (Email Alerts & Government Scrapers)
+ * Tainaati Pipeline CLI Test Runner (Email Alerts & Government Scrapers)
  * Run directly via `node pipeline/run-test.js`
  */
 
@@ -12,7 +12,7 @@ import { dispatchJobAlerts } from './alerts/alertDispatcher.js';
 
 async function main() {
   console.log("=================================================");
-  console.log("RozgarPK Phase 2: Live Scraper & Email Alerts Test Runner");
+  console.log("Tainaati Phase 2: Live Scraper & Email Alerts Test Runner");
   console.log("=================================================");
 
   const subManager = new SubscriberManager();

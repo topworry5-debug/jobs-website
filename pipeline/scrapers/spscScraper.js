@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Live SPSC & KPPSC Provincial Scrapers
+ * Tainaati — Live SPSC & KPPSC Provincial Scrapers
  * Sources: spsc.gov.pk (Sindh) & kppsc.gov.pk (KPK)
  */
 

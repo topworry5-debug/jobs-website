@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Live FPSC (Federal Public Service Commission) Scraper
+ * Tainaati — Live FPSC (Federal Public Service Commission) Scraper
  * Direct Live HTML parser for https://online.fpsc.gov.pk/
  */
 

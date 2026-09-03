@@ -16,6 +16,21 @@ const nextConfig = {
     cpus: 1,
     workerThreads: false,
   },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'jobs-website-delta.vercel.app',
+          },
+        ],
+        destination: 'https://tainaati.com/:path*',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

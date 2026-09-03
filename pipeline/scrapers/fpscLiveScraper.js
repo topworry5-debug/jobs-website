@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Live FPSC (Federal Public Service Commission) Scraper
+ * Tainaati — Live FPSC (Federal Public Service Commission) Scraper
  * Rebuilt for the new official platform: https://www.fpsc.gov.pk/
  * Queries official Next.js REST API (/api/jobs) with HTML fallback for General Recruitment (GR)
  * and Competitive Examination (CSS) streams.
@@ -27,7 +27,7 @@ export async function scrapeLiveFPSC() {
     try {
       const apiRes = await fetch(FPSC_API_JOBS, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RozgarPK-Crawler/2.0',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Tainaati-Crawler/2.0',
           'Accept': 'application/json, text/plain, */*'
         },
         cache: 'no-store'

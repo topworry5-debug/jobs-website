@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
 // Secret admin authentication token hash (Can also be configured via process.env.ADMIN_AUTH_SECRET)
-const ADMIN_SESSION_COOKIE = 'rozgar_admin_session';
-const DEFAULT_ADMIN_TOKEN = 'rozgar_pk_sec_admin_auth_9921_valid';
+const ADMIN_SESSION_COOKIE = 'tainaati_admin_session';
+const DEFAULT_ADMIN_TOKEN = 'tainaati_sec_admin_auth_9921_valid';
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;

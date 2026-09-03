@@ -6,14 +6,14 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Privacy Policy — RozgarPK",
-  description: "Read the official RozgarPK Privacy Policy. Learn how we handle job alerts, local CV data, cookies, and ensure candidate privacy.",
+  title: "Privacy Policy — Tainaati",
+  description: "Read the official Tainaati Privacy Policy. Learn how we handle job alerts, local CV data, cookies, and ensure candidate privacy.",
   alternates: {
     canonical: `${siteUrl}/privacy-policy`
   },
   openGraph: {
-    title: "Privacy Policy — RozgarPK",
-    description: "Read the official RozgarPK Privacy Policy.",
+    title: "Privacy Policy — Tainaati",
+    description: "Read the official Tainaati Privacy Policy.",
     url: `${siteUrl}/privacy-policy`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
           <div className="flex items-center gap-2 mb-3">
             <span className="badge badge-verified">
               <ShieldCheck size={14} />
-              <span>Official Policy Document</span>
+              <span>Candidate Privacy & Data Rights</span>
             </span>
             <span className="text-xs text-muted">Last Updated: September 1, 2026</span>
           </div>
@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-secondary text-sm md:text-base leading-relaxed">
-            At RozgarPK (accessible from <Link href="/" className="text-emerald-500 font-semibold underline">https://rozgar.pk</Link>), 
+            At Tainaati (accessible from <Link href="/" className="text-emerald-500 font-semibold underline">https://tainaati.com</Link>), 
             we value your trust and are committed to safeguarding candidate data. This Privacy Policy details our operational data practices, 
             cookie usage, and local processing guarantees.
           </p>
@@ -60,17 +60,17 @@ export default function PrivacyPolicyPage() {
               <span>1. Information We Collect & How It Is Handled</span>
             </h2>
             <p>
-              RozgarPK is designed from the ground up as a privacy-respecting career intelligence index. We minimize personal data collection to the minimum required for user-initiated tools:
+              Tainaati is designed from the ground up as a privacy-respecting career intelligence index. We minimize personal data collection to the minimum required for user-initiated tools:
             </p>
             <ul className="legal-list-bulleted">
               <li>
                 <strong>Email Alert Subscriptions:</strong> When you subscribe to job alerts, we collect your email address and your chosen preference filters (e.g., Federal FPSC, Punjab PPSC, Sindh SPSC, or Software & IT). This information is solely used to send verified job notices matching your selected criteria. Every email alert includes an instant one-click unsubscribe mechanism.
               </li>
               <li>
-                <strong>ATS CV Builder Data (100% Client-Side):</strong> Data entered into the RozgarPK ATS CV Builder (including your name, contact details, education, and work history) is processed <strong>strictly on your local browser</strong>. We do not transmit, save, or store your CV contents on our servers or in any remote database. When you download or print your resume as a PDF, the document is generated directly within your browser session.
+                <strong>ATS CV Builder Data (100% Client-Side):</strong> Data entered into the Tainaati ATS CV Builder (including your name, contact details, education, and work history) is processed <strong>strictly on your local browser</strong>. We do not transmit, save, or store your CV contents on our servers or in any remote database. When you download or print your resume as a PDF, the document is generated directly within your browser session.
               </li>
               <li>
-                <strong>Local User Preferences:</strong> We use your browser&apos;s standard <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">localStorage</code> to remember your UI preferences—such as your Dark/Light theme mode (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">rozgar_theme</code>), language selection (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">rozgar_lang</code>), and bookmarked job IDs (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">rozgar_saved_jobs</code>).
+                <strong>Local User Preferences:</strong> We use your browser&apos;s standard <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">localStorage</code> to remember your UI preferences—such as your Dark/Light theme mode (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">tainaati_theme</code>), language selection (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">tainaati_lang</code>), and bookmarked job IDs (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">tainaati_saved_jobs</code>).
               </li>
               <li>
                 <strong>Technical Server Logs:</strong> Like standard web infrastructure, our hosting environment (Vercel) automatically logs anonymous technical metadata (including your IP address, browser type, referring URLs, and timestamp) for cybersecurity auditing, DDoS mitigation, and server performance monitoring.
@@ -107,7 +107,7 @@ export default function PrivacyPolicyPage() {
               3. Outbound Links to Official Government Portals
             </h2>
             <p>
-              RozgarPK links directly to official government commission portals (e.g., <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">online.fpsc.gov.pk</code>, <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">ppsc.gop.pk</code>, <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">spsc.gos.pk</code>, <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">nts.org.pk</code>). We do not control and are not responsible for the privacy practices, cookie policies, or content of external government websites. We encourage candidates to review the privacy notices of external portals before submitting personal application documents or fee challans.
+              Tainaati links directly to official government commission portals (e.g., <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">online.fpsc.gov.pk</code>, <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">ppsc.gop.pk</code>, <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">spsc.gos.pk</code>, <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">nts.org.pk</code>). We do not control and are not responsible for the privacy practices, cookie policies, or content of external government websites. We encourage candidates to review the privacy notices of external portals before submitting personal application documents or fee challans.
             </p>
           </section>
 
@@ -125,7 +125,7 @@ export default function PrivacyPolicyPage() {
                 <strong>Right to Unsubscribe:</strong> You can cancel your email alert subscription at any time using the unsubscribe link at the bottom of every email alert.
               </li>
               <li>
-                <strong>Right to Deletion:</strong> You may request complete erasure of your email address from our subscriber store by emailing <a href="mailto:privacy@rozgar.pk" className="text-emerald-500 font-semibold underline">privacy@rozgar.pk</a>. Requests are fulfilled within 48 business hours.
+                <strong>Right to Deletion:</strong> You may request complete erasure of your email address from our subscriber store by emailing <a href="mailto:privacy@tainaati.com" className="text-emerald-500 font-semibold underline">privacy@tainaati.com</a>. Requests are fulfilled within 48 business hours.
               </li>
               <li>
                 <strong>Local Browser Storage:</strong> You can clear your bookmarked jobs and theme preferences at any time by clearing your browser cookies and site data.
@@ -143,9 +143,9 @@ export default function PrivacyPolicyPage() {
               If you have any questions, concerns, or requests regarding this Privacy Policy, please contact our data integrity team:
             </p>
             <div className="bg-surface-subtle p-4 rounded-lg border border-subtle text-sm">
-              <p className="font-bold text-primary">RozgarPK Privacy & Compliance Desk</p>
-              <p>Email: <a href="mailto:privacy@rozgar.pk" className="text-emerald-500 font-medium underline">privacy@rozgar.pk</a></p>
-              <p>Contact Form: <Link href="/contact" className="text-emerald-500 font-medium underline">https://rozgar.pk/contact</Link></p>
+              <p className="font-bold text-primary">Tainaati Privacy & Compliance Desk</p>
+              <p>Email: <a href="mailto:privacy@tainaati.com" className="text-emerald-500 font-medium underline">privacy@tainaati.com</a></p>
+              <p>Contact Form: <Link href="/contact" className="text-emerald-500 font-medium underline">https://tainaati.com/contact</Link></p>
               <p className="text-xs text-muted mt-2">Islamabad, Islamic Republic of Pakistan</p>
             </div>
           </section>

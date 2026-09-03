@@ -1,11 +1,11 @@
 /**
- * RozgarPK — Raw Server-Rendered HTML Verification Script (Crawler Simulator)
+ * Tainaati — Raw Server-Rendered HTML Verification Script (Crawler Simulator)
  * Tests raw HTTP responses with ZERO client-side JavaScript execution.
  */
 
 async function testCrawlerView() {
   console.log("=================================================");
-  console.log("RozgarPK — Raw Server-Rendered HTML Crawler Audit");
+  console.log("Tainaati — Raw Server-Rendered HTML Crawler Audit");
   console.log("=================================================\n");
 
   const endpoints = [
@@ -33,7 +33,7 @@ async function testCrawlerView() {
       console.log(`🔍 [${status}] Testing: ${ep.name} (${ep.url}) — Payload Size: ${length} bytes`);
 
       if (ep.name === "Dynamic Sitemap") {
-        const hasUrls = text.includes("<url>") && text.includes("https://rozgar.pk/jobs/");
+        const hasUrls = text.includes("<url>") && text.includes("https://tainaati.com/jobs/");
         console.log(`   • Contains <url> and job links: ${hasUrls ? "✅ YES" : "❌ NO"}`);
         if (!hasUrls) allPassed = false;
       } else if (ep.name === "Robots.txt") {

@@ -1,6 +1,6 @@
 /**
- * RozgarPK — Master Category Taxonomy & Configuration
- * Defines the expanded 14 top-level and sub-categories across Govt, Private, and Cross-Cutting sectors.
+ * Tainaati — Master Category Taxonomy & Configuration
+ * Defines the expanded 20 top-level and sub-categories across Govt, Private, and Cross-Cutting sectors.
  * Single source of truth for navigation, landing pages, SEO metadata, icons, and filtering.
  */
 
@@ -432,11 +432,196 @@ export const CATEGORIES_CONFIG = [
     faqs: [
       {
         question: "How does the Exam-Based Recruitment Hub connect with Test Prep?",
-        answer: "Every position in this category is directly linked to RozgarPK's interactive Test Prep module, allowing candidates to review official syllabus breakdowns, download past papers, and practice timed MCQs."
+        answer: "Every position in this category is directly linked to Tainaati's interactive Test Prep module, allowing candidates to review official syllabus breakdowns, download past papers, and practice timed MCQs."
       },
       {
         question: "What is the difference between General Recruitment and Competitive Exams?",
         answer: "Competitive Exams (CSS, PMS, CCE) recruit officers into elite civil services cadres with comprehensive multi-subject written papers. General Recruitment uses a single-paper 100-mark MCQ test for specific departmental vacancies."
+      }
+    ]
+  },
+
+  // ==========================================
+  // ADDITIONAL EXPANDED CATEGORIES (15-20)
+  // ==========================================
+  {
+    id: "matric-inter-support",
+    slug: "matric-inter-support",
+    name: "Matric/Inter & Support Staff",
+    shortName: "Support Staff",
+    group: "govt",
+    groupLabel: "Government Sectors",
+    icon: "UserCheck",
+    h1: "Matric/Inter-Level & Support Staff Jobs in Pakistan 2026",
+    tagline: "High-volume public sector employment for Matric, Intermediate, and Class-IV candidates: Junior Clerks (BPS-11), Naib Qasid, Drivers, Chowkidars, and Support Staff across federal and provincial secretariats.",
+    metaTitle: "Matric, Inter & Support Staff Jobs in Pakistan 2026 — Junior Clerk & Class-IV",
+    metaDescription: "Apply for latest Matric and Intermediate level government jobs in Pakistan. Junior Clerk (BPS-11), Naib Qasid, Driver, Chowkidar, and clerical vacancies with direct application instructions.",
+    subcategories: [
+      "Junior Clerk & Record Keeper (BPS-11)",
+      "Naib Qasid & Office Attendant (BPS-01)",
+      "Driver & Dispatch Rider (BPS-04/05)",
+      "Chowkidar & Security Guard (BPS-01/02)",
+      "Sanitary Worker & Sweeper",
+      "Store Attendant & Daftari (BPS-02 to BPS-05)"
+    ],
+    faqs: [
+      {
+        question: "What is the typing speed requirement for Junior Clerk (BPS-11)?",
+        answer: "Most government departments require a minimum typing speed of 25 to 30 words per minute (wpm) in English on computer, accompanied by a 3 to 6-month IT / Office Automation certificate."
+      },
+      {
+        question: "What are the age limits for Class-IV and Support Staff positions?",
+        answer: "The general age limit is 18 to 25 years plus the standard 5-year general age relaxation granted by the government (total up to 30-33 years depending on provincial notifications)."
+      }
+    ]
+  },
+  {
+    id: "agriculture-livestock",
+    slug: "agriculture-livestock",
+    name: "Agriculture & Livestock Dept",
+    shortName: "Agriculture & Livestock",
+    group: "govt",
+    groupLabel: "Government Sectors",
+    icon: "Leaf",
+    h1: "Agriculture & Livestock Department Jobs in Pakistan 2026",
+    tagline: "Provincial public service commission recruitment for Veterinary Officers (BPS-17), Agriculture Officers, On-Farm Water Management, Dairy Development, and Field Assistants.",
+    metaTitle: "Agriculture & Livestock Jobs in Pakistan 2026 — Veterinary & Agri Officers",
+    metaDescription: "Find official vacancies in Agriculture Extension, Livestock & Dairy Development Department. BPS-11 to BPS-18 Veterinary Doctors (DVM), Agronomists, and Water Management specialists.",
+    subcategories: [
+      "Veterinary Officers & Animal Health (DVM - BPS-17)",
+      "Agriculture Officers & Extension Agronomists (BPS-17)",
+      "Water Management & On-Farm Water (OFWM Specialist)",
+      "Livestock Dairy & Poultry Production Supervisors",
+      "Agriculture Field Assistants & Research Associates"
+    ],
+    faqs: [
+      {
+        question: "What qualification is required for Veterinary Officer (BPS-17)?",
+        answer: "Candidates must possess a Doctor of Veterinary Medicine (DVM) degree from a recognized university and valid active registration with the Pakistan Veterinary Medical Council (PVMC)."
+      },
+      {
+        question: "Which commissions recruit Agriculture and Livestock officers?",
+        answer: "PPSC (Punjab), SPSC (Sindh), KPPSC (Khyber Pakhtunkhwa), and BPSC (Balochistan) conduct regular recruitment for Provincial Agriculture and Livestock cadres."
+      }
+    ]
+  },
+  {
+    id: "ajk-gilgit-baltistan",
+    slug: "ajk-gilgit-baltistan",
+    name: "AJK & Gilgit-Baltistan Jobs",
+    shortName: "AJK & Gilgit-Baltistan",
+    group: "govt",
+    groupLabel: "Government Sectors",
+    icon: "Mountain",
+    h1: "AJK & Gilgit-Baltistan Government Jobs 2026",
+    tagline: "Dedicated career portal for Azad Jammu & Kashmir Public Service Commission (AJKPSC), Gilgit-Baltistan Services & General Administration, Karakoram University, and regional district councils.",
+    metaTitle: "AJK & Gilgit-Baltistan Jobs 2026 — AJKPSC & GB Government Vacancies",
+    metaDescription: "Browse official gazette postings in Azad Kashmir (AJKPSC) and Gilgit-Baltistan. BPS-11 to BPS-18 administrative, medical, teaching, and forest service cadres with domicile requirements.",
+    subcategories: [
+      "AJK Public Service Commission (AJKPSC Gazetted Posts)",
+      "Gilgit-Baltistan Services & General Administration (S&GAD)",
+      "AJK School & Higher Education Department",
+      "Karakoram & Poonch University Faculty Posts",
+      "GB & AJK Forest, Wildlife & Tourism Cadres"
+    ],
+    faqs: [
+      {
+        question: "Who is eligible to apply for AJKPSC and GB government jobs?",
+        answer: "Applicants must possess a valid State Subject Certificate / Permanent Residence Certificate (PRC) of Azad Jammu & Kashmir or Gilgit-Baltistan domicile for regional quota posts."
+      },
+      {
+        question: "How do candidates apply for AJK Public Service Commission vacancies?",
+        answer: "AJKPSC advertisements are published online at ajkpsc.gov.pk. Applications are submitted online with treasury challan fee deposited at State Bank of Pakistan or National Bank branches in AJK."
+      }
+    ]
+  },
+  {
+    id: "shutdown-industrial",
+    slug: "shutdown-industrial",
+    name: "Shutdown & Industrial Jobs",
+    shortName: "Shutdown & Industrial",
+    group: "private",
+    groupLabel: "Private & Careers",
+    icon: "Flame",
+    h1: "Shutdown, Industrial & Contract Jobs in Pakistan 2026",
+    tagline: "Short-term maintenance turnarounds, industrial plant shutdowns, safety supervisors, pipefitters, millwright mechanics, and electrical/instrumentation technicians across refineries and energy plants.",
+    metaTitle: "Industrial Plant Shutdown & Contract Jobs in Pakistan 2026 — Turnaround Techs",
+    metaDescription: "Apply for industrial plant shutdowns and maintenance turnarounds in Pakistan. Refineries, fertilizer plants (FFC, Engro), power generation, and Descon industrial contracts.",
+    subcategories: [
+      "Petrochemical & Refinery Turnaround Contracts",
+      "HSE Safety Officers & Fire Watchers",
+      "Millwright Mechanics & Pipefitters",
+      "Industrial Electrical & Instrumentation (E&I)",
+      "Non-Destructive Testing (NDT) & Welding Inspectors"
+    ],
+    faqs: [
+      {
+        question: "What is an industrial plant shutdown job?",
+        answer: "A shutdown or turnaround (TAR) is a scheduled period where petrochemical refineries, fertilizer complexes, or power plants halt operations for overhaul. Companies hire hundreds of technical specialists on high daily/monthly wages."
+      },
+      {
+        question: "Which companies hire shutdown technicians in Pakistan?",
+        answer: "Key employers include Descon Engineering, Engro Fertilizers, Fauji Fertilizer Company (FFC), Pakistan Refinery Limited (PRL), PARCO, and Attock Refinery."
+      }
+    ]
+  },
+  {
+    id: "part-time-labor",
+    slug: "part-time-labor",
+    name: "Part-Time & Daily Wage Labor",
+    shortName: "Part-Time & Labor",
+    group: "private",
+    groupLabel: "Private & Careers",
+    icon: "Clock",
+    h1: "Part-Time, Daily Wage & Labor Jobs in Pakistan 2026",
+    tagline: "Genuine verified local employment opportunities for commercial delivery riders, drivers, warehouse helpers, factory packaging staff, security guards, and maintenance labor.",
+    metaTitle: "Part-Time, Daily Wage & Labor Jobs in Pakistan 2026 — Drivers & Helpers",
+    metaDescription: "Find genuine part-time and daily wage employment opportunities across Pakistan. Commercial drivers, security guards, factory laborers, riders, and warehouse staff with verified employer contacts.",
+    subcategories: [
+      "Commercial Drivers (LTV / HTV / PSV License)",
+      "Private Security Guards & Shift Supervisors",
+      "Warehouse Logistics & Packaging Helpers",
+      "Food & Courier Delivery Riders (Bykea, Foodpanda, Yango)",
+      "Construction, Plumbing & Electrical Maintenance Labor"
+    ],
+    faqs: [
+      {
+        question: "Are daily wage and delivery jobs verified on Tainaati?",
+        answer: "Yes, Tainaati screens company registrations and official fleet partners to safeguard jobseekers against advance-fee scams and deceptive agent commissions."
+      },
+      {
+        question: "What is required to work as a commercial driver in Pakistan?",
+        answer: "A valid computerized driving license (LTV, HTV, or PSV endorsement), Police Character Certificate, CNIC verification, and safe driving record."
+      }
+    ]
+  },
+  {
+    id: "media-journalism",
+    slug: "media-journalism",
+    name: "Media, Journalism & Content",
+    shortName: "Media & Journalism",
+    group: "private",
+    groupLabel: "Private & Careers",
+    icon: "Tv",
+    h1: "Media, Journalism & Content Jobs in Pakistan 2026",
+    tagline: "Public broadcasting at PTV and Radio Pakistan, PEMRA regulatory cadres, private news channels, digital content creators, broadcast engineers, and video editors.",
+    metaTitle: "Media & Journalism Jobs in Pakistan 2026 — PTV, Radio & News Channels",
+    metaDescription: "Explore verified vacancies in Pakistani media. PTV Corporation, Radio Pakistan (PBC), PEMRA, private satellite channels, news anchors, investigative reporters, and video editors.",
+    subcategories: [
+      "PTV (Pakistan Television Corporation Broadcasters)",
+      "Radio Pakistan (Pakistan Broadcasting Corporation - PBC)",
+      "Broadcast News Reporting & News Anchoring",
+      "Digital Video Editing & Motion Graphics",
+      "Content Writing, Sub-Editing & Copywriting"
+    ],
+    faqs: [
+      {
+        question: "How do candidates apply for PTV and Radio Pakistan recruitment?",
+        answer: "Both PTV and PBC advertise contractual and regular vacancies in national newspapers and on their official career portals with online applications or written tests."
+      },
+      {
+        question: "What qualifications are required for media content roles?",
+        answer: "A BS or Master's degree in Mass Communication, Journalism, Media Studies, or Film & TV Production, along with demonstrated portfolio work."
       }
     ]
   }
@@ -560,6 +745,34 @@ export function matchesJobCategory(job, categoryId) {
     case 'exam-recruitment-hub':
       return title.includes('cce') || title.includes('css') || title.includes('pms') || job.agency === 'NTS' ||
              title.includes('competitive examination');
+
+    case 'matric-inter-support':
+      return title.includes('naib qasid') || title.includes('chowkidar') || title.includes('clerk') ||
+             title.includes('sanitary') || title.includes('peon') || title.includes('mali') ||
+             title.includes('driver') || title.includes('sweeper') || title.includes('security guard') ||
+             (job.bpsScale && ['BPS-01', 'BPS-02', 'BPS-03', 'BPS-04', 'BPS-05', 'BPS-07', 'BPS-11'].includes(job.bpsScale) &&
+              !title.includes('engineer') && !title.includes('officer') && !title.includes('registrar'));
+
+    case 'agriculture-livestock':
+      return dept.includes('agriculture') || dept.includes('livestock') || dept.includes('dairy') ||
+             dept.includes('water management') || title.includes('veterinary') || title.includes('water management officer');
+
+    case 'ajk-gilgit-baltistan':
+      return job.province === 'AJK & Gilgit-Baltistan' || dept.includes('ajk') || dept.includes('gilgit') ||
+             dept.includes('baltistan') || dept.includes('karakoram') || title.includes('ajk') || title.includes('gilgit');
+
+    case 'shutdown-industrial':
+      return title.includes('shutdown') || title.includes('turnaround') || title.includes('pipefitter') ||
+             title.includes('millwright') || title.includes('hse') || dept.includes('refinery') || dept.includes('plant');
+
+    case 'part-time-labor':
+      return title.includes('driver') || title.includes('security guard') || title.includes('labor') ||
+             title.includes('helper') || title.includes('rider') || title.includes('part-time');
+
+    case 'media-journalism':
+      return dept.includes('ptv') || dept.includes('radio pakistan') || dept.includes('pemra') ||
+             dept.includes('media') || title.includes('reporter') || title.includes('video editor') ||
+             title.includes('producer') || title.includes('journalist');
 
     default:
       return false;

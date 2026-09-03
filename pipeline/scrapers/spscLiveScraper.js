@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Live SPSC (Sindh Public Service Commission) Scraper
+ * Tainaati — Live SPSC (Sindh Public Service Commission) Scraper
  * Direct Live HTML parser for https://spsc.gov.pk/advertisements
  * Parses active Advertisement 04/26 (Closing: September 23, 2026)
  * with individually verified gazette criteria, qualifications, and vacancy distributions.
@@ -13,7 +13,7 @@ export async function scrapeLiveSPSC() {
   try {
     const res = await fetch(sourceUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RozgarPK-JobCrawler/1.0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Tainaati-JobCrawler/1.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
       }
     });

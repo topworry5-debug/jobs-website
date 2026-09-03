@@ -34,15 +34,15 @@ export async function POST(request) {
       status: 'RECEIVED'
     };
 
-    console.log('[RozgarPK Contact Inbox] New Message Received:', contactEntry);
+    console.log('[Tainaati Contact Inbox] New Message Received:', contactEntry);
 
     return NextResponse.json({
       success: true,
-      message: 'Thank you for reaching out. Your message has been routed to the RozgarPK support team.',
+      message: 'Thank you for reaching out. Your message has been routed to the Tainaati support team.',
       ticketId: contactEntry.id
     });
   } catch (error) {
-    console.error('[RozgarPK Contact Error]:', error);
+    console.error('[Tainaati Contact Error]:', error);
     return NextResponse.json(
       { success: false, error: 'Internal server error processing contact submission.' },
       { status: 500 }

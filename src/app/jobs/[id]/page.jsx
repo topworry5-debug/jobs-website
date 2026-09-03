@@ -48,7 +48,7 @@ export async function generateMetadata({ params }) {
   const isGovt = job.type === 'govt';
   const agencyTitle = job.agency || (isGovt ? 'Government of Pakistan' : job.company);
   const pageTitle = `${job.title} - ${agencyTitle} (${job.city})`;
-  const pageDesc = `Apply for ${job.title} at ${job.department || job.company}. Required: ${job.qualification}. Last date to apply: ${job.lastDate}. Verified on RozgarPK.`;
+  const pageDesc = `Apply for ${job.title} at ${job.department || job.company}. Required: ${job.qualification}. Last date to apply: ${job.lastDate}. Verified on Tainaati.`;
   const canonicalUrl = `${siteUrl}/jobs/${job.id}`;
 
   return {
@@ -164,7 +164,7 @@ export default function JobDetailPage({ params }) {
 
             <div className="job-cta-box-top">
               <a
-                href={job.officialUrl || "https://rozgar.pk"}
+                href={job.officialUrl || "https://tainaati.com"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary btn-lg"
@@ -337,11 +337,11 @@ export default function JobDetailPage({ params }) {
             <div className="mt-6 pt-4 border-t border-subtle flex flex-wrap items-center justify-between gap-4">
               <div>
                 <div className="text-xs text-muted">Official Recruitment Portal:</div>
-                <div className="text-sm font-semibold text-primary">{job.officialUrl || "https://rozgar.pk"}</div>
+                <div className="text-sm font-semibold text-primary">{job.officialUrl || "https://tainaati.com"}</div>
               </div>
 
               <a
-                href={job.officialUrl || "https://rozgar.pk"}
+                href={job.officialUrl || "https://tainaati.com"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary btn-lg"

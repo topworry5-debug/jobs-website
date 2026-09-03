@@ -13,7 +13,7 @@ export function LanguageProvider({ children }) {
   useEffect(() => {
     setMounted(true);
     try {
-      const savedLang = localStorage.getItem('rozgar_lang');
+      const savedLang = localStorage.getItem('tainaati_lang');
       if (savedLang && ['en', 'ur', 'roman'].includes(savedLang)) {
         setLangState(savedLang);
         if (savedLang === 'ur') {
@@ -23,7 +23,7 @@ export function LanguageProvider({ children }) {
         }
       }
 
-      const savedTheme = localStorage.getItem('rozgar_theme');
+      const savedTheme = localStorage.getItem('tainaati_theme');
       const initialTheme = (savedTheme && ['dark', 'light'].includes(savedTheme)) ? savedTheme : 'dark';
       setThemeState(initialTheme);
       document.documentElement.setAttribute('data-theme', initialTheme);
@@ -36,7 +36,7 @@ export function LanguageProvider({ children }) {
     if (!['en', 'ur', 'roman'].includes(newLang)) return;
     setLangState(newLang);
     try {
-      localStorage.setItem('rozgar_lang', newLang);
+      localStorage.setItem('tainaati_lang', newLang);
     } catch {}
 
     if (newLang === 'ur') {
@@ -53,7 +53,7 @@ export function LanguageProvider({ children }) {
     document.documentElement.classList.remove('theme-dark', 'theme-light');
     document.documentElement.classList.add(nextTheme === 'dark' ? 'theme-dark' : 'theme-light');
     try {
-      localStorage.setItem('rozgar_theme', nextTheme);
+      localStorage.setItem('tainaati_theme', nextTheme);
     } catch {}
   };
 
@@ -64,7 +64,7 @@ export function LanguageProvider({ children }) {
     document.documentElement.classList.remove('theme-dark', 'theme-light');
     document.documentElement.classList.add(newTheme === 'dark' ? 'theme-dark' : 'theme-light');
     try {
-      localStorage.setItem('rozgar_theme', newTheme);
+      localStorage.setItem('tainaati_theme', newTheme);
     } catch {}
   };
 

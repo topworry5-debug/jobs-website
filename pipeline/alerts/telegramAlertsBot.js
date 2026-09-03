@@ -1,11 +1,11 @@
 /**
- * RozgarPK — Telegram Alerts Bot Engine (Zero-Cost Free Tier)
+ * Tainaati — Telegram Alerts Bot Engine (Zero-Cost Free Tier)
  * Connects to Telegram Bot API (https://api.telegram.org/bot<TOKEN>/...)
  * Handles conversational command flows for Pakistani job seekers.
  */
 
 export class TelegramAlertsBot {
-  constructor(botToken = "ROZGAR_PK_BOT_TOKEN_DEV") {
+  constructor(botToken = "TAINAATI_BOT_TOKEN_DEV") {
     this.botToken = botToken;
     this.subscribers = new Map([
       ["chat-101", {
@@ -66,7 +66,7 @@ export class TelegramAlertsBot {
 
       return {
         reply: `
-🇵🇰 <b>Welcome to RozgarPK Automated Job Alerts Bot!</b>
+🇵🇰 <b>Welcome to Tainaati Automated Job Alerts Bot!</b>
 
 You are now connected to Pakistan's fastest official government & private job alerts system.
 

@@ -6,14 +6,14 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Terms of Service — RozgarPK",
-  description: "Terms of Service for RozgarPK. Outlines service nature, official government disclaimers, candidate verification obligations, and legal parameters.",
+  title: "Terms of Service — Tainaati",
+  description: "Terms of Service for Tainaati. Outlines service nature, official government disclaimers, candidate verification obligations, and legal parameters.",
   alternates: {
     canonical: `${siteUrl}/terms-of-service`
   },
   openGraph: {
-    title: "Terms of Service — RozgarPK",
-    description: "Terms of Service for RozgarPK.",
+    title: "Terms of Service — Tainaati",
+    description: "Terms of Service for Tainaati.",
     url: `${siteUrl}/terms-of-service`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
@@ -45,7 +45,7 @@ export default function TermsOfServicePage() {
             Terms of Service
           </h1>
           <p className="text-secondary text-sm md:text-base leading-relaxed">
-            Please read these Terms of Service carefully before accessing or using RozgarPK (<Link href="/" className="text-emerald-500 font-semibold underline">https://rozgar.pk</Link>). 
+            Please read these Terms of Service carefully before accessing or using Tainaati (<Link href="/" className="text-emerald-500 font-semibold underline">https://tainaati.com</Link>). 
             By browsing the site, subscribing to job alerts, or utilizing our ATS CV Builder and Examination tools, you agree to be bound by these terms.
           </p>
         </div>
@@ -59,8 +59,8 @@ export default function TermsOfServicePage() {
               <span>1. Nature of the Service (Information Aggregator & Intelligence Index)</span>
             </h2>
             <p>
-              RozgarPK is an independent, specialized digital career aggregator and exam intelligence platform. 
-              <strong>RozgarPK is not an employer, hiring agency, or staffing firm.</strong> We do not conduct recruitment, collect job application fees on behalf of employers, schedule interviews, or influence hiring decisions.
+              Tainaati is an independent, specialized digital career aggregator and exam intelligence platform. 
+              <strong>Tainaati is not an employer, hiring agency, or staffing firm.</strong> We do not conduct recruitment, collect job application fees on behalf of employers, schedule interviews, or influence hiring decisions.
             </p>
             <p>
               Our platform monitors, indexes, and organizes publicly accessible job advertisements, official gazette notices, and syllabus outlines released by Pakistani government commissions and verified private tech employers to provide a structured, accessible search experience.
@@ -76,7 +76,7 @@ export default function TermsOfServicePage() {
             <div className="bg-surface-subtle p-4 rounded-lg border-l-4 border-l-amber-500 text-sm">
               <p className="font-bold text-primary mb-1">Important Non-Affiliation Disclosure:</p>
               <p>
-                RozgarPK is an independent informational portal and is <strong>NOT affiliated, associated, authorized, endorsed by, or in any way officially connected</strong> with the Federal Public Service Commission (FPSC), Punjab Public Service Commission (PPSC), Sindh Public Service Commission (SPSC), Khyber Pakhtunkhwa Public Service Commission (KPPSC), Balochistan Public Service Commission (BPSC), National Testing Service (NTS), or any department or agency of the Government of Pakistan.
+                Tainaati is an independent informational portal and is <strong>NOT affiliated, associated, authorized, endorsed by, or in any way officially connected</strong> with the Federal Public Service Commission (FPSC), Punjab Public Service Commission (PPSC), Sindh Public Service Commission (SPSC), Khyber Pakhtunkhwa Public Service Commission (KPPSC), Balochistan Public Service Commission (BPSC), National Testing Service (NTS), or any department or agency of the Government of Pakistan.
               </p>
             </div>
             <p>
@@ -91,14 +91,14 @@ export default function TermsOfServicePage() {
               3. Candidate Responsibility & Verification Obligation
             </h2>
             <p>
-              While RozgarPK maintains an automated verification pipeline that cross-checks postings against published gazettes every 6 hours:
+              While Tainaati maintains an automated verification pipeline that cross-checks postings against published gazettes every 6 hours:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-sm">
               <li>
                 <strong>Official Source Verification:</strong> Candidates are strictly advised to review the official advertisement notice, eligibility criteria, challan fee instructions, and submission deadlines on the hiring authority&apos;s official website (e.g. <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">online.fpsc.gov.pk</code> or <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">ppsc.gop.pk</code>) before submitting applications or depositing fees.
               </li>
               <li>
-                <strong>Fee Deposit Safety:</strong> Government recruitment examination fees in Pakistan must ONLY be deposited into authorized National Bank of Pakistan (NBP) branches, State Bank of Pakistan (SBP) treasury accounts, or through designated government PSID 1Link channels. RozgarPK will never ask you to transfer funds directly to any private bank account or mobile wallet.
+                <strong>Fee Deposit Safety:</strong> Government recruitment examination fees in Pakistan must ONLY be deposited into authorized National Bank of Pakistan (NBP) branches, State Bank of Pakistan (SBP) treasury accounts, or through designated government PSID 1Link channels. Tainaati will never ask you to transfer funds directly to any private bank account or mobile wallet.
               </li>
             </ul>
           </section>
@@ -110,7 +110,7 @@ export default function TermsOfServicePage() {
               4. Intellectual Property & Fair Use
             </h2>
             <p>
-              All proprietary layout designs, user interface code, automated indexing algorithms, CSS styling, custom vector assets, and editorial compilations on RozgarPK are the intellectual property of RozgarPK and are protected by applicable copyright and intellectual property laws.
+              All proprietary layout designs, user interface code, automated indexing algorithms, CSS styling, custom vector assets, and editorial compilations on Tainaati are the intellectual property of Tainaati and are protected by applicable copyright and intellectual property laws.
             </p>
             <p>
               The original text of government gazette notifications, public recruitment circulars, and official test syllabus descriptions remain the public property of their respective government issuing authorities and are credited and linked accordingly.
@@ -124,7 +124,7 @@ export default function TermsOfServicePage() {
               5. Limitation of Liability
             </h2>
             <p>
-              To the fullest extent permitted by applicable law, RozgarPK and its developers shall not be held liable for any direct, indirect, incidental, or consequential damages resulting from:
+              To the fullest extent permitted by applicable law, Tainaati and its developers shall not be held liable for any direct, indirect, incidental, or consequential damages resulting from:
             </p>
             <ul className="list-disc pl-6 space-y-1 text-sm">
               <li>Rejection or disqualification of job applications by hiring agencies.</li>
@@ -154,9 +154,9 @@ export default function TermsOfServicePage() {
               If you have questions regarding these Terms, or if you represent a government department or hiring entity wishing to update or correct a listing, please contact our legal desk:
             </p>
             <div className="bg-surface-subtle p-4 rounded-lg border border-subtle text-sm">
-              <p className="font-bold text-primary">RozgarPK Legal & Editorial Compliance</p>
-              <p>Email: <a href="mailto:legal@rozgar.pk" className="text-emerald-500 font-medium underline">legal@rozgar.pk</a></p>
-              <p>Corrections: <a href="mailto:corrections@rozgar.pk" className="text-emerald-500 font-medium underline">corrections@rozgar.pk</a></p>
+              <p className="font-bold text-primary">Tainaati Legal & Editorial Compliance</p>
+              <p>Email: <a href="mailto:legal@tainaati.com" className="text-emerald-500 font-medium underline">legal@tainaati.com</a></p>
+              <p>Corrections: <a href="mailto:corrections@tainaati.com" className="text-emerald-500 font-medium underline">corrections@tainaati.com</a></p>
               <p className="text-xs text-muted mt-2">Islamabad, Islamic Republic of Pakistan</p>
             </div>
           </section>

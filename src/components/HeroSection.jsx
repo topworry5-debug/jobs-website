@@ -94,7 +94,7 @@ export default function HeroSection({
 
     // 2. Dispatch window event for immediate reactivity
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('rozgar:filter-change', {
+      window.dispatchEvent(new CustomEvent('tainaati:filter-change', {
         detail: { query: q, city }
       }));
 

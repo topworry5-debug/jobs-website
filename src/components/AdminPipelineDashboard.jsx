@@ -559,7 +559,7 @@ export default function AdminPipelineDashboard({ jobs, onUpdateJobs }) {
             <div className="terminal-code-block mb-4">
               <pre className="font-mono text-xs text-emerald-400">
 {`# .github/workflows/scraper-cron.yml
-name: RozgarPK Automated Ingestion & Email Alert Pipeline
+name: Tainaati Automated Ingestion & Email Alert Pipeline
 on:
   schedule:
     - cron: '0 */6 * * *' # Runs automatically every 6 hours

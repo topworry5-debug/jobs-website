@@ -1,8 +1,8 @@
 import React from 'react';
 
 export const metadata = {
-  title: "Admin & Pipeline Telemetry — RozgarPK",
-  description: "Internal administrative portal for RozgarPK pipeline monitoring and job verification.",
+  title: "Admin & Pipeline Telemetry — Tainaati",
+  description: "Internal administrative portal for Tainaati pipeline monitoring and job verification.",
   robots: {
     index: false,
     follow: false,

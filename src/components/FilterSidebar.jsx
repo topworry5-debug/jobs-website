@@ -137,12 +137,18 @@ export default function FilterSidebar({
             <option value="teaching-education">Teaching & Education</option>
             <option value="healthcare-medical">Healthcare & Medical</option>
             <option value="local-government">Local Government / Municipal</option>
+            <option value="matric-inter-support">Matric/Inter & Support Staff</option>
+            <option value="agriculture-livestock">Agriculture & Livestock Dept</option>
+            <option value="ajk-gilgit-baltistan">AJK & Gilgit-Baltistan Jobs</option>
           </optgroup>
           <optgroup label="Private & Industry Careers">
             <option value="banking-finance">Banking & Finance</option>
             <option value="engineering">Engineering & Technical</option>
             <option value="ngo-international">NGO & International Orgs</option>
             <option value="internships-trainee">Internships & Trainee Programs</option>
+            <option value="shutdown-industrial">Shutdown & Industrial Jobs</option>
+            <option value="part-time-labor">Part-Time & Daily Wage Labor</option>
+            <option value="media-journalism">Media, Journalism & Content</option>
           </optgroup>
           <optgroup label="Cross-Cutting & Remote">
             <option value="overseas-gulf">Overseas & Gulf Jobs</option>

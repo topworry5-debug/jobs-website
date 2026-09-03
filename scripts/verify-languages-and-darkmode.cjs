@@ -3,7 +3,7 @@ const path = require('path');
 
 const ARTIFACT_DIR = path.resolve('C:\\Users\\topwo\\.gemini\\antigravity-ide\\brain\\974ebed1-b4d4-4fd6-81e8-55e43559661c');
 const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const BASE_URL = 'https://jobs-website-delta.vercel.app';
+const BASE_URL = process.env.BASE_URL || 'https://tainaati.com';
 
 async function main() {
   console.log('Starting Language Independence & Urdu Typography Live Verification...');
@@ -86,7 +86,7 @@ async function main() {
     await page.setViewport({ width: 375, height: 812, isMobile: true, hasTouch: true });
     // Switch back to Urdu
     await page.evaluate(() => {
-      localStorage.setItem('rozgar_lang', 'ur');
+      localStorage.setItem('tainaati_lang', 'ur');
     });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle0' });
     await new Promise(r => setTimeout(r, 600));

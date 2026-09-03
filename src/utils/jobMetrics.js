@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Centralized Single Source-of-Truth Metrics & Date Calculations
+ * Tainaati — Centralized Single Source-of-Truth Metrics & Date Calculations
  * Guarantees all hero statistics, category counts, urgency badges, and SEO metadata
  * are computed dynamically from actual datasets with ZERO hardcoding and ZERO data drift.
  */

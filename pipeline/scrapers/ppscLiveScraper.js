@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Live PPSC (Punjab Public Service Commission) Direct HTML Table Scraper
+ * Tainaati — Live PPSC (Punjab Public Service Commission) Direct HTML Table Scraper
  * Extracts exact table columns (Case No, Post Name, Fee, Department, Ad Date, Closing Date)
  * directly from https://www.ppsc.gop.pk/Jobs.aspx with ZERO fallbacks and ZERO guessed dates,
  * enriched with authentic official gazette details from PPSC Advertisement No. 08/2026.
@@ -17,7 +17,7 @@ export async function scrapeLivePPSC() {
   try {
     const res = await fetch(sourceUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RozgarPK-JobCrawler/1.0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Tainaati-JobCrawler/1.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
       }
     });

@@ -156,7 +156,7 @@ export default function Footer() {
           <div className="footer-links-col">
             <h4 className="footer-col-title">{t.footer.trustTitle || "Trust & Transparency"}</h4>
             <ul className="footer-links-list">
-              <li><Link href="/about" className="footer-link-btn">{t.footer.about || "About RozgarPK"}</Link></li>
+              <li><Link href="/about" className="footer-link-btn">{t.footer.about || "About Tainaati"}</Link></li>
               <li><Link href="/contact" className="footer-link-btn">{t.footer.contact || "Contact Support Desk"}</Link></li>
               <li><Link href="/privacy-policy" className="footer-link-btn">{t.footer.privacy || "Privacy Policy"}</Link></li>
               <li><Link href="/terms-of-service" className="footer-link-btn">{t.footer.terms || "Terms of Service"}</Link></li>

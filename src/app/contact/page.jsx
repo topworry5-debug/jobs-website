@@ -56,7 +56,7 @@ export default function ContactPage() {
       }
     } catch (err) {
       setStatus('error');
-      setStatusMsg('Network error connecting to support endpoint. Please email contact@rozgar.pk directly.');
+      setStatusMsg('Network error connecting to support endpoint. Please email contact@tainaati.com directly.');
     } finally {
       setLoading(false);
     }
@@ -84,7 +84,7 @@ export default function ContactPage() {
           </div>
 
           <h1 className="text-2xl md:text-3xl font-extrabold text-primary mb-3">
-            Contact RozgarPK
+            Contact Tainaati
           </h1>
           <p className="text-secondary text-sm md:text-base leading-relaxed">
             Have a question about a gazetted job listing, noticed a correction on an advertisement, or need technical support? 
@@ -103,15 +103,15 @@ export default function ContactPage() {
               <div className="space-y-3 text-xs">
                 <div>
                   <div className="font-semibold text-primary">General Inquiries & Support</div>
-                  <a href="mailto:contact@rozgar.pk" className="text-emerald-500 underline font-medium">contact@rozgar.pk</a>
+                  <a href="mailto:contact@tainaati.com" className="text-emerald-500 underline font-medium">contact@tainaati.com</a>
                 </div>
                 <div>
                   <div className="font-semibold text-primary">Gazette Corrections & Updates</div>
-                  <a href="mailto:corrections@rozgar.pk" className="text-emerald-500 underline font-medium">corrections@rozgar.pk</a>
+                  <a href="mailto:corrections@tainaati.com" className="text-emerald-500 underline font-medium">corrections@tainaati.com</a>
                 </div>
                 <div>
                   <div className="font-semibold text-primary">Privacy & Data Requests</div>
-                  <a href="mailto:privacy@rozgar.pk" className="text-emerald-500 underline font-medium">privacy@rozgar.pk</a>
+                  <a href="mailto:privacy@tainaati.com" className="text-emerald-500 underline font-medium">privacy@tainaati.com</a>
                 </div>
               </div>
             </div>

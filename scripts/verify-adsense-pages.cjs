@@ -3,7 +3,7 @@ const path = require('path');
 
 const ARTIFACT_DIR = path.resolve('C:\\Users\\topwo\\.gemini\\antigravity-ide\\brain\\974ebed1-b4d4-4fd6-81e8-55e43559661c');
 const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const BASE_URL = 'https://jobs-website-delta.vercel.app';
+const BASE_URL = process.env.BASE_URL || 'https://tainaati.com';
 
 async function main() {
   console.log('Starting Verification of AdSense Legal & Trust Pages on Live Production...');
@@ -48,7 +48,7 @@ async function main() {
     await page.type('#email', 'ahmad.farooq.applicant@gmail.com');
     await page.select('#department', 'Gazette Correction');
     await page.type('#subject', 'Correction request for PPSC Advertisement No. 08/2026');
-    await page.type('#message', 'Hello RozgarPK team, please verify the district quota allocation for the Senior Registrar position in Specialized Healthcare.');
+    await page.type('#message', 'Hello Tainaati team, please verify the district quota allocation for the Senior Registrar position in Specialized Healthcare.');
     
     // Submit form
     await page.click('button[type="submit"]');

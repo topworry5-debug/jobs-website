@@ -78,9 +78,9 @@ export default function EmployerPortal({ onJobCreated }) {
         urgent: false,
         featured: true,
         verified: true,
-        officialUrl: formData.applyUrl || "https://rozgar.pk",
+        officialUrl: formData.applyUrl || "https://tainaati.com",
         officialSourceLabel: "Direct Employer Verified Posting",
-        description: formData.description || "Direct opportunity from verified employer on RozgarPK."
+        description: formData.description || "Direct opportunity from verified employer on Tainaati."
       });
     }
 
@@ -229,7 +229,7 @@ export default function EmployerPortal({ onJobCreated }) {
                 <CheckCircle2 size={44} className="text-emerald" />
                 <h2 className="success-title">Position Published Successfully!</h2>
                 <p className="success-desc">
-                  Your listing for <strong>{formData.jobTitle}</strong> at <strong>{formData.companyName}</strong> is now live on RozgarPK and indexed for Google for Jobs.
+                  Your listing for <strong>{formData.jobTitle}</strong> at <strong>{formData.companyName}</strong> is now live on Tainaati and indexed for Google for Jobs.
                 </p>
                 <button
                   className="btn btn-primary mt-3"

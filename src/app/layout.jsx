@@ -42,17 +42,17 @@ const siteUrl = getSiteUrl();
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "RozgarPK — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
-    template: "%s | RozgarPK"
+    default: "Tainaati — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
+    template: "%s | Tainaati"
   },
   description: "Find verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), competitive exam schedules, syllabus guidelines, and ATS-ready resume tools.",
   keywords: [
     "Government Jobs in Pakistan", "FPSC Jobs 2026", "PPSC Jobs 2026", "NTS Jobs", 
-    "SPSC Jobs", "KPPSC Jobs", "CSS Exam 2027", "BPS-17 Jobs", "Rozgar PK"
+    "SPSC Jobs", "KPPSC Jobs", "CSS Exam 2027", "BPS-17 Jobs", "Tainaati", "Tainaati Jobs"
   ],
-  authors: [{ name: "RozgarPK Intelligence Team" }],
-  creator: "RozgarPK",
-  publisher: "RozgarPK",
+  authors: [{ name: "Tainaati Intelligence Team" }],
+  creator: "Tainaati",
+  publisher: "Tainaati",
   robots: {
     index: true,
     follow: true,
@@ -68,17 +68,17 @@ export const metadata = {
     type: 'website',
     locale: 'en_PK',
     url: siteUrl,
-    siteName: 'RozgarPK',
-    title: "RozgarPK — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
+    siteName: 'Tainaati',
+    title: "Tainaati — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
     description: "Official Federal & Provincial Public Service Commission intelligence, verified gazette notices, exam schedules, and ATS resume tools.",
-    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: 'RozgarPK Job Intelligence' }]
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: 'Tainaati Job Intelligence' }]
   },
   twitter: {
     card: 'summary_large_image',
-    title: "RozgarPK — Verified Jobs in Pakistan",
+    title: "Tainaati — Verified Jobs in Pakistan",
     description: "FPSC, PPSC, SPSC, KPPSC, and NTS jobs in Pakistan with verified official application links.",
     images: [`${siteUrl}/og-image.png`],
-    creator: '@rozgarpk'
+    creator: '@tainaati'
   },
   alternates: {
     canonical: siteUrl
@@ -98,7 +98,7 @@ export default function RootLayout({ children }) {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "RozgarPK",
+    "name": "Tainaati",
     "url": currentDomain,
     "logo": `${currentDomain}/icons/logo.png`,
     "description": "Pakistan's leading career intelligence authority for verified Government and Private/IT jobs.",
@@ -108,15 +108,15 @@ export default function RootLayout({ children }) {
       "name": "Pakistan"
     },
     "sameAs": [
-      "https://twitter.com/rozgarpk",
-      "https://linkedin.com/company/rozgarpk"
+      "https://twitter.com/tainaati",
+      "https://linkedin.com/company/tainaati"
     ]
   };
 
   const webSiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "RozgarPK",
+    "name": "Tainaati",
     "url": currentDomain,
     "potentialAction": {
       "@type": "SearchAction",

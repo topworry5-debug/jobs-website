@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Transactional Email Delivery Service
+ * Tainaati — Transactional Email Delivery Service
  * Primary Provider: Resend (Free Tier: 3,000 emails/month, 100/day)
  * Secondary Provider: Brevo (Free Tier: 300 emails/day = 9,000/month)
  * 
@@ -12,7 +12,7 @@ export class EmailService {
   constructor(apiKey = process.env.RESEND_API_KEY || process.env.BREVO_API_KEY || "") {
     this.apiKey = apiKey;
     this.provider = process.env.BREVO_API_KEY ? 'brevo' : 'resend';
-    this.fromAddress = process.env.EMAIL_FROM || "RozgarPK Alerts <alerts@rozgar.pk>";
+    this.fromAddress = process.env.EMAIL_FROM || "Tainaati Alerts <alerts@tainaati.com>";
     this.sentEmailsLog = [];
   }
 
@@ -61,7 +61,7 @@ export class EmailService {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            sender: { name: "RozgarPK Alerts", email: "alerts@rozgar.pk" },
+            sender: { name: "Tainaati Alerts", email: "alerts@tainaati.com" },
             to: [{ email: to }],
             subject,
             htmlContent: html
@@ -83,11 +83,11 @@ export class EmailService {
    * Send Email Confirmation / Verification Code
    */
   async sendVerificationEmail(email, code) {
-    const verifyUrl = `https://rozgar.pk/alerts/verify?email=${encodeURIComponent(email)}&code=${code}`;
+    const verifyUrl = `https://tainaati.com/alerts/verify?email=${encodeURIComponent(email)}&code=${code}`;
     const html = generateVerificationEmail(email, code, verifyUrl);
     return await this.sendMail({
       to: email,
-      subject: `Confirm Your RozgarPK Job Alerts (${code})`,
+      subject: `Confirm Your Tainaati Job Alerts (${code})`,
       html
     });
   }
@@ -96,8 +96,8 @@ export class EmailService {
    * Send Instant Single Job Match Alert
    */
   async sendJobAlert(recipientEmail, job, subscriberId = "sub-1") {
-    const unsubscribeUrl = `https://rozgar.pk/alerts/unsubscribe?email=${encodeURIComponent(recipientEmail)}&token=${subscriberId}`;
-    const manageUrl = `https://rozgar.pk/alerts/preferences?email=${encodeURIComponent(recipientEmail)}`;
+    const unsubscribeUrl = `https://tainaati.com/alerts/unsubscribe?email=${encodeURIComponent(recipientEmail)}&token=${subscriberId}`;
+    const manageUrl = `https://tainaati.com/alerts/preferences?email=${encodeURIComponent(recipientEmail)}`;
     const html = generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl, manageUrl);
     return await this.sendMail({
       to: recipientEmail,
@@ -110,12 +110,12 @@ export class EmailService {
    * Send Daily Digest Email Batch
    */
   async sendDigestAlert(recipientEmail, jobs, subscriberId = "sub-1") {
-    const unsubscribeUrl = `https://rozgar.pk/alerts/unsubscribe?email=${encodeURIComponent(recipientEmail)}&token=${subscriberId}`;
-    const manageUrl = `https://rozgar.pk/alerts/preferences?email=${encodeURIComponent(recipientEmail)}`;
+    const unsubscribeUrl = `https://tainaati.com/alerts/unsubscribe?email=${encodeURIComponent(recipientEmail)}&token=${subscriberId}`;
+    const manageUrl = `https://tainaati.com/alerts/preferences?email=${encodeURIComponent(recipientEmail)}`;
     const html = generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, manageUrl);
     return await this.sendMail({
       to: recipientEmail,
-      subject: `📋 RozgarPK Daily Digest: ${jobs.length} New Verified Openings (${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })})`,
+      subject: `📋 Tainaati Daily Digest: ${jobs.length} New Verified Openings (${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })})`,
       html
     });
   }

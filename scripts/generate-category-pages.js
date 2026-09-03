@@ -15,7 +15,13 @@ const slugs = [
   'internships-trainee',
   'overseas-gulf',
   'remote-freelance',
-  'exam-recruitment-hub'
+  'exam-recruitment-hub',
+  'matric-inter-support',
+  'agriculture-livestock',
+  'ajk-gilgit-baltistan',
+  'shutdown-industrial',
+  'part-time-labor',
+  'media-journalism'
 ];
 
 slugs.forEach(slug => {

@@ -9,13 +9,13 @@ import { getSiteUrl } from '../../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Private Sector & Corporate Jobs in Pakistan — RozgarPK",
+  title: "Private Sector & Corporate Jobs in Pakistan — Tainaati",
   description: "Browse verified private sector and corporate career opportunities in Pakistan. Transparent compensation and verified employer listings.",
   alternates: {
     canonical: `${siteUrl}/jobs/private`
   },
   openGraph: {
-    title: "Private Sector & Corporate Jobs in Pakistan — RozgarPK",
+    title: "Private Sector & Corporate Jobs in Pakistan — Tainaati",
     description: "Browse verified private sector and corporate career opportunities in Pakistan.",
     url: `${siteUrl}/jobs/private`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
@@ -59,7 +59,7 @@ export default function PrivateJobsPage() {
           Private Sector & Corporate Jobs in Pakistan
         </h1>
         <p className="text-secondary text-sm max-w-3xl leading-relaxed">
-          RozgarPK strictly lists verified opportunities. While our primary automated scrapers continuously monitor official public service commissions and testing services, corporate listings undergo thorough vetting before publication.
+          Tainaati strictly lists verified opportunities. While our primary automated scrapers continuously monitor official public service commissions and testing services, corporate listings undergo thorough vetting before publication.
         </p>
       </div>
 
@@ -77,7 +77,7 @@ export default function PrivateJobsPage() {
             No Private Sector Openings Listed Right Now
           </h2>
           <p className="text-sm text-secondary leading-relaxed mb-6">
-            All currently active vacancies on RozgarPK are from verified Federal & Provincial Public Service Commissions (PPSC, SPSC, FPSC) and Testing Services (NTS). Private employer listings are published as new verified openings are confirmed.
+            All currently active vacancies on Tainaati are from verified Federal & Provincial Public Service Commissions (PPSC, SPSC, FPSC) and Testing Services (NTS). Private employer listings are published as new verified openings are confirmed.
           </p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <Link href="/jobs/govt" className="btn btn-primary btn-sm flex items-center gap-1.5">

@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Live NTS (National Testing Service) Verified Scraper
+ * Tainaati — Live NTS (National Testing Service) Verified Scraper
  * Multi-Step Live Subpage Parser with Zero Fallbacks and Zero Guessed Dates.
  * Strictly extracts verified employment projects (excludes non-job admissions/TOEIC/NAT/GAT tests),
  * enriched with official testing criteria, qualification standards, and vacancy details.
@@ -16,7 +16,7 @@ export async function scrapeNTS() {
   try {
     const res = await fetch(sourceUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RozgarPK-JobCrawler/1.0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Tainaati-JobCrawler/1.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
       }
     });

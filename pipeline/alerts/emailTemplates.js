@@ -1,6 +1,6 @@
 /**
- * RozgarPK — Transactional Email Templates (Responsive & High-Deliverability)
- * Matches RozgarPK Brand Identity: Institutional Emerald Green, Dark Slate, Clean Sans-Serif.
+ * Tainaati — Transactional Email Templates (Responsive & High-Deliverability)
+ * Matches Tainaati Brand Identity: Institutional Emerald Green, Dark Slate, Clean Sans-Serif.
  */
 
 export function generateVerificationEmail(email, verificationCode, verifyUrl) {
@@ -10,7 +10,7 @@ export function generateVerificationEmail(email, verificationCode, verifyUrl) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirm Your RozgarPK Job Alerts</title>
+  <title>Confirm Your Tainaati Job Alerts</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0f172a; padding: 40px 10px;">
@@ -24,7 +24,7 @@ export function generateVerificationEmail(email, verificationCode, verifyUrl) {
                 <tr>
                   <td align="center">
                     <span style="display: inline-block; background-color: #059669; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Official Job Intelligence</span>
-                    <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Rozgar<span style="color: #34d399;">PK</span></h1>
+                    <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Tainaa<span style="color: #fbbf24;">ti</span></h1>
                     <p style="color: #a7f3d0; margin: 6px 0 0 0; font-size: 13px;">Pakistan's #1 Verified Jobs & Career Portal</p>
                   </td>
                 </tr>
@@ -37,7 +37,7 @@ export function generateVerificationEmail(email, verificationCode, verifyUrl) {
             <td style="padding: 35px 30px;">
               <h2 style="color: #0f172a; font-size: 20px; font-weight: 700; margin: 0 0 16px 0;">Verify Your Email Address</h2>
               <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
-                You recently requested to receive automated job alerts for <strong>${email}</strong> on RozgarPK. To activate matching notifications for official government and high-growth private openings, please confirm your address.
+                You recently requested to receive automated job alerts for <strong>${email}</strong> on Tainaati. To activate matching notifications for official government and high-growth private openings, please confirm your address.
               </p>
 
               <!-- Verification Code Box -->
@@ -50,12 +50,11 @@ export function generateVerificationEmail(email, verificationCode, verifyUrl) {
                 </tr>
               </table>
 
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 28px;">
+              <!-- Action Button -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
                 <tr>
                   <td align="center">
-                    <a href="${verifyUrl}" target="_blank" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 700; box-shadow: 0 4px 12px rgba(5,150,105,0.3);">
-                      Confirm & Activate Alerts
-                    </a>
+                    <a href="${verifyUrl}" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 700; letter-spacing: 0.3px;">Confirm Alert Subscription</a>
                   </td>
                 </tr>
               </table>
@@ -70,7 +69,7 @@ export function generateVerificationEmail(email, verificationCode, verifyUrl) {
           <tr>
             <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center;">
               <p style="color: #94a3b8; font-size: 12px; margin: 0 0 8px 0;">
-                RozgarPK • Federal & Provincial Public Service Commission Intelligence
+                Tainaati • Federal & Provincial Public Service Commission Intelligence
               </p>
               <p style="color: #94a3b8; font-size: 11px; margin: 0;">
                 Islamabad, Lahore, Karachi, Pakistan
@@ -111,7 +110,7 @@ export function generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl,
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Rozgar<span style="color: #34d399;">PK</span> <span style="font-size: 13px; font-weight: 400; color: #a7f3d0; margin-left: 8px;">• Instant Verified Job Alert</span></h1>
+                    <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Tainaa<span style="color: #fbbf24;">ti</span> <span style="font-size: 13px; font-weight: 400; color: #a7f3d0; margin-left: 8px;">• Instant Verified Job Alert</span></h1>
                   </td>
                 </tr>
               </table>
@@ -126,61 +125,60 @@ export function generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl,
                 ${categoryLabel}
               </span>
 
-              <!-- Job Title -->
               <h2 style="color: #0f172a; font-size: 22px; font-weight: 800; line-height: 1.3; margin: 0 0 12px 0;">
                 ${job.title}
               </h2>
 
-              <!-- Key Specs Table -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
                 <tr>
-                  <td style="padding: 6px 0; font-size: 14px; color: #64748b; width: 140px;">🏢 <strong>Department:</strong></td>
-                  <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${job.department || job.company}</td>
+                  <td style="padding: 6px 0; font-size: 14px; color: #334155;">
+                    <strong>Department:</strong> ${job.department || job.company}
+                  </td>
                 </tr>
                 <tr>
-                  <td style="padding: 6px 0; font-size: 14px; color: #64748b;">📍 <strong>Location:</strong></td>
-                  <td style="padding: 6px 0; font-size: 14px; color: #0f172a; font-weight: 600;">${job.city}</td>
+                  <td style="padding: 6px 0; font-size: 14px; color: #334155;">
+                    <strong>Location:</strong> ${job.city}
+                  </td>
                 </tr>
                 <tr>
-                  <td style="padding: 6px 0; font-size: 14px; color: #64748b;">🎓 <strong>Qualification:</strong></td>
-                  <td style="padding: 6px 0; font-size: 14px; color: #0f172a;">${job.qualification || 'As per official rules'}</td>
+                  <td style="padding: 6px 0; font-size: 14px; color: #334155;">
+                    <strong>Total Vacancies:</strong> ${job.vacancies || 1}
+                  </td>
                 </tr>
                 <tr>
-                  <td style="padding: 6px 0; font-size: 14px; color: #64748b;">⏳ <strong>Last Date:</strong></td>
-                  <td style="padding: 6px 0; font-size: 14px; color: #dc2626; font-weight: 700;">${job.lastDate}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 6px 0; font-size: 14px; color: #64748b;">🛡️ <strong>Official Source:</strong></td>
-                  <td style="padding: 6px 0; font-size: 13px; color: #059669; font-weight: 600;">${job.officialSourceLabel || 'Direct Gazette'}</td>
+                  <td style="padding: 6px 0; font-size: 14px; color: #dc2626; font-weight: 700;">
+                    <strong>Deadline to Apply:</strong> ${job.lastDate}
+                  </td>
                 </tr>
               </table>
 
-              <p style="color: #475569; font-size: 14px; line-height: 1.6; margin: 0 0 24px 0;">
-                ${job.description || 'Verified opening cross-checked against official Pakistani gazette notices.'}
-              </p>
-
-              <!-- CTA Buttons -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
+              <!-- Action Links -->
+              <table role="presentation" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
                 <tr>
-                  <td align="center">
-                    <a href="${job.officialUrl || 'https://rozgar.pk'}" target="_blank" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-right: 12px;">
+                  <td>
+                    <a href="${job.officialUrl || 'https://tainaati.com'}" target="_blank" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-right: 12px;">
                       Apply on Official Portal &rarr;
+                    </a>
+                  </td>
+                  <td>
+                    <a href="https://tainaati.com/jobs/${job.id}" target="_blank" style="display: inline-block; background-color: #f1f5f9; color: #334155; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;">
+                      View Details
                     </a>
                   </td>
                 </tr>
               </table>
 
-              <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; font-size: 12px; color: #94a3b8; text-align: center;">
-                Verified on ${job.lastVerifiedDate || 'Today'} • Zero Ads • Anti-Scam Protection
+              <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; font-size: 12px; color: #64748b; line-height: 1.5;">
+                <strong>Official Verification Note:</strong> This notice was cross-checked directly against official government circulars and employer registries.
               </div>
             </td>
           </tr>
 
-          <!-- Footer with One-Click Unsubscribe -->
+          <!-- Footer -->
           <tr>
             <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center;">
               <p style="color: #64748b; font-size: 12px; margin: 0 0 8px 0;">
-                You received this verified alert because you subscribed on RozgarPK (${recipientEmail}).
+                You received this verified alert because you subscribed on Tainaati (${recipientEmail}).
               </p>
               <p style="color: #94a3b8; font-size: 12px; margin: 0;">
                 <a href="${manageUrl}" style="color: #059669; text-decoration: underline; margin-right: 12px;">Update Preferences</a>
@@ -206,10 +204,10 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
       <tr>
         <td style="padding: 16px; border-bottom: ${idx === jobs.length - 1 ? 'none' : '1px solid #e2e8f0'};">
           <div style="font-size: 11px; font-weight: 700; color: ${isGovt ? '#059669' : '#4f46e5'}; text-transform: uppercase; margin-bottom: 4px;">
-            ${tag} ${job.agency || job.category || 'RozgarPK'}
+            ${tag} ${job.agency || job.category || 'Tainaati'}
           </div>
           <h3 style="margin: 0 0 6px 0; font-size: 16px; font-weight: 700; color: #0f172a;">
-            <a href="${job.officialUrl || 'https://rozgar.pk'}" target="_blank" style="color: #0f172a; text-decoration: none;">
+            <a href="${job.officialUrl || 'https://tainaati.com'}" target="_blank" style="color: #0f172a; text-decoration: none;">
               ${job.title}
             </a>
           </h3>
@@ -230,7 +228,7 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RozgarPK Daily Jobs Digest (${jobs.length} Verified Matches)</title>
+  <title>Tainaati Daily Jobs Digest (${jobs.length} Verified Matches)</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0f172a; padding: 40px 10px;">
@@ -241,7 +239,7 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
           <tr>
             <td style="background-color: #064e3b; padding: 30px; text-align: center;">
               <span style="display: inline-block; background-color: #059669; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Daily 8:00 AM Digest</span>
-              <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800;">Rozgar<span style="color: #34d399;">PK</span> Job Intelligence</h1>
+              <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800;">Tainaa<span style="color: #fbbf24;">ti</span> Job Intelligence</h1>
               <p style="color: #a7f3d0; margin: 6px 0 0 0; font-size: 13px;">${jobs.length} new verified openings matching your career profile</p>
             </td>
           </tr>
@@ -255,14 +253,23 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
             </td>
           </tr>
 
+          <!-- CTA to Portal -->
+          <tr>
+            <td align="center" style="padding: 24px;">
+              <a href="https://tainaati.com" target="_blank" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-size: 14px; font-weight: 700;">
+                Explore All Opportunities on Tainaati &rarr;
+              </a>
+            </td>
+          </tr>
+
           <!-- Footer -->
           <tr>
             <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center;">
               <p style="color: #64748b; font-size: 12px; margin: 0 0 8px 0;">
-                Sent to ${recipientEmail} • Daily Career Digest
+                You received this daily digest because you subscribed on Tainaati (${recipientEmail}).
               </p>
               <p style="color: #94a3b8; font-size: 12px; margin: 0;">
-                <a href="${manageUrl}" style="color: #059669; text-decoration: underline; margin-right: 12px;">Change Frequency</a>
+                <a href="${manageUrl}" style="color: #059669; text-decoration: underline; margin-right: 12px;">Update Preferences</a>
                 <a href="${unsubscribeUrl}" style="color: #dc2626; text-decoration: underline;">Unsubscribe Instantly</a>
               </p>
             </td>

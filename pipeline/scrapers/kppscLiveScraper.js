@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Live KPPSC (Khyber Pakhtunkhwa Public Service Commission) Scraper
+ * Tainaati — Live KPPSC (Khyber Pakhtunkhwa Public Service Commission) Scraper
  * Direct Live HTML parser for https://www.kppsc.gov.pk/advertisement
  * Confirms live status: "No active advertisement!" -> 0 open vacancy listings.
  */
@@ -12,7 +12,7 @@ export async function scrapeLiveKPPSC() {
   try {
     const res = await fetch(sourceUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 RozgarPK-JobCrawler/1.0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Tainaati-JobCrawler/1.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
       }
     });

@@ -35,7 +35,7 @@ export function parseDateToISO(str) {
 
 async function auditAllJobs() {
   console.log("==================================================================");
-  console.log("RozgarPK: Comprehensive Zero-Tolerance Source Audit & Purge");
+  console.log("Tainaati: Comprehensive Zero-Tolerance Source Audit & Purge");
   console.log("==================================================================");
 
   const livePath = path.resolve('src/data/liveScrapedJobs.json');

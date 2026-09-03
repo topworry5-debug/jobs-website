@@ -6,14 +6,14 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "About RozgarPK — Pakistan's Verified Career Intelligence Authority",
-  description: "Learn why RozgarPK was built: to eliminate fake job ads, spam popups, and outdated listings with an automated 6-hour verified government gazette pipeline.",
+  title: "About Tainaati — Pakistan's Verified Career Intelligence Authority",
+  description: "Learn why Tainaati was built: to eliminate fake job ads, spam popups, and outdated listings with an automated 6-hour verified government gazette pipeline.",
   alternates: {
     canonical: `${siteUrl}/about`
   },
   openGraph: {
-    title: "About RozgarPK — Pakistan's Verified Career Intelligence Authority",
-    description: "Learn why RozgarPK was built: 100% verified government gazette pipeline.",
+    title: "About Tainaati — Pakistan's Verified Career Intelligence Authority",
+    description: "Learn why Tainaati was built: 100% verified government gazette pipeline.",
     url: `${siteUrl}/about`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
@@ -42,10 +42,10 @@ export default function AboutPage() {
           </div>
 
           <h1 className="text-2xl md:text-3xl font-extrabold text-primary mb-3">
-            About RozgarPK
+            About Tainaati
           </h1>
           <p className="text-secondary text-sm md:text-base leading-relaxed">
-            RozgarPK is an independent, non-partisan digital intelligence portal engineered to bring clarity, speed, and 100% verified accuracy to Pakistan&apos;s employment and competitive examination landscape.
+            Tainaati is an independent, non-partisan digital intelligence portal engineered to bring clarity, speed, and 100% verified accuracy to Pakistan&apos;s employment and competitive examination landscape.
           </p>
         </div>
 
@@ -80,10 +80,10 @@ export default function AboutPage() {
           <section className="space-y-3">
             <h2 className="text-lg md:text-xl font-bold text-primary flex items-center gap-2 border-b border-subtle pb-2">
               <Zap size={18} className="text-emerald-500" />
-              What Makes RozgarPK Different
+              What Makes Tainaati Different
             </h2>
             <p>
-              RozgarPK was built as an honest, modern alternative. We treat job search as a mission-critical utility for candidates:
+              Tainaati was built as an honest, modern alternative. We treat job search as a mission-critical utility for candidates:
             </p>
             <div className="space-y-4 pt-2">
               <div className="flex items-start gap-3">
@@ -102,7 +102,7 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm text-primary">Zero-Tolerance Anti-Fabrication Policy</h3>
-                  <p className="text-xs text-secondary mt-0.5">Every listing on RozgarPK links directly to the underlying official commission notice or verified employer career page. If a sub-quota or fee detail cannot be verified with 100% certainty, we state it transparently rather than guessing.</p>
+                  <p className="text-xs text-secondary mt-0.5">Every listing on Tainaati links directly to the underlying official commission notice or verified employer career page. If a sub-quota or fee detail cannot be verified with 100% certainty, we state it transparently rather than guessing.</p>
                 </div>
               </div>
 
@@ -155,7 +155,7 @@ export default function AboutPage() {
               Our Commitment to You
             </h2>
             <p>
-              RozgarPK is an independent software project. We do not accept sponsorships from paid test academies to promote unverified materials, and we will never sell candidate email addresses to third parties.
+              Tainaati is an independent software project. We do not accept sponsorships from paid test academies to promote unverified materials, and we will never sell candidate email addresses to third parties.
             </p>
             <div className="pt-2 flex items-center gap-3 flex-wrap">
               <Link href="/jobs/govt" className="btn btn-primary btn-sm">

@@ -4,7 +4,7 @@ const path = require('path');
 
 const ARTIFACT_DIR = path.resolve('C:\\Users\\topwo\\.gemini\\antigravity-ide\\brain\\974ebed1-b4d4-4fd6-81e8-55e43559661c');
 const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const BASE_URL = 'https://jobs-website-delta.vercel.app';
+const BASE_URL = process.env.BASE_URL || 'https://tainaati.com';
 
 async function main() {
   console.log('Starting comprehensive Visual Verification of Theme & 3-Language Modes...');
@@ -21,8 +21,8 @@ async function main() {
     console.log('1. Capturing Dark Mode Homepage...');
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle0' });
     await page.evaluate(() => {
-      localStorage.setItem('rozgar_theme', 'dark');
-      localStorage.setItem('rozgar_lang', 'en');
+      localStorage.setItem('tainaati_theme', 'dark');
+      localStorage.setItem('tainaati_lang', 'en');
       document.documentElement.setAttribute('data-theme', 'dark');
     });
     await new Promise(r => setTimeout(r, 1000));
@@ -54,9 +54,9 @@ async function main() {
     console.log('5. Testing Urdu (اردو) Language Switcher...');
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle0' });
     await page.evaluate(() => {
-      localStorage.setItem('rozgar_lang', 'ur');
-      localStorage.setItem('rozgar_theme', 'dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('tainaati_lang', 'ur');
+      localStorage.setItem('tainaati_theme', 'dark');
+      document.documentElement.setAttribute('lang', 'ur');
       document.documentElement.setAttribute('dir', 'rtl');
     });
     await page.reload({ waitUntil: 'networkidle0' });
@@ -73,9 +73,9 @@ async function main() {
     console.log('7. Testing Roman Urdu Language Switcher...');
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle0' });
     await page.evaluate(() => {
-      localStorage.setItem('rozgar_lang', 'roman');
-      localStorage.setItem('rozgar_theme', 'dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('tainaati_lang', 'roman');
+      localStorage.setItem('tainaati_theme', 'dark');
+      document.documentElement.setAttribute('lang', 'roman');
       document.documentElement.setAttribute('dir', 'ltr');
     });
     await page.reload({ waitUntil: 'networkidle0' });

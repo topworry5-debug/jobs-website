@@ -4,7 +4,7 @@ import { runFullPipeline } from '../pipeline/engine/pipelineRunner.js';
 
 async function main() {
   console.log("=================================================");
-  console.log("RozgarPK: Deep Ingest Pass for September 1, 2026");
+  console.log("Tainaati: Deep Ingest Pass for September 1, 2026");
   console.log("=================================================");
 
   const todayStr = "2026-09-01";

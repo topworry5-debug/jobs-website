@@ -1,5 +1,5 @@
 /**
- * RozgarPK Date Parser
+ * Tainaati Date Parser
  * Parses natural Pakistani date strings into strict ISO YYYY-MM-DD.
  * Note: In Pakistan, numeric dates are ALWAYS Day-Month-Year (DD-MM-YYYY).
  */

@@ -1,8 +1,8 @@
 export const TRANSLATIONS = {
   en: {
     nav: {
-      brandName: "Rozgar",
-      brandAccent: "PK",
+      brandName: "Tainaa",
+      brandAccent: "ti",
       tagline: "Verified Jobs Intelligence",
       allJobs: "All Jobs",
       govtJobs: "Govt Jobs",
@@ -12,6 +12,9 @@ export const TRANSLATIONS = {
       cvBuilder: "CV Builder",
       guides: "Guides",
       alerts: "Alerts",
+      savedJobs: "Saved Jobs",
+      salaryCalculator: "Salary Calculator",
+      examResults: "Results & Roll No Slips",
       quickSearch: "Quick Search",
       searchShortcut: "⌘K",
       officialBadge: "Official",
@@ -237,7 +240,7 @@ export const TRANSLATIONS = {
       peshawar: "Jobs in Peshawar (KPK)",
       quetta: "Jobs in Quetta (Balochistan)",
       trustTitle: "Trust & Transparency",
-      about: "About RozgarPK",
+      about: "About Tainaati",
       contact: "Contact Support Desk",
       privacy: "Privacy Policy",
       terms: "Terms of Service",
@@ -245,15 +248,15 @@ export const TRANSLATIONS = {
       sslBadge: "SSL 256-Bit Encrypted",
       gazetteBadge: "100% Gazette Verified",
       legalDisclaimer: "Disclaimer & Official Status",
-      disclaimerText: "RozgarPK is an independent, ad-free career intelligence platform. All government job circulars, syllabus notices, and examination timetables are directly cross-verified against official Federal (FPSC) and Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes.",
-      copyright: "© 2026 RozgarPK. All rights reserved. Built for job seekers across Pakistan."
+      disclaimerText: "Tainaati is an independent, ad-free career intelligence platform. All government job circulars, syllabus notices, and examination timetables are directly cross-verified against official Federal (FPSC) and Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes.",
+      copyright: "© 2026 Tainaati. All rights reserved. Built for job seekers across Pakistan."
     }
   },
 
   ur: {
     nav: {
-      brandName: "روزگار",
-      brandAccent: "پی کے",
+      brandName: "تعیناتی",
+      brandAccent: "",
       tagline: "تصدیق شدہ ملازمتوں کا پورٹل",
       allJobs: "تمام نوکریاں",
       govtJobs: "سرکاری نوکریاں",
@@ -263,6 +266,9 @@ export const TRANSLATIONS = {
       cvBuilder: "سی وی بلڈر",
       guides: "گائیڈز",
       alerts: "جاب الرٹس",
+      savedJobs: "محفوظ نوکریاں",
+      salaryCalculator: "پے اسکیل کیلکولیٹر",
+      examResults: "نتائج اور رول نمبر سلپس",
       quickSearch: "فوری تلاش",
       searchShortcut: "⌘K",
       officialBadge: "سرکاری",
@@ -503,8 +509,8 @@ export const TRANSLATIONS = {
 
   roman: {
     nav: {
-      brandName: "Rozgar",
-      brandAccent: "PK",
+      brandName: "Tainaa",
+      brandAccent: "ti",
       tagline: "Verified Jobs Intelligence",
       allJobs: "Tamam Jobs",
       govtJobs: "Sarkari Jobs",
@@ -514,6 +520,9 @@ export const TRANSLATIONS = {
       cvBuilder: "CV Builder",
       guides: "Guides",
       alerts: "Job Alerts",
+      savedJobs: "Mehfooz Jobs",
+      salaryCalculator: "Salary Calculator",
+      examResults: "Results & Roll No Slips",
       quickSearch: "Jald Talash",
       searchShortcut: "⌘K",
       officialBadge: "Sarkari",
@@ -720,8 +729,8 @@ export const TRANSLATIONS = {
       emailAlertsLink: "Free Email Job Alerts",
       commissionsTracked: "Commissions Monitored",
       legalDisclaimer: "Disclaimer & Official Status",
-      disclaimerText: "RozgarPK ek independent aur ad-free platform hai. Tamam sarkari notices direct official Federal (FPSC) aur Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes se verify kiye jate hain.",
-      copyright: "© 2026 RozgarPK. All rights reserved. Built for Pakistan."
+      disclaimerText: "Tainaati ek independent aur ad-free platform hai. Tamam sarkari notices direct official Federal (FPSC) aur Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes se verify kiye jate hain.",
+      copyright: "© 2026 Tainaati. All rights reserved. Built for Pakistan."
     }
   }
 };

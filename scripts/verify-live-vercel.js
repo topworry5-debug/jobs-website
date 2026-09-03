@@ -1,7 +1,8 @@
 async function verifyVercel() {
+  const baseUrl = process.env.BASE_URL || "https://tainaati.com";
   console.log("=================================================");
-  console.log("Checking Live Vercel Production Deployment");
-  console.log("URL: https://jobs-website-delta.vercel.app");
+  console.log("Checking Live Production Deployment");
+  console.log(`URL: ${baseUrl}`);
   console.log("=================================================\n");
 
   const endpoints = [
@@ -15,7 +16,7 @@ async function verifyVercel() {
   ];
 
   for (const ep of endpoints) {
-    const url = "https://jobs-website-delta.vercel.app" + ep.path;
+    const url = baseUrl + ep.path;
     const res = await fetch(url);
     const html = await res.text();
     console.log(`[${res.status}] ${ep.name} (${url}) — Payload: ${html.length} bytes`);
@@ -30,13 +31,13 @@ async function verifyVercel() {
   }
 
   // Fetch actual CSS stylesheets
-  const homeRes = await fetch("https://jobs-website-delta.vercel.app/");
+  const homeRes = await fetch(baseUrl + "/");
   const homeHtml = await homeRes.text();
   const cssMatches = [...homeHtml.matchAll(/href="(\/_next\/static\/css\/[^"]+)"/g)].map(m => m[1]);
   
   console.log("\n=== Checking Live CSS Bundles ===");
   for (const cssPath of cssMatches) {
-    const cssRes = await fetch("https://jobs-website-delta.vercel.app" + cssPath);
+    const cssRes = await fetch(baseUrl + cssPath);
     const cssText = await cssRes.text();
     console.log(`✅ [${cssRes.status}] ${cssPath} — Size: ${cssText.length} bytes`);
   }

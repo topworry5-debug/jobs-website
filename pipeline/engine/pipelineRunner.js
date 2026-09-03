@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Master Automation Pipeline Runner
+ * Tainaati — Master Automation Pipeline Runner
  * Runs all official government scrapers (FPSC, PPSC, NTS, SPSC, KPPSC),
  * handles deduplication, applies auto-expiry, generates pipeline health telemetry,
  * and passes newly ingested jobs to the Telegram alert dispatcher.
@@ -19,7 +19,7 @@ export async function runFullPipeline(existingJobs = [], subscribers = []) {
   const runTimestamp = new Date().toISOString();
   const sourceReports = [];
 
-  console.log(`[RozgarPK Pipeline] Starting full government ingestion cycle at ${runTimestamp}...`);
+  console.log(`[Tainaati Pipeline] Starting full government ingestion cycle at ${runTimestamp}...`);
 
   // Run all scrapers independently
   const [fpscResult, ppscResult, ntsResult, spscResult, kppscResult] = await Promise.allSettled([
@@ -62,7 +62,7 @@ export async function runFullPipeline(existingJobs = [], subscribers = []) {
   // 1. Strict Validation & Anti-Fabrication Filter
   const validationResult = validateAndFilterPipelineJobs(rawScrapedJobs);
   if (validationResult.rejectedCount > 0) {
-    console.warn(`[RozgarPK Pipeline] Flagged & Blocked ${validationResult.rejectedCount} unverified/malformed jobs.`);
+    console.warn(`[Tainaati Pipeline] Flagged & Blocked ${validationResult.rejectedCount} unverified/malformed jobs.`);
   }
 
   // 2. Deduplication on Validated Jobs
@@ -93,7 +93,7 @@ export async function runFullPipeline(existingJobs = [], subscribers = []) {
     status: sourceReports.every(s => s.status === 'SUCCESS') ? 'HEALTHY' : 'PARTIAL_SUCCESS'
   };
 
-  console.log(`[RozgarPK Pipeline] Finished in ${durationMs}ms. Ingested ${deduplicationResult.uniqueJobs.length} new jobs. Blocked ${deduplicationResult.duplicateCount} duplicates.`);
+  console.log(`[Tainaati Pipeline] Finished in ${durationMs}ms. Ingested ${deduplicationResult.uniqueJobs.length} new jobs. Blocked ${deduplicationResult.duplicateCount} duplicates.`);
 
   return {
     summary: pipelineSummary,

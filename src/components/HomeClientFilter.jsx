@@ -39,7 +39,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [savedJobIds, setSavedJobIds] = useState(() => {
     try {
-      const stored = localStorage.getItem('rozgar_saved_jobs');
+      const stored = localStorage.getItem('tainaati_saved_jobs');
       return stored ? JSON.parse(stored) : ['govt-fpsc-01'];
     } catch {
       return ['govt-fpsc-01'];
@@ -78,10 +78,10 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
       }
     };
 
-    window.addEventListener('rozgar:filter-change', handleFilterChange);
+    window.addEventListener('tainaati:filter-change', handleFilterChange);
     window.addEventListener('popstate', handlePopState);
     return () => {
-      window.removeEventListener('rozgar:filter-change', handleFilterChange);
+      window.removeEventListener('tainaati:filter-change', handleFilterChange);
       window.removeEventListener('popstate', handlePopState);
     };
   }, [initialCategory]);
@@ -96,7 +96,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     }
     setSavedJobIds(nextSaved);
     try {
-      localStorage.setItem('rozgar_saved_jobs', JSON.stringify(nextSaved));
+      localStorage.setItem('tainaati_saved_jobs', JSON.stringify(nextSaved));
+      window.dispatchEvent(new Event('tainaati_saved_jobs_updated'));
     } catch {}
   };
 
@@ -111,7 +112,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
 
     if (typeof window !== 'undefined') {
       window.history.replaceState(null, '', window.location.pathname);
-      window.dispatchEvent(new CustomEvent('rozgar:filter-change', {
+      window.dispatchEvent(new CustomEvent('tainaati:filter-change', {
         detail: { query: '', city: 'All Cities', category: 'all' }
       }));
     }
@@ -346,7 +347,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                       isSaved={savedJobIds.includes(job.id)}
                       onToggleSave={handleToggleSave}
                       onShareWhatsApp={(j) => {
-                        const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via RozgarPK: https://rozgar.pk/jobs/${j.id}`);
+                        const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via Tainaati: https://tainaati.com/jobs/${j.id}`);
                         window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
                       }}
                     />

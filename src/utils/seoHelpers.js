@@ -1,5 +1,5 @@
 /**
- * RozgarPK SEO, GEO & Schema.org JSON-LD Helper Engine
+ * Tainaati SEO, GEO & Schema.org JSON-LD Helper Engine
  * Generates valid Google Jobs rich-result schemas, BreadcrumbList, and ItemList schemas.
  */
 
@@ -134,7 +134,7 @@ export function generateItemListSchema(jobs = [], pageUrl = null) {
 
 export function updatePageMeta({ title, description, canonicalUrl }) {
   if (title) {
-    document.title = `${title} — RozgarPK`;
+    document.title = `${title} — Tainaati`;
   }
   if (description) {
     let metaDesc = document.querySelector('meta[name="description"]');

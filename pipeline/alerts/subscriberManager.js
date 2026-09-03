@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Email Subscriber & Verification Manager
+ * Tainaati — Email Subscriber & Verification Manager
  * Handles double opt-in email verification, preferences, and one-click unsubscription.
  */
 
@@ -91,7 +91,7 @@ export class SubscriberManager {
     const sub = this.findByEmail(emailOrId) || this.subscribers.get(emailOrId);
     if (sub) {
       this.subscribers.delete(sub.id);
-      return { success: true, message: `Successfully unsubscribed ${sub.email} from all future RozgarPK alerts.` };
+      return { success: true, message: `Successfully unsubscribed ${sub.email} from all future Tainaati alerts.` };
     }
     return { success: false, message: "Subscriber record not found." };
   }

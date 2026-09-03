@@ -140,7 +140,7 @@ export default function CategoryLandingPage({ category, jobs = [] }) {
             Verified {category.name} Postings In Vetting
           </h2>
           <p className="text-sm text-secondary leading-relaxed mb-6">
-            RozgarPK enforces a strict <strong>Zero Fake Jobs / 100% Verified Gazette</strong> standard. We do not publish unverified or outdated vacancies. Postings for {category.name} will go live once authentic circulars are validated against official recruiting portals.
+            Tainaati enforces a strict <strong>Zero Fake Jobs / 100% Verified Gazette</strong> standard. We do not publish unverified or outdated vacancies. Postings for {category.name} will go live once authentic circulars are validated against official recruiting portals.
           </p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <Link href="/jobs/govt" className="btn btn-primary btn-sm flex items-center gap-1.5">

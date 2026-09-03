@@ -52,7 +52,7 @@ function AdminLoginForm() {
           <Lock size={28} />
         </div>
         <h1 className="text-2xl font-bold text-primary font-display">
-          RozgarPK Staff Portal
+          Tainaati Staff Portal
         </h1>
         <p className="text-xs text-secondary mt-1">
           Restricted Administrative Access & Pipeline Telemetry

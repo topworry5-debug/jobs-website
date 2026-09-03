@@ -28,12 +28,12 @@ async function runSecurityTests() {
   const resGoodAuth = await fetch('http://localhost:3000/api/admin/auth', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ passkey: 'RozgarPK@Admin2026!' })
+    body: JSON.stringify({ passkey: 'Tainaati@Admin2026!' })
   });
   console.log('\n4. Authentication with valid passkey:');
   console.log('   • HTTP Status (Expected: 200 OK):', resGoodAuth.status);
   const cookie = resGoodAuth.headers.get('set-cookie');
-  console.log('   • Encrypted Session Cookie Issued:', !!cookie && cookie.includes('rozgar_admin_session'));
+  console.log('   • Encrypted Session Cookie Issued:', !!cookie && cookie.includes('tainaati_admin_session'));
 
   // 5. Authenticated page request with session cookie
   const resAuthAdmin = await fetch('http://localhost:3000/admin', {

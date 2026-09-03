@@ -3,16 +3,17 @@ const path = require('path');
 const fs = require('fs');
 
 async function captureLiveProduction() {
+  const baseUrl = process.env.BASE_URL || "https://tainaati.com";
   console.log("=================================================");
-  console.log("Capturing Real Browser Screenshots of Vercel Production");
-  console.log("Target: https://jobs-website-delta.vercel.app");
+  console.log("Capturing Real Browser Screenshots of Production");
+  console.log(`Target: ${baseUrl}`);
   console.log("=================================================\n");
 
   const artifactDir = "C:\\Users\\topwo\\.gemini\\antigravity-ide\\brain\\974ebed1-b4d4-4fd6-81e8-55e43559661c";
   
   const browser = await puppeteer.launch({
     executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-    headless: true,
+    headless: "new",
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
   });
 
@@ -23,22 +24,22 @@ async function captureLiveProduction() {
   const targets = [
     {
       name: "Homepage",
-      url: "https://jobs-website-delta.vercel.app/",
+      url: `${baseUrl}/`,
       out: path.join(artifactDir, "vercel_live_homepage.png")
     },
     {
       name: "Govt Jobs Hub",
-      url: "https://jobs-website-delta.vercel.app/jobs/govt",
+      url: `${baseUrl}/jobs/govt`,
       out: path.join(artifactDir, "vercel_live_govt_jobs.png")
     },
     {
       name: "Job Detail (FPSC)",
-      url: "https://jobs-website-delta.vercel.app/jobs/govt-fpsc-01",
+      url: `${baseUrl}/jobs/govt-fpsc-01`,
       out: path.join(artifactDir, "vercel_live_job_detail.png")
     },
     {
       name: "CV Builder",
-      url: "https://jobs-website-delta.vercel.app/cv-builder",
+      url: `${baseUrl}/cv-builder`,
       out: path.join(artifactDir, "vercel_live_cv_builder.png")
     }
   ];

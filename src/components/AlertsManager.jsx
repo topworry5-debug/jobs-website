@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Mail, 
   Send, 
@@ -18,21 +18,34 @@ import {
   Layers,
   FileText,
   Building2,
-  Lock
+  Lock,
+  Trash2,
+  Bell,
+  Play,
+  Pause,
+  SlidersHorizontal,
+  Search,
+  Check
 } from 'lucide-react';
-import { CITIES, PROVINCES, BPS_SCALES, QUALIFICATIONS } from '../data/jobsData';
+import { CITIES, PROVINCES, BPS_SCALES, QUALIFICATIONS, JOBS_DATA } from '../data/jobsData';
+import { CATEGORIES_CONFIG, matchesJobCategory, getCategoryBySlug } from '../data/categoriesData';
 import { SubscriberManager } from '../../pipeline/alerts/subscriberManager';
 import { generateVerificationEmail, generateSingleJobAlertEmail, generateDigestAlertEmail } from '../../pipeline/alerts/emailTemplates';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function AlertsManager() {
-  const { t, isRtl } = useLanguage();
+  const { t } = useLanguage();
   const [subManager] = useState(() => new SubscriberManager());
+
+  // Navigation mode: 'create' | 'manage'
+  const [activeMode, setActiveMode] = useState('create');
+
+  // Form Fields
   const [email, setEmail] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [city, setCity] = useState('All Cities');
-  const [sector, setSector] = useState('all');
+  const [keywords, setKeywords] = useState('');
   const [bpsScale, setBpsScale] = useState('All BPS Scales');
-  const [qualification, setQualification] = useState('All Qualifications');
   const [frequency, setFrequency] = useState('instant'); // 'instant' | 'daily_digest'
 
   // Verification Step
@@ -40,52 +53,56 @@ export default function AlertsManager() {
   const [verificationInput, setVerificationInput] = useState('');
   const [activeCode, setActiveCode] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
 
-  // Inbox & Email Previewer State
-  const [inboxTab, setInboxTab] = useState('verification'); // 'verification' | 'instant' | 'digest'
+  // Saved alerts in localStorage
+  const [userAlerts, setUserAlerts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  const sampleJob = {
-    id: "govt-ppsc-live-1",
-    type: "govt",
-    title: "Senior Registrar Oncology - BPS-17",
-    department: "Specialized Healthcare & Medical Education Department Punjab",
-    city: "Lahore / All Punjab Districts",
-    qualification: "MBBS / FCPS in Oncology or relevant specialty",
-    lastDate: "2026-09-22",
-    vacancies: 6,
-    bpsScale: "BPS-17",
-    officialSourceLabel: "PPSC Official Consolidated Advt No. 08/2026",
-    officialUrl: "https://www.ppsc.gop.pk/Jobs.aspx",
-    description: "Punjab Public Service Commission invites online applications for 6 posts of Senior Registrar Oncology across tertiary hospitals in Punjab.",
-    lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  // Load saved alerts from localStorage
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('tainaati_user_alerts') || '[]');
+      if (Array.isArray(stored)) {
+        setUserAlerts(stored);
+      }
+    } catch (e) {
+      console.error('Error loading saved alerts:', e);
+    } finally {
+      setIsLoaded(true);
+    }
+  }, []);
+
+  const saveUserAlerts = (newAlerts) => {
+    setUserAlerts(newAlerts);
+    try {
+      localStorage.setItem('tainaati_user_alerts', JSON.stringify(newAlerts));
+    } catch (e) {
+      console.error('Failed to save alerts to localStorage:', e);
+    }
   };
 
-  const sampleDigestJobs = [
-    sampleJob,
-    {
-      id: "govt-nts-live-1",
-      type: "govt",
-      title: "District & Session Judge, Tharparkar (Career Opportunities)",
-      department: "District & Session Court Tharparkar / High Court of Sindh",
-      city: "Tharparkar, Sindh",
-      qualification: "LL.B / LL.M with Bar Council Registration",
-      lastDate: "2026-09-11",
-      officialUrl: "https://nts.org.pk",
-      agency: "NTS"
-    },
-    {
-      id: "govt-fpsc-live-1",
-      type: "govt",
-      title: "CSS Competitive Examination Preliminary Test (MPT) - BPS-17",
-      department: "Federal Public Service Commission (FPSC)",
-      city: "Islamabad & All Pakistan",
-      qualification: "Bachelor's Degree (14 or 16 Years)",
-      lastDate: "2026-09-30",
-      bpsScale: "BPS-17",
-      officialUrl: "https://online.fpsc.gov.pk",
-      agency: "FPSC"
-    }
-  ];
+  // Previewer tab
+  const [inboxTab, setInboxTab] = useState('instant'); // 'verification' | 'instant' | 'digest'
+
+  // Compute live match count for current configuration
+  const liveMatchCount = useMemo(() => {
+    return JOBS_DATA.filter((job) => {
+      if (selectedCategory !== 'all' && !matchesJobCategory(job, selectedCategory)) {
+        return false;
+      }
+      if (city !== 'All Cities' && !job.city?.toLowerCase().includes(city.toLowerCase()) && !job.city?.toLowerCase().includes('all pakistan')) {
+        return false;
+      }
+      if (keywords.trim()) {
+        const q = keywords.toLowerCase();
+        const matchTitle = job.title?.toLowerCase().includes(q);
+        const matchDept = (job.department || job.company || '').toLowerCase().includes(q);
+        if (!matchTitle && !matchDept) return false;
+      }
+      return true;
+    }).length;
+  }, [selectedCategory, city, keywords]);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -94,326 +111,459 @@ export default function AlertsManager() {
       return;
     }
     setErrorMsg('');
-    const subRecord = subManager.registerSubscriber({
-      email,
-      sector,
-      city,
-      bpsScale,
-      qualification,
-      frequency
-    });
-    setActiveCode(subRecord.verificationCode);
+
+    // Generate code
+    const generatedCode = String(Math.floor(100000 + Math.random() * 900000));
+    setActiveCode(generatedCode);
     setStep('VERIFY');
   };
 
   const handleVerifyCode = (e) => {
     e.preventDefault();
-    const res = subManager.verifyEmail(email, verificationInput);
-    if (res.success) {
-      setStep('CONFIRMED');
-      setErrorMsg('');
-    } else {
-      setErrorMsg(res.message);
+    if (verificationInput.trim() !== activeCode && verificationInput.trim() !== '849201') {
+      setErrorMsg("Invalid verification code. Please enter the code shown in the demo hint.");
+      return;
     }
+
+    // Save alert into localStorage
+    const newAlert = {
+      id: 'alert_' + Date.now(),
+      email: email.trim(),
+      category: selectedCategory,
+      categoryName: selectedCategory === 'all' ? 'All Categories' : (getCategoryBySlug(selectedCategory)?.name || selectedCategory),
+      city,
+      keywords: keywords.trim(),
+      frequency,
+      active: true,
+      createdAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    };
+
+    const updated = [newAlert, ...userAlerts];
+    saveUserAlerts(updated);
+
+    setStep('CONFIRMED');
+    setSuccessMsg("Alert profile successfully verified and saved!");
+    setErrorMsg('');
   };
 
-  // Generate Email HTML Previews
-  const currentEmail = email || "candidate@example.com";
+  const handleToggleAlert = (alertId) => {
+    const updated = userAlerts.map(a => {
+      if (a.id === alertId) {
+        return { ...a, active: !a.active };
+      }
+      return a;
+    });
+    saveUserAlerts(updated);
+  };
+
+  const handleDeleteAlert = (alertId) => {
+    const updated = userAlerts.filter(a => a.id !== alertId);
+    saveUserAlerts(updated);
+  };
+
+  // Sample matching jobs for preview
+  const sampleJob = JOBS_DATA.find(j => selectedCategory === 'all' || matchesJobCategory(j, selectedCategory)) || JOBS_DATA[0];
+  const sampleDigestJobs = JOBS_DATA.slice(0, 3);
+
   const previewHtml = 
     inboxTab === 'verification'
-      ? generateVerificationEmail(currentEmail, activeCode || "849201", "https://rozgar.pk/alerts/verify")
+      ? generateVerificationEmail(email || "candidate@example.com", activeCode || "849201", "https://tainaati.com/alerts/verify")
       : inboxTab === 'instant'
-      ? generateSingleJobAlertEmail(sampleJob, currentEmail, "https://rozgar.pk/alerts/unsubscribe", "https://rozgar.pk/alerts/preferences")
-      : generateDigestAlertEmail(sampleDigestJobs, currentEmail, "https://rozgar.pk/alerts/unsubscribe", "https://rozgar.pk/alerts/preferences");
+      ? generateSingleJobAlertEmail(sampleJob, email || "candidate@example.com", "https://tainaati.com/alerts/unsubscribe", "https://tainaati.com/alerts/preferences")
+      : generateDigestAlertEmail(sampleDigestJobs, email || "candidate@example.com", "https://tainaati.com/alerts/unsubscribe", "https://tainaati.com/alerts/preferences");
 
   return (
-    <div className="alerts-manager-page container-xl">
+    <div className="alerts-manager-page container-xl py-4">
       {/* Hero Banner */}
-      <div className="alerts-hero-card card mb-4">
+      <div className="card p-5 mb-4">
         <div className="badge badge-govt mb-2">
           <Mail size={13} />
           <span>Double Opt-In Email Delivery • 100% Free & Zero Spam</span>
         </div>
-        <h1 className="alerts-title">Verified Email Job Alerts in Pakistan</h1>
-        <p className="alerts-desc">
-          Never miss an FPSC, PPSC, or tech career deadline. Receive matching verified openings delivered straight to your inbox with one-click unsubscribe.
+        <h1 className="text-2xl md:text-3xl font-bold text-main">
+          Verified Email Job Alerts in Pakistan
+        </h1>
+        <p className="text-secondary text-sm md:text-base max-w-3xl mt-1">
+          Receive curated notifications for Federal and Provincial government gazettes, banking schemes, engineering projects, and corporate positions matching your exact category, city, and keywords.
         </p>
+
+        {/* Mode Navigation Tabs */}
+        <div className="flex gap-2 mt-4 pt-3 border-t border-theme">
+          <button
+            onClick={() => { setActiveMode('create'); setStep('FORM'); setErrorMsg(''); }}
+            className={`btn btn-sm ${activeMode === 'create' ? 'btn-primary' : 'btn-outline'} text-xs flex items-center gap-1.5`}
+          >
+            <Bell size={13} />
+            <span>Create New Job Alert</span>
+          </button>
+          <button
+            onClick={() => setActiveMode('manage')}
+            className={`btn btn-sm ${activeMode === 'manage' ? 'btn-primary' : 'btn-outline'} text-xs flex items-center gap-1.5`}
+          >
+            <SlidersHorizontal size={13} />
+            <span>Manage Saved Alerts ({userAlerts.length})</span>
+          </button>
+        </div>
       </div>
 
-      <div className="alerts-layout-grid">
-        {/* LEFT COLUMN: SUBSCRIPTION & VERIFICATION FORM */}
-        <div className="alerts-form-container card">
-          {step === 'FORM' && (
-            <form onSubmit={handleRegister} className="alerts-form">
-              <div className="form-section-header mb-3">
-                <h3 className="font-bold text-base">Configure Your Alert Profile</h3>
-                <span className="text-secondary text-xs">Customized by sector, city, scale, and qualification.</span>
-              </div>
-
-              {/* Email Address Field */}
-              <div className="form-group">
-                <label>Your Email Address (Primary Inbox)</label>
-                <div className="input-with-icon">
-                  <Mail size={16} className="input-icon" />
-                  <input
-                    type="email"
-                    required
-                    placeholder="candidate.name@gmail.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="input-field pl-10"
-                  />
+      {activeMode === 'create' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          {/* LEFT: Configuration Form */}
+          <div className="lg:col-span-6 card p-5 space-y-4">
+            {step === 'FORM' && (
+              <form onSubmit={handleRegister} className="space-y-3">
+                <div className="border-b border-theme pb-2">
+                  <h2 className="text-base font-bold text-main">1. Define Alert Parameters</h2>
+                  <span className="text-xs text-secondary">Customized by category, target city, and specific keywords.</span>
                 </div>
-                <span className="input-hint">We send a 6-digit confirmation code before activating alerts.</span>
-              </div>
 
-              {/* Filter Criteria */}
-              <div className="grid-2">
+                {/* Email Address */}
                 <div className="form-group">
-                  <label>Target City</label>
-                  <select
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className="input-field select-field"
-                  >
-                    {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label>Job Sector</label>
-                  <select
-                    value={sector}
-                    onChange={(e) => setSector(e.target.value)}
-                    className="input-field select-field"
-                  >
-                    <option value="all">All Opportunities (Govt + Tech)</option>
-                    <option value="govt">Government & Public Service Commissions</option>
-                    <option value="private">Private & High-Growth Tech</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid-2">
-                <div className="form-group">
-                  <label>BPS Scale (Govt Openings)</label>
-                  <select
-                    value={bpsScale}
-                    onChange={(e) => setBpsScale(e.target.value)}
-                    className="input-field select-field"
-                  >
-                    {BPS_SCALES.map(b => <option key={b} value={b}>{b}</option>)}
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label>Qualification Level</label>
-                  <select
-                    value={qualification}
-                    onChange={(e) => setQualification(e.target.value)}
-                    className="input-field select-field"
-                  >
-                    {QUALIFICATIONS.map(q => <option key={q} value={q}>{q}</option>)}
-                  </select>
-                </div>
-              </div>
-
-              {/* Alert Frequency */}
-              <div className="form-group">
-                <label>Email Delivery Frequency</label>
-                <div className="frequency-toggle-group">
-                  <label className={`freq-option-card ${frequency === 'instant' ? 'active' : ''}`}>
-                    <input 
-                      type="radio" 
-                      name="freq" 
-                      checked={frequency === 'instant'} 
-                      onChange={() => setFrequency('instant')} 
-                    />
-                    <div>
-                      <strong>Instant Email Alerts</strong>
-                      <div className="text-xs text-secondary">Sent within minutes of official publication</div>
-                    </div>
+                  <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                    Your Email Address (Primary Inbox)
                   </label>
-
-                  <label className={`freq-option-card ${frequency === 'daily_digest' ? 'active' : ''}`}>
-                    <input 
-                      type="radio" 
-                      name="freq" 
-                      checked={frequency === 'daily_digest'} 
-                      onChange={() => setFrequency('daily_digest')} 
+                  <div className="relative">
+                    <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                    <input
+                      type="email"
+                      required
+                      placeholder="e.g. candidate.name@gmail.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="input-field pl-9 w-full text-sm"
                     />
-                    <div>
-                      <strong>Daily Morning Digest (8:00 AM PST)</strong>
-                      <div className="text-xs text-secondary">One consolidated email with all matching openings</div>
-                    </div>
-                  </label>
+                  </div>
+                  <span className="text-xs text-muted block mt-0.5">We send a 6-digit confirmation code before activating alerts.</span>
                 </div>
-              </div>
 
-              {errorMsg && (
-                <div className="alert-error-bar">
-                  <AlertCircle size={14} />
-                  <span>{errorMsg}</span>
-                </div>
-              )}
-
-              <button type="submit" className="btn btn-primary w-100 mt-3">
-                <Send size={16} />
-                <span>Send Verification Code &rarr;</span>
-              </button>
-            </form>
-          )}
-
-          {step === 'VERIFY' && (
-            <div className="verification-step-box">
-              <div className="badge badge-verified mb-2">Step 2 of 2: Confirm Inbox</div>
-              <h3 className="text-lg font-bold">Check Your Email</h3>
-              <p className="text-secondary text-sm mb-4">
-                We sent a 6-digit confirmation code to <strong>{email}</strong>.
-              </p>
-
-              <form onSubmit={handleVerifyCode} className="verification-form">
+                {/* Category Selector */}
                 <div className="form-group">
-                  <label>Enter 6-Digit Code</label>
-                  <input
-                    type="text"
-                    required
-                    maxLength={6}
-                    placeholder="e.g. 849201"
-                    value={verificationInput}
-                    onChange={(e) => setVerificationInput(e.target.value)}
-                    className="input-field code-input"
-                  />
-                  <div className="text-xs text-muted mt-1">
-                    Tip: Demo verification code is pre-generated as <code>{activeCode}</code>
+                  <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                    Preferred Job Category
+                  </label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="input-field select-field w-full text-sm"
+                  >
+                    <option value="all">All Categories (Govt + Private + Cross-Cutting)</option>
+                    <optgroup label="Government Sectors">
+                      {CATEGORIES_CONFIG.filter(c => c.group === 'govt').map(cat => (
+                        <option key={cat.slug} value={cat.slug}>{cat.name}</option>
+                      ))}
+                    </optgroup>
+                    <optgroup label="Private & Industry Careers">
+                      {CATEGORIES_CONFIG.filter(c => c.group === 'private').map(cat => (
+                        <option key={cat.slug} value={cat.slug}>{cat.name}</option>
+                      ))}
+                    </optgroup>
+                  </select>
+                </div>
+
+                {/* City & Keywords Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="form-group">
+                    <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                      Preferred City / Location
+                    </label>
+                    <select
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      className="input-field select-field w-full text-sm"
+                    >
+                      {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                      Keyword Filter (Optional)
+                    </label>
+                    <div className="relative">
+                      <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                      <input
+                        type="text"
+                        placeholder="e.g. Lecturer, SBP, Officer"
+                        value={keywords}
+                        onChange={(e) => setKeywords(e.target.value)}
+                        className="input-field pl-8 w-full text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Live Match Pill */}
+                <div className="p-3 rounded-lg bg-subtle border border-theme flex justify-between items-center text-xs">
+                  <span className="text-secondary">Matching active jobs right now:</span>
+                  <span className="badge badge-bps font-mono font-bold">
+                    {liveMatchCount} Positions Available
+                  </span>
+                </div>
+
+                {/* Frequency */}
+                <div className="form-group">
+                  <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                    Email Delivery Frequency
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <label className={`p-2.5 rounded-lg border cursor-pointer text-xs transition-all flex items-start gap-2 ${frequency === 'instant' ? 'border-emerald-500 bg-emerald-500/10' : 'border-theme bg-subtle'}`}>
+                      <input
+                        type="radio"
+                        name="freq"
+                        checked={frequency === 'instant'}
+                        onChange={() => setFrequency('instant')}
+                        className="mt-0.5 accent-emerald-600"
+                      />
+                      <div>
+                        <strong className="block text-main">Instant Alert</strong>
+                        <span className="text-muted text-[11px]">As soon as gazetted</span>
+                      </div>
+                    </label>
+
+                    <label className={`p-2.5 rounded-lg border cursor-pointer text-xs transition-all flex items-start gap-2 ${frequency === 'daily_digest' ? 'border-emerald-500 bg-emerald-500/10' : 'border-theme bg-subtle'}`}>
+                      <input
+                        type="radio"
+                        name="freq"
+                        checked={frequency === 'daily_digest'}
+                        onChange={() => setFrequency('daily_digest')}
+                        className="mt-0.5 accent-emerald-600"
+                      />
+                      <div>
+                        <strong className="block text-main">Daily Digest</strong>
+                        <span className="text-muted text-[11px]">Every morning at 8 AM</span>
+                      </div>
+                    </label>
                   </div>
                 </div>
 
                 {errorMsg && (
-                  <div className="alert-error-bar mb-3">
+                  <div className="p-2.5 rounded bg-rose-500/10 border border-rose-500/30 text-rose-600 text-xs flex items-center gap-1.5">
                     <AlertCircle size={14} />
                     <span>{errorMsg}</span>
                   </div>
                 )}
 
-                <div className="flex gap-2">
-                  <button type="submit" className="btn btn-primary flex-1">
-                    Verify & Activate Alerts
-                  </button>
-                  <button 
-                    type="button" 
-                    className="btn btn-outline" 
-                    onClick={() => setStep('FORM')}
+                <button type="submit" className="btn btn-primary w-full text-xs justify-center flex items-center gap-2 py-2.5">
+                  <Send size={14} />
+                  <span>Send Confirmation Code &rarr;</span>
+                </button>
+              </form>
+            )}
+
+            {step === 'VERIFY' && (
+              <div className="space-y-4">
+                <div className="badge badge-verified">Step 2: Confirm Verification Code</div>
+                <h3 className="text-lg font-bold text-main">Check Your Inbox</h3>
+                <p className="text-secondary text-xs leading-relaxed">
+                  We sent a 6-digit confirmation code to <strong>{email}</strong>.
+                </p>
+
+                <form onSubmit={handleVerifyCode} className="space-y-3">
+                  <div className="form-group">
+                    <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                      Enter 6-Digit Code
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      maxLength={6}
+                      placeholder="e.g. 849201"
+                      value={verificationInput}
+                      onChange={(e) => setVerificationInput(e.target.value)}
+                      className="input-field text-center font-mono tracking-widest text-lg w-full"
+                    />
+                    <div className="text-xs text-muted mt-1">
+                      Demo verification code: <code>{activeCode || '849201'}</code>
+                    </div>
+                  </div>
+
+                  {errorMsg && (
+                    <div className="p-2 rounded bg-rose-500/10 border border-rose-500/30 text-rose-600 text-xs flex items-center gap-1">
+                      <AlertCircle size={14} />
+                      <span>{errorMsg}</span>
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setStep('FORM')}
+                      className="btn btn-outline text-xs flex-1"
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn btn-primary text-xs flex-1"
+                    >
+                      Verify & Activate Alert
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {step === 'CONFIRMED' && (
+              <div className="space-y-4 text-center py-6">
+                <CheckCircle2 size={42} className="text-emerald-500 mx-auto" />
+                <h3 className="text-lg font-bold text-main">Alert Activated Successfully!</h3>
+                <p className="text-secondary text-xs max-w-sm mx-auto leading-relaxed">
+                  We will deliver matching openings for <strong>{selectedCategory}</strong> in <strong>{city}</strong> to <strong>{email}</strong>.
+                </p>
+
+                <div className="flex justify-center gap-2 pt-2">
+                  <button
+                    onClick={() => { setActiveMode('manage'); setStep('FORM'); }}
+                    className="btn btn-primary btn-sm text-xs"
                   >
-                    Edit Email
+                    View in Alert Manager
+                  </button>
+                  <button
+                    onClick={() => { setStep('FORM'); setEmail(''); setKeywords(''); }}
+                    className="btn btn-outline btn-sm text-xs"
+                  >
+                    Add Another Alert
                   </button>
                 </div>
-              </form>
-            </div>
-          )}
-
-          {step === 'CONFIRMED' && (
-            <div className="subscription-success-box">
-              <CheckCircle2 size={48} className="text-emerald" />
-              <h3 className="success-title">Email Alerts Activated!</h3>
-              <p className="success-desc">
-                Your email <strong>{email}</strong> has been verified. You will receive verified notifications for <strong>{city}</strong> ({frequency === 'daily_digest' ? 'Daily 8:00 AM Digest' : 'Instant Delivery'}).
-              </p>
-
-              <div className="security-notice-chip">
-                <Lock size={13} />
-                <span>Every alert email includes a 1-click instant unsubscribe link.</span>
               </div>
+            )}
+          </div>
 
-              <button 
-                className="btn btn-outline btn-sm mt-3"
-                onClick={() => {
-                  setStep('FORM');
-                  setEmail('');
-                  setVerificationInput('');
-                }}
-              >
-                Configure Another Alert
-              </button>
+          {/* RIGHT: Live Email Preview Box */}
+          <div className="lg:col-span-6 card p-5 space-y-3">
+            <div className="flex justify-between items-center border-b border-theme pb-2">
+              <h2 className="text-sm font-bold text-main flex items-center gap-1.5">
+                <Inbox size={15} className="text-emerald-500" />
+                <span>Live Email Notification Preview</span>
+              </h2>
+
+              <div className="flex gap-1">
+                <button
+                  onClick={() => setInboxTab('instant')}
+                  className={`badge cursor-pointer ${inboxTab === 'instant' ? 'badge-govt' : 'bg-subtle text-secondary'}`}
+                >
+                  Instant Match
+                </button>
+                <button
+                  onClick={() => setInboxTab('digest')}
+                  className={`badge cursor-pointer ${inboxTab === 'digest' ? 'badge-govt' : 'bg-subtle text-secondary'}`}
+                >
+                  Daily Digest
+                </button>
+              </div>
             </div>
-          )}
-        </div>
 
-        {/* RIGHT COLUMN: INBOX & BRANDED HTML EMAIL PREVIEWER */}
-        <div className="email-previewer-panel card">
-          <div className="previewer-header">
-            <div className="inbox-title-row">
-              <Inbox size={18} className="text-emerald" />
+            {/* Email Preview Frame */}
+            <div className="border border-theme rounded-lg overflow-hidden bg-white text-slate-900 text-xs p-4 max-h-[500px] overflow-y-auto">
+              <div dangerouslySetInnerHTML={{ __html: previewHtml }} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* MANAGE SAVED ALERTS VIEW */
+        <div className="space-y-4">
+          <div className="card p-5 space-y-4">
+            <div className="flex justify-between items-center border-b border-theme pb-3">
               <div>
-                <strong>Live Inbox Email Preview</strong>
-                <div className="text-xs text-secondary">High-deliverability responsive template</div>
+                <h2 className="text-lg font-bold text-main">Your Saved Alert Subscriptions</h2>
+                <p className="text-xs text-secondary">
+                  Manage your active notification profiles, pause temporary alerts, or delete subscriptions.
+                </p>
               </div>
-            </div>
 
-            {/* Template Selector Tabs */}
-            <div className="email-tab-pills">
-              <button 
-                className={`email-tab-pill ${inboxTab === 'verification' ? 'active' : ''}`}
-                onClick={() => setInboxTab('verification')}
+              <button
+                onClick={() => { setActiveMode('create'); setStep('FORM'); }}
+                className="btn btn-sm btn-primary text-xs flex items-center gap-1"
               >
-                Verification Code
-              </button>
-              <button 
-                className={`email-tab-pill ${inboxTab === 'instant' ? 'active' : ''}`}
-                onClick={() => setInboxTab('instant')}
-              >
-                Instant Match
-              </button>
-              <button 
-                className={`email-tab-pill ${inboxTab === 'digest' ? 'active' : ''}`}
-                onClick={() => setInboxTab('digest')}
-              >
-                Daily Digest
+                <span>+ Create New Alert</span>
               </button>
             </div>
-          </div>
 
-          {/* Email IFrame Sandbox */}
-          <div className="email-iframe-container">
-            <iframe 
-              title="Email Template Live Preview"
-              srcDoc={previewHtml}
-              className="email-render-frame"
-            />
+            {userAlerts.length > 0 ? (
+              <div className="space-y-3">
+                {userAlerts.map((alert) => {
+                  const matchCount = JOBS_DATA.filter(j => {
+                    if (alert.category !== 'all' && !matchesJobCategory(j, alert.category)) return false;
+                    if (alert.city !== 'All Cities' && !j.city?.toLowerCase().includes(alert.city.toLowerCase())) return false;
+                    if (alert.keywords) {
+                      const q = alert.keywords.toLowerCase();
+                      if (!j.title?.toLowerCase().includes(q) && !j.department?.toLowerCase().includes(q)) return false;
+                    }
+                    return true;
+                  }).length;
+
+                  return (
+                    <div 
+                      key={alert.id}
+                      className={`p-4 rounded-lg border transition-all flex flex-col md:flex-row justify-between md:items-center gap-3 ${
+                        alert.active 
+                          ? 'bg-card border-theme hover:border-emerald-500/40' 
+                          : 'bg-subtle border-theme/50 opacity-70'
+                      }`}
+                    >
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className={`badge ${alert.active ? 'badge-govt' : 'bg-gray-500/20 text-gray-500'}`}>
+                            {alert.active ? 'Active' : 'Paused'}
+                          </span>
+                          <span className="text-xs font-semibold text-main">
+                            {alert.categoryName || alert.category}
+                          </span>
+                          <span className="text-xs text-muted">• {alert.city}</span>
+                        </div>
+
+                        <div className="text-xs text-secondary flex flex-wrap items-center gap-3">
+                          <span>Email: <strong className="text-main">{alert.email}</strong></span>
+                          {alert.keywords && <span>Keyword: <code className="text-xs">{alert.keywords}</code></span>}
+                          <span>Frequency: <em>{alert.frequency === 'instant' ? 'Instant' : 'Daily Digest'}</em></span>
+                          <span>Created: {alert.createdAt}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 self-end md:self-auto">
+                        <span className="badge badge-bps font-mono text-xs" title="Current matching jobs">
+                          {matchCount} Matches
+                        </span>
+
+                        <button
+                          onClick={() => handleToggleAlert(alert.id)}
+                          className={`btn btn-sm ${alert.active ? 'btn-outline' : 'btn-primary'} text-xs flex items-center gap-1`}
+                          title={alert.active ? 'Pause alerts' : 'Resume alerts'}
+                        >
+                          {alert.active ? <Pause size={12} /> : <Play size={12} />}
+                          <span>{alert.active ? 'Pause' : 'Resume'}</span>
+                        </button>
+
+                        <button
+                          onClick={() => handleDeleteAlert(alert.id)}
+                          className="text-muted hover:text-rose-500 p-1.5 rounded transition-colors"
+                          title="Delete alert"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-10 space-y-3">
+                <Bell size={36} className="text-muted mx-auto" />
+                <h3 className="text-base font-bold text-main">No Alerts Saved Yet</h3>
+                <p className="text-xs text-secondary max-w-sm mx-auto">
+                  You haven't set up any job alert preferences yet. Create an alert to receive email notifications when matching positions are gazetted.
+                </p>
+                <button
+                  onClick={() => { setActiveMode('create'); setStep('FORM'); }}
+                  className="btn btn-sm btn-primary text-xs mx-auto"
+                >
+                  Create Your First Alert
+                </button>
+              </div>
+            )}
           </div>
         </div>
-      </div>
-
-      {/* TRANSACTIONAL EMAIL PROVIDER & INFRASTRUCTURE REPORT */}
-      <div className="card cost-transparency-card mt-4">
-        <div className="cost-card-header">
-          <ShieldCheck size={20} className="text-emerald" />
-          <h3 className="cost-card-title">Transactional Email Infrastructure & Free Tier Breakdown</h3>
-        </div>
-
-        <div className="cost-comparison-grid">
-          <div className="cost-col active-channel">
-            <div className="cost-badge free">PRIMARY PROVIDER (ZERO-COST FREE TIER)</div>
-            <h4 className="channel-heading">Resend API (resend.com)</h4>
-            <ul className="cost-bullets">
-              <li>• <strong>Free Tier Volume:</strong> 3,000 emails/month (100 emails/day completely free).</li>
-              <li>• <strong>Deliverability:</strong> Dedicated high-reputation IP pools with DKIM, SPF, DMARC alignment.</li>
-              <li>• <strong>Spam Protection:</strong> Double opt-in confirmation required before dispatching alerts.</li>
-              <li>• <strong>Zero Cost:</strong> $0 / month for initial launch phase.</li>
-            </ul>
-          </div>
-
-          <div className="cost-col">
-            <div className="cost-badge paid">SECONDARY HIGH-VOLUME BACKUP</div>
-            <h4 className="channel-heading">Brevo Transactional SMTP (brevo.com)</h4>
-            <ul className="cost-bullets">
-              <li>• <strong>Free Tier Volume:</strong> 300 emails/day = 9,000 emails/month free.</li>
-              <li>• <strong>Upgrade Threshold:</strong> Seamlessly activates if monthly subscribers exceed 3,000 alerts.</li>
-              <li>• <strong>Legal Compliance:</strong> Automated list cleaning and mandatory RFC-8058 One-Click Unsubscribe headers.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

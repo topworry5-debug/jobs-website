@@ -368,7 +368,7 @@ export default function JobDetailModal({
 
           {/* Primary Action Button */}
           <a
-            href={job.officialUrl || "https://rozgar.pk"}
+            href={job.officialUrl || "https://tainaati.com"}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-lg btn-primary direct-apply-btn"

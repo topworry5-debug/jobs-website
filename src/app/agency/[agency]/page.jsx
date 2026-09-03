@@ -131,7 +131,7 @@ export default function AgencyLandingPage({ params }) {
                 Official Commission Status: No Active Advertisements Currently Open
               </strong>
               <p className="leading-relaxed">
-                Direct monitoring of {content.agencyCode} confirms that the previous recruitment advertisement has closed, and the Commission has not yet released its next consolidated gazette. As soon as {content.agencyCode} gazettes new vacancies, RozgarPK will ingest them automatically.
+                Direct monitoring of {content.agencyCode} confirms that the previous recruitment advertisement has closed, and the Commission has not yet released its next consolidated gazette. As soon as {content.agencyCode} gazettes new vacancies, Tainaati will ingest them automatically.
               </p>
             </div>
           </div>

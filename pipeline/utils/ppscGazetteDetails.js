@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Official PPSC Advertisement No. 08/2026 Verified Gazette Metadata Registry
+ * Tainaati — Official PPSC Advertisement No. 08/2026 Verified Gazette Metadata Registry
  * Contains individually verified qualifications, seat quotas, age limits, syllabus outlines,
  * and exact role specifications extracted from the official Punjab Gazette & PPSC Notification.
  */

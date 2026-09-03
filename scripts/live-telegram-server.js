@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Live Telegram Bot Long-Polling Daemon
+ * Tainaati — Live Telegram Bot Long-Polling Daemon
  * Connects to official Telegram Bot API (https://api.telegram.org/bot<TOKEN>/)
  * 
  * Usage:
@@ -18,8 +18,8 @@ if (!BOT_TOKEN) {
   console.log("⚠️  TELEGRAM_BOT_TOKEN is not set.");
   console.log("To run the LIVE Telegram Bot listener:");
   console.log("1. Open Telegram and search for @BotFather");
-  console.log("2. Send `/newbot`, choose a name (e.g., 'RozgarPK Job Alerts')");
-  console.log("3. Choose a username (e.g., 'MyRozgarPKBot')");
+  console.log("2. Send `/newbot`, choose a name (e.g., 'Tainaati Job Alerts')");
+  console.log("3. Choose a username (e.g., 'MyTainaatiBot')");
   console.log("4. Copy the HTTP API Token provided by BotFather.");
   console.log("5. Run: TELEGRAM_BOT_TOKEN=\"your_token\" node scripts/live-telegram-server.js");
   console.log("==================================================================");

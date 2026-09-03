@@ -33,7 +33,15 @@ import {
   Plane,
   Laptop,
   FileCheck,
-  ArrowRight
+  ArrowRight,
+  UserCheck,
+  Leaf,
+  Mountain,
+  Flame,
+  Clock,
+  Tv,
+  Calculator,
+  Bookmark
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { JOBS_DATA } from '../data/jobsData';
@@ -61,7 +69,15 @@ const ICON_MAP = {
   Plane,
   Laptop,
   FileCheck,
-  Building2
+  Building2,
+  UserCheck,
+  Leaf,
+  Mountain,
+  Flame,
+  Clock,
+  Tv,
+  Calculator,
+  Bookmark
 };
 
 export default function Navbar() {
@@ -71,7 +87,8 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null); // 'govt' | 'private' | null
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'govt' | 'private' | 'tools' | null
+  const [savedCount, setSavedCount] = useState(0);
   
   // Mobile accordion states
   const [mobileGovtOpen, setMobileGovtOpen] = useState(false);
@@ -81,6 +98,24 @@ export default function Navbar() {
   const langDropdownRef = useRef(null);
   const govtDropdownRef = useRef(null);
   const privateDropdownRef = useRef(null);
+  const toolsDropdownRef = useRef(null);
+
+  // Sync saved jobs count reactive to storage events
+  useEffect(() => {
+    const updateCount = () => {
+      try {
+        const list = JSON.parse(localStorage.getItem('tainaati_saved_jobs') || '[]');
+        setSavedCount(Array.isArray(list) ? list.length : 0);
+      } catch (e) {}
+    };
+    updateCount();
+    window.addEventListener('storage', updateCount);
+    window.addEventListener('tainaati_saved_jobs_updated', updateCount);
+    return () => {
+      window.removeEventListener('storage', updateCount);
+      window.removeEventListener('tainaati_saved_jobs_updated', updateCount);
+    };
+  }, []);
 
   // Compute live job counts for all categories dynamically
   const categoryCounts = useMemo(() => {
@@ -345,6 +380,24 @@ export default function Navbar() {
               <span>{t.nav.examCalendar}</span>
             </Link>
 
+            {/* Results & Roll No Slips */}
+            <Link
+              href="/exam-results"
+              className={`nav-link-item ${isActive('/exam-results') ? 'active' : ''}`}
+            >
+              <FileCheck size={14} className="nav-icon text-emerald-500" />
+              <span>{t.nav.examResults || "Results & Slips"}</span>
+            </Link>
+
+            {/* Salary Calculator */}
+            <Link
+              href="/salary-calculator"
+              className={`nav-link-item ${isActive('/salary-calculator') ? 'active' : ''}`}
+            >
+              <Calculator size={14} className="nav-icon text-amber-500" />
+              <span>{t.nav.salaryCalculator || "BPS Salary"}</span>
+            </Link>
+
             {/* CV Builder Link */}
             <Link
               href="/cv-builder"
@@ -377,6 +430,21 @@ export default function Navbar() {
               <Search size={15} />
               <kbd className="search-shortcut">⌘K</kbd>
             </button>
+
+            {/* Saved Jobs Shortcut Button */}
+            <Link
+              href="/saved-jobs"
+              className={`action-btn relative ${isActive('/saved-jobs') ? 'active' : ''}`}
+              title={t.nav.savedJobs || "Saved Jobs & Application Tracker"}
+              aria-label="Saved Jobs"
+            >
+              <Bookmark size={16} className={savedCount > 0 ? "fill-emerald-500 text-emerald-500" : ""} />
+              {savedCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white font-mono text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm">
+                  {savedCount}
+                </span>
+              )}
+            </Link>
 
             {/* Alerts Quick Button */}
             <Link
@@ -698,6 +766,51 @@ export default function Navbar() {
 
               {/* Utility Direct Links */}
               <div className="mt-3 flex flex-col gap-1">
+                {/* Saved Jobs & Application Tracker */}
+                <Link
+                  href="/saved-jobs"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`mobile-nav-item ${isActive('/saved-jobs') ? 'active' : ''}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="nav-icon-box">
+                      <Bookmark size={16} className={savedCount > 0 ? "text-emerald-500 fill-emerald-500" : ""} />
+                    </div>
+                    <span className="font-semibold text-sm">{t.nav.savedJobs || "Saved Jobs & Tracker"}</span>
+                  </div>
+                  {savedCount > 0 && (
+                    <span className="nav-dropdown-count bg-emerald-600 text-white font-mono font-bold">{savedCount}</span>
+                  )}
+                </Link>
+
+                {/* Exam Results & Roll No Slips */}
+                <Link
+                  href="/exam-results"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`mobile-nav-item ${isActive('/exam-results') ? 'active' : ''}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="nav-icon-box">
+                      <FileCheck size={16} className="text-emerald-500" />
+                    </div>
+                    <span className="font-semibold text-sm">{t.nav.examResults || "Results & Roll No Slips"}</span>
+                  </div>
+                </Link>
+
+                {/* BPS Salary Calculator */}
+                <Link
+                  href="/salary-calculator"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`mobile-nav-item ${isActive('/salary-calculator') ? 'active' : ''}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="nav-icon-box">
+                      <Calculator size={16} className="text-amber-500" />
+                    </div>
+                    <span className="font-semibold text-sm">{t.nav.salaryCalculator || "BPS Salary Calculator"}</span>
+                  </div>
+                </Link>
+
                 <Link
                   href="/cv-builder"
                   onClick={() => setMobileMenuOpen(false)}

@@ -1,5 +1,5 @@
 /**
- * RozgarPK Career Intelligence & SEO/GEO Content Hub Knowledge Base
+ * Tainaati Career Intelligence & SEO/GEO Content Hub Knowledge Base
  * Structured for Google Featured Snippets (AEO), AI Answer Engine Citations (GEO),
  * and High-Intent Organic Search Traffic across Pakistan.
  */
@@ -25,7 +25,7 @@ export const BLOG_ARTICLES = [
     publishedDate: '2026-08-15',
     updatedDate: '2026-09-01',
     author: {
-      name: 'RozgarPK Intelligence Team',
+      name: 'Tainaati Intelligence Team',
       role: 'Punjab Public Sector Recruitment Specialist',
       avatar: '/logos/ppsc.svg'
     },
@@ -168,7 +168,7 @@ Only candidates holding a **valid Punjab Domicile** and computerised National Id
     publishedDate: '2026-08-20',
     updatedDate: '2026-09-01',
     author: {
-      name: 'RozgarPK Intelligence Team',
+      name: 'Tainaati Intelligence Team',
       role: 'Federal Services & Central Competitive Examination Lead',
       avatar: '/logos/fpsc.svg'
     },
@@ -289,14 +289,14 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
     publishedDate: '2026-08-28',
     updatedDate: '2026-09-01',
     author: {
-      name: 'RozgarPK Intelligence Team',
+      name: 'Tainaati Intelligence Team',
       role: 'Gazette Auditing & Telemetry Desk',
       avatar: '/logos/verified.svg'
     },
     targetKeywords: ['today govt jobs in pakistan', 'free jobs in pakistan', 'government jobs in pakistan today online apply', 'govt jobs in pakistan 2026'],
     heroBanner: {
       departmentName: 'Official Gazette & Recruitment Digest',
-      departmentSub: 'RozgarPK Telemetry • Verified Pakistani Public Sector Openings',
+      departmentSub: 'Tainaati Telemetry • Verified Pakistani Public Sector Openings',
       logo: '/logos/verified.svg',
       quickStats: [
         { label: 'Audit Frequency', value: 'Every 6 Hours' },
@@ -314,11 +314,11 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
           { num: 'Sundays', title: 'PPSC Punjab Circulars', desc: 'Consolidated provincial advertisements released on alternating Sunday mornings.' },
           { num: '1st Fri', title: 'FPSC Federal Gazette', desc: 'Monthly consolidated Federal advertisements released on the first Friday.' },
           { num: 'Bi-Wkly', title: 'SPSC Sindh Circulars', desc: 'Bi-weekly provincial notifications published via official Sindh Gazette.' },
-          { num: '24/7', title: 'RozgarPK Live Telemetry', desc: 'Automated scraping and manual fact-checking every 6 hours.', highlight: true }
+          { num: '24/7', title: 'Tainaati Live Telemetry', desc: 'Automated scraping and manual fact-checking every 6 hours.', highlight: true }
         ]
       }
     ],
-    directAnswer: 'Today govt jobs in Pakistan encompass gazetted public service circulars issued by Federal (FPSC), Punjab (PPSC), Sindh (SPSC), Khyber Pakhtunkhwa (KPPSC), and testing bodies (NTS). RozgarPK audits these gazettes every 6 hours to eliminate duplicate, expired, or misleading circulars, providing job seekers direct application portals and authentic deadline countdowns.',
+    directAnswer: 'Today govt jobs in Pakistan encompass gazetted public service circulars issued by Federal (FPSC), Punjab (PPSC), Sindh (SPSC), Khyber Pakhtunkhwa (KPPSC), and testing bodies (NTS). Tainaati audits these gazettes every 6 hours to eliminate duplicate, expired, or misleading circulars, providing job seekers direct application portals and authentic deadline countdowns.',
     tableOfContents: [
       { id: 'daily-gazette-cycle', title: '1. How Government Recruitment Gazettes Work in Pakistan' },
       { id: 'avoiding-fake-ads', title: '2. 5 Signs of Fake Job Advertisements & How to Avoid Them' },
@@ -339,7 +339,7 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
       {
         id: 'avoiding-fake-ads',
         heading: '5 Signs of Fake Job Advertisements & How to Avoid Them',
-        content: `Job fraud has increased across unverified classified websites and social media groups. Here is how RozgarPK protects candidates from scam circulars:
+        content: `Job fraud has increased across unverified classified websites and social media groups. Here is how Tainaati protects candidates from scam circulars:
 
 1. **Unverifiable Account Numbers**: Legitimate government commissions never ask for fee payments to personal EasyPaisa / JazzCash accounts. Always verify that payments go through official **1Link PSID** or **National Bank of Pakistan (NBP) Challan 32-A**.
 2. **Missing Case or Advertisement Number**: Every official posting must carry an identifiable reference number (e.g. *Advt No. 08/2026*, *Case No. 14-RD/2026*).
@@ -368,7 +368,7 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
       },
       {
         question: "Can I apply for government jobs online for free?",
-        answer: "While RozgarPK provides 100% free access to verified notices and tools, government commissions charge official examination processing fees (typically PKR 300 for FPSC and PKR 600 for PPSC) deposited directly into government treasury accounts."
+        answer: "While Tainaati provides 100% free access to verified notices and tools, government commissions charge official examination processing fees (typically PKR 300 for FPSC and PKR 600 for PPSC) deposited directly into government treasury accounts."
       }
     ],
     relatedTools: [
@@ -389,7 +389,7 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
     publishedDate: '2026-08-25',
     updatedDate: '2026-09-01',
     author: {
-      name: 'RozgarPK Intelligence Team',
+      name: 'Tainaati Intelligence Team',
       role: 'Federal Digital Governance Specialist',
       avatar: '/logos/njp.svg'
     },
@@ -487,7 +487,7 @@ Key features of NJP include:
     publishedDate: '2026-08-30',
     updatedDate: '2026-09-01',
     author: {
-      name: 'RozgarPK Intelligence Team',
+      name: 'Tainaati Intelligence Team',
       role: 'Comparative Civil Services Analyst',
       avatar: '/logos/verified.svg'
     },

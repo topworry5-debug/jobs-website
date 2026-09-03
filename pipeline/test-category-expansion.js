@@ -5,7 +5,7 @@ import { computeJobMetrics } from '../src/utils/jobMetrics.js';
 
 async function runTests() {
   console.log('====================================================');
-  console.log('  ROZGARPK CATEGORY EXPANSION VERIFICATION SUITE');
+  console.log('  TAINAATI CATEGORY EXPANSION VERIFICATION SUITE');
   console.log('====================================================\n');
 
   let passed = 0;

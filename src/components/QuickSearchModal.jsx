@@ -99,7 +99,7 @@ export default function QuickSearchModal({
     onClose();
     const q = term.trim();
     if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('rozgar:filter-change', {
+      window.dispatchEvent(new CustomEvent('tainaati:filter-change', {
         detail: { query: q, city: 'All Cities' }
       }));
     }

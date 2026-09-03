@@ -34,14 +34,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const article = BLOG_ARTICLES.find((a) => a.slug === params.slug);
-  if (!article) return { title: 'Guide Not Found | RozgarPK' };
+  if (!article) return { title: 'Guide Not Found | Tainaati' };
 
   const siteUrl = getSiteUrl();
   const canonical = `${siteUrl}/blog/${article.slug}`;
   const bannerImage = article.heroBanner?.logo ? `${siteUrl}${article.heroBanner.logo}` : `${siteUrl}/og-image.png`;
 
   return {
-    title: `${article.metaTitle || article.title} | RozgarPK`,
+    title: `${article.metaTitle || article.title} | Tainaati`,
     description: article.metaDescription,
     keywords: article.targetKeywords,
     alternates: {
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }) {
       type: 'article',
       locale: 'en_PK',
       url: canonical,
-      siteName: 'RozgarPK',
+      siteName: 'Tainaati',
       title: article.title,
       description: article.metaDescription,
       images: [
@@ -104,7 +104,7 @@ export default function BlogArticlePage({ params }) {
     },
     "publisher": {
       "@type": "Organization",
-      "name": "RozgarPK",
+      "name": "Tainaati",
       "logo": {
         "@type": "ImageObject",
         "url": `${siteUrl}/icons/logo.png`
@@ -327,7 +327,7 @@ export default function BlogArticlePage({ params }) {
                   Ready to apply or prepare for upcoming tests?
                 </h3>
                 <p className="text-xs text-secondary">
-                  Explore verified gazetted openings or practice timed MCQs directly on RozgarPK.
+                  Explore verified gazetted openings or practice timed MCQs directly on Tainaati.
                 </p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto">

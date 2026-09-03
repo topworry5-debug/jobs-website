@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Automated Source Cross-Checker & Live Audit Guardian
+ * Tainaati — Automated Source Cross-Checker & Live Audit Guardian
  * Runs on every pipeline cycle to re-verify all active listings against official endpoints.
  * Automatically flags and drops any listing where a date discrepancy or source error is detected.
  */

@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Job Expiry & Lifecycle Manager
+ * Tainaati — Job Expiry & Lifecycle Manager
  * Automatically hides/archives listings whose application deadline has passed.
  */
 

@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
-const ADMIN_SESSION_COOKIE = 'rozgar_admin_session';
-const DEFAULT_ADMIN_PASSKEY = process.env.ADMIN_PASSWORD || 'RozgarPK@Admin2026!';
-const DEFAULT_ADMIN_TOKEN = process.env.ADMIN_AUTH_TOKEN || 'rozgar_pk_sec_admin_auth_9921_valid';
+const ADMIN_SESSION_COOKIE = 'tainaati_admin_session';
+const DEFAULT_ADMIN_PASSKEY = process.env.ADMIN_PASSWORD || 'Tainaati@Admin2026!';
+const DEFAULT_ADMIN_TOKEN = process.env.ADMIN_AUTH_TOKEN || 'tainaati_sec_admin_auth_9921_valid';
 
 export async function POST(request) {
   try {

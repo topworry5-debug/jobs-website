@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Strict Job Ingestion Validation & Integrity Guard
+ * Tainaati — Strict Job Ingestion Validation & Integrity Guard
  * Zero tolerance for fabricated, guessed, or placeholder job data.
  * Validates that every listing originates from a verified official source with authentic fields.
  */

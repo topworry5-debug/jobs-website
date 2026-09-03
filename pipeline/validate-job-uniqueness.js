@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Job Uniqueness & Data Integrity Quality Assurance Validator
+ * Tainaati — Job Uniqueness & Data Integrity Quality Assurance Validator
  * Ensures zero duplicate descriptions, zero generic placeholder strings,
  * and 100% individual qualification & vacancy verification.
  */
@@ -21,7 +21,7 @@ export function validateJobUniqueness(jobs) {
   ];
 
   console.log(`\n======================================================`);
-  console.log(`[RozgarPK QA Validator] Auditing ${jobs.length} Verified Job Entries...`);
+  console.log(`[Tainaati QA Validator] Auditing ${jobs.length} Verified Job Entries...`);
   console.log(`======================================================`);
 
   jobs.forEach((job, index) => {

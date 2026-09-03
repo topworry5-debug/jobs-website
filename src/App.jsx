@@ -28,7 +28,7 @@ export default function App() {
 
   // Language state: 'en' | 'ur'
   const [lang, setLang] = useState(() => {
-    return localStorage.getItem('rozgar_lang') || 'en';
+    return localStorage.getItem('tainaati_lang') || 'en';
   });
 
   // Dynamic Jobs list (includes seeded data + any employer postings)
@@ -36,13 +36,13 @@ export default function App() {
 
   // Theme state: 'light' | 'dark'
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('rozgar_theme') || 'dark';
+    return localStorage.getItem('tainaati_theme') || 'dark';
   });
 
   // Saved / Bookmarked Job IDs
   const [savedJobIds, setSavedJobIds] = useState(() => {
     try {
-      const stored = localStorage.getItem('rozgar_saved_jobs');
+      const stored = localStorage.getItem('tainaati_saved_jobs');
       return stored ? JSON.parse(stored) : ['govt-fpsc-01', 'priv-tech-01'];
     } catch {
       return ['govt-fpsc-01', 'priv-tech-01'];
@@ -70,19 +70,19 @@ export default function App() {
   // Apply theme to document
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('rozgar_theme', theme);
+    localStorage.setItem('tainaati_theme', theme);
   }, [theme]);
 
   // Apply language and RTL/LTR direction
   useEffect(() => {
     document.documentElement.setAttribute('lang', lang);
     document.documentElement.setAttribute('dir', lang === 'ur' ? 'rtl' : 'ltr');
-    localStorage.setItem('rozgar_lang', lang);
+    localStorage.setItem('tainaati_lang', lang);
   }, [lang]);
 
   // Persist saved jobs
   useEffect(() => {
-    localStorage.setItem('rozgar_saved_jobs', JSON.stringify(savedJobIds));
+    localStorage.setItem('tainaati_saved_jobs', JSON.stringify(savedJobIds));
   }, [savedJobIds]);
 
   const toggleTheme = () => {
@@ -117,7 +117,7 @@ export default function App() {
 
   // WhatsApp Share Handler
   const handleShareWhatsApp = (job) => {
-    const text = `📢 *Job Alert on RozgarPK*\n\n📌 *${job.title}*\n🏢 *${job.department || job.company}*\n📍 Location: ${job.city}\n⏳ Last Date: ${job.lastDate}\n\n🔗 View details & verify online:\n${window.location.origin}`;
+    const text = `📢 *Job Alert on Tainaati*\n\n📌 *${job.title}*\n🏢 *${job.department || job.company}*\n📍 Location: ${job.city}\n⏳ Last Date: ${job.lastDate}\n\n🔗 View details & verify online:\n${window.location.origin}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };
 

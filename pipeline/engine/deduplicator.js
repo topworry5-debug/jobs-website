@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Intelligent Job Deduplication Engine
+ * Tainaati — Intelligent Job Deduplication Engine
  * Identifies duplicate job postings across multiple sources (e.g. FPSC gazette vs Ministry website)
  * using string normalization, department fuzzy matching, and closing date alignment.
  */

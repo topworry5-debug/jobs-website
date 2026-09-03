@@ -1,5 +1,5 @@
 /**
- * RozgarPK — Email Job Alerts Dispatcher
+ * Tainaati — Email Job Alerts Dispatcher
  * Matches newly scraped jobs against verified subscriber criteria (Sector, City, Scale, Qualification)
  * and delivers branded HTML notifications or batched Daily Digests via Email Service.
  */

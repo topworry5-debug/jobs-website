@@ -50,7 +50,7 @@ import {
 
 const NEUTRAL_SILHOUETTE_PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23F1F5F9'/%3E%3Ccircle cx='60' cy='46' r='22' fill='%2394A3B8'/%3E%3Cpath d='M20 110 C20 80, 42 72, 60 72 C78 72, 100 80, 100 110 Z' fill='%2394A3B8'/%3E%3C/svg%3E";
 
-const STORAGE_KEY = 'rozgar_cv_builder_v2';
+const STORAGE_KEY = 'tainaati_cv_builder_v2';
 
 const PAKISTANI_CITIES = [
   'Islamabad', 'Lahore', 'Karachi', 'Rawalpindi', 'Peshawar', 
@@ -336,7 +336,7 @@ const sanitizeLoadedCvData = (data) => {
     const lower = val.toLowerCase();
     // Detect any site branding, hero banner references, or marketing phrases
     if (lower.includes('authority') || lower.includes('careers') || lower.includes('hero') || 
-        lower.includes('banner') || lower.includes('logo') || lower.includes('rozgar') ||
+        lower.includes('banner') || lower.includes('logo') || lower.includes('tainaati') ||
         lower.includes('competitive') || lower.includes('exam')) {
       return true;
     }
@@ -1000,7 +1000,7 @@ export default function CvBuilder() {
     const fileDownload = document.createElement("a");
     document.body.appendChild(fileDownload);
     fileDownload.href = source;
-    fileDownload.download = `${(cvData.personal.fullName || 'Resume').replace(/\s+/g, '_')}_RozgarPK.doc`;
+    fileDownload.download = `${(cvData.personal.fullName || 'Resume').replace(/\s+/g, '_')}_Tainaati.doc`;
     fileDownload.click();
     document.body.removeChild(fileDownload);
   };

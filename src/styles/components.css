@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ROZGAR.PK — COMPLETE FLAGSHIP COMPONENT DESIGN SYSTEM
+   TAINAATI.COM — COMPLETE FLAGSHIP COMPONENT DESIGN SYSTEM
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -7909,5 +7909,41 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   color: var(--primary-400);
 }
 
+/* Platform Features & Tools Styles */
+.nav-badge-count {
+  font-size: 0.625rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-full);
+  background: var(--primary-600);
+  color: #ffffff;
+  min-width: 1rem;
+  text-align: center;
+}
 
+.jobs-for-you-section {
+  animation: fadeIn 0.4s ease-out;
+}
 
+.calculator-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.calculator-header-card {
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.saved-jobs-tracker-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.exam-results-hub-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
