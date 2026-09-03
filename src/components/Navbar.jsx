@@ -156,8 +156,9 @@ export default function Navbar() {
         setLangMenuOpen(false);
       }
       if (
-        (govtDropdownRef.current && !govtDropdownRef.current.contains(event.target)) &&
-        (privateDropdownRef.current && !privateDropdownRef.current.contains(event.target))
+        (!govtDropdownRef.current || !govtDropdownRef.current.contains(event.target)) &&
+        (!privateDropdownRef.current || !privateDropdownRef.current.contains(event.target)) &&
+        (!toolsDropdownRef.current || !toolsDropdownRef.current.contains(event.target))
       ) {
         setActiveDropdown(null);
       }
@@ -191,6 +192,7 @@ export default function Navbar() {
 
   const isGovtActive = pathname.startsWith('/jobs/govt') || govtCategories.some(c => pathname === `/jobs/${c.slug}`);
   const isPrivateActive = pathname.startsWith('/jobs/private') || privateCategories.some(c => pathname === `/jobs/${c.slug}`);
+  const isResourcesActive = ['/exams', '/exam-results', '/salary-calculator', '/cv-builder', '/blog'].some(p => pathname === p || pathname.startsWith(p + '/'));
 
   const currentLangObj = LANGUAGES.find(l => l.code === lang) || LANGUAGES[0];
 
@@ -371,51 +373,116 @@ export default function Navbar() {
               <span className="nav-badge badge-mcq">{t.nav.mcqBadge}</span>
             </Link>
 
-            {/* Exam Calendar Link */}
-            <Link
-              href="/exams"
-              className={`nav-link-item ${isActive('/exams') ? 'active' : ''}`}
+            {/* Resources & Tools Dropdown (Consolidates Exams, Results, Salary, CV Builder, Guides) */}
+            <div 
+              className="nav-dropdown-container" 
+              ref={toolsDropdownRef}
+              onMouseEnter={() => setActiveDropdown('resources')}
+              onMouseLeave={() => setActiveDropdown(null)}
             >
-              <Calendar size={14} className="nav-icon" />
-              <span>{t.nav.examCalendar}</span>
-            </Link>
+              <button
+                type="button"
+                className={`nav-dropdown-trigger ${isResourcesActive ? 'active' : ''} ${activeDropdown === 'resources' ? 'open' : ''}`}
+                onClick={() => setActiveDropdown(activeDropdown === 'resources' ? null : 'resources')}
+                aria-expanded={activeDropdown === 'resources'}
+                aria-haspopup="true"
+              >
+                <Sparkles size={14} className="nav-icon text-amber-500" />
+                <span>{t.nav.resources || "Resources"}</span>
+                <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'resources' ? 'rotate-180' : ''}`} />
+              </button>
 
-            {/* Results & Roll No Slips */}
-            <Link
-              href="/exam-results"
-              className={`nav-link-item ${isActive('/exam-results') ? 'active' : ''}`}
-            >
-              <FileCheck size={14} className="nav-icon text-emerald-500" />
-              <span>{t.nav.examResults || "Results & Slips"}</span>
-            </Link>
+              {activeDropdown === 'resources' && (
+                <div className="nav-mega-dropdown nav-resources-dropdown" role="menu">
+                  <div className="nav-dropdown-header-card">
+                    <div className="flex items-center gap-2">
+                      <Sparkles size={16} className="text-amber-500" />
+                      <div>
+                        <div className="text-xs font-bold text-primary">Candidate Resources & Tools</div>
+                        <div className="text-[10px] text-muted">Exam tracking, salary calculation & ATS tools</div>
+                      </div>
+                    </div>
+                  </div>
 
-            {/* Salary Calculator */}
-            <Link
-              href="/salary-calculator"
-              className={`nav-link-item ${isActive('/salary-calculator') ? 'active' : ''}`}
-            >
-              <Calculator size={14} className="nav-icon text-amber-500" />
-              <span>{t.nav.salaryCalculator || "BPS Salary"}</span>
-            </Link>
+                  <div className="nav-dropdown-items-list">
+                    <Link
+                      href="/exams"
+                      className={`nav-dropdown-item-link ${pathname === '/exams' ? 'active' : ''}`}
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Calendar size={15} className="text-blue-500 flex-shrink-0" />
+                        <div>
+                          <span className="font-semibold block">{t.nav.examCalendar}</span>
+                          <span className="text-[10px] text-muted block">FPSC, PPSC & NTS Test Schedules</span>
+                        </div>
+                      </div>
+                      <span className="nav-dropdown-count">Live</span>
+                    </Link>
 
-            {/* CV Builder Link */}
-            <Link
-              href="/cv-builder"
-              className={`nav-link-item ${isActive('/cv-builder') ? 'active' : ''}`}
-            >
-              <FileText size={14} className="nav-icon" />
-              <span>{t.nav.cvBuilder}</span>
-              <span className="nav-badge badge-free text-[9px] bg-emerald-500/10 text-emerald-600 font-bold px-1.5 py-0.5 rounded-full">{t.nav.freeBadge}</span>
-            </Link>
+                    <Link
+                      href="/exam-results"
+                      className={`nav-dropdown-item-link ${pathname === '/exam-results' ? 'active' : ''}`}
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <FileCheck size={15} className="text-emerald-500 flex-shrink-0" />
+                        <div>
+                          <span className="font-semibold block">{t.nav.examResults || "Results & Roll No Slips"}</span>
+                          <span className="text-[10px] text-muted block">Merit lists & interview letters</span>
+                        </div>
+                      </div>
+                      <span className="nav-badge badge-official">Verified</span>
+                    </Link>
 
-            {/* Guides Link */}
-            <Link
-              href="/blog"
-              className={`nav-link-item ${isActive('/blog') ? 'active' : ''}`}
-            >
-              <BookOpen size={14} className="nav-icon" />
-              <span>{t.nav.guides}</span>
-            </Link>
+                    <Link
+                      href="/salary-calculator"
+                      className={`nav-dropdown-item-link ${pathname === '/salary-calculator' ? 'active' : ''}`}
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Calculator size={15} className="text-amber-500 flex-shrink-0" />
+                        <div>
+                          <span className="font-semibold block">{t.nav.salaryCalculator || "BPS Salary Calculator"}</span>
+                          <span className="text-[10px] text-muted block">Pay scales & allowance calculator (BPS 1-22)</span>
+                        </div>
+                      </div>
+                      <span className="nav-badge badge-mcq">2026</span>
+                    </Link>
+
+                    <Link
+                      href="/cv-builder"
+                      className={`nav-dropdown-item-link ${pathname === '/cv-builder' ? 'active' : ''}`}
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <FileText size={15} className="text-purple-500 flex-shrink-0" />
+                        <div>
+                          <span className="font-semibold block">{t.nav.cvBuilder}</span>
+                          <span className="text-[10px] text-muted block">ATS-friendly PDF resume generator</span>
+                        </div>
+                      </div>
+                      <span className="nav-badge badge-free text-[9px] bg-emerald-500/10 text-emerald-600 font-bold px-1.5 py-0.5 rounded-full">{t.nav.freeBadge}</span>
+                    </Link>
+
+                    <Link
+                      href="/blog"
+                      className={`nav-dropdown-item-link ${pathname === '/blog' || pathname.startsWith('/blog/') ? 'active' : ''}`}
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <BookOpen size={15} className="text-rose-500 flex-shrink-0" />
+                        <div>
+                          <span className="font-semibold block">{t.nav.guides}</span>
+                          <span className="text-[10px] text-muted block">Syllabus patterns, test prep & guides</span>
+                        </div>
+                      </div>
+                      <span className="nav-dropdown-count">Guides</span>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Right Utilities Cluster */}
@@ -434,7 +501,7 @@ export default function Navbar() {
             {/* Saved Jobs Shortcut Button */}
             <Link
               href="/saved-jobs"
-              className={`action-btn relative ${isActive('/saved-jobs') ? 'active' : ''}`}
+              className={`action-btn desktop-saved-btn relative ${isActive('/saved-jobs') ? 'active' : ''}`}
               title={t.nav.savedJobs || "Saved Jobs & Application Tracker"}
               aria-label="Saved Jobs"
             >
@@ -456,8 +523,8 @@ export default function Navbar() {
               <Bell size={16} />
             </Link>
 
-            {/* 3-Language Switcher Dropdown (Desktop Only) */}
-            <div className="lang-switcher-wrapper desktop-lang-switcher" ref={langDropdownRef}>
+            {/* 3-Language Switcher Dropdown (Always Visible Desktop & Mobile) */}
+            <div className="lang-switcher-wrapper" ref={langDropdownRef}>
               <button
                 onClick={() => setLangMenuOpen(!langMenuOpen)}
                 className="action-btn lang-dropdown-trigger"

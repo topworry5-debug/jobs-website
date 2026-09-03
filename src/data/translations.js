@@ -23,7 +23,8 @@ export const TRANSLATIONS = {
       freeBadge: "Free",
       themeLight: "Light Mode",
       themeDark: "Dark Mode",
-      selectLanguage: "Language"
+      selectLanguage: "Language",
+      resources: "Resources"
     },
     hero: {
       trustBadge: "100% Verified Advertisements — No Outdated Ads or Clutter",
@@ -277,7 +278,8 @@ export const TRANSLATIONS = {
       freeBadge: "مفت",
       themeLight: "لائٹ موڈ",
       themeDark: "ڈارک موڈ",
-      selectLanguage: "زبان"
+      selectLanguage: "زبان",
+      resources: "وسائل"
     },
     hero: {
       trustBadge: "100% تصدیق شدہ سرکاری اشتہارات — بغیر کسی جعلی اشتہار کے",
@@ -531,7 +533,8 @@ export const TRANSLATIONS = {
       freeBadge: "Muft",
       themeLight: "Light Mode",
       themeDark: "Dark Mode",
-      selectLanguage: "Zuban (Language)"
+      selectLanguage: "Zuban (Language)",
+      resources: "Resources"
     },
     hero: {
       trustBadge: "100% Tasdeeq Shuda Sarkari Jobs — Baghair Kisi Fraud Ya Ads Ke",
