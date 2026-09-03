@@ -18,12 +18,14 @@ import {
   DollarSign,
   AlertCircle,
   FileText,
-  Briefcase
+  Briefcase,
+  Flame
 } from 'lucide-react';
 import { JOBS_DATA } from '../../../data/jobsData';
 import { generateJobPostingSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
 import { getJobLogoUrl, getJobLogoAlt } from '../../../utils/logoResolver';
 import { getSiteUrl, getAbsoluteUrl } from '../../../utils/siteUrl';
+import { getJobDeadlineInfo, isJobExpired } from '../../../utils/jobStatus';
 
 export const dynamicParams = true;
 export const revalidate = 60;
@@ -40,21 +42,20 @@ export async function generateMetadata({ params }) {
 
   if (!job) {
     return {
-      title: "Job Not Found",
+      title: "Job Not Found — Tainaati",
+      description: "The requested job posting could not be found."
     };
   }
 
   const siteUrl = getSiteUrl();
-  const isGovt = job.type === 'govt';
-  const agencyTitle = job.agency || (isGovt ? 'Government of Pakistan' : job.company);
-  const pageTitle = `${job.title} - ${agencyTitle} (${job.city})`;
-  const pageDesc = `Apply for ${job.title} at ${job.department || job.company}. Required: ${job.qualification}. Last date to apply: ${job.lastDate}. Verified on Tainaati.`;
   const canonicalUrl = `${siteUrl}/jobs/${job.id}`;
+  const isGovt = job.type === 'govt';
+  const pageTitle = `${job.title} — ${job.department || job.company} (${job.city}) | Tainaati`;
+  const pageDesc = `Apply for ${job.title} at ${job.department || job.company}. Verified ${isGovt ? 'Government' : 'Private'} vacancy. Application Deadline: ${job.lastDate}. Detailed syllabus and eligibility criteria available.`;
 
   return {
     title: pageTitle,
     description: pageDesc,
-    keywords: [job.title, job.department, job.city, job.agency, job.bpsScale, "Pakistan Jobs", "Apply Online"].filter(Boolean),
     alternates: {
       canonical: canonicalUrl,
     },
@@ -62,16 +63,20 @@ export async function generateMetadata({ params }) {
       title: pageTitle,
       description: pageDesc,
       url: canonicalUrl,
-      type: 'article',
-      publishedTime: job.postDate,
-      modifiedTime: job.lastDate,
-      images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: job.title }]
+      type: "article",
+      images: [
+        {
+          url: `${siteUrl}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: job.title
+        }
+      ]
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: pageTitle,
-      description: pageDesc,
-      images: [`${siteUrl}/og-image.png`]
+      description: pageDesc
     }
   };
 }
@@ -86,6 +91,9 @@ export default function JobDetailPage({ params }) {
 
   const isGovt = job.type === 'govt';
   const siteUrl = getSiteUrl();
+  const deadlineInfo = getJobDeadlineInfo(job.lastDate, job.status);
+  const { isExpired, isClosingToday, daysLeft } = deadlineInfo;
+
   const jobPostingSchema = generateJobPostingSchema(job);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: `${siteUrl}` },
@@ -93,8 +101,9 @@ export default function JobDetailPage({ params }) {
     { name: job.title, url: `${siteUrl}/jobs/${job.id}` }
   ]);
 
+  // Only recommend active, non-expired jobs in related opportunities
   const relatedJobs = JOBS_DATA.filter(
-    (j) => j.id !== job.id && (j.agency === job.agency || j.city === job.city || j.type === job.type)
+    (j) => j.id !== job.id && !isJobExpired(j) && (j.agency === job.agency || j.city === job.city || j.type === job.type)
   ).slice(0, 4);
 
   return (
@@ -144,6 +153,18 @@ export default function JobDetailPage({ params }) {
                   {job.bpsScale && (
                     <span className="badge badge-bps font-mono">{job.bpsScale}</span>
                   )}
+                  {isClosingToday && (
+                    <span className="badge badge-closing-today flex items-center gap-1 font-bold">
+                      <Flame size={12} className="text-amber-300 animate-pulse" />
+                      <span>Closes today</span>
+                    </span>
+                  )}
+                  {isExpired && (
+                    <span className="badge badge-expired flex items-center gap-1 font-bold">
+                      <AlertCircle size={12} />
+                      <span>Applications Closed</span>
+                    </span>
+                  )}
                   {job.verified && (
                     <span className="badge badge-verified">
                       <ShieldCheck size={13} />
@@ -163,17 +184,36 @@ export default function JobDetailPage({ params }) {
             </div>
 
             <div className="job-cta-box-top">
-              <a
-                href={job.officialUrl || "https://tainaati.com"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary btn-lg"
-              >
-                <span>Apply on Official Portal</span>
-                <ExternalLink size={16} />
-              </a>
+              {isExpired ? (
+                <button disabled className="btn btn-secondary btn-lg opacity-60 cursor-not-allowed">
+                  <span>Applications Closed</span>
+                </button>
+              ) : (
+                <a
+                  href={job.officialUrl || "https://tainaati.com"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary btn-lg"
+                >
+                  <span>Apply on Official Portal</span>
+                  <ExternalLink size={16} />
+                </a>
+              )}
             </div>
           </div>
+
+          {/* Applications Closed Warning Banner */}
+          {isExpired && (
+            <div className="p-4 mb-6 rounded-xl border border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300 flex items-start gap-3" role="alert">
+              <AlertCircle size={22} className="text-red-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <div className="font-bold text-sm">Applications Closed</div>
+                <div className="text-xs mt-0.5 opacity-90 leading-relaxed">
+                  The application deadline for this position ({job.lastDate}) has passed. You can explore active verified vacancies below.
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Official Verification Banner */}
           <div className="official-verification-banner card p-4 mb-6">
@@ -340,14 +380,20 @@ export default function JobDetailPage({ params }) {
                 <div className="text-sm font-semibold text-primary">{job.officialUrl || "https://tainaati.com"}</div>
               </div>
 
-              <a
-                href={job.officialUrl || "https://tainaati.com"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary btn-lg"
-              >
-                <span>Proceed to Official Application &rarr;</span>
-              </a>
+              {isExpired ? (
+                <button disabled className="btn btn-secondary btn-lg opacity-60 cursor-not-allowed">
+                  <span>Applications Closed</span>
+                </button>
+              ) : (
+                <a
+                  href={job.officialUrl || "https://tainaati.com"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary btn-lg"
+                >
+                  <span>Proceed to Official Application &rarr;</span>
+                </a>
+              )}
             </div>
           </section>
         </article>

@@ -26,6 +26,7 @@ import {
 import { JOBS_DATA } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
 import { isClosingSoon, calculateDaysLeft } from '../utils/jobMetrics';
+import { getJobDeadlineInfo } from '../utils/jobStatus';
 
 const STATUS_OPTIONS = [
   { id: 'Saved', label: 'Bookmarked', color: 'bg-blue-500/10 text-blue-600 border-blue-500/30' },
@@ -249,7 +250,7 @@ export default function SavedJobsTracker() {
             const app = applicationData[job.id] || {};
             const currentStatus = app.status || 'Saved';
             const daysLeft = calculateDaysLeft(job.lastDate);
-            const isUrgent = isClosingSoon(job.lastDate, 3);
+            const deadlineInfo = getJobDeadlineInfo(job.lastDate, job.status);
             const isGovt = job.type === 'govt';
 
             return (
@@ -261,6 +262,12 @@ export default function SavedJobsTracker() {
                       <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
                         {isGovt ? job.bpsScale || 'Govt' : 'Private'}
                       </span>
+                      {deadlineInfo.isClosingToday && (
+                        <span className="badge badge-closing-today text-[10px] py-0.5">Closes today</span>
+                      )}
+                      {deadlineInfo.isExpired && (
+                        <span className="badge badge-expired text-[10px] py-0.5">Closed</span>
+                      )}
                       <span className="text-xs text-muted truncate max-w-xs">{job.department || job.company}</span>
                     </div>
                     <h2 className="text-base font-bold text-main">
@@ -286,9 +293,9 @@ export default function SavedJobsTracker() {
                     <span>{job.city}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Clock size={13} className={isUrgent ? 'text-amber-500' : 'text-muted'} />
-                    <span className={isUrgent ? 'font-bold text-amber-500' : ''}>
-                      Last Date: {job.lastDate} {isUrgent ? `(${daysLeft} days left)` : ''}
+                    <Clock size={13} className={deadlineInfo.isClosingToday || deadlineInfo.isUrgent ? 'text-red-500' : 'text-muted'} />
+                    <span className={deadlineInfo.isClosingToday || deadlineInfo.isUrgent ? 'font-bold text-red-600 dark:text-red-400' : deadlineInfo.isExpired ? 'text-muted' : ''}>
+                      Last Date: {job.lastDate} {deadlineInfo.isExpired ? '(Applications Closed)' : deadlineInfo.isClosingToday ? '(Closes today)' : deadlineInfo.isUrgent ? `(${daysLeft} days left)` : ''}
                     </span>
                   </div>
                   {job.challanFee && (

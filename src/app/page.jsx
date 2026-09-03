@@ -6,7 +6,7 @@ import JobsForYouSection from '../components/JobsForYouSection';
 import { JOBS_DATA } from '../data/jobsData';
 import { EXAM_SCHEDULES } from '../data/examCalendarData';
 import { generateItemListSchema } from '../utils/seoHelpers';
-import { computeJobMetrics } from '../utils/jobMetrics';
+import { computeJobMetrics, filterActiveJobs } from '../utils/jobMetrics';
 import { getSiteUrl } from '../utils/siteUrl';
 
 const siteUrl = getSiteUrl();
@@ -29,7 +29,8 @@ export const revalidate = 60;
 
 export default function HomePage() {
   const currentUrl = getSiteUrl();
-  const itemListSchema = generateItemListSchema(JOBS_DATA.slice(0, 20), currentUrl);
+  const activeJobs = filterActiveJobs(JOBS_DATA);
+  const itemListSchema = generateItemListSchema(activeJobs.slice(0, 20), currentUrl);
   const metrics = computeJobMetrics(JOBS_DATA, EXAM_SCHEDULES);
 
   return (

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { JOBS_DATA } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
+import { isJobExpired } from '../utils/jobStatus';
 
 export default function QuickSearchModal({
   isOpen,
@@ -29,7 +30,8 @@ export default function QuickSearchModal({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
-  const allJobs = jobs && jobs.length > 0 ? jobs : JOBS_DATA;
+
+  const activeJobs = (jobs && jobs.length > 0 ? jobs : JOBS_DATA).filter(j => !isJobExpired(j));
 
   useEffect(() => {
     if (isOpen) {
@@ -46,12 +48,12 @@ export default function QuickSearchModal({
   }, [isOpen]);
 
   const filteredJobs = (searchTerm || '').trim().length > 0
-    ? allJobs.filter(j => {
+    ? activeJobs.filter(j => {
         const queryTerms = searchTerm.toLowerCase().split(/\s+/).filter(Boolean);
         const searchableText = `${j.title || ''} ${j.department || ''} ${j.company || ''} ${j.city || ''} ${j.agency || ''} ${j.bpsScale || ''} ${j.category || ''} ${j.qualification || ''}`.toLowerCase();
         return queryTerms.every(term => searchableText.includes(term));
       }).slice(0, 8)
-    : allJobs.slice(0, 5);
+    : activeJobs.slice(0, 5);
 
   useEffect(() => {
     setSelectedIndex(0);

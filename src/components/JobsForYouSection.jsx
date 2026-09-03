@@ -2,20 +2,11 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { 
-  Sparkles, 
-  MapPin, 
-  Clock, 
-  ChevronRight, 
-  Bookmark, 
-  ShieldCheck, 
-  Flame,
-  ArrowRight,
-  TrendingUp
-} from 'lucide-react';
+import { Sparkles, ChevronRight, Bookmark } from 'lucide-react';
 import { JOBS_DATA } from '../data/jobsData';
 import { matchesJobCategory, getCategoryBySlug } from '../data/categoriesData';
-import { calculateDaysLeft, isClosingSoon } from '../utils/jobMetrics';
+import { isJobClosedOrClosingToday } from '../utils/jobStatus';
+import JobCard from './JobCard';
 
 export default function JobsForYouSection() {
   const [savedJobIds, setSavedJobIds] = useState([]);
@@ -25,8 +16,9 @@ export default function JobsForYouSection() {
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem('tainaati_saved_jobs') || '[]');
-      const alerts = JSON.parse(localStorage.getItem('tainaati_user_alerts') || '[]');
       setSavedJobIds(Array.isArray(saved) ? saved : []);
+
+      const alerts = JSON.parse(localStorage.getItem('tainaati_alerts') || '[]');
       setUserAlerts(Array.isArray(alerts) ? alerts : []);
     } catch (e) {
       console.error(e);
@@ -35,16 +27,15 @@ export default function JobsForYouSection() {
     }
   }, []);
 
-  const handleToggleSave = (jobId) => {
-    let updated;
-    if (savedJobIds.includes(jobId)) {
-      updated = savedJobIds.filter(id => id !== jobId);
-    } else {
-      updated = [...savedJobIds, jobId];
-    }
-    setSavedJobIds(updated);
+  const handleToggleSave = (job) => {
     try {
-      localStorage.setItem('tainaati_saved_jobs', JSON.stringify(updated));
+      const isSaved = savedJobIds.includes(job.id);
+      const nextSaved = isSaved 
+        ? savedJobIds.filter(id => id !== job.id)
+        : [...savedJobIds, job.id];
+
+      setSavedJobIds(nextSaved);
+      localStorage.setItem('tainaati_saved_jobs', JSON.stringify(nextSaved));
       window.dispatchEvent(new Event('tainaati_saved_jobs_updated'));
     } catch (e) {
       console.error(e);
@@ -94,13 +85,15 @@ export default function JobsForYouSection() {
         reason = `Based on your interest in jobs in ${topCity}`;
       }
 
+      // Strictly exclude any job that is closed or closing today (0d left)
       const matching = JOBS_DATA.filter(job => {
         if (savedJobIds.includes(job.id)) return false; // Already saved
+        if (isJobClosedOrClosingToday(job)) return false; // Exclude 0d left or expired
         let matches = false;
         if (topCategory && matchesJobCategory(job, topCategory)) matches = true;
         if (topCity && job.city?.toLowerCase().includes(topCity.toLowerCase())) matches = true;
         return matches;
-      }).slice(0, 4);
+      }).slice(0, 3);
 
       if (matching.length > 0) {
         return {
@@ -112,10 +105,15 @@ export default function JobsForYouSection() {
     }
 
     // Fallback: Trending Opportunities (High vacancy / featured)
+    // Strictly exclude any job that is closed or closing today (0d left)
     const fallback = JOBS_DATA
-      .filter(j => !savedJobIds.includes(j.id))
-      .sort((a, b) => (b.vacancies || 1) - (a.vacancies || 1))
-      .slice(0, 4);
+      .filter(j => !savedJobIds.includes(j.id) && !isJobClosedOrClosingToday(j))
+      .sort((a, b) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return (b.vacancies || 1) - (a.vacancies || 1);
+      })
+      .slice(0, 3);
 
     return {
       recommendedJobs: fallback,
@@ -127,21 +125,23 @@ export default function JobsForYouSection() {
   if (!isLoaded || recommendedJobs.length === 0) return null;
 
   return (
-    <section className="jobs-for-you-section mb-6">
-      <div className="card p-4 md:p-5 bg-gradient-to-r from-emerald-950/20 via-subtle to-transparent border-emerald-500/30">
+    <section className="jobs-for-you-section mb-8">
+      <div className="card p-5 md:p-6 bg-surface border border-subtle rounded-2xl shadow-sm space-y-4">
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-theme pb-3">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-subtle pb-3">
           <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <Sparkles size={18} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base md:text-lg font-bold text-main">
+                <h2 className="text-base md:text-lg font-bold text-primary font-serif">
                   {hasPersonalHistory ? "Jobs Recommended For You" : "Trending Opportunities"}
                 </h2>
-                {hasPersonalHistory && (
+                {hasPersonalHistory ? (
                   <span className="badge badge-govt text-[11px] py-0.5">Personalized</span>
+                ) : (
+                  <span className="badge badge-official text-[11px] py-0.5">High Demand</span>
                 )}
               </div>
               <p className="text-xs text-secondary mt-0.5">
@@ -154,76 +154,21 @@ export default function JobsForYouSection() {
             href="/saved-jobs" 
             className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 self-start sm:self-auto"
           >
-            <span>View Saved Jobs ({savedJobIds.length})</span>
+            <span>Saved Jobs ({savedJobIds.length})</span>
             <ChevronRight size={14} />
           </Link>
         </div>
 
-        {/* 4-Card Horizontal Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {recommendedJobs.map((job) => {
-            const isSaved = savedJobIds.includes(job.id);
-            const daysLeft = calculateDaysLeft(job.lastDate);
-            const isUrgent = isClosingSoon(job.lastDate, 3);
-            const isGovt = job.type === 'govt';
-
-            return (
-              <div 
-                key={job.id} 
-                className="p-3.5 rounded-lg border border-theme bg-card hover:border-emerald-500/50 transition-all flex flex-col justify-between space-y-2 group shadow-sm"
-              >
-                <div>
-                  <div className="flex justify-between items-start gap-1 mb-1">
-                    <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'} text-[10px]`}>
-                      {isGovt ? job.bpsScale || 'Govt' : 'Private'}
-                    </span>
-
-                    <button
-                      onClick={() => handleToggleSave(job.id)}
-                      className={`text-muted hover:text-emerald-500 p-0.5 rounded transition-colors ${isSaved ? 'text-emerald-500' : ''}`}
-                      title={isSaved ? "Remove from saved" : "Save job"}
-                    >
-                      <Bookmark size={14} fill={isSaved ? "currentColor" : "none"} />
-                    </button>
-                  </div>
-
-                  <h3 className="text-xs font-bold text-main line-clamp-2 leading-snug group-hover:text-emerald-600 transition-colors">
-                    <Link href={`/jobs/${job.id}`}>
-                      {job.title}
-                    </Link>
-                  </h3>
-
-                  <div className="text-[11px] text-muted truncate mt-1" dir="auto">
-                    {job.department || job.company}
-                  </div>
-                </div>
-
-                <div className="border-t border-theme/60 pt-2 space-y-1 text-[11px] text-secondary">
-                  <div className="flex items-center gap-1 truncate">
-                    <MapPin size={11} className="text-muted flex-shrink-0" />
-                    <span className="truncate">{job.city}</span>
-                  </div>
-
-                  <div className="flex justify-between items-center pt-0.5">
-                    <div className="flex items-center gap-1">
-                      <Clock size={11} className={isUrgent ? 'text-amber-500' : 'text-muted'} />
-                      <span className={isUrgent ? 'font-bold text-amber-500' : 'text-muted'}>
-                        {daysLeft}d left
-                      </span>
-                    </div>
-
-                    <Link 
-                      href={`/jobs/${job.id}`}
-                      className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline flex items-center text-[11px]"
-                    >
-                      <span>Apply</span>
-                      <ChevronRight size={12} />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Unified Responsive 3-Column / 2-Column / 1-Column Card Grid */}
+        <div className="jobs-cards-grid">
+          {recommendedJobs.map((job) => (
+            <JobCard
+              key={job.id}
+              job={job}
+              isSaved={savedJobIds.includes(job.id)}
+              onToggleSave={handleToggleSave}
+            />
+          ))}
         </div>
       </div>
     </section>

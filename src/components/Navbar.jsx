@@ -46,6 +46,7 @@ import {
 import { useLanguage } from '../context/LanguageContext';
 import { JOBS_DATA } from '../data/jobsData';
 import { CATEGORIES_CONFIG, matchesJobCategory } from '../data/categoriesData';
+import { isJobExpired } from '../utils/jobStatus';
 import QuickSearchModal from './QuickSearchModal';
 
 const LANGUAGES = [
@@ -117,14 +118,15 @@ export default function Navbar() {
     };
   }, []);
 
-  // Compute live job counts for all categories dynamically
+  // Compute live job counts for all categories dynamically (strictly active listings)
   const categoryCounts = useMemo(() => {
+    const activeJobs = JOBS_DATA.filter(j => !isJobExpired(j));
     const counts = {};
     CATEGORIES_CONFIG.forEach(cat => {
-      counts[cat.slug] = JOBS_DATA.filter(j => matchesJobCategory(j, cat.id)).length;
+      counts[cat.slug] = activeJobs.filter(j => matchesJobCategory(j, cat.id)).length;
     });
-    counts['govt'] = JOBS_DATA.filter(j => j.type === 'govt').length;
-    counts['private'] = JOBS_DATA.filter(j => j.type === 'private').length;
+    counts['govt'] = activeJobs.filter(j => j.type === 'govt').length;
+    counts['private'] = activeJobs.filter(j => j.type === 'private').length;
     return counts;
   }, []);
 

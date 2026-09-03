@@ -23,7 +23,7 @@ import {
   X
 } from 'lucide-react';
 
-import { isClosingSoon } from '../utils/jobMetrics';
+import { isClosingSoon, isJobExpired } from '../utils/jobMetrics';
 
 export default function HomeClientFilter({ initialJobs = [], initialCategory = 'all' }) {
   const { t, isRtl } = useLanguage();
@@ -127,8 +127,13 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     urgentOnly ||
     searchQuery.trim().length > 0;
 
+  // Exclude already-expired / closed jobs from default listings and counts
+  const activeJobs = useMemo(() => {
+    return jobs.filter(j => !isJobExpired(j));
+  }, [jobs]);
+
   // Filter Logic
-  const filteredJobs = jobs.filter((job) => {
+  const filteredJobs = activeJobs.filter((job) => {
     // 1. Search Query & Quick Urgent Filter
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
@@ -191,23 +196,23 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     return t.feed.allTitle;
   };
 
-  // Compute live category counts dynamically
+  // Compute live category counts dynamically based strictly on active listings
   const categoryCounts = useMemo(() => {
     const counts = {
-      all: jobs.length,
-      govt: jobs.filter(j => j.type === 'govt').length,
-      private: jobs.filter(j => j.type === 'private').length,
-      fpsc: jobs.filter(j => j.agency === 'FPSC').length,
-      ppsc: jobs.filter(j => j.agency === 'PPSC').length,
-      spsc: jobs.filter(j => j.agency === 'SPSC').length,
-      kppsc: jobs.filter(j => j.agency === 'KPPSC').length,
-      nts: jobs.filter(j => j.agency === 'NTS').length,
+      all: activeJobs.length,
+      govt: activeJobs.filter(j => j.type === 'govt').length,
+      private: activeJobs.filter(j => j.type === 'private').length,
+      fpsc: activeJobs.filter(j => j.agency === 'FPSC').length,
+      ppsc: activeJobs.filter(j => j.agency === 'PPSC').length,
+      spsc: activeJobs.filter(j => j.agency === 'SPSC').length,
+      kppsc: activeJobs.filter(j => j.agency === 'KPPSC').length,
+      nts: activeJobs.filter(j => j.agency === 'NTS').length,
     };
     CATEGORIES_CONFIG.forEach(cat => {
-      counts[cat.slug] = jobs.filter(j => matchesJobCategory(j, cat.id)).length;
+      counts[cat.slug] = activeJobs.filter(j => matchesJobCategory(j, cat.id)).length;
     });
     return counts;
-  }, [jobs]);
+  }, [activeJobs]);
 
   // Only display categories that have active jobs (or are the master 'all'/'govt' views)
   const visibleCategories = useMemo(() => {
