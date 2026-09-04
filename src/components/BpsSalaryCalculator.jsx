@@ -314,29 +314,36 @@ export default function BpsSalaryCalculator() {
         <div className="lg:col-span-7 space-y-6" ref={breakdownRef}>
           {/* Main Visual Hero Results Card */}
           <div className="salary-results-card p-6 md:p-8 space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4 border-b border-emerald-500/20 pb-6">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 block mb-1">
-                  Estimated Monthly Gross Salary (BPS-{selectedGrade})
-                </span>
-                <div className={`text-3xl md:text-4xl font-extrabold salary-hero-amount ${isAnimating ? 'salary-pulse-active' : ''}`}>
-                  {formatPKR(grossSalary)}
-                  <span className="text-xs md:text-sm font-sans font-normal text-muted ml-2">/ month</span>
+            {/* Equal-Weight Results Grid: Gross Salary & Take-Home Net Pay */}
+            <div className="salary-results-grid">
+              {/* Column 1: Gross Salary */}
+              <div className="salary-metric-col">
+                <div>
+                  <span className="salary-metric-heading">
+                    Estimated Monthly Gross Salary (BPS-{selectedGrade})
+                  </span>
+                  <div className={`text-3xl md:text-4xl font-extrabold salary-hero-amount ${isAnimating ? 'salary-pulse-active' : ''}`}>
+                    {formatPKR(grossSalary)}
+                    <span className="text-xs md:text-sm font-sans font-normal text-muted ml-2">/ mo</span>
+                  </div>
                 </div>
-                <div className="text-[11px] text-muted mt-1">
+                <span className="salary-metric-caption">
                   Includes Basic Pay + All Standard Federal/Provincial Allowances
-                </div>
+                </span>
               </div>
 
-              <div className="sm:text-right p-3.5 rounded-xl bg-surface/80 border border-subtle shadow-sm flex-shrink-0">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-muted block mb-0.5">
-                  Estimated Take-Home (Net Pay)
-                </span>
-                <div className={`text-xl md:text-2xl font-bold font-mono text-primary ${isAnimating ? 'salary-pulse-active' : ''}`}>
-                  ~{formatPKR(estimatedNetPay)}
+              {/* Column 2: Net Take-Home Pay (Equal visual weight, high contrast) */}
+              <div className="salary-metric-col">
+                <div>
+                  <span className="salary-metric-heading">
+                    Estimated Take-Home (Net Pay)
+                  </span>
+                  <div className={`salary-metric-amount ${isAnimating ? 'salary-pulse-active' : ''}`}>
+                    ~{formatPKR(estimatedNetPay)}
+                  </div>
                 </div>
-                <span className="text-[10px] text-muted block mt-0.5">
-                  After estimated standard deductions
+                <span className="salary-metric-caption">
+                  After estimated standard GP Fund, Benevolent & tax deductions
                 </span>
               </div>
             </div>
@@ -350,103 +357,103 @@ export default function BpsSalaryCalculator() {
                 <span className="text-[11px] text-muted font-mono">Currency: PKR</span>
               </div>
 
-              <div className="space-y-1 rounded-xl bg-surface/60 border border-subtle p-2">
+              <div className="space-y-1.5 rounded-xl bg-surface/60 border border-subtle p-2.5">
                 {/* 1. Basic Pay */}
                 <div className="salary-breakdown-row">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-3">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                    <div>
-                      <span className="font-semibold text-primary block">
+                    <div className="salary-row-info">
+                      <span className="salary-row-label">
                         Running Basic Pay (Stage {stage})
                       </span>
-                      <span className="text-[11px] text-muted block">
+                      <span className="salary-row-desc">
                         Scale base ({formatPKR(bps.minBasic)}) + {stage} increments
                       </span>
                     </div>
                   </div>
-                  <span className="font-mono font-bold text-primary">{formatPKR(basicPay)}</span>
+                  <span className="font-mono font-bold text-primary flex-shrink-0">{formatPKR(basicPay)}</span>
                 </div>
 
                 {/* 2. House Rent Allowance */}
                 <div className="salary-breakdown-row">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-3">
                     <span className="w-2.5 h-2.5 rounded-full bg-blue-500 flex-shrink-0" />
-                    <div>
-                      <span className="font-semibold text-primary block">
+                    <div className="salary-row-info">
+                      <span className="salary-row-label">
                         House Rent Allowance (HRA)
                       </span>
-                      <span className="text-[11px] text-muted block">
+                      <span className="salary-row-desc">
                         {isBigCity ? '45% Big Specified Cities rate' : '30% Regional / Town station rate'}
                       </span>
                     </div>
                   </div>
-                  <span className="font-mono font-bold text-primary">{formatPKR(houseRent)}</span>
+                  <span className="font-mono font-bold text-primary flex-shrink-0">{formatPKR(houseRent)}</span>
                 </div>
 
                 {/* 3. Adhoc Relief Allowances */}
                 <div className="salary-breakdown-row">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-3">
                     <span className="w-2.5 h-2.5 rounded-full bg-purple-500 flex-shrink-0" />
-                    <div>
-                      <span className="font-semibold text-primary block">
+                    <div className="salary-row-info">
+                      <span className="salary-row-label">
                         Adhoc Relief Allowances
                       </span>
-                      <span className="text-[11px] text-muted block">
+                      <span className="salary-row-desc">
                         Cumulative ~{bps.adhocPercent}% of running basic pay
                       </span>
                     </div>
                   </div>
-                  <span className="font-mono font-bold text-primary">{formatPKR(adhocRelief)}</span>
+                  <span className="font-mono font-bold text-primary flex-shrink-0">{formatPKR(adhocRelief)}</span>
                 </div>
 
                 {/* 4. Medical Allowance */}
                 <div className="salary-breakdown-row">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-3">
                     <span className="w-2.5 h-2.5 rounded-full bg-amber-500 flex-shrink-0" />
-                    <div>
-                      <span className="font-semibold text-primary block">
+                    <div className="salary-row-info">
+                      <span className="salary-row-label">
                         Medical Allowance
                       </span>
-                      <span className="text-[11px] text-muted block">
+                      <span className="salary-row-desc">
                         Standard gazetted/non-gazetted medical coverage
                       </span>
                     </div>
                   </div>
-                  <span className="font-mono font-bold text-primary">{formatPKR(medical)}</span>
+                  <span className="font-mono font-bold text-primary flex-shrink-0">{formatPKR(medical)}</span>
                 </div>
 
                 {/* 5. Conveyance Allowance */}
                 <div className="salary-breakdown-row">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-3">
                     <span className="w-2.5 h-2.5 rounded-full bg-teal-500 flex-shrink-0" />
-                    <div>
-                      <span className="font-semibold text-primary block">
+                    <div className="salary-row-info">
+                      <span className="salary-row-label">
                         Conveyance Allowance
                       </span>
-                      <span className="text-[11px] text-muted block">
+                      <span className="salary-row-desc">
                         {conveyance > 0 ? 'Fixed monthly transport reimbursement' : 'Official car & fuel entitlement'}
                       </span>
                     </div>
                   </div>
-                  <span className="font-mono font-bold text-primary">
+                  <span className="font-mono font-bold text-primary flex-shrink-0">
                     {conveyance > 0 ? formatPKR(conveyance) : 'Entitled Vehicle'}
                   </span>
                 </div>
 
                 {/* Total Deductions Row */}
                 <div className="salary-breakdown-row salary-deductions-row mt-2">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-3">
                     <span className="w-2.5 h-2.5 rounded-full bg-red-500 flex-shrink-0" />
-                    <div>
-                      <span className="block">
+                    <div className="salary-row-info">
+                      <span className="salary-row-label">
                         Total Estimated Deductions
                       </span>
-                      <span className="text-[10px] opacity-80 block font-normal">
+                      <span className="salary-row-desc">
                         GP Fund, Benevolent Fund, Group Insurance & Tax
                       </span>
                     </div>
                   </div>
-                  <span className="font-mono font-bold">-{formatPKR(estimatedDeductions)}</span>
+                  <span className="font-mono font-bold flex-shrink-0">-{formatPKR(estimatedDeductions)}</span>
                 </div>
               </div>
             </div>

@@ -100,17 +100,17 @@ export default function CityLandingPage({ params }) {
         {/* Stats Row */}
         {content.stats && (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4 pt-4 border-t border-subtle">
-            <div>
+            <div className="label-caption-group">
               <span className="text-xs text-muted block">Govt Openings</span>
-              <strong className="text-base text-primary">{content.stats.govtVacancies}</strong>
+              <strong className="text-base text-primary block">{content.stats.govtVacancies}</strong>
             </div>
-            <div>
+            <div className="label-caption-group">
               <span className="text-xs text-muted block">Private Careers</span>
-              <strong className="text-base text-primary">{content.stats.privateOpenings}</strong>
+              <strong className="text-base text-primary block">{content.stats.privateOpenings}</strong>
             </div>
-            <div className="col-span-2 sm:col-span-1">
+            <div className="col-span-2 sm:col-span-1 label-caption-group">
               <span className="text-xs text-muted block">Primary Sectors</span>
-              <strong className="text-xs text-primary">{content.stats.topDepts}</strong>
+              <strong className="text-xs text-primary block">{content.stats.topDepts}</strong>
             </div>
           </div>
         )}

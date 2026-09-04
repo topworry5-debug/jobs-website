@@ -7874,6 +7874,17 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   transform: translateX(-2px);
 }
 
+.nav-dropdown-item-link .font-semibold {
+  display: block;
+  line-height: 1.3;
+}
+
+.nav-dropdown-item-link .text-muted {
+  display: block;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
 .nav-dropdown-item-link.active {
   color: var(--primary-600);
   background: var(--primary-50);
@@ -8036,7 +8047,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
 .salary-results-card {
   background: rgba(16, 185, 129, 0.04);
   border: 1px solid rgba(16, 185, 129, 0.22);
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: 0 8px 30px rgba(11, 61, 46, 0.08);
 }
 
@@ -8044,6 +8055,78 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   background: rgba(11, 61, 46, 0.25);
   border-color: rgba(16, 185, 129, 0.25);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Equal-weight high-contrast results grid */
+.salary-results-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  align-items: stretch;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  padding-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .salary-results-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.salary-metric-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem 1.35rem;
+  border-radius: 12px;
+  background: var(--bg-surface);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: all var(--transition-fast);
+}
+
+[data-theme='dark'] .salary-metric-col {
+  background: var(--bg-surface-elevated);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.salary-metric-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary-700);
+  display: block;
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+
+[data-theme='dark'] .salary-metric-heading {
+  color: #68CEAD;
+}
+
+.salary-metric-amount {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+  .salary-metric-amount {
+    font-size: 2.15rem;
+  }
+}
+
+.salary-metric-caption {
+  font-size: 0.8125rem; /* 13px */
+  color: var(--text-secondary); /* #5B6660 */
+  line-height: 1.45;
+  margin-top: 0.5rem;
+  display: block;
 }
 
 .city-toggle-btn {
@@ -8121,10 +8204,11 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0.85rem;
-  border-radius: 8px;
-  font-size: 0.84rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
   transition: background var(--transition-fast);
+  gap: 0.75rem;
 }
 
 .salary-breakdown-row:nth-child(even) {
@@ -8139,18 +8223,58 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   background: var(--bg-surface-subtle);
 }
 
+/* Salary row label + description typography */
+.salary-row-info {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important; /* 4px */
+}
+
+.salary-row-label {
+  display: block !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.salary-row-desc {
+  display: block !important;
+  font-size: 0.8125rem !important; /* 13px */
+  color: var(--text-secondary) !important; /* #5B6660 */
+  line-height: 1.4;
+  margin-top: 0.25rem !important; /* 4px */
+}
+
 .salary-deductions-row {
   background: rgba(239, 68, 68, 0.08) !important;
   border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 8px;
+  border-radius: 10px;
   color: #ef4444;
   font-weight: 600;
+}
+
+.salary-deductions-row .salary-row-label {
+  color: #ef4444 !important;
+}
+
+.salary-deductions-row .salary-row-desc {
+  color: rgba(239, 68, 68, 0.85) !important;
+  font-size: 0.78rem !important;
 }
 
 [data-theme='dark'] .salary-deductions-row {
   background: rgba(239, 68, 68, 0.14) !important;
   border-color: rgba(239, 68, 68, 0.3);
   color: #f87171;
+}
+
+[data-theme='dark'] .salary-deductions-row .salary-row-label {
+  color: #f87171 !important;
+}
+
+[data-theme='dark'] .salary-deductions-row .salary-row-desc {
+  color: rgba(248, 113, 113, 0.85) !important;
 }
 
 .comparison-table-row {
@@ -8216,3 +8340,205 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* =========================================================
+   PREMIUM EXAM RESULTS & COMMISSIONS HUB DESIGN SYSTEM
+   ========================================================= */
+
+.exam-agency-card {
+  padding: 1.25rem;
+  border-radius: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+@media (min-width: 640px) {
+  .exam-agency-card {
+    padding: 1.5rem; /* 24px consistent card padding */
+  }
+}
+
+.exam-service-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem 1.35rem; /* 20-22px consistent padding */
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface-subtle);
+  transition: all var(--transition-fast);
+}
+
+.exam-service-card:hover {
+  border-color: rgba(16, 185, 129, 0.45);
+  background: var(--bg-surface);
+  box-shadow: 0 4px 16px rgba(11, 61, 46, 0.06);
+}
+
+[data-theme='dark'] .exam-service-card {
+  background: var(--bg-surface-elevated);
+}
+
+[data-theme='dark'] .exam-service-card:hover {
+  background: var(--bg-surface);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.exam-service-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.exam-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+[data-theme='dark'] .exam-verified-badge {
+  color: #34d399;
+}
+
+.exam-service-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem; /* 5px spacing between title and description */
+  margin-bottom: 1rem;
+}
+
+.exam-service-title {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  display: block;
+}
+
+.exam-service-desc {
+  font-size: 0.8125rem; /* 13px */
+  color: var(--text-secondary); /* #5B6660 */
+  line-height: 1.5;
+  margin-top: 0.25rem; /* 4px */
+  display: block;
+}
+
+/* Consistent Action Buttons for Exam Links */
+.exam-cta-btn {
+  width: 100%;
+  min-height: 42px;
+  height: 42px;
+  padding: 0.55rem 1rem;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.exam-cta-btn:active {
+  transform: scale(0.98);
+}
+
+.exam-cta-btn-primary {
+  background: var(--primary-900);
+  color: #ffffff !important;
+  border: 1px solid var(--primary-900);
+  box-shadow: 0 1px 3px rgba(11, 61, 46, 0.25);
+}
+
+.exam-cta-btn-primary:hover {
+  background: var(--primary-800);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(11, 61, 46, 0.25);
+}
+
+[data-theme='dark'] .exam-cta-btn-primary {
+  background: #064e3b;
+  border-color: #059669;
+}
+
+[data-theme='dark'] .exam-cta-btn-primary:hover {
+  background: #047857;
+}
+
+.exam-cta-btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--primary-900);
+  color: var(--primary-900) !important;
+}
+
+.exam-cta-btn-outline:hover {
+  background: rgba(11, 61, 46, 0.06);
+  transform: translateY(-1px);
+}
+
+[data-theme='dark'] .exam-cta-btn-outline {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold) !important;
+}
+
+[data-theme='dark'] .exam-cta-btn-outline:hover {
+  background: rgba(201, 162, 39, 0.1);
+}
+
+/* Testing Body Filter Pills */
+.testing-body-pills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem; /* Consistent 8px spacing between pills */
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.testing-body-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.95rem;
+  border-radius: 9999px;
+  font-size: 0.78125rem;
+  font-weight: 600;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.testing-body-pill:hover {
+  border-color: var(--primary-500);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+
+.testing-body-pill.active {
+  background: #0B3D2E !important;
+  color: #ffffff !important;
+  border-color: #C9A227 !important;
+  box-shadow: 0 2px 10px rgba(11, 61, 46, 0.35) !important;
+  font-weight: 700;
+}
+
+[data-theme='dark'] .testing-body-pill.active {
+  background: #064e3b !important;
+  color: #ffffff !important;
+  border-color: #f59e0b !important;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.25) !important;
+}
+

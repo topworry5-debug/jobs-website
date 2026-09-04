@@ -113,11 +113,11 @@ export default function AgencyLandingPage({ params }) {
 
         {/* Challan & Fee Advisory Card */}
         {content.challanGuide && (
-          <div className="p-3 rounded-lg border border-subtle bg-surface-subtle text-xs text-secondary leading-relaxed flex items-start gap-2">
+          <div className="p-3 rounded-lg border border-subtle bg-surface-subtle text-xs text-secondary leading-relaxed flex items-start gap-2.5">
             <FileText size={16} className="text-emerald-500 flex-shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-primary block">Fee Deposit & Application Advisory:</strong>
-              {content.challanGuide}
+            <div className="label-caption-group">
+              <strong className="text-primary font-semibold block">Fee Deposit & Application Advisory:</strong>
+              <span className="text-secondary text-xs block">{content.challanGuide}</span>
             </div>
           </div>
         )}

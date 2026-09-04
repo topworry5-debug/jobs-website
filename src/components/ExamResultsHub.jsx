@@ -119,7 +119,7 @@ export default function ExamResultsHub() {
         </div>
 
         {/* Agency Quick Filter Pills */}
-        <div className="flex flex-wrap gap-1.5 pt-2 border-t border-theme">
+        <div className="testing-body-pills-wrap">
           <span className="text-xs font-semibold text-muted mr-1 self-center">Testing Body:</span>
           {[
             { id: 'all', label: 'All Commissions' },
@@ -133,11 +133,7 @@ export default function ExamResultsHub() {
             <button
               key={ag.id}
               onClick={() => setSelectedAgency(ag.id)}
-              className={`badge transition-all cursor-pointer ${
-                selectedAgency === ag.id 
-                  ? 'badge-govt font-bold' 
-                  : 'bg-subtle text-secondary hover:bg-emerald-500/10'
-              }`}
+              className={`testing-body-pill ${selectedAgency === ag.id ? 'active' : ''}`}
             >
               {ag.label}
             </button>
@@ -149,18 +145,18 @@ export default function ExamResultsHub() {
       <div className="space-y-6">
         {filteredAgencies.length > 0 ? (
           filteredAgencies.map((agency) => (
-            <div key={agency.agencyId} className="card p-5 space-y-4">
+            <div key={agency.agencyId} className="exam-agency-card space-y-4">
               {/* Agency Header Row */}
-              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-theme pb-3">
+              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-subtle pb-4">
                 <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="badge badge-bps font-mono">{agency.logoText}</span>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="badge badge-bps font-mono font-bold">{agency.logoText}</span>
                     <span className="text-xs text-muted font-medium">{agency.jurisdiction}</span>
                   </div>
-                  <h2 className="text-lg font-bold text-main">
+                  <h2 className="text-lg md:text-xl font-bold text-primary">
                     {agency.agencyName}
                   </h2>
-                  <p className="text-xs text-secondary mt-0.5">
+                  <p className="text-xs text-secondary mt-1 leading-relaxed max-w-2xl">
                     {agency.description}
                   </p>
                 </div>
@@ -169,7 +165,7 @@ export default function ExamResultsHub() {
                   href={agency.verifiedPortalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-sm btn-outline text-xs self-start sm:self-auto flex items-center gap-1"
+                  className="btn btn-sm btn-outline text-xs self-start sm:self-auto flex items-center gap-1.5 flex-shrink-0"
                 >
                   <span>Official Domain: {agency.officialDomain}</span>
                   <ExternalLink size={12} />
@@ -177,40 +173,43 @@ export default function ExamResultsHub() {
               </div>
 
               {/* Agency Specific Services Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {agency.matchingServices.map((srv, idx) => {
                   const isSlip = srv.type === 'slip';
                   return (
                     <div 
                       key={idx} 
-                      className="p-3.5 rounded-lg border border-theme bg-subtle hover:border-emerald-500/50 transition-all flex flex-col justify-between"
+                      className="exam-service-card"
                     >
-                      <div className="space-y-1.5 mb-3">
-                        <div className="flex items-center justify-between">
-                          <span className={`badge text-xs ${isSlip ? 'badge-govt' : 'badge-private'}`}>
+                      <div>
+                        <div className="exam-service-header">
+                          <span className={`badge text-xs font-semibold ${isSlip ? 'badge-govt' : 'badge-private'}`}>
                             {isSlip ? 'Admission / Roll No Slip' : 'Examination Results'}
                           </span>
-                          <span className="text-xs text-muted flex items-center gap-1">
-                            <ShieldCheck size={12} className="text-emerald-500" />
+                          <span className="exam-verified-badge">
+                            <CheckCircle2 size={13} className="text-emerald-500 flex-shrink-0" />
                             <span>Verified Link</span>
                           </span>
                         </div>
-                        <h3 className="text-sm font-semibold text-main">
-                          {srv.title}
-                        </h3>
-                        <p className="text-xs text-secondary leading-relaxed">
-                          {srv.note}
-                        </p>
+
+                        <div className="exam-service-body">
+                          <h3 className="exam-service-title">
+                            {srv.title}
+                          </h3>
+                          <p className="exam-service-desc">
+                            {srv.note}
+                          </p>
+                        </div>
                       </div>
 
                       <a
                         href={srv.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`btn btn-sm ${isSlip ? 'btn-primary' : 'btn-outline'} text-xs justify-center flex items-center gap-1.5 w-full mt-2`}
+                        className={`exam-cta-btn ${isSlip ? 'exam-cta-btn-primary' : 'exam-cta-btn-outline'}`}
                       >
                         <span>{isSlip ? 'Download Roll Number Slip' : 'View Official Gazette Results'}</span>
-                        <ExternalLink size={12} />
+                        <ExternalLink size={13} />
                       </a>
                     </div>
                   );
