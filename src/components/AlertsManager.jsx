@@ -167,10 +167,10 @@ export default function AlertsManager() {
 
   const previewHtml = 
     inboxTab === 'verification'
-      ? generateVerificationEmail(email || "candidate@example.com", activeCode || "849201", "https://tainaati.com/alerts/verify")
+      ? generateVerificationEmail(email || "candidate@example.com", activeCode || "849201", "https://www.tainaati.com/alerts/verify")
       : inboxTab === 'instant'
-      ? generateSingleJobAlertEmail(sampleJob, email || "candidate@example.com", "https://tainaati.com/alerts/unsubscribe", "https://tainaati.com/alerts/preferences")
-      : generateDigestAlertEmail(sampleDigestJobs, email || "candidate@example.com", "https://tainaati.com/alerts/unsubscribe", "https://tainaati.com/alerts/preferences");
+      ? generateSingleJobAlertEmail(sampleJob, email || "candidate@example.com", "https://www.tainaati.com/alerts/unsubscribe", "https://www.tainaati.com/alerts/preferences")
+      : generateDigestAlertEmail(sampleDigestJobs, email || "candidate@example.com", "https://www.tainaati.com/alerts/unsubscribe", "https://www.tainaati.com/alerts/preferences");
 
   return (
     <div className="alerts-manager-page container-xl py-4">

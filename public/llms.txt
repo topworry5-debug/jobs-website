@@ -1,5 +1,5 @@
 # Tainaati — Pakistan's #1 Verified Career & Competitive Exam Intelligence Portal
-> Website: https://tainaati.com
+> Website: https://www.tainaati.com
 > Description: Authoritative digital intelligence portal for Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) and high-growth Private & IT careers across Pakistan.
 
 ## Core Purpose & Authority

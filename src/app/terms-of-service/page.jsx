@@ -45,7 +45,7 @@ export default function TermsOfServicePage() {
             Terms of Service
           </h1>
           <p className="text-secondary text-sm md:text-base leading-relaxed">
-            Please read these Terms of Service carefully before accessing or using Tainaati (<Link href="/" className="text-emerald-500 font-semibold underline">https://tainaati.com</Link>). 
+            Please read these Terms of Service carefully before accessing or using Tainaati (<Link href="/" className="text-emerald-500 font-semibold underline">https://www.tainaati.com</Link>). 
             By browsing the site, subscribing to job alerts, or utilizing our ATS CV Builder and Examination tools, you agree to be bound by these terms.
           </p>
         </div>

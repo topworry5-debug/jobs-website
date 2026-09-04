@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-secondary text-sm md:text-base leading-relaxed">
-            At Tainaati (accessible from <Link href="/" className="text-emerald-500 font-semibold underline">https://tainaati.com</Link>), 
+            At Tainaati (accessible from <Link href="/" className="text-emerald-500 font-semibold underline">https://www.tainaati.com</Link>), 
             we value your trust and are committed to safeguarding candidate data. This Privacy Policy details our operational data practices, 
             cookie usage, and local processing guarantees.
           </p>
@@ -145,7 +145,7 @@ export default function PrivacyPolicyPage() {
             <div className="bg-surface-subtle p-4 rounded-lg border border-subtle text-sm">
               <p className="font-bold text-primary">Tainaati Privacy & Compliance Desk</p>
               <p>Email: <a href="mailto:privacy@tainaati.com" className="text-emerald-500 font-medium underline">privacy@tainaati.com</a></p>
-              <p>Contact Form: <Link href="/contact" className="text-emerald-500 font-medium underline">https://tainaati.com/contact</Link></p>
+              <p>Contact Form: <Link href="/contact" className="text-emerald-500 font-medium underline">https://www.tainaati.com/contact</Link></p>
               <p className="text-xs text-muted mt-2">Islamabad, Islamic Republic of Pakistan</p>
             </div>
           </section>

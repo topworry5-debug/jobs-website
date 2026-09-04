@@ -156,12 +156,12 @@ export function generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl,
               <table role="presentation" cellspacing="0" cellpadding="0" style="margin-bottom: 24px;">
                 <tr>
                   <td>
-                    <a href="${job.officialUrl || 'https://tainaati.com'}" target="_blank" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-right: 12px;">
+                    <a href="${job.officialUrl || 'https://www.tainaati.com'}" target="_blank" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-right: 12px;">
                       Apply on Official Portal &rarr;
                     </a>
                   </td>
                   <td>
-                    <a href="https://tainaati.com/jobs/${job.id}" target="_blank" style="display: inline-block; background-color: #f1f5f9; color: #334155; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;">
+                    <a href="https://www.tainaati.com/jobs/${job.id}" target="_blank" style="display: inline-block; background-color: #f1f5f9; color: #334155; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;">
                       View Details
                     </a>
                   </td>
@@ -207,7 +207,7 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
             ${tag} ${job.agency || job.category || 'Tainaati'}
           </div>
           <h3 style="margin: 0 0 6px 0; font-size: 16px; font-weight: 700; color: #0f172a;">
-            <a href="${job.officialUrl || 'https://tainaati.com'}" target="_blank" style="color: #0f172a; text-decoration: none;">
+            <a href="${job.officialUrl || 'https://www.tainaati.com'}" target="_blank" style="color: #0f172a; text-decoration: none;">
               ${job.title}
             </a>
           </h3>
@@ -256,7 +256,7 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
           <!-- CTA to Portal -->
           <tr>
             <td align="center" style="padding: 24px;">
-              <a href="https://tainaati.com" target="_blank" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-size: 14px; font-weight: 700;">
+              <a href="https://www.tainaati.com" target="_blank" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-size: 14px; font-weight: 700;">
                 Explore All Opportunities on Tainaati &rarr;
               </a>
             </td>

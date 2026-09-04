@@ -352,7 +352,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                       isSaved={savedJobIds.includes(job.id)}
                       onToggleSave={handleToggleSave}
                       onShareWhatsApp={(j) => {
-                        const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via Tainaati: https://tainaati.com/jobs/${j.id}`);
+                        const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via Tainaati: https://www.tainaati.com/jobs/${j.id}`);
                         window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
                       }}
                     />

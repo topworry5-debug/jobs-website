@@ -78,7 +78,7 @@ export default function EmployerPortal({ onJobCreated }) {
         urgent: false,
         featured: true,
         verified: true,
-        officialUrl: formData.applyUrl || "https://tainaati.com",
+        officialUrl: formData.applyUrl || "https://www.tainaati.com",
         officialSourceLabel: "Direct Employer Verified Posting",
         description: formData.description || "Direct opportunity from verified employer on Tainaati."
       });

@@ -83,7 +83,7 @@ export class EmailService {
    * Send Email Confirmation / Verification Code
    */
   async sendVerificationEmail(email, code) {
-    const verifyUrl = `https://tainaati.com/alerts/verify?email=${encodeURIComponent(email)}&code=${code}`;
+    const verifyUrl = `https://www.tainaati.com/alerts/verify?email=${encodeURIComponent(email)}&code=${code}`;
     const html = generateVerificationEmail(email, code, verifyUrl);
     return await this.sendMail({
       to: email,
@@ -96,8 +96,8 @@ export class EmailService {
    * Send Instant Single Job Match Alert
    */
   async sendJobAlert(recipientEmail, job, subscriberId = "sub-1") {
-    const unsubscribeUrl = `https://tainaati.com/alerts/unsubscribe?email=${encodeURIComponent(recipientEmail)}&token=${subscriberId}`;
-    const manageUrl = `https://tainaati.com/alerts/preferences?email=${encodeURIComponent(recipientEmail)}`;
+    const unsubscribeUrl = `https://www.tainaati.com/alerts/unsubscribe?email=${encodeURIComponent(recipientEmail)}&token=${subscriberId}`;
+    const manageUrl = `https://www.tainaati.com/alerts/preferences?email=${encodeURIComponent(recipientEmail)}`;
     const html = generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl, manageUrl);
     return await this.sendMail({
       to: recipientEmail,
@@ -110,8 +110,8 @@ export class EmailService {
    * Send Daily Digest Email Batch
    */
   async sendDigestAlert(recipientEmail, jobs, subscriberId = "sub-1") {
-    const unsubscribeUrl = `https://tainaati.com/alerts/unsubscribe?email=${encodeURIComponent(recipientEmail)}&token=${subscriberId}`;
-    const manageUrl = `https://tainaati.com/alerts/preferences?email=${encodeURIComponent(recipientEmail)}`;
+    const unsubscribeUrl = `https://www.tainaati.com/alerts/unsubscribe?email=${encodeURIComponent(recipientEmail)}&token=${subscriberId}`;
+    const manageUrl = `https://www.tainaati.com/alerts/preferences?email=${encodeURIComponent(recipientEmail)}`;
     const html = generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, manageUrl);
     return await this.sendMail({
       to: recipientEmail,
