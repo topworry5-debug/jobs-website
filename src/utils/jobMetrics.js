@@ -67,6 +67,7 @@ export function computeJobMetrics(jobs = [], examSchedules = []) {
     PPSC: jobs.filter(j => j.agency === 'PPSC').length,
     SPSC: jobs.filter(j => j.agency === 'SPSC').length,
     KPPSC: jobs.filter(j => j.agency === 'KPPSC').length,
+    BPSC: jobs.filter(j => j.agency === 'BPSC').length,
     NTS: jobs.filter(j => j.agency === 'NTS').length,
   };
 

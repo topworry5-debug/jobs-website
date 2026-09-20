@@ -9,6 +9,7 @@ import { scrapeFPSC } from '../scrapers/fpscScraper.js';
 import { scrapePPSC } from '../scrapers/ppscScraper.js';
 import { scrapeNTS } from '../scrapers/ntsScraper.js';
 import { scrapeSPSC, scrapeKPPSC } from '../scrapers/spscScraper.js';
+import { scrapeBPSC } from '../scrapers/bpscScraper.js';
 import { deduplicateJobs } from './deduplicator.js';
 import { filterActiveJobs } from './expiryManager.js';
 import { dispatchJobAlerts } from '../alerts/alertDispatcher.js';
@@ -21,13 +22,14 @@ export async function runFullPipeline(existingJobs = [], subscribers = []) {
 
   console.log(`[Tainaati Pipeline] Starting full government ingestion cycle at ${runTimestamp}...`);
 
-  // Run all scrapers independently
-  const [fpscResult, ppscResult, ntsResult, spscResult, kppscResult] = await Promise.allSettled([
+  // Run all 6 commission scrapers independently
+  const [fpscResult, ppscResult, ntsResult, spscResult, kppscResult, bpscResult] = await Promise.allSettled([
     scrapeFPSC(),
     scrapePPSC(),
     scrapeNTS(),
     scrapeSPSC(),
-    scrapeKPPSC()
+    scrapeKPPSC(),
+    scrapeBPSC()
   ]);
 
   const rawScrapedJobs = [];
@@ -58,6 +60,7 @@ export async function runFullPipeline(existingJobs = [], subscribers = []) {
   handleResult(ntsResult, "National Testing Service (NTS)");
   handleResult(spscResult, "Sindh Public Service Commission (SPSC)");
   handleResult(kppscResult, "Khyber Pakhtunkhwa Public Service Commission (KPPSC)");
+  handleResult(bpscResult, "Balochistan Public Service Commission (BPSC)");
 
   // 1. Strict Validation & Anti-Fabrication Filter
   const validationResult = validateAndFilterPipelineJobs(rawScrapedJobs);
@@ -98,6 +101,7 @@ export async function runFullPipeline(existingJobs = [], subscribers = []) {
   return {
     summary: pipelineSummary,
     updatedActiveJobs: expiryResult.activeJobs,
-    newUniqueJobs: deduplicationResult.uniqueJobs
+    newUniqueJobs: deduplicationResult.uniqueJobs,
+    allJobs: [...expiryResult.activeJobs, ...expiryResult.archivedJobs]
   };
 }

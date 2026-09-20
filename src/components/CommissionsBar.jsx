@@ -17,6 +17,7 @@ export default function CommissionsBar({ jobsCountMap = {} }) {
     ppsc: { name: "PPSC Punjab", sub: "Lecturers, Registrars & Admin" },
     spsc: { name: "SPSC Sindh", sub: "Municipal & Civil Services" },
     kppsc: { name: "KPPSC Khyber", sub: "Provincial Examination Cadre" },
+    bpsc: { name: "BPSC Balochistan", sub: "Provincial Recruitment & Cadre" },
     nts: { name: "NTS Testing", sub: "Judiciary & Public Authorities" }
   };
 
@@ -25,6 +26,7 @@ export default function CommissionsBar({ jobsCountMap = {} }) {
     { key: 'ppsc', name: c.ppsc?.name || "PPSC Punjab", sub: c.ppsc?.sub || "Lecturers, Registrars & Admin", count: jobsCountMap.PPSC || 0, href: "/agency/ppsc", logo: "/logos/ppsc.svg" },
     { key: 'spsc', name: c.spsc?.name || "SPSC Sindh", sub: c.spsc?.sub || "Municipal & Civil Services", count: jobsCountMap.SPSC || 0, href: "/agency/spsc", logo: "/logos/spsc.svg" },
     { key: 'kppsc', name: c.kppsc?.name || "KPPSC Khyber", sub: c.kppsc?.sub || "Provincial Examination Cadre", count: jobsCountMap.KPPSC || 0, href: "/agency/kppsc", logo: "/logos/kppsc.svg" },
+    { key: 'bpsc', name: c.bpsc?.name || "BPSC Balochistan", sub: c.bpsc?.sub || "Provincial Recruitment & Cadre", count: jobsCountMap.BPSC || 0, href: "/agency/bpsc", logo: "/logos/bpsc.svg" },
     { key: 'nts', name: c.nts?.name || "NTS Testing", sub: c.nts?.sub || "Judiciary & Public Authorities", count: jobsCountMap.NTS || 0, href: "/agency/nts", logo: "/logos/nts.svg" }
   ];
 

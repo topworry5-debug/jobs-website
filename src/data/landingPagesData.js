@@ -178,6 +178,37 @@ export const AGENCY_LANDING_PAGES = {
     challanGuide: "Deposit examination fee via EasyPaisa / JazzCash integration or National Bank branch.",
     faqs: []
   },
+  "bpsc": {
+    code: "BPSC",
+    agencyCode: "BPSC",
+    fullName: "Balochistan Public Service Commission",
+    jurisdiction: "Balochistan Province",
+    officialWebsite: "https://bpsc.gob.pk",
+    officialPortalUrl: "https://bpsc.gob.pk",
+    metaTitle: "BPSC Jobs 2026 — Balochistan Public Service Commission Advertisements",
+    metaDescription: "Verified BPSC recruitment advertisements for Lecturers, Assistant Engineers, and Medical Officers. PSID fee guide & official portal.",
+    h1: "BPSC Jobs 2026 (Balochistan Public Service Commission)",
+    tagline: "Track official consolidated advertisements, gazette notices, and test schedules for Balochistan Provincial Government departments.",
+    challanGuide: "Generate online PSID/challan on BPSC portal. Deposit fee (Rs. 800 for BPS-16/17, Rs. 1200 for BPS-18, Rs. 2500 for BPS-19) via 1Link payment channels.",
+    faqs: [
+      {
+        question: "How do I apply online for BPSC jobs in Balochistan?",
+        answer: "Visit bpsc.gob.pk, select the desired post from the active Consolidated Advertisement, generate your 1Link fee PSID, deposit the fee, and complete the online application before the deadline."
+      },
+      {
+        question: "What is the BPSC application fee for BS-17 positions?",
+        answer: "The prescribed application fee for BS-16 and BS-17 posts is PKR 800, payable through 1Link participating bank branches, mobile apps, or ATMs."
+      },
+      {
+        question: "Is local domicile mandatory for BPSC recruitment?",
+        answer: "Yes, candidates must possess a valid Local or Domicile Certificate of Balochistan Province for provincial civil service and departmental vacancies."
+      },
+      {
+        question: "Where are BPSC examination centers located?",
+        answer: "Written screening examinations and competitive tests are primarily conducted at BPSC Examination Halls in Quetta, with regional centers established for major exams."
+      }
+    ]
+  },
   "nts": {
     code: "NTS",
     agencyCode: "NTS",

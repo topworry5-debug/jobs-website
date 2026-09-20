@@ -9,6 +9,7 @@ const ALLOWED_GOVT_DOMAINS = [
   'ppsc.gop.pk',
   'spsc.gos.pk',
   'kppsc.gov.pk',
+  'bpsc.gob.pk',
   'nts.org.pk',
   'anf.gov.pk',
   'wapda.gov.pk',
@@ -35,7 +36,7 @@ export function validateJobEntry(job) {
       const isGovt = job.type === 'govt';
       if (isGovt) {
         const isOfficialDomain = ALLOWED_GOVT_DOMAINS.some(d => parsedUrl.hostname.includes(d));
-        if (!isOfficialDomain && !parsedUrl.hostname.includes('.gov.pk') && !parsedUrl.hostname.includes('.gop.pk')) {
+        if (!isOfficialDomain && !parsedUrl.hostname.includes('.gov.pk') && !parsedUrl.hostname.includes('.gop.pk') && !parsedUrl.hostname.includes('.gob.pk')) {
           errors.push(`Untrusted government domain: ${parsedUrl.hostname}`);
         }
       }

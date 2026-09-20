@@ -44,6 +44,9 @@ export function getJobLogoUrl(job = {}) {
   if (agency === 'KPPSC' || dept.includes('kppsc') || title.includes('kppsc')) {
     return '/logos/kppsc.svg';
   }
+  if (agency === 'BPSC' || dept.includes('bpsc') || title.includes('bpsc')) {
+    return '/logos/bpsc.svg';
+  }
   if (agency === 'NTS' || dept.includes('nts') || title.includes('nts')) {
     return '/logos/nts.svg';
   }
