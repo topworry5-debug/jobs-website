@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "cron:expiry": "node scripts/daily-job-expiry-cron.mjs",
+    "pipeline:sync": "node pipeline/sync-to-frontend.js"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
