@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { BLOG_ARTICLES } from '../../../data/blogData';
-import { generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
+import { generateBreadcrumbSchema, generateFAQSchema, generateHowToSchema } from '../../../utils/seoHelpers';
 import SectionBadge from '../../../components/SectionBadge';
 import { getSiteUrl } from '../../../utils/siteUrl';
 import { 
@@ -88,6 +88,7 @@ export default function BlogArticlePage({ params }) {
   ]);
 
   const faqSchema = generateFAQSchema(article.faqs || []);
+  const howToSchema = article.howTo ? generateHowToSchema(article.howTo) : null;
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -131,6 +132,12 @@ export default function BlogArticlePage({ params }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {howToSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
       )}
 

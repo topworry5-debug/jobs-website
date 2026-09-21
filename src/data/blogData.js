@@ -4,16 +4,22 @@
  * and High-Intent Organic Search Traffic across Pakistan.
  */
 
+import { EXTENDED_BLOG_ARTICLES } from './blogArticlesExtended.js';
+
 export const BLOG_CLUSTERS = [
   { id: 'all', label: 'All Guides' },
   { id: 'govt-commissions', label: 'Government Commissions' },
   { id: 'today-jobs', label: 'Freshness & Today Roundups' },
   { id: 'armed-forces', label: 'Security & Uniformed Services' },
   { id: 'city-guides', label: 'City Career Hubs' },
-  { id: 'how-to', label: 'Application & Exam Prep' }
+  { id: 'how-to', label: 'Application & Exam Prep' },
+  { id: 'career-decisions', label: 'Career Decisions' },
+  { id: 'interview-prep', label: 'Interview Preparation' },
+  { id: 'job-glossary', label: 'Job Title Glossary' },
+  { id: 'govt-rules', label: 'Service Rules' }
 ];
 
-export const BLOG_ARTICLES = [
+export const BASE_BLOG_ARTICLES = [
   {
     slug: 'ppsc-jobs-complete-guide',
     title: 'PPSC Jobs 2026: Complete Application Process, Eligibility, Challan Fee & Syllabus Breakdown',
@@ -573,3 +579,5 @@ Key features of NJP include:
     ]
   }
 ];
+
+export const BLOG_ARTICLES = [...BASE_BLOG_ARTICLES, ...EXTENDED_BLOG_ARTICLES];
