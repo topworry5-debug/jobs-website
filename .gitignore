@@ -37,3 +37,10 @@ next-env.d.ts
 # lighthouse logs
 lighthouse-*.json
 
+# verification & scratch artifacts
+*.pdf
+*_page_*.jpg
+*_jobs_page.html
+scripts/temp-*
+pipeline/temp-*
+*.tmp
