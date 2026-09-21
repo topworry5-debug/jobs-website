@@ -36,6 +36,9 @@ Disallow: /api/admin
 
 # Sitemaps
 Sitemap: ${baseUrl}/sitemap.xml
+Sitemap: ${baseUrl}/sitemap-jobs.xml
+Sitemap: ${baseUrl}/sitemap-pages.xml
+Sitemap: ${baseUrl}/sitemap-categories.xml
 Host: ${baseUrl}
 `;
 

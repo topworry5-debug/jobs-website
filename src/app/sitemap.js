@@ -3,6 +3,7 @@ import { CATEGORIES_CONFIG } from '../data/categoriesData';
 import { CITY_LANDING_CONTENT, AGENCY_LANDING_CONTENT } from '../data/landingPagesData';
 import { BLOG_ARTICLES } from '../data/blogData';
 import { getSiteUrl } from '../utils/siteUrl';
+import { isJobExpired } from '../utils/jobStatus';
 
 export default function sitemap() {
   const baseUrl = getSiteUrl();
@@ -21,6 +22,7 @@ export default function sitemap() {
     '/salary-calculator',
     '/exam-results',
     '/blog',
+    '/faq',
     '/about',
     '/contact',
     '/privacy-policy',
@@ -32,12 +34,13 @@ export default function sitemap() {
     priority: route === '' ? 1.0 : (route === '/blog' ? 0.9 : (route === '/about' || route === '/contact' || route.startsWith('/privacy') || route.startsWith('/terms') ? 0.6 : 0.8)),
   }));
 
-  // Individual Job Pages
-  const jobRoutes = JOBS_DATA.map((job) => ({
+  // Individual Active Job Pages (Strictly excludes expired/archived jobs for optimal crawl budget)
+  const activeJobs = JOBS_DATA.filter((job) => !isJobExpired(job));
+  const jobRoutes = activeJobs.map((job) => ({
     url: `${baseUrl}/jobs/${job.id}`,
-    lastModified: job.postDate || lastModified,
+    lastModified: job.postDate ? `${job.postDate}T00:00:00.000Z` : lastModified,
     changeFrequency: 'daily',
-    priority: job.featured ? 0.9 : 0.7,
+    priority: job.featured ? 0.95 : 0.85,
   }));
 
   // Blog / Career Guides Pages
