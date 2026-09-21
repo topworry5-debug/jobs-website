@@ -5,8 +5,17 @@ import HomeClientFilter from '../../../components/HomeClientFilter';
 import { JOBS_DATA } from '../../../data/jobsData';
 import { AGENCY_LANDING_CONTENT } from '../../../data/landingPagesData';
 import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
-import { Landmark, ShieldCheck, ExternalLink, Award, FileText, CheckCircle2, BookOpen, Clock, HelpCircle, AlertCircle } from 'lucide-react';
+import { Landmark, ShieldCheck, ExternalLink, Award, FileText, CheckCircle2, BookOpen, Clock, HelpCircle, AlertCircle, ArrowRight, MapPin } from 'lucide-react';
 import { getSiteUrl } from '../../../utils/siteUrl';
+
+const AGENCY_PORTAL_MAP = {
+  fpsc: { portalUrl: '/national-job-portal', portalName: 'National Job Portal', cityUrl: '/city/islamabad', cityName: 'Islamabad Careers' },
+  ppsc: { portalUrl: '/punjab-job-portal', portalName: 'Punjab Job Portal', cityUrl: '/city/lahore', cityName: 'Lahore & Punjab Hubs' },
+  spsc: { portalUrl: '/sindh-job-portal', portalName: 'Sindh Job Portal', cityUrl: '/city/karachi', cityName: 'Karachi & Sindh Hubs' },
+  kppsc: { portalUrl: '/kpk-job-portal', portalName: 'KPK Job Portal', cityUrl: '/city/peshawar', cityName: 'Peshawar Careers' },
+  bpsc: { portalUrl: '/balochistan-job-portal', portalName: 'Balochistan Job Portal', cityUrl: '/city/quetta', cityName: 'Quetta Careers' },
+  nts: { portalUrl: '/national-job-portal', portalName: 'National Job Portal', cityUrl: '/city/islamabad', cityName: 'Islamabad Test Hub' },
+};
 
 export async function generateStaticParams() {
   const agencySlugs = Object.keys(AGENCY_LANDING_CONTENT);
@@ -46,6 +55,12 @@ export default function AgencyLandingPage({ params }) {
   const { agency } = params;
   const agencyKey = agency.toLowerCase();
   const siteUrl = getSiteUrl();
+  const portalInfo = AGENCY_PORTAL_MAP[agencyKey] || {
+    portalUrl: '/national-job-portal',
+    portalName: 'National Job Portal',
+    cityUrl: '/city/islamabad',
+    cityName: 'Islamabad'
+  };
   const content = AGENCY_LANDING_CONTENT[agencyKey] || {
     agencyCode: agency.toUpperCase(),
     fullName: `${agency.toUpperCase()} Public Service Commission`,
@@ -136,6 +151,35 @@ export default function AgencyLandingPage({ params }) {
             </div>
           </div>
         )}
+
+        {/* Cross-linking cards: Corresponding Provincial Job Portal & Major Exam Center City */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-subtle">
+          <Link 
+            href={portalInfo.portalUrl}
+            className="p-3 rounded-lg border border-subtle hover:border-emerald-500 bg-surface-subtle transition-all flex items-center justify-between group"
+          >
+            <div>
+              <span className="text-[10px] text-muted uppercase font-bold tracking-wider block">Official Portal Hub</span>
+              <span className="text-xs font-bold text-primary group-hover:text-emerald-500 transition-colors">
+                {portalInfo.portalName} (All Openings)
+              </span>
+            </div>
+            <ArrowRight size={14} className="text-muted group-hover:text-emerald-500 transition-colors" />
+          </Link>
+
+          <Link 
+            href={portalInfo.cityUrl}
+            className="p-3 rounded-lg border border-subtle hover:border-emerald-500 bg-surface-subtle transition-all flex items-center justify-between group"
+          >
+            <div>
+              <span className="text-[10px] text-muted uppercase font-bold tracking-wider block">Primary Testing Center</span>
+              <span className="text-xs font-bold text-primary group-hover:text-emerald-500 transition-colors">
+                {portalInfo.cityName}
+              </span>
+            </div>
+            <ArrowRight size={14} className="text-muted group-hover:text-emerald-500 transition-colors" />
+          </Link>
+        </div>
 
         {/* Live Zero-Vacancy Official Advisory */}
         {agencyJobs.length === 0 && (
