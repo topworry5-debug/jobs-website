@@ -364,5 +364,23 @@ export const PPSC_ADVT_08_2026_METADATA = {
     quota: "Open Merit: 10, Women Quota: 2, Minorities Quota: 1, Special Persons: 1",
     syllabus: "100-mark single paper MCQ (90 mins): 80% Punjab Local Government Act, Municipal Regulations, Urban Planning, Local Taxation Rules + 20% General Ability.",
     description: "Chief Officer / Municipal Officer (Regulations) administering municipal committees, enforcing town planning bylaws, overseeing anti-encroachment operations, and managing municipal service deliveries."
+  },
+  "10E2026": {
+    bpsScale: "BPS-17",
+    vacancies: 5,
+    qualification: "LL.B or Master's in Environmental Sciences / Environmental Law (2nd Division) from an HEC-recognized university.",
+    ageLimit: "Male: 21 to 30 + 5 = 35 Years | Female: 21 to 30 + 8 = 38 Years",
+    quota: "Open Merit (All Punjab): 4, Women Quota: 1",
+    syllabus: "100-mark single paper MCQ (90 mins): 80% Environmental Protection Act 1997, Climate Change Laws, Pollution Control Regulations + 20% General Ability.",
+    description: "Assistant Director Environmental Legislation in Environment Protection & Climate Change Department drafting statutory rules, vetting environmental notices, and preparing appellate tribunal cases."
+  },
+  "11E2026": {
+    bpsScale: "BPS-17",
+    vacancies: 2,
+    qualification: "Bachelor's (4 Years) or Master's Degree in Textile Design, Graphic Design, or Industrial Arts from an HEC-recognized institution.",
+    ageLimit: "Male: 21 to 30 + 5 = 35 Years | Female: 21 to 30 + 8 = 38 Years",
+    quota: "Open Merit (All Punjab): 2",
+    syllabus: "100-mark single paper MCQ (90 mins): 80% Design fundamentals, CAD/CAM drafting, product layout & digital visualization + 20% General Knowledge.",
+    description: "Assistant Director Design in Social Welfare & Bait-ul-Maal Department overseeing Sanatzar industrial training design curricula, handicraft quality standards, and welfare product branding."
   }
 };

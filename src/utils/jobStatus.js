@@ -30,7 +30,7 @@ export function calculateDaysLeft(dateStr, refDate = new Date()) {
  */
 export function isJobExpired(job) {
   if (!job) return false;
-  if (job.status === 'expired' || job.status === 'closed') return true;
+  if (job.status === 'expired' || job.status === 'closed' || job.status === 'archived') return true;
   if (!job.lastDate) return false;
   const days = calculateDaysLeft(job.lastDate);
   return days !== null && days < 0;
@@ -65,7 +65,7 @@ export function isJobActive(job) {
  * @returns {Object}
  */
 export function getJobDeadlineInfo(dateStr, jobStatus) {
-  if (jobStatus === 'expired' || jobStatus === 'closed') {
+  if (jobStatus === 'expired' || jobStatus === 'closed' || jobStatus === 'archived') {
     return {
       daysLeft: -1,
       isExpired: true,

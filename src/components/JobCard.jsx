@@ -149,7 +149,7 @@ export default function JobCard({
             <div className="deadline-indicator text-normal">
               <Clock size={13} className="text-emerald-500 flex-shrink-0" />
               <span className="text-xs text-secondary font-medium">
-                {daysLeft}d left
+                {daysLeft !== null ? `${daysLeft}d left` : 'Refer to ad'}
               </span>
             </div>
           )}

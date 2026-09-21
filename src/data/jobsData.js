@@ -3,6 +3,412 @@ import { CATEGORIES_CONFIG } from './categoriesData.js';
 
 export const BASE_JOBS_DATA = [
   // ==========================================
+  // REAL VERIFIED GOVERNMENT JOBS (SEPTEMBER 5, 2026)
+  // Sourced Data — No Fabrication Policy
+  // ==========================================
+  {
+    id: "nccia-cybercrime-multiple-posts-bs05-bs14-2026",
+    type: "govt",
+    title: "Multiple Posts (Sub Inspector, Technical Assistant, UDC & Constables) — National Cybercrime Investigation Agency",
+    rawTitle: "Sub Inspector, Technical Assistant, Stenotypist, UDC, ASI, Constable, Constable Driver",
+    caseNo: "NCCIA/Estt/Rect-2026/01",
+    advtNo: "NCCIA NPFTAS Recruitment Notice 2026",
+    department: "National Cybercrime Investigation Agency (NCCIA)",
+    company: "National Cybercrime Investigation Agency (Ministry of Interior and Narcotics Control)",
+    agency: "NCCIA",
+    agencySlug: null,
+    category: "Police & Law Enforcement",
+    categorySlug: "police-law-enforcement",
+    subCategory: "Federal Investigation & Cyber Crime",
+    bpsScale: "BS-05 to BS-14",
+    city: "Posting anywhere in Pakistan",
+    province: "All Pakistan (Federal & Provincial Quotas)",
+    qualification: "Bachelor's in CS, IT, Cyber Security, Software Engineering or related fields for BS-14; Intermediate for Stenotypist & UDC; Relevant driving skills for Constable Driver.",
+    vacancies: 351,
+    ageLimit: "18 to 25 Years (+ Standard Federal Age Relaxation)",
+    quota: "Sub Inspector: 48 total (Merit 4, Punjab 20 [Women 2, Minority 1], Sindh Rural/Urban & other provinces per official ad). For remaining 6 posts: See official advertisement for the complete post-wise and province-wise vacancy breakdown.",
+    complianceNotice: "NCCIA has stated a strict zero-tolerance policy against false, forged, or misleading information in applications. This is a federal law-enforcement recruitment process, and applicants must ensure absolute factual accuracy in their submissions. Providing inaccurate information will result in immediate disqualification and legal action.",
+    postsBreakdown: [
+      {
+        postTitle: "Sub Inspector",
+        scale: "BS-14",
+        qualification: "Second Class or Grade 'C' Bachelor's degree or equivalent from an HEC-recognized university in Computer Science, IT, Cyber Security, Software Engineering, Digital Forensics, Telecom/Electrical Engineering, Data Science, or equivalent.",
+        vacancies: "48 Posts",
+        quota: "Merit: 4, Punjab: 20 (Women: 2, Minority: 1), Sindh Rural, Sindh Urban and other provincial quotas as specified in official advertisement.",
+        physical: "Male: Minimum height 5'6\", 1-mile endurance run; Female: Minimum height 5'4\", 1-mile endurance run."
+      },
+      {
+        postTitle: "Technical Assistant",
+        scale: "BS-14",
+        qualification: "Second Class or Grade 'C' Bachelor's degree or equivalent from an HEC-recognized university in Computer Science, IT, Cyber Security, Software Engineering, Digital Forensics, Telecom/Electrical Engineering, Data Science, or equivalent.",
+        experience: "Minimum 3 years of post-qualification professional experience in the relevant technical domain.",
+        vacancies: "See official advertisement for post-wise and province-wise vacancy allocation.",
+        quota: "Allocated across provincial quotas per official advertisement."
+      },
+      {
+        postTitle: "Stenotypist",
+        scale: "BS-14",
+        qualification: "Intermediate (12th standard) from a recognized educational board.",
+        skills: "Minimum shorthand speed of 80 words per minute (wpm) and typing speed of 40 words per minute (wpm); computer literate.",
+        vacancies: "See official advertisement for post-wise and province-wise vacancy allocation.",
+        quota: "Allocated across provincial quotas per official advertisement."
+      },
+      {
+        postTitle: "Upper Division Clerk (UDC)",
+        scale: "BS-11",
+        qualification: "Intermediate (12th standard) from a recognized educational board.",
+        vacancies: "See official advertisement for post-wise and province-wise vacancy allocation.",
+        quota: "Allocated across provincial quotas per official advertisement."
+      },
+      {
+        postTitle: "Assistant Sub-Inspector (ASI)",
+        scale: "BS-09 / BS-11",
+        qualification: "As specified in official advertisement issued by NCCIA / NPFTAS.",
+        vacancies: "See official advertisement for post-wise and province-wise vacancy allocation.",
+        quota: "Allocated across provincial quotas per official advertisement.",
+        physical: "Male: Minimum height 5'6\", 1-mile endurance run; Female: Minimum height 5'4\", 1-mile endurance run."
+      },
+      {
+        postTitle: "Constable",
+        scale: "BS-05 / BS-07",
+        qualification: "As specified in official advertisement issued by NCCIA / NPFTAS.",
+        vacancies: "See official advertisement for post-wise and province-wise vacancy allocation.",
+        quota: "Allocated across provincial quotas per official advertisement.",
+        physical: "Male: Minimum height 5'6\", 1-mile endurance run; Female: Minimum height 5'4\", 1-mile endurance run."
+      },
+      {
+        postTitle: "Constable Driver",
+        scale: "BS-05 / BS-07",
+        qualification: "As specified in official advertisement; must be capable of driving motor cars / light transport vehicles with basic vehicle maintenance knowledge.",
+        vacancies: "See official advertisement for post-wise and province-wise vacancy allocation.",
+        quota: "Allocated across provincial quotas per official advertisement.",
+        physical: "Male: Minimum height 5'6\", 1-mile endurance run; Female: Minimum height 5'4\", 1-mile endurance run."
+      }
+    ],
+    eligibilityCriteria: [
+      "Sub Inspector (BS-14): 2nd Class Bachelor's in CS, IT, Cyber Security, Software Engineering, Digital Forensics, Telecom/Electrical Engineering, Data Science, or equivalent from an HEC-recognized university.",
+      "Technical Assistant (BS-14): 2nd Class Bachelor's in CS/IT/Cyber Security or equivalent with minimum 3 years of post-qualification professional experience.",
+      "Stenotypist (BS-14): Intermediate with minimum 80 wpm shorthand speed, 40 wpm typing speed, and computer literacy.",
+      "Upper Division Clerk - UDC (BS-11): Intermediate qualification from a recognized board of education.",
+      "Constable Driver: Practical driving ability for light motor vehicles with hands-on vehicle maintenance and upkeep knowledge.",
+      "Physical & Endurance Standards: Mandatory 1-mile physical run and measurement for Sub Inspector, ASI, Constable, and Constable Driver posts.",
+      "Height Standards: Minimum height of 5 feet 6 inches for male candidates, and 5 feet 4 inches for female candidates.",
+      "Age Limit: 18 to 25 years with general federal government age relaxation admissible under applicable civil service rules.",
+      "Application Fee: Rs. 2,000 per post deposited through 1Link/1Bill 22-digit PSID via Bank, ATM, Easypaisa, JazzCash, or UPaisa (separate application and fee required for each post).",
+      "Official Disclaimer: As per official advertisement, verify exact wording on https://www.npftas.pk and https://www.nccia.gov.pk for legally binding details."
+    ],
+    postDate: "2026-09-01",
+    lastDate: "2026-09-07",
+    lastVerifiedDate: "September 5, 2026",
+    urgent: false,
+    featured: false,
+    verified: true,
+    verifiedGazette: true,
+    status: "archived",
+    archived_at: "2026-09-20T00:00:00.000Z",
+    challanFee: "PKR 2,000 per post (Payable via 1Link/1Bill 22-digit PSID)",
+    officialUrl: "https://www.npftas.pk",
+    officialNotificationUrl: "https://www.npftas.pk",
+    officialSourceLabel: "National Cybercrime Investigation Agency (NCCIA) / NPFTAS Official Recruitment Circular",
+    employmentType: "FULL_TIME",
+    applicationMethod: "Online only through National Police Foundation Testing & Assessment Service portal (www.npftas.pk)",
+    description: "The National Cybercrime Investigation Agency under the Ministry of Interior and Narcotics Control is recruiting 351 personnel across BS-05 to BS-14 cadres for cybercrime prevention and digital forensic enforcement throughout Pakistan. Available designations encompass technical analysts, cyber investigators, administrative clerks, and uniformed field operatives. Screening assessments are administered by the National Police Foundation Testing & Assessment Service (NPFTAS), with online registration closing on September 07, 2026.",
+    metaTitle: "NCCIA Cybercrime Jobs (BS-05 to BS-14) – Ministry of Interior 2026 | Apply Online",
+    metaDescription: "Apply for 351 NCCIA vacancies across Sub Inspector, Technical Assistant, UDC & Constables via NPFTAS. Fee: Rs 2000 via 1Link. Deadline: September 07, 2026.",
+    faqs: [
+      {
+        question: "What is the last date to apply for NCCIA Jobs 2026?",
+        answer: "The last date to submit online applications through the NPFTAS recruitment portal is September 07, 2026. Applications submitted after this date are not entertained."
+      },
+      {
+        question: "How much is the application fee for NCCIA jobs?",
+        answer: "The application fee is Rs. 2,000 per post, payable via 1Link or 1Bill using a 22-digit PSID through online banking, ATMs, JazzCash, Easypaisa, or UPaisa."
+      },
+      {
+        question: "Can female candidates apply for NCCIA posts?",
+        answer: "Yes, female candidates meeting the required educational criteria and physical standards (minimum height 5'4\" with 1-mile run) are encouraged to apply under open merit and provincial quotas."
+      },
+      {
+        question: "Is a physical test required for NCCIA jobs?",
+        answer: "Yes, candidates applying for Sub Inspector, Assistant Sub-Inspector, Constable, and Constable Driver positions must pass a mandatory physical endurance test including a 1-mile run."
+      }
+    ]
+  },
+  {
+    id: "pof-labour-i-labour-ii-bps-01-02-2026",
+    type: "govt",
+    title: "Labour-I (BPS-01) & Labour-II (BPS-02) — Pakistan Ordnance Factories",
+    rawTitle: "Labour-I (BPS-01) & Labour-II (BPS-02)",
+    caseNo: "POF/Admin/Rect/2026/01",
+    advtNo: "POF Wah Recruitment Notice 2026",
+    department: "Pakistan Ordnance Factories (POF)",
+    company: "Pakistan Ordnance Factories (Ministry of Defence Production)",
+    agency: "POF",
+    agencySlug: null,
+    category: "Matric/Inter & Support Staff",
+    categorySlug: "matric-inter-support",
+    subCategory: "Industrial Labor & Support Staff",
+    bpsScale: "BPS-01 / BPS-02",
+    city: "Wah Cantt, Havelian Cantt & Sanjwal Cantt",
+    province: "Federal / Cantt Areas",
+    qualification: "Labour-II requires Matriculation; Labour-I requires Middle-level (8th Class) education.",
+    vacancies: 990,
+    ageLimit: "18 to 35 Years (calculated as of closing date)",
+    quota: "Combined 990 Posts (Merit, Regional & Defence Production Cadres)",
+    eligibilityCriteria: [
+      "Labour-II (BPS-02): Minimum qualification of Matriculation from a recognized educational board.",
+      "Labour-I (BPS-01): Minimum qualification of Middle-level (8th standard) education.",
+      "Age Limit: 18 to 35 years as calculated on the closing deadline of September 07, 2026.",
+      "Marital Eligibility Condition: Candidates having a foreign spouse are ineligible.",
+      "Employment Terms: Contract basis, initially 1 year, extendable based on performance and organizational need.",
+      "Selection Process: No TA/DA for test or interview; only shortlisted candidates will be contacted via SMS.",
+      "Official Disclaimer: As per official advertisement, verify exact wording on https://www.pof.gov.pk for legally binding details."
+    ],
+    postDate: "2026-09-01",
+    lastDate: "2026-09-07",
+    lastVerifiedDate: "September 5, 2026",
+    urgent: false,
+    featured: false,
+    verified: true,
+    verifiedGazette: true,
+    status: "archived",
+    archived_at: "2026-09-20T00:00:00.000Z",
+    challanFee: "See official advertisement",
+    officialUrl: "https://www.pof.gov.pk",
+    officialNotificationUrl: "https://www.pof.gov.pk",
+    officialSourceLabel: "POF Official Circular, Ministry of Defence Production",
+    employmentType: "CONTRACT",
+    applicationMethod: "Online only, via www.pof.gov.pk (hand-delivered or postal applications not accepted)",
+    description: "Pakistan Ordnance Factories under the Ministry of Defence Production is recruiting 990 personnel for Labour-I and Labour-II positions across its Wah, Havelian, and Sanjwal cantonment installations. The appointments provide an initial one-year contractual tenure with performance-based extension potential. Candidates with Middle or Matriculation qualifications must submit digital applications exclusively through the official POF web portal before the deadline.",
+    metaTitle: "Labour-I & Labour-II – Pakistan Ordnance Factories (POF) 2026 | Apply Online",
+    metaDescription: "Apply for 990 Labour-I (BPS-01) & Labour-II (BPS-02) jobs at POF Wah, Havelian & Sanjwal Cantt. Middle & Matric required. Apply online by September 07, 2026.",
+    faqs: [
+      {
+        question: "What is the last date to apply for POF Labour-I and Labour-II jobs?",
+        answer: "The deadline for online registration on the POF portal is September 07, 2026. Hand-delivered or postal submissions are strictly not accepted."
+      },
+      {
+        question: "What qualifications are required for POF Labour vacancies?",
+        answer: "Labour-II (BPS-02) requires a Matriculation certificate, whereas Labour-I (BPS-01) requires Middle-level (8th standard) school education."
+      },
+      {
+        question: "What is the age limit for Pakistan Ordnance Factories Labour recruitment?",
+        answer: "Applicants must be between 18 and 35 years of age calculated as of the closing date of September 07, 2026."
+      },
+      {
+        question: "How do candidates apply for the 990 POF positions?",
+        answer: "Candidates must complete online registration directly on www.pof.gov.pk. Only shortlisted candidates are notified through SMS for tests and interviews."
+      }
+    ]
+  },
+  {
+    id: "ecp-senior-assistant-bs15-sub-assistant-bs11-2026",
+    type: "govt",
+    title: "Senior Assistant (BS-15) & Sub Assistant (BS-11) — Election Commission of Pakistan",
+    rawTitle: "Senior Assistant (BS-15) & Sub Assistant (BS-11)",
+    caseNo: "ECP-ORS/Estt-2026/03",
+    advtNo: "ECP Recruitment Notice September 2026",
+    department: "Election Commission of Pakistan (ECP)",
+    company: "Election Commission of Pakistan",
+    agency: "ECP",
+    agencySlug: null,
+    category: "Public Sector Enterprises / PSEs",
+    categorySlug: "public-sector-enterprises",
+    subCategory: "Federal Autonomous & Constitutional Bodies",
+    bpsScale: "BS-15 / BS-11",
+    city: "Posting anywhere in Pakistan",
+    province: "Federal / All Pakistan",
+    qualification: "Senior Assistant requires Graduation with basic computer literacy and 6-week MS Office IT training; Sub Assistant requires criteria per advertisement.",
+    vacancies: 16,
+    ageLimit: "18 to 28 Years",
+    quota: "Senior Assistant (10 posts: Merit-1, Punjab-4 including women/minority, Sindh Urban-3, Sindh Rural-2); Sub Assistant (6 posts)",
+    eligibilityCriteria: [
+      "Senior Assistant (BS-15): Graduate degree from a recognized university, computer literate.",
+      "Mandatory IT Certification: Must possess a 6-week basic IT training course (MS Office) recognized by government.",
+      "Sub Assistant (BS-11): Minimum educational standards and computer proficiency per official advertisement.",
+      "Age Limit: 18 to 28 years for both male and female applicants.",
+      "Equal Opportunity & Quotas: Open to male and female candidates with designated quotas for women and non-Muslim minorities.",
+      "Application Fee: No application fee mentioned in the advertisement.",
+      "Official Disclaimer: As per official advertisement, verify exact wording on https://jobs.ecp.gov.pk for legally binding details."
+    ],
+    postDate: "2026-09-01",
+    lastDate: "2026-09-17",
+    lastVerifiedDate: "September 5, 2026",
+    urgent: false,
+    featured: false,
+    verified: true,
+    verifiedGazette: true,
+    status: "archived",
+    archived_at: "2026-09-20T00:00:00.000Z",
+    challanFee: "Nil (No application fee specified)",
+    officialUrl: "https://jobs.ecp.gov.pk",
+    officialNotificationUrl: "https://jobs.ecp.gov.pk",
+    officialSourceLabel: "Election Commission of Pakistan (ECP) Online Recruitment System",
+    employmentType: "FULL_TIME",
+    applicationMethod: "Online only via ECP's Online Recruitment System (ORS) — jobs.ecp.gov.pk",
+    description: "The Election Commission of Pakistan is hiring 16 personnel across Senior Assistant (BS-15) and Sub Assistant (BS-11) cadres with posting liability throughout Pakistan. Senior Assistant candidates must possess a recognized bachelor's degree coupled with a verified six-week government-approved basic IT course in MS Office. Applications are processed exclusively through the ECP Online Recruitment System without manual submissions.",
+    metaTitle: "Senior Assistant (BS-15) – Election Commission of Pakistan (ECP) 2026 | Apply Online",
+    metaDescription: "Apply for Senior Assistant (BS-15) & Sub Assistant (BS-11) at ECP. Graduate with IT course required. Deadline: September 17, 2026. Official criteria & ORS guide.",
+    faqs: [
+      {
+        question: "What is the last date to apply for ECP Senior Assistant positions?",
+        answer: "The closing date for submitting online applications through the ECP Online Recruitment System is September 17, 2026."
+      },
+      {
+        question: "What qualifications are required for Senior Assistant at ECP?",
+        answer: "Applicants must hold a Graduate degree, be computer literate, and possess a government-recognized 6-week basic IT training course in MS Office."
+      },
+      {
+        question: "What is the age bracket for Election Commission of Pakistan recruitment?",
+        answer: "The specified age limit is 18 to 28 years. Candidates of both genders, including minority quotas, are eligible to apply."
+      },
+      {
+        question: "Is there any application fee for ECP jobs in 2026?",
+        answer: "No application fee is prescribed in the official circular. Candidates apply online directly at jobs.ecp.gov.pk."
+      }
+    ]
+  },
+  {
+    id: "fpsc-fixed-term-project-positions-digitalization-2026",
+    type: "govt",
+    title: "Fixed-Term Project Positions (IT, Software, Cyber Security & QA) — Federal Public Service Commission",
+    rawTitle: "Fixed-Term Project Positions (Digitalization & Automation Project)",
+    caseNo: "FPSC-PSDP/Exam-Auto/2026",
+    advtNo: "FPSC PSDP Digitalization Project Circular 2026",
+    department: "Federal Public Service Commission (FPSC)",
+    company: "Federal Public Service Commission (PSDP Examination Automation Project)",
+    agency: "FPSC",
+    agencySlug: "fpsc",
+    category: "Public Sector Enterprises / PSEs",
+    categorySlug: "public-sector-enterprises",
+    subCategory: "IT, Tech & Digital Transformation",
+    bpsScale: "BS-16 to BS-17 Equivalent (Project Pay Scales)",
+    city: "Islamabad (FPSC Headquarters)",
+    province: "Federal",
+    qualification: "Varies by post (Project Management, Cybersecurity, Database Administration, Procurement, Software Development, Networking, QA). Fresh graduates eligible for entry-level BS-16/17.",
+    vacancies: 20,
+    ageLimit: "Varies by post (Entry-level BS-16/17 open to fresh graduates, senior roles require prior experience)",
+    quota: "See official advertisement",
+    eligibilityCriteria: [
+      "Project Scope: PSDP-funded project titled 'Digitalization of In-house Processes and Automation of Examination System of FPSC'.",
+      "Professional Streams: Project Management, Cybersecurity, Database Administration, Procurement, Software Development, Networking, Quality Assurance, and Academic disciplines.",
+      "Experience Requirements: Entry-level positions (BS-16 / BS-17 equivalent) are open to fresh graduates; other technical roles require relevant prior professional experience.",
+      "Contract Duration: Fixed-term contract basis initially for 1 year, extendable on performance or project completion.",
+      "Examination Fee: Standard FPSC challan fee process payable at designated National Bank of Pakistan (NBP) branches.",
+      "Deadline Notice: Closing date not specified in preliminary sources; candidates must refer to the official FPSC advertisement before applying.",
+      "Official Disclaimer: As per official advertisement, verify exact wording on https://www.fpsc.gov.pk for legally binding details."
+    ],
+    postDate: "2026-09-01",
+    lastDate: "Refer to official FPSC advertisement",
+    hasNoExactDeadline: true,
+    lastVerifiedDate: "September 5, 2026",
+    urgent: false,
+    featured: true,
+    verified: true,
+    verifiedGazette: true,
+    status: "active",
+    challanFee: "Standard FPSC Challan Fee (Payable via National Bank of Pakistan)",
+    officialUrl: "https://www.fpsc.gov.pk",
+    officialNotificationUrl: "https://www.fpsc.gov.pk",
+    officialSourceLabel: "FPSC PSDP Project Official Circular, Published 2026",
+    employmentType: "CONTRACT",
+    applicationMethod: "Online via www.fpsc.gov.pk with standard FPSC challan fee process (National Bank of Pakistan)",
+    description: "The Federal Public Service Commission is filling 20 contract positions under its PSDP initiative 'Digitalization of In-house Processes and Automation of Examination System of FPSC' at its Islamabad headquarters. Openings span software engineering, cybersecurity, networking, procurement, quality assurance, and database administration. Multiple entry-level tracks accommodate recent graduates, while specialized roles seek experienced professionals to advance examination modernization.",
+    metaTitle: "FPSC Project Positions – Federal Public Service Commission 2026 | Apply Online",
+    metaDescription: "Apply for 20 FPSC IT, Cybersecurity & Project positions under PSDP Digitalization project in Islamabad. Online challan via NBP. Refer to official ad for deadline.",
+    faqs: [
+      {
+        question: "What is the closing date for FPSC Digitalization Project vacancies?",
+        answer: "The application deadline is not stated in initial notifications. Applicants must verify the exact cutoff date directly on the official FPSC portal at www.fpsc.gov.pk."
+      },
+      {
+        question: "Which technical disciplines are being recruited under FPSC's PSDP project?",
+        answer: "Openings include cybersecurity, database administration, software engineering, project management, networking, procurement, and quality assurance."
+      },
+      {
+        question: "Can fresh graduates apply for these FPSC IT positions?",
+        answer: "Yes, designated entry-level roles at BS-16 and BS-17 equivalent project scales accept applications from fresh graduates in relevant disciplines."
+      },
+      {
+        question: "How do candidates apply for FPSC examination automation jobs?",
+        answer: "Applicants must pay the standard FPSC challan fee at the National Bank of Pakistan and submit their application through www.fpsc.gov.pk."
+      }
+    ]
+  },
+  // ==========================================
+  // FLAGSHIP STANDARD TEMPLATE LISTING (FBR / FPSC)
+  // ==========================================
+  {
+    id: "fpsc-live-customs-inspector-bps16-2026",
+    type: "govt",
+    title: "Inspector Customs / Intelligence Officer (BPS-16) — Federal Board of Revenue",
+    rawTitle: "Inspector Customs / Intelligence Officer (BPS-16)",
+    caseNo: "F.4-156/2026-R",
+    advtNo: "FPSC Consolidated Advt No. 09/2026",
+    department: "Federal Board of Revenue (Revenue Division)",
+    company: "Federal Board of Revenue (FBR)",
+    agency: "FPSC",
+    agencySlug: "fpsc",
+    category: "Public Sector Enterprises",
+    categorySlug: "public-sector-enterprises",
+    subCategory: "Customs & Tariff Administration",
+    bpsScale: "BPS-16",
+    city: "Nationwide (Customs Collectorates)",
+    province: "Federal",
+    qualification: "Second Class or Grade 'C' Bachelor's Degree with Economics, Commerce, Statistics, Accounting, Computer Science, Law, Pharmacy, Chemistry, or Physics from an HEC recognized university.",
+    vacancies: 56,
+    ageLimit: "20 to 28 Years (+ 5 Years General Age Relaxation as per Federal Government Rules)",
+    quota: "Merit: 4, Punjab: 28, Sindh Rural: 6, Sindh Urban: 4, Khyber Pakhtunkhwa: 7, Balochistan: 4, Ex-FATA: 2, AJK: 1",
+    eligibilityCriteria: [
+      "Second Class or Grade 'C' Bachelor's Degree (14 or 16 Years) from an HEC recognized university with Economics, Commerce, Statistics, Accounting, Computer Science, Law, Pharmacy, Chemistry, or Physics as a subject.",
+      "Physical Fitness Standards (Male): Minimum Height 5 feet 6 inches (167.6 cm); Chest 32 inches with 33.5 inches expansion.",
+      "Physical Fitness Standards (Female): Minimum Height 5 feet 2 inches (157.5 cm).",
+      "Age Limit: 20 to 28 years plus 5 years general relaxation allowed across federal cadres (maximum 33 years).",
+      "Official Disclaimer: As per official advertisement, verify exact wording on https://www.fpsc.gov.pk for legally binding details."
+    ],
+    syllabus: [
+      "Part-I (English - 20 Marks): Grammar Usage, Vocabulary, Sentence Structuring & Reading Comprehension.",
+      "Part-II (General Intelligence & Arithmetic - 20 Marks): Basic Arithmetic, Algebra, Ratio, Percentages & Geometry.",
+      "Part-III (General Knowledge & Current Affairs - 20 Marks): Pakistan Affairs, Everyday Science & Basic IT Literacy.",
+      "Part-IV (Professional Custom Functions - 40 Marks): Customs Act 1969 Basics, Anti-Smuggling Procedures & Role of FBR."
+    ],
+    postDate: "2026-09-01",
+    lastDate: "2026-09-22",
+    lastVerifiedDate: "September 04, 2026",
+    urgent: false,
+    featured: true,
+    verified: true,
+    verifiedGazette: true,
+    status: "active",
+    challanFee: "PKR 300 (Payable via National Bank of Pakistan or 1Link 1Bill PSID)",
+    officialUrl: "https://www.fpsc.gov.pk",
+    officialNotificationUrl: "https://www.fpsc.gov.pk/Jobs?section=GR",
+    officialSourceLabel: "FPSC Consolidated Advertisement No. 09/2026 (Case No. F.4-156/2026-R)",
+    employmentType: "FULL_TIME",
+    applicationMethod: "Online submission via FPSC Candidate Portal (cp.fpsc.gov.pk)",
+    description: "The Federal Board of Revenue is recruiting 56 BPS-16 Inspector Customs and Intelligence Officers for field collectorates across Pakistan. Appointed officers supervise border crossing stations, seaport cargo scanning facilities, and dry port container freight stations, ensuring accurate tariff assessment and curbing contraband smuggling. Trainees complete mandatory field enforcement modules at the Directorate General of Training & Research (Customs) in Karachi.",
+    metaTitle: "Inspector Customs BPS-16 – Federal Board of Revenue (FBR) 2026 | Apply Online",
+    metaDescription: "Apply for 56 Inspector Customs BPS-16 vacancies at FBR via FPSC. Bachelor's required. Deadline: September 22, 2026. Verified criteria, syllabus & guide.",
+    faqs: [
+      {
+        question: "What is the last date to apply for Inspector Customs (BPS-16) at FBR?",
+        answer: "The final deadline to submit online applications for Inspector Customs (BPS-16) through the FPSC portal is September 22, 2026. Submissions close at midnight."
+      },
+      {
+        question: "What is the eligibility for Inspector Customs BPS-16?",
+        answer: "Candidates must possess a Second Class or Grade 'C' Bachelor's degree in Economics, Commerce, Statistics, Accounting, Computer Science, Law, Pharmacy, Chemistry, or Physics, and meet physical height standards."
+      },
+      {
+        question: "How many vacancies are there for Inspector Customs in 2026?",
+        answer: "FPSC has announced 56 total posts for Inspector Customs / Intelligence Officer, allocated across Punjab (28), KPK (7), Sindh (10), Balochistan (4), Ex-FATA (2), and AJK (1) quotas."
+      },
+      {
+        question: "How do I apply for Inspector Customs (BPS-16)?",
+        answer: "Deposit the PKR 300 test fee using an FPSC treasury challan at National Bank or through 1Link PSID, then fill out the online profile on cp.fpsc.gov.pk before September 22, 2026."
+      }
+    ]
+  },
+  // ==========================================
   // BANKING & FINANCE (SBP & Commercial Banks in Karachi / Lahore)
   // ==========================================
   {
@@ -1025,7 +1431,8 @@ export const BASE_JOBS_DATA = [
     lastVerifiedDate: "August 16, 2026",
     isLiveScraped: false,
     verifiedGazette: true,
-    status: "closed"
+    status: "archived",
+    archived_at: "2026-08-16T00:00:00.000Z"
   }
 ];
 
@@ -1097,6 +1504,7 @@ export const CATEGORIES = [
   { id: "ppsc", label: "Punjab (PPSC)", icon: "Landmark" },
   { id: "spsc", label: "Sindh (SPSC)", icon: "Landmark" },
   { id: "kppsc", label: "KPK (KPPSC)", icon: "Landmark" },
+  { id: "bpsc", label: "Balochistan (BPSC)", icon: "Landmark" },
   { id: "nts", label: "Testing Services (NTS)", icon: "ShieldCheck" }
 ];
 

@@ -147,40 +147,57 @@ export default function JobDetailModal({
             )}
           </div>
 
-          {/* Live Application Deadline Countdown Card */}
-          <div className="deadline-countdown-banner">
-            <div className="countdown-info">
-              <div className="countdown-label">
-                <Clock size={16} />
-                <span>{t.jobDetail.deadline}</span>
+          {/* Live Application Deadline Countdown Card or Manual Review Notice */}
+          {job.hasNoExactDeadline || isNaN(new Date(`${job.lastDate}T23:59:59`).getTime()) ? (
+            <div className="deadline-countdown-banner p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-between flex-wrap gap-3">
+              <div className="countdown-info">
+                <div className="countdown-label text-amber-600 dark:text-amber-400 font-bold flex items-center gap-1.5">
+                  <Clock size={16} />
+                  <span>Application Deadline Notice</span>
+                </div>
+                <div className="countdown-date text-sm mt-0.5">
+                  <strong>{job.lastDate}</strong>
+                </div>
               </div>
-              <div className="countdown-date">
-                {t.jobCard.lastDate} <strong>{job.lastDate}</strong> (11:59 PM PST)
+              <div className="manual-review-tag px-3 py-1 bg-amber-500/20 text-amber-800 dark:text-amber-200 text-xs font-semibold rounded-full border border-amber-500/30">
+                Manual Review Reminder
               </div>
             </div>
+          ) : (
+            <div className="deadline-countdown-banner">
+              <div className="countdown-info">
+                <div className="countdown-label">
+                  <Clock size={16} />
+                  <span>{t.jobDetail.deadline}</span>
+                </div>
+                <div className="countdown-date">
+                  {t.jobCard.lastDate} <strong>{job.lastDate}</strong> (11:59 PM PST)
+                </div>
+              </div>
 
-            <div className="countdown-timer-grid">
-              <div className="timer-box">
-                <span className="timer-val">{timeLeft.days}</span>
-                <span className="timer-unit">Days</span>
-              </div>
-              <span className="timer-sep">:</span>
-              <div className="timer-box">
-                <span className="timer-val">{String(timeLeft.hours).padStart(2, '0')}</span>
-                <span className="timer-unit">Hours</span>
-              </div>
-              <span className="timer-sep">:</span>
-              <div className="timer-box">
-                <span className="timer-val">{String(timeLeft.minutes).padStart(2, '0')}</span>
-                <span className="timer-unit">Mins</span>
-              </div>
-              <span className="timer-sep">:</span>
-              <div className="timer-box">
-                <span className="timer-val">{String(timeLeft.seconds).padStart(2, '0')}</span>
-                <span className="timer-unit">Secs</span>
+              <div className="countdown-timer-grid">
+                <div className="timer-box">
+                  <span className="timer-val">{timeLeft.days}</span>
+                  <span className="timer-unit">Days</span>
+                </div>
+                <span className="timer-sep">:</span>
+                <div className="timer-box">
+                  <span className="timer-val">{String(timeLeft.hours).padStart(2, '0')}</span>
+                  <span className="timer-unit">Hours</span>
+                </div>
+                <span className="timer-sep">:</span>
+                <div className="timer-box">
+                  <span className="timer-val">{String(timeLeft.minutes).padStart(2, '0')}</span>
+                  <span className="timer-unit">Mins</span>
+                </div>
+                <span className="timer-sep">:</span>
+                <div className="timer-box">
+                  <span className="timer-val">{String(timeLeft.seconds).padStart(2, '0')}</span>
+                  <span className="timer-unit">Secs</span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Key Job Specifications Matrix */}
           <div className="spec-matrix-grid">
