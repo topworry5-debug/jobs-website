@@ -144,11 +144,25 @@ export default function Footer() {
           <div className="footer-links-col">
             <h4 className="footer-col-title">{t.footer.commissionsTracked}</h4>
             <ul className="footer-links-list">
-              <li><Link href="/agency/fpsc" className="footer-link-btn">FPSC Federal Intelligence</Link></li>
-              <li><Link href="/agency/ppsc" className="footer-link-btn">PPSC Punjab Intelligence</Link></li>
-              <li><Link href="/agency/spsc" className="footer-link-btn">SPSC Sindh Intelligence</Link></li>
-              <li><Link href="/agency/kppsc" className="footer-link-btn">KPPSC Khyber Pakhtunkhwa</Link></li>
-              <li><Link href="/agency/nts" className="footer-link-btn">NTS National Testing Service</Link></li>
+              <li><Link href="/agency/fpsc" className="footer-link-btn">FPSC Federal</Link></li>
+              <li><Link href="/agency/ppsc" className="footer-link-btn">PPSC Punjab</Link></li>
+              <li><Link href="/agency/spsc" className="footer-link-btn">SPSC Sindh</Link></li>
+              <li><Link href="/agency/kppsc" className="footer-link-btn">KPPSC Khyber</Link></li>
+              <li><Link href="/agency/bpsc" className="footer-link-btn">BPSC Balochistan</Link></li>
+              <li><Link href="/agency/nts" className="footer-link-btn">NTS Testing</Link></li>
+            </ul>
+          </div>
+
+          {/* Provincial & National Portals (High-Volume Searches) */}
+          <div className="footer-links-col">
+            <h4 className="footer-col-title">Province & National Portals</h4>
+            <ul className="footer-links-list">
+              <li><Link href="/punjab-job-portal" className="footer-link-btn">Punjab Job Portal</Link></li>
+              <li><Link href="/sindh-job-portal" className="footer-link-btn">Sindh Job Portal</Link></li>
+              <li><Link href="/national-job-portal" className="footer-link-btn">National Job Portal (NJP)</Link></li>
+              <li><Link href="/kpk-job-portal" className="footer-link-btn">KPK Job Portal</Link></li>
+              <li><Link href="/balochistan-job-portal" className="footer-link-btn">Balochistan Job Portal</Link></li>
+              <li><Link href="/faq" className="footer-link-btn">Verified FAQ Hub</Link></li>
             </ul>
           </div>
 

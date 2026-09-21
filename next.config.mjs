@@ -16,6 +16,15 @@ const nextConfig = {
     cpus: 1,
     workerThreads: false,
   },
+  async redirects() {
+    return [
+      { source: '/punjab-jobs', destination: '/punjab-job-portal', permanent: true },
+      { source: '/sindh-jobs', destination: '/sindh-job-portal', permanent: true },
+      { source: '/kpk-jobs', destination: '/kpk-job-portal', permanent: true },
+      { source: '/balochistan-jobs', destination: '/balochistan-job-portal', permanent: true },
+      { source: '/all-pakistan-jobs', destination: '/national-job-portal', permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

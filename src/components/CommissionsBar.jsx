@@ -68,6 +68,50 @@ export default function CommissionsBar({ jobsCountMap = {} }) {
             );
           })}
         </div>
+
+        {/* Provincial & National Pillar Job Portals (High-Volume Searches) */}
+        <div className="mt-4 pt-3 border-t border-subtle flex items-center justify-between flex-wrap gap-2">
+          <span className="text-[11px] font-bold text-secondary uppercase tracking-wider">
+            Provincial & National Job Portals:
+          </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Link 
+              href="/punjab-job-portal" 
+              className="badge badge-subtle hover:border-emerald-500 hover:text-emerald-500 transition-colors text-xs font-semibold py-1 px-2.5"
+              title="Punjab Job Portal — 201,000+ monthly searches"
+            >
+              <span>🏛️ Punjab Job Portal</span>
+            </Link>
+            <Link 
+              href="/sindh-job-portal" 
+              className="badge badge-subtle hover:border-emerald-500 hover:text-emerald-500 transition-colors text-xs font-semibold py-1 px-2.5"
+              title="Sindh Job Portal — 90,500+ monthly searches"
+            >
+              <span>🌊 Sindh Job Portal</span>
+            </Link>
+            <Link 
+              href="/national-job-portal" 
+              className="badge badge-subtle hover:border-emerald-500 hover:text-emerald-500 transition-colors text-xs font-semibold py-1 px-2.5"
+              title="National Job Portal (NJP) Pakistan — 74,000+ monthly searches"
+            >
+              <span>🇵🇰 National Job Portal</span>
+            </Link>
+            <Link 
+              href="/kpk-job-portal" 
+              className="badge badge-subtle hover:border-emerald-500 hover:text-emerald-500 transition-colors text-xs font-semibold py-1 px-2.5"
+              title="KPK Job Portal"
+            >
+              <span>🏔️ KPK Job Portal</span>
+            </Link>
+            <Link 
+              href="/balochistan-job-portal" 
+              className="badge badge-subtle hover:border-emerald-500 hover:text-emerald-500 transition-colors text-xs font-semibold py-1 px-2.5"
+              title="Balochistan Job Portal"
+            >
+              <span>🏜️ Balochistan Job Portal</span>
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -264,6 +264,35 @@ export default function Navbar() {
                     <span className="nav-dropdown-count text-emerald-600 font-bold">{categoryCounts.govt || 0}</span>
                   </Link>
 
+                  {/* Province & National Job Portals Links */}
+                  <div className="p-2 border-b border-subtle bg-surface-subtle/50 rounded-lg mx-2 mb-2">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5 px-1">
+                      Official Province & National Hubs:
+                    </div>
+                    <div className="grid grid-cols-2 gap-1 text-xs">
+                      <Link href="/national-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between">
+                        <span>🇵🇰 National Portal</span>
+                        <span className="text-[10px] text-emerald-600 font-bold">All-PK</span>
+                      </Link>
+                      <Link href="/punjab-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between">
+                        <span>🌾 Punjab Portal</span>
+                        <span className="text-[10px] text-emerald-600 font-bold">PPSC+</span>
+                      </Link>
+                      <Link href="/sindh-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between">
+                        <span>🌊 Sindh Portal</span>
+                        <span className="text-[10px] text-emerald-600 font-bold">SPSC+</span>
+                      </Link>
+                      <Link href="/kpk-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between">
+                        <span>🏔️ KPK Portal</span>
+                        <span className="text-[10px] text-emerald-600 font-bold">KPPSC+</span>
+                      </Link>
+                      <Link href="/balochistan-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between col-span-2">
+                        <span>🦅 Balochistan Portal</span>
+                        <span className="text-[10px] text-emerald-600 font-bold">BPSC+</span>
+                      </Link>
+                    </div>
+                  </div>
+
                   {/* Govt Sub-categories */}
                   <div className="nav-dropdown-items-list">
                     {govtCategories.map((cat) => {
@@ -701,6 +730,16 @@ export default function Navbar() {
                       <span>🏛️ View All Govt Gazette Jobs</span>
                       <span className="nav-dropdown-count">{categoryCounts.govt || 0}</span>
                     </Link>
+
+                    {/* Mobile Province & National Portals List */}
+                    <div className="p-2 my-1 bg-surface-subtle rounded-lg border border-subtle">
+                      <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-1 px-1">Province & National Portals:</div>
+                      <Link href="/national-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🇵🇰 National Job Portal (All PK)</Link>
+                      <Link href="/punjab-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🌾 Punjab Job Portal (PPSC & Govt)</Link>
+                      <Link href="/sindh-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🌊 Sindh Job Portal (SPSC & Govt)</Link>
+                      <Link href="/kpk-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🏔️ KPK Job Portal (KPPSC & Govt)</Link>
+                      <Link href="/balochistan-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🦅 Balochistan Job Portal (BPSC & Govt)</Link>
+                    </div>
                     {govtCategories.map((cat) => {
                       const count = categoryCounts[cat.slug] || 0;
                       const IconComp = ICON_MAP[cat.icon] || Landmark;
