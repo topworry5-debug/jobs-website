@@ -31,7 +31,7 @@ export const TRANSLATIONS = {
       titlePrefix: "The Authority on Careers & Competitive Exams",
       titleIn: "in",
       titleCountry: "Pakistan",
-      subtitle: "Direct verified access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, NTS) and testing service opportunities — all in one modern, ad-free interface.",
+      subtitle: "Direct verified access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) and testing service opportunities — all in one modern, ad-free interface.",
       searchPlaceholder: "Job title, department, BPS scale, or skills...",
       allCities: "All Cities",
       findJobs: "Find Jobs",

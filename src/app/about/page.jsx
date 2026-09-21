@@ -92,7 +92,7 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm text-primary">Automated 6-Hour Gazette Monitoring</h3>
-                  <p className="text-xs text-secondary mt-0.5">Our custom ingestion pipeline queries official commission endpoints (FPSC, PPSC, SPSC, KPPSC, NTS) every 6 hours, detecting newly gazetted notices instantly and automatically archiving expired listings.</p>
+                  <p className="text-xs text-secondary mt-0.5">Our custom ingestion pipeline queries official commission endpoints (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) every 6 hours, detecting newly gazetted notices instantly and automatically archiving expired listings.</p>
                 </div>
               </div>
 
@@ -124,7 +124,7 @@ export default function AboutPage() {
               <Landmark size={18} className="text-emerald-500" />
               Public Service Commissions Tracked
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 pt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 pt-2">
               <div className="bg-surface-subtle p-3 rounded-lg border border-subtle text-center">
                 <div className="font-bold text-xs text-primary">FPSC Federal</div>
                 <div className="text-[11px] text-muted">CSS & General Recruitment</div>
@@ -140,6 +140,10 @@ export default function AboutPage() {
               <div className="bg-surface-subtle p-3 rounded-lg border border-subtle text-center">
                 <div className="font-bold text-xs text-primary">KPPSC Khyber</div>
                 <div className="text-[11px] text-muted">Zonal Provincial Openings</div>
+              </div>
+              <div className="bg-surface-subtle p-3 rounded-lg border border-subtle text-center">
+                <div className="font-bold text-xs text-primary">BPSC Balochistan</div>
+                <div className="text-[11px] text-muted">Collegiate & Health Cadres</div>
               </div>
               <div className="bg-surface-subtle p-3 rounded-lg border border-subtle text-center">
                 <div className="font-bold text-xs text-primary">NTS Testing</div>
