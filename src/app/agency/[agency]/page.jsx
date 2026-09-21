@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import HomeClientFilter from '../../../components/HomeClientFilter';
 import { JOBS_DATA } from '../../../data/jobsData';
 import { AGENCY_LANDING_CONTENT } from '../../../data/landingPagesData';
-import { generateItemListSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
-import { Landmark, ShieldCheck, ExternalLink, Award, FileText } from 'lucide-react';
+import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
+import { Landmark, ShieldCheck, ExternalLink, Award, FileText, CheckCircle2, BookOpen, Clock, HelpCircle, AlertCircle } from 'lucide-react';
 import { getSiteUrl } from '../../../utils/siteUrl';
 
 export async function generateStaticParams() {
@@ -67,6 +67,7 @@ export default function AgencyLandingPage({ params }) {
     { name: "Public Service Commissions", url: `${siteUrl}/jobs/govt` },
     { name: content.agencyCode, url: `${siteUrl}/agency/${agency}` }
   ]);
+  const faqSchema = content.faqs && content.faqs.length > 0 ? generateFAQSchema(content.faqs) : null;
 
   return (
     <div className="container-xl py-6">
@@ -78,6 +79,12 @@ export default function AgencyLandingPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       {/* Hero Header */}
       <div className="page-category-hero card p-6 mb-6">
@@ -111,6 +118,14 @@ export default function AgencyLandingPage({ params }) {
           {content.tagline}
         </p>
 
+        {/* Quotable 2-Sentence Definition Block (GEO / AEO) */}
+        {content.quotableDefinition && (
+          <div className="p-4 mb-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-xs sm:text-sm text-secondary leading-relaxed">
+            <strong className="text-primary font-bold block mb-1">What is {content.fullName} ({content.agencyCode})?</strong>
+            <p className="m-0 text-secondary">{content.quotableDefinition}</p>
+          </div>
+        )}
+
         {/* Challan & Fee Advisory Card */}
         {content.challanGuide && (
           <div className="p-3 rounded-lg border border-subtle bg-surface-subtle text-xs text-secondary leading-relaxed flex items-start gap-2.5">
@@ -138,10 +153,75 @@ export default function AgencyLandingPage({ params }) {
         )}
       </div>
 
+      {/* Main Jobs Listing & Interactive Filter */}
       <HomeClientFilter 
         initialJobs={agencyJobs}
         initialCategory={agencyKey}
       />
+
+      {/* Recruitment Guide, Syllabus & Rules Section */}
+      <div className="mt-10 space-y-6">
+        {content.recruitmentProcess && (
+          <section className="card p-6">
+            <h2 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+              <CheckCircle2 size={20} className="text-emerald-500" />
+              <span>How Recruitment Works Through {content.agencyCode}</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {content.recruitmentProcess.map((step, sIdx) => (
+                <div key={sIdx} className="p-4 rounded-lg border border-subtle bg-surface-subtle">
+                  <h3 className="font-bold text-sm text-primary mb-1.5">{step.step}</h3>
+                  <p className="text-xs text-secondary leading-relaxed">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {content.syllabusOverview && (
+            <section className="card p-6">
+              <h2 className="text-lg font-bold text-primary mb-3 flex items-center gap-2">
+                <BookOpen size={18} className="text-emerald-500" />
+                <span>Scheme of Examination & Syllabus Pattern</span>
+              </h2>
+              <p className="text-xs text-secondary leading-relaxed">
+                {content.syllabusOverview}
+              </p>
+            </section>
+          )}
+
+          {content.ageRelaxationPolicy && (
+            <section className="card p-6">
+              <h2 className="text-lg font-bold text-primary mb-3 flex items-center gap-2">
+                <Clock size={18} className="text-emerald-500" />
+                <span>Official Age Relaxation Rules</span>
+              </h2>
+              <p className="text-xs text-secondary leading-relaxed">
+                {content.ageRelaxationPolicy}
+              </p>
+            </section>
+          )}
+        </div>
+
+        {/* FAQs */}
+        {content.faqs && content.faqs.length > 0 && (
+          <section className="card p-6">
+            <h2 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+              <HelpCircle size={20} className="text-emerald-500" />
+              <span>Frequently Asked Questions About {content.agencyCode}</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {content.faqs.map((faq, fIdx) => (
+                <div key={fIdx} className="p-4 rounded-lg border border-subtle bg-surface-subtle">
+                  <h3 className="font-bold text-sm text-primary mb-1.5">{faq.question}</h3>
+                  <p className="text-xs text-secondary leading-relaxed">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
     </div>
   );
 }
