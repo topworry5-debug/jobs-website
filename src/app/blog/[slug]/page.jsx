@@ -41,9 +41,8 @@ export async function generateMetadata({ params }) {
   const bannerImage = article.heroBanner?.logo ? `${siteUrl}${article.heroBanner.logo}` : `${siteUrl}/og-image.png`;
 
   return {
-    title: `${article.metaTitle || article.title} | Tainaati`,
+    title: article.metaTitle || article.title,
     description: article.metaDescription,
-    keywords: article.targetKeywords,
     alternates: {
       canonical: canonical
     },
