@@ -318,6 +318,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
             setUrgentOnly={setUrgentOnly}
             onResetFilters={handleResetFilters}
             totalResults={filteredJobs.length}
+            categories={visibleCategories}
+            categoryCounts={categoryCounts}
           />
         </aside>
 
@@ -557,6 +559,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 onResetFilters={handleResetFilters}
                 totalResults={filteredJobs.length}
                 onCloseMobileFilter={() => setMobileFilterOpen(false)}
+                categories={visibleCategories}
+                categoryCounts={categoryCounts}
               />
             </div>
           </div>
