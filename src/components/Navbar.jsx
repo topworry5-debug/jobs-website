@@ -327,7 +327,8 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* 2. Private & Careers Dropdown */}
+            {/* 2. Private & Careers Dropdown (Visible only when >= 20 active jobs exist) */}
+            {categoryCounts.private >= 20 && (
             <div 
               className="nav-dropdown-container" 
               ref={privateDropdownRef}
@@ -397,6 +398,7 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+            )}
 
             {/* Test Prep Link */}
             <Link
@@ -774,7 +776,8 @@ export default function Navbar() {
                 )}
               </div>
 
-              {/* Accordion 2: Private & Careers */}
+              {/* Accordion 2: Private & Careers (Visible only when >= 20 active jobs exist) */}
+              {categoryCounts.private >= 20 && (
               <div className="mobile-nav-accordion">
                 <button
                   className="mobile-accordion-toggle"
@@ -827,6 +830,7 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
+              )}
 
               {/* Accordion 3: Exams & Hub */}
               <div className="mobile-nav-accordion">

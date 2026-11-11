@@ -3,17 +3,19 @@ import { CATEGORIES_CONFIG } from '../data/categoriesData';
 import { CITY_LANDING_CONTENT, AGENCY_LANDING_CONTENT } from '../data/landingPagesData';
 import { BLOG_ARTICLES } from '../data/blogData';
 import { getSiteUrl } from '../utils/siteUrl';
-import { isJobExpired } from '../utils/jobStatus';
+import { isJobOpen } from '../lib/jobStatus';
 
 export default function sitemap() {
   const baseUrl = getSiteUrl();
   const lastModified = new Date().toISOString();
 
+  const openPrivateJobsCount = JOBS_DATA.filter((j) => isJobOpen(j) && j.type === 'private').length;
+
   // Core Static Pages
-  const staticRoutes = [
+  const staticRoutePaths = [
     '',
     '/jobs/govt',
-    '/jobs/private',
+    ...(openPrivateJobsCount >= 20 ? ['/jobs/private'] : []),
     '/exams',
     '/test-prep',
     '/cv-builder',
@@ -32,7 +34,9 @@ export default function sitemap() {
     '/contact',
     '/privacy-policy',
     '/terms-of-service'
-  ].map((route) => ({
+  ];
+
+  const staticRoutes = staticRoutePaths.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified,
     changeFrequency: route === '' || route.startsWith('/jobs') ? 'hourly' : 'daily',
@@ -40,7 +44,7 @@ export default function sitemap() {
   }));
 
   // Individual Active Job Pages (Strictly excludes expired/archived jobs for optimal crawl budget)
-  const activeJobs = JOBS_DATA.filter((job) => !isJobExpired(job));
+  const activeJobs = JOBS_DATA.filter(isJobOpen);
   const jobRoutes = activeJobs.map((job) => ({
     url: `${baseUrl}/jobs/${job.id}`,
     lastModified: job.postDate ? `${job.postDate}T00:00:00.000Z` : lastModified,

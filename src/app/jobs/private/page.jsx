@@ -10,14 +10,18 @@ import { getSiteUrl } from '../../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Private Sector & Corporate Jobs in Pakistan — Tainaati",
-  description: "Browse verified private sector and corporate career opportunities in Pakistan. Transparent compensation and verified employer listings.",
+  title: "Private Sector & Corporate Jobs in Pakistan",
+  description: "Browse private sector and corporate career opportunities in Pakistan. Transparent compensation and employer listings.",
+  robots: {
+    index: false,
+    follow: true
+  },
   alternates: {
     canonical: `${siteUrl}/jobs/private`
   },
   openGraph: {
-    title: "Private Sector & Corporate Jobs in Pakistan — Tainaati",
-    description: "Browse verified private sector and corporate career opportunities in Pakistan.",
+    title: "Private Sector & Corporate Jobs in Pakistan",
+    description: "Browse private sector and corporate career opportunities in Pakistan.",
     url: `${siteUrl}/jobs/private`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }

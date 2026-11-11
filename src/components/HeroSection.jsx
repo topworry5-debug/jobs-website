@@ -317,7 +317,7 @@ export default function HeroSection({
             </div>
           </Link>
 
-          {metrics.privateCount > 0 ? (
+          {metrics.privateCount >= 20 ? (
             <Link 
               href="/jobs/private"
               className="pathway-card tech-card"
