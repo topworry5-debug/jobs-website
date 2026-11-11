@@ -31,7 +31,7 @@ export const BASE_BLOG_ARTICLES = [
     publishedDate: '2026-08-15',
     updatedDate: '2026-09-01',
     author: {
-      name: 'Tainaati Intelligence Team',
+      name: 'Tainaati Editorial',
       role: 'Punjab Public Sector Recruitment Specialist',
       avatar: '/logos/ppsc.svg'
     },
@@ -174,7 +174,7 @@ Only candidates holding a **valid Punjab Domicile** and computerised National Id
     publishedDate: '2026-08-20',
     updatedDate: '2026-09-01',
     author: {
-      name: 'Tainaati Intelligence Team',
+      name: 'Tainaati Editorial',
       role: 'Federal Services & Central Competitive Examination Lead',
       avatar: '/logos/fpsc.svg'
     },
@@ -295,7 +295,7 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
     publishedDate: '2026-08-28',
     updatedDate: '2026-09-01',
     author: {
-      name: 'Tainaati Intelligence Team',
+      name: 'Tainaati Editorial',
       role: 'Gazette Auditing & Telemetry Desk',
       avatar: '/logos/verified.svg'
     },
@@ -395,7 +395,7 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
     publishedDate: '2026-08-25',
     updatedDate: '2026-09-01',
     author: {
-      name: 'Tainaati Intelligence Team',
+      name: 'Tainaati Editorial',
       role: 'Federal Digital Governance Specialist',
       avatar: '/logos/njp.svg'
     },
@@ -493,7 +493,7 @@ Key features of NJP include:
     publishedDate: '2026-08-30',
     updatedDate: '2026-09-01',
     author: {
-      name: 'Tainaati Intelligence Team',
+      name: 'Tainaati Editorial',
       role: 'Comparative Civil Services Analyst',
       avatar: '/logos/verified.svg'
     },

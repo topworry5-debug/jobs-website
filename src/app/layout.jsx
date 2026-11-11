@@ -51,7 +51,7 @@ export const metadata = {
     "Government Jobs in Pakistan", "FPSC Jobs 2026", "PPSC Jobs 2026", "NTS Jobs", 
     "SPSC Jobs", "KPPSC Jobs", "CSS Exam 2027", "BPS-17 Jobs", "Tainaati", "Tainaati Jobs"
   ],
-  authors: [{ name: "Tainaati Intelligence Team" }],
+  authors: [{ name: "Tainaati Editorial" }],
   creator: "Tainaati",
   publisher: "Tainaati",
   robots: {

@@ -149,7 +149,7 @@ If you choose a private job, your priority must be acquiring skills valued by to
     publishedDate: '2026-09-12',
     updatedDate: '2026-09-19',
     author: {
-      name: 'Tainaati Intelligence Team',
+      name: 'Tainaati Editorial',
       role: 'Federal Law Enforcement Recruitment Specialist',
       avatar: '/logos/fpsc.svg'
     },
@@ -667,7 +667,7 @@ Career positions in WAPDA offer competitive basic pay scales (BPS-11 to BPS-19),
     publishedDate: '2026-09-16',
     updatedDate: '2026-09-20',
     author: {
-      name: 'Tainaati Career Intelligence Desk',
+      name: 'Tainaati Editorial',
       role: 'Employment Terminology & Role Researcher',
       avatar: '/logos/tainaati.svg'
     },
@@ -2113,7 +2113,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
     publishedDate: '2026-09-19',
     updatedDate: '2026-09-20',
     author: {
-      name: 'Tainaati Software & IT Intelligence Desk',
+      name: 'Tainaati Editorial',
       role: 'Pakistani Tech Stack & Engineering Compensation Analyst',
       avatar: '/logos/tainaati.svg'
     },
