@@ -61,7 +61,7 @@ export default function CityLandingPage({ params }) {
     province: "Pakistan",
     h1: `Verified Jobs in ${city.charAt(0).toUpperCase() + city.slice(1)}`,
     tagline: `Find active government and private sector jobs in ${city}.`,
-    stats: { govtVacancies: "150+", privateOpenings: "80+", topDepts: "Healthcare, Education, IT" }
+    stats: { topDepts: "Healthcare, Education, IT" }
   };
 
   const portalInfo = CITY_PORTAL_MAP[cityKey] || {

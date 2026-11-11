@@ -15,13 +15,14 @@ import {
   ArrowRight
 } from 'lucide-react';
 import HomeClientFilter from './HomeClientFilter';
+import { isJobOpen } from '../lib/jobStatus';
 
 export default function PortalHubView({ 
   portal, 
   jobs = [], 
   siteUrl = 'https://www.tainaati.com' 
 }) {
-  const activeJobs = jobs.filter(j => !j.archived_at);
+  const openJobs = jobs.filter(isJobOpen);
 
   return (
     <div className="portal-hub-page-container container-xl py-6">
@@ -34,14 +35,13 @@ export default function PortalHubView({
               <Landmark size={13} />
               <span>{portal.name} Hub</span>
             </span>
-            <span className="badge badge-verified">
-              <ShieldCheck size={13} />
-              <span>{activeJobs.length} Live Openings</span>
-            </span>
+            {openJobs.length > 0 && (
+              <span className="badge badge-govt font-semibold">
+                <ShieldCheck size={13} />
+                <span>{openJobs.length} Open {openJobs.length === 1 ? 'Job' : 'Jobs'}</span>
+              </span>
+            )}
           </div>
-          <span className="text-xs text-muted font-mono">
-            🎯 High Intent: {portal.targetKeyword} ({portal.monthlySearches})
-          </span>
         </div>
 
         {/* H1 - Exact Keyword Match */}

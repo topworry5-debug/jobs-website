@@ -84,21 +84,21 @@ export default function CommissionsBar({ jobsCountMap = {}, lastUpdated = null }
             <Link 
               href="/punjab-job-portal" 
               className="badge badge-subtle hover:border-emerald-500 hover:text-emerald-500 transition-colors text-xs font-semibold py-1 px-2.5"
-              title="Punjab Job Portal — 201,000+ monthly searches"
+              title="Punjab Job Portal"
             >
               <span>🏛️ Punjab Job Portal</span>
             </Link>
             <Link 
               href="/sindh-job-portal" 
               className="badge badge-subtle hover:border-emerald-500 hover:text-emerald-500 transition-colors text-xs font-semibold py-1 px-2.5"
-              title="Sindh Job Portal — 90,500+ monthly searches"
+              title="Sindh Job Portal"
             >
               <span>🌊 Sindh Job Portal</span>
             </Link>
             <Link 
               href="/national-job-portal" 
               className="badge badge-subtle hover:border-emerald-500 hover:text-emerald-500 transition-colors text-xs font-semibold py-1 px-2.5"
-              title="National Job Portal (NJP) Pakistan — 74,000+ monthly searches"
+              title="National Job Portal (NJP) Pakistan"
             >
               <span>🇵🇰 National Job Portal</span>
             </Link>

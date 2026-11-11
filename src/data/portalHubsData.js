@@ -13,7 +13,6 @@ export const PORTAL_HUBS_DATA = {
     slug: "punjab-job-portal",
     aliasSlug: "punjab-jobs",
     targetKeyword: "punjab job portal",
-    monthlySearches: "201,000 / month",
     kd: 39,
     name: "Punjab Job Portal",
     shortName: "Punjab",
@@ -24,7 +23,7 @@ export const PORTAL_HUBS_DATA = {
     tagline: "Single source-of-truth aggregator for all verified government gazettes, PPSC notices, and top-tier private corporate openings across Punjab Province.",
     intro: "The Punjab Job Portal (PJP) on Tainaati brings together public sector gazette announcements from the Punjab Public Service Commission (PPSC), specialized departmental hiring (Health, School Education, Auqaf, Transport), and private sector careers in Lahore, Rawalpindi, Faisalabad, and Multan. Rather than navigating fragmented notices or outdated third-party blogs, candidates can review official application deadlines, basic pay scales (BPS-05 to BPS-18), 17-digit PSID fee submission instructions, and official portal links in one unified interface.",
     highlights: [
-      { label: "Search Volume", value: "201,000 / mo" },
+      { label: "Coverage", value: "Punjab Province" },
       { label: "Key Commission", value: "PPSC (ppsc.gop.pk)" },
       { label: "Major Centers", value: "Lahore, Rawalpindi, Multan" },
       { label: "Fee Standard", value: "PKR 600 via 1Link PSID" }
@@ -68,7 +67,6 @@ export const PORTAL_HUBS_DATA = {
     slug: "sindh-job-portal",
     aliasSlug: "sindh-jobs",
     targetKeyword: "sindh job portal",
-    monthlySearches: "90,500 / month",
     kd: 25,
     name: "Sindh Job Portal",
     shortName: "Sindh",
@@ -79,7 +77,7 @@ export const PORTAL_HUBS_DATA = {
     tagline: "Unified job aggregator for Government of Sindh public recruitment, SPSC competitive examinations, and Karachi corporate, banking, and maritime careers.",
     intro: "The Sindh Job Portal provides unified access to public sector recruitments conducted by the Sindh Public Service Commission (SPSC), municipal corporations, Karachi Port Trust, State Bank of Pakistan, and Karachi's thriving private financial and technology ecosystems. Listings adhere strictly to statutory 60:40 Rural to Urban quota allocations and official NBP treasury challan deposit instructions.",
     highlights: [
-      { label: "Search Volume", value: "90,500 / mo" },
+      { label: "Coverage", value: "Sindh Province" },
       { label: "Commission", value: "SPSC (spsc.gov.pk)" },
       { label: "Quota Allocation", value: "60:40 Rural to Urban" },
       { label: "Major Centers", value: "Karachi, Hyderabad, Sukkur" }
@@ -116,7 +114,6 @@ export const PORTAL_HUBS_DATA = {
     slug: "national-job-portal",
     aliasSlug: "all-pakistan-jobs",
     targetKeyword: "national job portal",
-    monthlySearches: "74,000 / month",
     kd: 29,
     name: "National Job Portal",
     shortName: "National",
@@ -127,7 +124,7 @@ export const PORTAL_HUBS_DATA = {
     tagline: "Comprehensive nationwide repository covering all 6 public service commissions, federal ministries, autonomous state enterprises, and national private employers.",
     intro: "The National Job Portal (NJP) aggregation engine on Tainaati provides candidates across Pakistan with a single verified directory of employment opportunities. We index vacancies from the Federal Public Service Commission (FPSC), all four provincial service commissions (PPSC, SPSC, KPPSC, BPSC), National Testing Service (NTS), and autonomous bodies like WAPDA, NADRA, and the State Bank of Pakistan. Every circular is parsed and validated against gazette circulars to ensure zero expired listings and zero fabricated details.",
     highlights: [
-      { label: "Search Volume", value: "74,000 / mo" },
+      { label: "Commissions", value: "FPSC, PPSC, SPSC, KPPSC, BPSC, NTS" },
       { label: "Coverage", value: "All Pakistan (6 Commissions)" },
       { label: "Audit Cycle", value: "Automated Pipeline" },
       { label: "Integrity", value: "Official Circulars" }
@@ -174,7 +171,6 @@ export const PORTAL_HUBS_DATA = {
     slug: "kpk-job-portal",
     aliasSlug: "kpk-jobs",
     targetKeyword: "kpk job portal",
-    monthlySearches: "15,000+ / month",
     kd: 22,
     name: "KPK Job Portal",
     shortName: "KPK",
@@ -217,7 +213,6 @@ export const PORTAL_HUBS_DATA = {
     slug: "balochistan-job-portal",
     aliasSlug: "balochistan-jobs",
     targetKeyword: "balochistan job portal",
-    monthlySearches: "10,000+ / month",
     kd: 18,
     name: "Balochistan Job Portal",
     shortName: "Balochistan",
