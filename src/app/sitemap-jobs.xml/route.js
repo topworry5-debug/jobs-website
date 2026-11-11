@@ -1,21 +1,35 @@
 import { JOBS_DATA } from '../../data/jobsData';
 import { getSiteUrl } from '../../utils/siteUrl';
-import { isJobOpen } from '../../lib/jobStatus';
+import { isJobOpen, isRecentlyClosed } from '../../lib/jobStatus';
 
 export async function GET() {
   const baseUrl = getSiteUrl();
   const now = new Date().toISOString();
-  const activeJobs = JOBS_DATA.filter(isJobOpen);
+  // Include open jobs and recently closed jobs (last 30 days)
+  const eligibleJobs = JOBS_DATA.filter(j => isJobOpen(j) || isRecentlyClosed(j, 30));
 
-  const xmlUrls = activeJobs
+  const xmlUrls = eligibleJobs
     .map((job) => {
-      const lastmod = job.postDate ? `${job.postDate}T00:00:00.000Z` : now;
-      const priority = job.featured ? '0.95' : '0.85';
+      let lastmod = now;
+      if (job.postDate && /^\d{4}-\d{2}-\d{2}/.test(job.postDate)) {
+        lastmod = `${job.postDate.slice(0, 10)}T00:00:00.000Z`;
+      } else if (job.scrapedAt) {
+        try {
+          lastmod = new Date(job.scrapedAt).toISOString();
+        } catch {
+          lastmod = now;
+        }
+      }
+
+      const isOpen = isJobOpen(job);
+      const priority = isOpen ? (job.featured ? '0.95' : '0.85') : '0.6';
+      const changefreq = isOpen ? 'daily' : 'weekly';
       const slug = job.slug || job.id;
+
       return `  <url>
     <loc>${baseUrl}/jobs/${slug}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>daily</changefreq>
+    <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
   </url>`;
     })
