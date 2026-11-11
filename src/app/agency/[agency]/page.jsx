@@ -30,16 +30,29 @@ export async function generateMetadata({ params }) {
   const content = AGENCY_LANDING_CONTENT[agency.toLowerCase()];
   const siteUrl = getSiteUrl();
 
+  const agencyKey = agency.toLowerCase();
+  const agencyJobs = JOBS_DATA.filter((j) => {
+    const code = agencyKey.toUpperCase();
+    return (j.agency || '').toUpperCase() === code || (j.category || '').toUpperCase().includes(code);
+  });
+  const openAgencyJobs = filterOpenJobs(agencyJobs);
+  const hasOpenJobs = openAgencyJobs.length > 0;
+
   if (!content) {
     return {
       title: `${agency.toUpperCase()} Jobs 2026`,
-      description: `Official ${agency.toUpperCase()} recruitment advertisements and syllabus.`
+      description: `Official ${agency.toUpperCase()} recruitment advertisements and syllabus.`,
+      robots: {
+        index: false,
+        follow: true
+      }
     };
   }
 
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    robots: hasOpenJobs ? { index: true, follow: true } : { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/agency/${agency}`
     },

@@ -26,6 +26,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { getSiteUrl } from '../utils/siteUrl';
+import { filterOpenJobs } from '../lib/jobStatus';
 
 const ICON_MAP = {
   Shield: Shield,
@@ -48,7 +49,8 @@ const ICON_MAP = {
 export default function CategoryLandingPage({ category, jobs = [] }) {
   const siteUrl = getSiteUrl();
   const IconComponent = ICON_MAP[category.icon] || Landmark;
-  const isComingSoon = jobs.length === 0;
+  const openJobs = filterOpenJobs(jobs);
+  const isComingSoon = openJobs.length === 0;
 
   const groupBadgeClass = 
     category.group === 'govt' ? 'badge-govt' : 
@@ -79,12 +81,12 @@ export default function CategoryLandingPage({ category, jobs = [] }) {
           {isComingSoon ? (
             <span className="badge badge-coming-soon bg-amber-500/10 text-amber-600 border border-amber-500/20 font-semibold">
               <Sparkles size={13} />
-              <span>Coming Soon — Verification in Progress</span>
+              <span>No Active Openings</span>
             </span>
           ) : (
             <span className="badge badge-verified">
               <ShieldCheck size={13} />
-              <span>{jobs.length} Verified {jobs.length === 1 ? 'Listing' : 'Listings'}</span>
+              <span>{openJobs.length} Active {openJobs.length === 1 ? 'Opening' : 'Openings'}</span>
             </span>
           )}
         </div>

@@ -27,19 +27,31 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { city } = params;
-  const content = CITY_LANDING_CONTENT[city.toLowerCase()];
+  const cityKey = city.toLowerCase();
+  const content = CITY_LANDING_CONTENT[cityKey];
   const siteUrl = getSiteUrl();
+
+  const cityJobs = JOBS_DATA.filter(
+    (j) => j.city?.toLowerCase().includes(cityKey) || j.city?.toLowerCase().includes('all pakistan')
+  );
+  const openCityJobs = filterOpenJobs(cityJobs);
+  const hasOpenJobs = openCityJobs.length > 0;
 
   if (!content) {
     return {
       title: `Jobs in ${city.charAt(0).toUpperCase() + city.slice(1)}`,
-      description: `Browse verified government and private sector jobs in ${city}.`
+      description: `Browse verified government and private sector jobs in ${city}.`,
+      robots: {
+        index: false,
+        follow: true
+      }
     };
   }
 
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    robots: hasOpenJobs ? { index: true, follow: true } : { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/city/${city}`
     },
