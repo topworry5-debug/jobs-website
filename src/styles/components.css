@@ -136,6 +136,10 @@
   color: var(--primary-500);
 }
 
+[data-theme='dark'] .brand-accent {
+  color: #34d399;
+}
+
 .brand-tagline {
   font-size: 0.625rem;
   color: var(--text-muted);
