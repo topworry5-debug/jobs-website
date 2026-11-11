@@ -3,7 +3,7 @@ export const TRANSLATIONS = {
     nav: {
       brandName: "Tainaa",
       brandAccent: "ti",
-      tagline: "Verified Jobs Intelligence",
+      tagline: "Public Sector Jobs & Exam Notices",
       allJobs: "All Jobs",
       govtJobs: "Govt Jobs",
       privateJobs: "Private & IT",
@@ -537,7 +537,7 @@ export const TRANSLATIONS = {
     nav: {
       brandName: "Tainaa",
       brandAccent: "ti",
-      tagline: "Verified Jobs Intelligence",
+      tagline: "Public Sector Jobs & Exam Notices",
       allJobs: "Tamam Jobs",
       govtJobs: "Sarkari Jobs",
       privateJobs: "Private & IT",

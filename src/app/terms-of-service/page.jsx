@@ -56,10 +56,10 @@ export default function TermsOfServicePage() {
           <section className="legal-section-block">
             <h2 className="legal-heading-flex">
               <Globe size={20} className="text-emerald-500 flex-shrink-0" />
-              <span>1. Nature of the Service (Information Aggregator & Intelligence Index)</span>
+              <span>1. Nature of the Service (Public Job Information Aggregator)</span>
             </h2>
             <p>
-              Tainaati is an independent, specialized digital career aggregator and exam intelligence platform. 
+              Tainaati is an independent, specialized digital career aggregator and competitive examination information portal. 
               <strong>Tainaati is not an employer, hiring agency, or staffing firm.</strong> We do not conduct recruitment, collect job application fees on behalf of employers, schedule interviews, or influence hiring decisions.
             </p>
             <p>

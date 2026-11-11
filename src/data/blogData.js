@@ -1,5 +1,5 @@
 /**
- * Tainaati Career Intelligence & SEO/GEO Content Hub Knowledge Base
+ * Tainaati Career Guides & Examination Information Knowledge Base
  * Structured for Google Featured Snippets (AEO), AI Answer Engine Citations (GEO),
  * and High-Intent Organic Search Traffic across Pakistan.
  */

@@ -53,7 +53,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Police & Law Enforcement Jobs in Pakistan 2026",
     tagline: "Provincial police forces, Federal Investigation Agency (FIA), Anti-Narcotics Force (ANF), and Excise & Taxation recruitment across all provinces.",
     metaTitle: "Police & Law Enforcement Jobs in Pakistan 2026 — Police, FIA, ANF & Excise",
-    metaDescription: "Browse verified vacancies in Punjab Police, Sindh Police, KP Police, Balochistan Police, FIA, ANF, and Provincial Excise & Taxation departments. Gazette verified criteria.",
+    metaDescription: "Browse verified vacancies in Punjab Police, Sindh Police, KP Police, Balochistan Police, FIA, ANF, and Provincial Excise & Taxation departments. Official gazette criteria.",
     subcategories: [
       "Provincial Police (Punjab / Sindh / KP / Balochistan Police)",
       "Federal Investigation Agency (FIA Investigation & Cyber Crime)",

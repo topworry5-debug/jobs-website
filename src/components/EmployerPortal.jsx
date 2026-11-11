@@ -98,7 +98,7 @@ export default function EmployerPortal({ onJobCreated }) {
           </div>
           <h1 className="employer-main-title">Hire Top Engineering & Professional Talent in Pakistan</h1>
           <p className="employer-main-desc">
-            Directly connect with 100,000+ verified Pakistani professionals, developers, and competitive exam rankers.
+            Directly connect with qualified Pakistani professionals, developers, and competitive exam candidates.
           </p>
 
           <div className="employer-nav-pills">
