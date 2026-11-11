@@ -94,38 +94,6 @@ export const viewport = {
 };
 
 export default function RootLayout({ children }) {
-  const currentDomain = getSiteUrl();
-
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Tainaati",
-    "url": currentDomain,
-    "logo": `${currentDomain}/icons/logo.png`,
-    "description": "Public sector job notices, syllabus guides and exam schedules in Pakistan",
-    "foundingLocation": "Islamabad, Pakistan",
-    "areaServed": {
-      "@type": "Country",
-      "name": "Pakistan"
-    },
-    "sameAs": [
-      "https://twitter.com/tainaati",
-      "https://linkedin.com/company/tainaati"
-    ]
-  };
-
-  const webSiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Tainaati",
-    "url": currentDomain,
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": `${currentDomain}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string"
-    }
-  };
-
   return (
     <html 
       lang="en" 
@@ -133,14 +101,6 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} ${fraunces.variable} ${outfit.variable} ${jetbrainsMono.variable} ${notoNaskhArabic.variable}`}
     >
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
-        />
         <ClientProviders>
           <div className="site-wrapper">
             <Navbar />

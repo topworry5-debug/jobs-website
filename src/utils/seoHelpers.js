@@ -224,17 +224,13 @@ export function generateOrganizationSchema() {
     "name": "Tainaati",
     "alternateName": "Tainaati Pakistan Jobs Portal",
     "url": siteUrl,
-    "logo": `${siteUrl}/icons/logo.png`,
-    "description": "Pakistan's official gazette public sector recruitment and career opportunities platform (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS).",
+    "logo": `${siteUrl}/icon.png`,
+    "description": "Public sector job notices, syllabus guides and exam schedules in Pakistan with official source links.",
     "foundingLocation": {
       "@type": "Country",
       "name": "Pakistan"
     },
-    "areaServed": "PK",
-    "sameAs": [
-      "https://twitter.com/tainaati",
-      "https://facebook.com/tainaati"
-    ]
+    "areaServed": "PK"
   };
 }
 
