@@ -6,13 +6,13 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "About Tainaati — Pakistan's Verified Career Intelligence Authority",
-  description: "Learn why Tainaati was built: to eliminate fake job ads, spam popups, and outdated listings with an automated 6-hour verified government gazette pipeline.",
+  title: "About Tainaati",
+  description: "Learn why Tainaati was built: public sector job notices linked directly to official commission announcements.",
   alternates: {
     canonical: `${siteUrl}/about`
   },
   openGraph: {
-    title: "About Tainaati — Pakistan's Verified Career Intelligence Authority",
+    title: "About Tainaati",
     description: "Learn why Tainaati was built: public sector job notices linked to official sources.",
     url: `${siteUrl}/about`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]

@@ -47,12 +47,12 @@ export default function BlogIndexPage() {
             Official Knowledge Hub
           </SectionBadge>
           <SectionBadge variant="verified" size="sm" icon={ShieldCheck}>
-            Fact-Checked & Gazette Verified
+            Public Sector Exam Guides
           </SectionBadge>
         </div>
 
         <h1 className="blog-hero-title font-display">
-          Pakistani Public Service & Career Intelligence Guides
+          Pakistani Public Service & Career Guides
         </h1>
         <p className="blog-hero-desc leading-relaxed">
           Master the official application procedures, syllabus breakdowns, 1Link PSID challan steps, and exam strategies across Federal (FPSC) and Provincial Commissions (PPSC, SPSC, KPPSC).

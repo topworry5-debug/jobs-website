@@ -43,7 +43,7 @@ const siteUrl = getSiteUrl();
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Tainaati — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
+    default: "Tainaati — Government Jobs & Exam Portal in Pakistan",
     template: "%s | Tainaati"
   },
   description: "Find verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), competitive exam schedules, syllabus guidelines, and ATS-ready resume tools.",
@@ -70,14 +70,14 @@ export const metadata = {
     locale: 'en_PK',
     url: siteUrl,
     siteName: 'Tainaati',
-    title: "Tainaati — Pakistan's #1 Verified Jobs & Exam Intelligence Portal",
-    description: "Official Federal & Provincial Public Service Commission intelligence, verified gazette notices, exam schedules, and ATS resume tools.",
-    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: 'Tainaati Job Intelligence' }]
+    title: "Tainaati — Government Jobs & Exam Portal in Pakistan",
+    description: "Federal & Provincial Public Service Commission job notices, official gazette links, exam schedules, and resume tools.",
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: 'Tainaati Jobs and Exams' }]
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Tainaati — Verified Jobs in Pakistan",
-    description: "FPSC, PPSC, SPSC, KPPSC, and NTS jobs in Pakistan with verified official application links.",
+    title: "Tainaati — Government Jobs in Pakistan",
+    description: "FPSC, PPSC, SPSC, KPPSC, and NTS jobs in Pakistan with official application links.",
     images: [`${siteUrl}/og-image.png`],
     creator: '@tainaati'
   },
@@ -102,7 +102,7 @@ export default function RootLayout({ children }) {
     "name": "Tainaati",
     "url": currentDomain,
     "logo": `${currentDomain}/icons/logo.png`,
-    "description": "Pakistan's leading career intelligence authority for verified Government and Private/IT jobs.",
+    "description": "Public sector job notices, syllabus guides and exam schedules in Pakistan",
     "foundingLocation": "Islamabad, Pakistan",
     "areaServed": {
       "@type": "Country",

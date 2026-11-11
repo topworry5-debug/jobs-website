@@ -28,7 +28,7 @@ export const TRANSLATIONS = {
     },
     hero: {
       trustBadge: "Government job notices with official source links",
-      titlePrefix: "The Authority on Careers & Competitive Exams",
+      titlePrefix: "Government Jobs & Competitive Exams",
       titleIn: "in",
       titleCountry: "Pakistan",
       subtitle: "Direct verified access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) and testing service opportunities — all in one modern, ad-free interface.",
@@ -228,7 +228,7 @@ export const TRANSLATIONS = {
     },
     footer: {
       directoryHeading: "Official Government Portals Directory (Direct Access)",
-      desc: "Pakistan's highest-authority career intelligence ecosystem. Eliminating fake advertisements, confusing newspaper clippings, and legacy classified portals with real-time verified gazette notices.",
+      desc: "Government job notices and competitive exam resources in Pakistan, linked directly to official commission announcements.",
       antiScamBadge: "100% Anti-Scam Verification Guarantee",
       careerHub: "Career Hub",
       govtJobsLink: "Federal & Provincial Govt Jobs",
@@ -253,7 +253,7 @@ export const TRANSLATIONS = {
       sslBadge: "SSL 256-Bit Encrypted",
       gazetteBadge: "Official Gazette Sourced",
       legalDisclaimer: "Disclaimer & Official Status",
-      disclaimerText: "Tainaati is an independent, ad-free career intelligence platform. All government job circulars, syllabus notices, and examination timetables are directly cross-verified against official Federal (FPSC) and Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes.",
+      disclaimerText: "Tainaati is an independent public sector job directory. All government job circulars, syllabus notices, and examination timetables are referenced from official Federal (FPSC) and Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes.",
       copyright: "© 2026 Tainaati. All rights reserved. Built for job seekers across Pakistan."
     }
   },
@@ -397,7 +397,7 @@ export const TRANSLATIONS = {
     },
     footer: {
       directoryHeading: "سرکاری پورٹلز کی ڈائریکٹری (براہ راست لنکس)",
-      desc: "پاکستان کا سب سے معتبر کیریئر انٹیلیجنس پورٹل۔ جعلی اشتہارات اور اخبارات کی دھندلی تراشوں کے بغیر سرکاری گزٹ کے مطابق مستند معلومات۔",
+      desc: "پاکستان میں سرکاری ملازمتوں اور مسابقتی امتحانات کی معلومات، براہ راست سرکاری کمیشن کے نوٹس کے لنکس کے ساتھ۔",
       antiScamBadge: "100% اینٹی اسکیم تصدیقی ضمانت",
       careerHub: "کیریئر حب",
       govtJobsLink: "وفاقی اور صوبائی نوکریاں",
@@ -422,7 +422,7 @@ export const TRANSLATIONS = {
       sslBadge: "SSL 256-بٹ انکرپٹڈ",
       gazetteBadge: "100% گزٹ سے تصدیق شدہ",
       legalDisclaimer: "قانونی وضاحت اور حیثیت",
-      disclaimerText: "روزگار پی کے ایک آزاد اور اشتہارات سے پاک کیریئر انٹیلیجنس پلیٹ فارم ہے۔ تمام اشتہارات براہ راست سرکاری گزٹ سے تصدیق کیے جاتے ہیں۔",
+      disclaimerText: "تعیناتی ایک آزاد جاب ڈائریکٹری پلیٹ فارم ہے۔ تمام سرکاری نوٹس متعلقہ کمیشنز سے حاصل کیے جاتے ہیں۔",
       copyright: "© 2026 روزگار پی کے۔ جملہ حقوق محفوظ ہیں۔"
     },
     jobCard: {
@@ -749,7 +749,7 @@ export const TRANSLATIONS = {
     },
     footer: {
       directoryHeading: "Official Government Portals Directory (Direct Access)",
-      desc: "Pakistan ka sub se authentic career intelligence platform. Fake ads aur confusing newspaper clippings ke baghair gazette notices ka direct zariya.",
+      desc: "Pakistan mein sarkari mulazmaton aur competitive exams ka portal, official commission notices ke direct links ke sath.",
       antiScamBadge: "100% Anti-Scam Guarantee",
       careerHub: "Career Hub",
       govtJobsLink: "Federal & Provincial Govt Jobs",
