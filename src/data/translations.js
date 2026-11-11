@@ -31,7 +31,7 @@ export const TRANSLATIONS = {
       titlePrefix: "Government Jobs & Competitive Exams",
       titleIn: "in",
       titleCountry: "Pakistan",
-      subtitle: "Direct verified access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) and testing service opportunities — all in one modern, ad-free interface.",
+      subtitle: "Direct access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) and testing service opportunities — all in one modern interface.",
       searchPlaceholder: "Job title, department, BPS scale, or skills...",
       allCities: "All Cities",
       findJobs: "Find Jobs",
@@ -290,7 +290,7 @@ export const TRANSLATIONS = {
       titlePrefix: "پاکستان میں ملازمتوں اور مسابقتی امتحانات کا",
       titleIn: "سب سے معتبر",
       titleCountry: "پلیٹ فارم",
-      subtitle: "وفاقی اور صوبائی پبلک سروس کمیشنز (FPSC، PPSC، SPSC، KPPSC، NTS) کے تصدیق شدہ اشتہارات اور ٹاپ آئی ٹی نوکریاں — ایک جدید، اشتہارات سے پاک انٹرفیس پر۔",
+      subtitle: "وفاقی اور صوبائی پبلک سروس کمیشنز (FPSC، PPSC، SPSC، KPPSC، NTS) کے اشتہارات اور نوکریاں — ایک جدید انٹرفیس پر۔",
       searchPlaceholder: "نوکری کا نام، محکمہ، بی پی ایس اسکیل یا شہر لکھیں...",
       allCities: "تمام شہر",
       findJobs: "نوکریاں تلاش کریں",
@@ -760,7 +760,7 @@ export const TRANSLATIONS = {
       emailAlertsLink: "Free Email Job Alerts",
       commissionsTracked: "Commissions Monitored",
       legalDisclaimer: "Disclaimer & Official Status",
-      disclaimerText: "Tainaati ek independent aur ad-free platform hai. Tamam sarkari notices direct official Federal (FPSC) aur Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes se verify kiye jate hain.",
+      disclaimerText: "Tainaati ek independent job directory platform hai. Tamam sarkari notices official Federal (FPSC) aur Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes se link kiye jate hain.",
       copyright: "© 2026 Tainaati. All rights reserved. Built for Pakistan."
     }
   }
