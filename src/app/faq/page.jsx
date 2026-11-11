@@ -18,13 +18,13 @@ import { generateBreadcrumbSchema } from '../../utils/seoHelpers';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Frequently Asked Questions (FAQ) — Government Jobs & Public Commissions | Tainaati",
-  description: "Comprehensive verified answers on PPSC 1Link fees, FPSC negative marking, SPSC 60:40 quota, KPPSC zones, BPSC applications, age relaxation rules, and recruitment procedures in Pakistan.",
+  title: "Frequently Asked Questions (FAQ) — Government Jobs & Public Commissions",
+  description: "Comprehensive answers on PPSC 1Link fees, FPSC negative marking, SPSC 60:40 quota, KPPSC zones, BPSC applications, age relaxation rules, and recruitment procedures in Pakistan.",
   alternates: {
     canonical: `${siteUrl}/faq`
   },
   openGraph: {
-    title: "Frequently Asked Questions (FAQ) — Pakistan Public Service Commissions | Tainaati",
+    title: "Frequently Asked Questions (FAQ) — Pakistan Public Service Commissions",
     description: "Verified answers to top questions about PPSC, FPSC, SPSC, KPPSC, BPSC, NTS, age relaxation, and challan payments.",
     url: `${siteUrl}/faq`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]

@@ -32,6 +32,7 @@ export default function CvBuilderPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      <h1 className="sr-only">ATS CV Builder & Resume Generator</h1>
       <CvBuilder />
     </div>
   );

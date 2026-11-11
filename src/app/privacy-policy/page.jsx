@@ -6,13 +6,13 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Privacy Policy — Tainaati",
+  title: "Privacy Policy",
   description: "Read the official Tainaati Privacy Policy. Learn how we handle job alerts, local CV data, cookies, and ensure candidate privacy.",
   alternates: {
     canonical: `${siteUrl}/privacy-policy`
   },
   openGraph: {
-    title: "Privacy Policy — Tainaati",
+    title: "Privacy Policy",
     description: "Read the official Tainaati Privacy Policy.",
     url: `${siteUrl}/privacy-policy`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]

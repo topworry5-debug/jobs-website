@@ -13,14 +13,14 @@ import { getSiteUrl } from '../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Tainaati — Verified Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC, BPSC & NTS)",
-  description: "Browse verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), gazette syllabus breakdowns, exam schedules, and test preparation.",
+  title: "Government Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC, BPSC & NTS)",
+  description: "Browse Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), gazette syllabus breakdowns, exam schedules, and test preparation.",
   alternates: {
     canonical: siteUrl
   },
   openGraph: {
-    title: "Tainaati — Verified Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC, BPSC & NTS)",
-    description: "Browse verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), gazette syllabus breakdowns, and exam schedules.",
+    title: "Government Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC, BPSC & NTS)",
+    description: "Browse Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), gazette syllabus breakdowns, and exam schedules.",
     url: siteUrl,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }

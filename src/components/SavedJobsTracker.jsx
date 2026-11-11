@@ -147,15 +147,6 @@ export default function SavedJobsTracker() {
     });
   }, [savedJobs, applicationData, activeTab]);
 
-  if (!isLoaded) {
-    return (
-      <div className="container-xl py-12 text-center text-muted">
-        <div className="spinner mx-auto mb-3" />
-        <p>Loading your personal career tracker...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="saved-jobs-tracker-container container-xl py-4">
       {/* Header Banner */}
@@ -400,6 +391,11 @@ export default function SavedJobsTracker() {
               </div>
             );
           })}
+        </div>
+      ) : !isLoaded ? (
+        <div className="card p-12 text-center text-muted">
+          <div className="spinner mx-auto mb-3" />
+          <p>Loading your personal career tracker...</p>
         </div>
       ) : (
         <div className="card p-12 text-center space-y-4">

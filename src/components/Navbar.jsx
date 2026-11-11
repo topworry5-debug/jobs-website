@@ -543,8 +543,9 @@ export default function Navbar() {
               aria-label="Saved Jobs"
             >
               <Bookmark size={16} className={savedCount > 0 ? "fill-emerald-500 text-emerald-500" : ""} />
+              <span className="sr-only">Saved Jobs</span>
               {savedCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white font-mono text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm">
+                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white font-mono text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm" aria-hidden="true">
                   {savedCount}
                 </span>
               )}
@@ -558,6 +559,7 @@ export default function Navbar() {
               aria-label="Job Alerts"
             >
               <Bell size={16} />
+              <span className="sr-only">Job Alerts</span>
             </Link>
 
             {/* 3-Language Switcher Dropdown (Always Visible Desktop & Mobile) */}

@@ -106,7 +106,7 @@ export async function generateMetadata({ params }) {
 
   if (!job) {
     return {
-      title: "Job Not Found — Tainaati",
+      title: "Job Not Found",
       description: "The requested job posting could not be found."
     };
   }

@@ -1127,9 +1127,9 @@ export default function CvBuilder() {
                 <span className="text-[11px] font-mono uppercase font-bold text-muted tracking-wider">
                   Step {currentStep + 1} of {STEP_DEFINITIONS.length}
                 </span>
-                <h1 className="text-xl font-bold font-display text-primary mt-1">
+                <h2 className="text-xl font-bold font-display text-primary mt-1">
                   {STEP_DEFINITIONS[currentStep].label}
-                </h1>
+                </h2>
               </div>
               <div className="text-xs text-muted font-medium">
                 {currentStep === 0 && "Select single-column ATS layout"}

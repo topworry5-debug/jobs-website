@@ -6,13 +6,13 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Terms of Service — Tainaati",
+  title: "Terms of Service",
   description: "Terms of Service for Tainaati. Outlines service nature, official government disclaimers, candidate verification obligations, and legal parameters.",
   alternates: {
     canonical: `${siteUrl}/terms-of-service`
   },
   openGraph: {
-    title: "Terms of Service — Tainaati",
+    title: "Terms of Service",
     description: "Terms of Service for Tainaati.",
     url: `${siteUrl}/terms-of-service`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]

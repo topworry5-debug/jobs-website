@@ -11,13 +11,13 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Career Guides & Exam Intelligence Hub (PPSC, FPSC & Govt Jobs) | Tainaati",
+  title: "Career Guides & Exam Preparation Hub (PPSC, FPSC & Govt Jobs)",
   description: "Comprehensive, fact-checked guides on PPSC, FPSC, NJP, and Government of Pakistan recruitment processes, syllabus patterns, challan payment, and exam preparation.",
   alternates: {
     canonical: `${siteUrl}/blog`
   },
   openGraph: {
-    title: "Career Guides & Exam Intelligence Hub | Tainaati",
+    title: "Career Guides & Exam Preparation Hub",
     description: "Fact-checked guides on PPSC, FPSC, NJP recruitment processes, syllabus, and exam preparation.",
     url: `${siteUrl}/blog`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
