@@ -6,12 +6,12 @@ import Image from 'next/image';
 import { ShieldCheck } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-export default function CommissionsBar({ jobsCountMap = {} }) {
+export default function CommissionsBar({ jobsCountMap = {}, lastUpdated = null }) {
   const { t, isRtl } = useLanguage();
 
   const c = t.commissionsBar || {
     heading: "Official Public Service Commissions Monitored",
-    subHeading: "Updated Every 6 Hours with Direct Gazette Links",
+    subHeading: "Official Portal & Gazette Links",
     activeCount: "Active",
     fpsc: { name: "FPSC Federal", sub: "General Recruitment & CSS" },
     ppsc: { name: "PPSC Punjab", sub: "Lecturers, Registrars & Admin" },
@@ -38,7 +38,7 @@ export default function CommissionsBar({ jobsCountMap = {} }) {
             <ShieldCheck size={16} className="text-emerald-500 flex-shrink-0" />
             <span className="font-bold text-xs uppercase tracking-wider text-primary">{c.heading}</span>
           </div>
-          <span className="text-xs text-secondary">{c.subHeading}</span>
+          <span className="text-xs text-secondary">{lastUpdated ? `Last updated: ${lastUpdated}` : (c.subHeading || "Official Portal & Gazette Links")}</span>
         </div>
 
         <div className="commissions-cards-grid">

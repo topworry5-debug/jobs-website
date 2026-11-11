@@ -203,7 +203,7 @@ export const TRANSLATIONS = {
     },
     commissionsBar: {
       heading: "Official Public Service Commissions Monitored",
-      subHeading: "Updated Every 6 Hours with Direct Gazette Links",
+      subHeading: "Official Portal & Gazette Links",
       activeCount: "Active",
       fpsc: { name: "FPSC Federal", sub: "General Recruitment & CSS" },
       ppsc: { name: "PPSC Punjab", sub: "Lecturers, Registrars & Admin" },
@@ -312,7 +312,7 @@ export const TRANSLATIONS = {
     },
     commissionsBar: {
       heading: "سرکاری پبلک سروس کمیشنز کی براہ راست نگرانی",
-      subHeading: "ہر 6 گھنٹے بعد سرکاری گزٹ لنکس کے ساتھ اپ ڈیٹ",
+      subHeading: "سرکاری گزٹ اور پورٹل لنکس کے ساتھ",
       activeCount: "فعال",
       fpsc: { name: "FPSC فیڈرل", sub: "جنرل ریکروٹمنٹ اور سی ایس ایس" },
       ppsc: { name: "PPSC پنجاب", sub: "لیکچرار، رجسٹرار اور ایڈمن" },
@@ -587,7 +587,7 @@ export const TRANSLATIONS = {
     },
     commissionsBar: {
       heading: "Official Public Service Commissions Monitored",
-      subHeading: "Har 6 Ghantay Baad Gazette Links Ke Sath Update",
+      subHeading: "Official Portal aur Gazette Links",
       activeCount: "Active",
       fpsc: { name: "FPSC Federal", sub: "General Recruitment aur CSS" },
       ppsc: { name: "PPSC Punjab", sub: "Lecturers, Registrars aur Admin" },

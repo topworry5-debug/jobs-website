@@ -116,7 +116,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "How often are job listings synchronized on Tainaati?",
-        a: "Our automated ingestion pipeline synchronizes directly with official public service commission endpoints and gazette repositories every 6 hours."
+        a: "Our automated ingestion pipeline synchronizes directly with official public service commission endpoints and gazette repositories on a regular automated schedule."
       },
       {
         q: "What happens when a job application deadline passes?",

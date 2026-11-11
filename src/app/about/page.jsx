@@ -91,8 +91,8 @@ export default function AboutPage() {
                   <Clock size={16} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-primary">Automated 6-Hour Gazette Monitoring</h3>
-                  <p className="text-xs text-secondary mt-0.5">Our custom ingestion pipeline queries official commission endpoints (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) every 6 hours, detecting newly gazetted notices instantly and automatically archiving expired listings.</p>
+                  <h3 className="font-bold text-sm text-primary">Automated Gazette Monitoring</h3>
+                  <p className="text-xs text-secondary mt-0.5">Our custom ingestion pipeline queries official commission endpoints (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), detecting newly gazetted notices and automatically archiving expired listings.</p>
                 </div>
               </div>
 

@@ -91,7 +91,7 @@ export default function TermsOfServicePage() {
               3. Candidate Responsibility & Verification Obligation
             </h2>
             <p>
-              While Tainaati maintains an automated verification pipeline that cross-checks postings against published gazettes every 6 hours:
+              While Tainaati maintains an automated verification pipeline that cross-checks postings against published gazettes on a regular schedule:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-sm">
               <li>

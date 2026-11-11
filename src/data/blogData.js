@@ -305,10 +305,10 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
       departmentSub: 'Tainaati Telemetry • Verified Pakistani Public Sector Openings',
       logo: '/logos/verified.svg',
       quickStats: [
-        { label: 'Audit Frequency', value: 'Every 6 Hours' },
+        { label: 'Audit Frequency', value: 'Automated Pipeline' },
         { label: 'Coverage', value: 'FPSC, PPSC, SPSC, NTS' },
-        { label: 'Spam Rate', value: '0% Verified' },
-        { label: 'Access Cost', value: '100% Free' }
+        { label: 'Verification', value: 'Official Source' },
+        { label: 'Access Cost', value: 'Free Public Access' }
       ]
     },
     infographics: [
@@ -320,11 +320,11 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
           { num: 'Sundays', title: 'PPSC Punjab Circulars', desc: 'Consolidated provincial advertisements released on alternating Sunday mornings.' },
           { num: '1st Fri', title: 'FPSC Federal Gazette', desc: 'Monthly consolidated Federal advertisements released on the first Friday.' },
           { num: 'Bi-Wkly', title: 'SPSC Sindh Circulars', desc: 'Bi-weekly provincial notifications published via official Sindh Gazette.' },
-          { num: '24/7', title: 'Tainaati Live Telemetry', desc: 'Automated scraping and manual fact-checking every 6 hours.', highlight: true }
+          { num: 'Scheduled', title: 'Tainaati Ingestion Pipeline', desc: 'Automated scraping and source validation.', highlight: true }
         ]
       }
     ],
-    directAnswer: 'Today govt jobs in Pakistan encompass gazetted public service circulars issued by Federal (FPSC), Punjab (PPSC), Sindh (SPSC), Khyber Pakhtunkhwa (KPPSC), and testing bodies (NTS). Tainaati audits these gazettes every 6 hours to eliminate duplicate, expired, or misleading circulars, providing job seekers direct application portals and authentic deadline countdowns.',
+    directAnswer: 'Today govt jobs in Pakistan encompass gazetted public service circulars issued by Federal (FPSC), Punjab (PPSC), Sindh (SPSC), Khyber Pakhtunkhwa (KPPSC), and testing bodies (NTS). Tainaati audits these gazettes on a regular schedule to eliminate duplicate, expired, or misleading circulars, providing job seekers direct application portals and authentic deadline countdowns.',
     tableOfContents: [
       { id: 'daily-gazette-cycle', title: '1. How Government Recruitment Gazettes Work in Pakistan' },
       { id: 'avoiding-fake-ads', title: '2. 5 Signs of Fake Job Advertisements & How to Avoid Them' },
