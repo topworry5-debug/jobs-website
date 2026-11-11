@@ -5,9 +5,25 @@ const ADMIN_SESSION_COOKIE = 'tainaati_admin_session';
 const DEFAULT_ADMIN_TOKEN = 'tainaati_sec_admin_auth_9921_valid';
 
 export function middleware(request) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
+  const host = request.headers.get('host') || '';
+  const proto = request.headers.get('x-forwarded-proto');
 
-  // Only intercept /admin and /api/admin paths
+  // 1. Canonical Domain & Protocol Enforcement (301 Permanent Redirect)
+  // Skip local development hosts
+  const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1') || host.startsWith('192.168.');
+  
+  if (!isLocalhost) {
+    const isHttp = proto === 'http';
+    const isNonWww = host === 'tainaati.com';
+
+    if (isNonWww || isHttp) {
+      const targetUrl = new URL(`https://www.tainaati.com${pathname}${search}`);
+      return NextResponse.redirect(targetUrl, 301);
+    }
+  }
+
+  // 2. Admin Security & Authentication
   if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
     // Allow access to login page and authentication endpoint
     if (pathname === '/admin/login' || pathname === '/api/admin/auth') {
@@ -62,5 +78,13 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/api/admin/:path*']
+  matcher: [
+    /*
+     * Match all request paths except:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, icon.png, og-image.png, logos (media)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|icon.png|og-image.png|logos).*)',
+  ]
 };

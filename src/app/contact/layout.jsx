@@ -3,14 +3,14 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Contact Desk & Inquiries",
-  description: "Contact Tainaati support for official job advertisement corrections, verification inquiries, and candidate assistance.",
+  title: 'Contact Editorial Desk & Support | Tainaati',
+  description: 'Contact the Tainaati editorial desk for recruitment inquiries, advertisement source corrections, or technical support.',
   alternates: {
     canonical: `${siteUrl}/contact`
   },
   openGraph: {
-    title: "Contact Desk & Inquiries",
-    description: "Contact Tainaati support for job verification inquiries and candidate assistance.",
+    title: 'Contact Editorial Desk & Support | Tainaati',
+    description: 'Contact the Tainaati editorial desk for recruitment inquiries, advertisement source corrections, or technical support.',
     url: `${siteUrl}/contact`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
