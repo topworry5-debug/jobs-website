@@ -130,7 +130,7 @@ export const PORTAL_HUBS_DATA = {
       { label: "Search Volume", value: "74,000 / mo" },
       { label: "Coverage", value: "All Pakistan (6 Commissions)" },
       { label: "Audit Cycle", value: "Automated 6-Hour Pipeline" },
-      { label: "Integrity", value: "100% Verified Circulars" }
+      { label: "Integrity", value: "Official Circulars" }
     ],
     officialNotice: "All federal vacancies are subject to provincial quota allocations notified by the Establishment Division (Merit 7.5%, Punjab 50%, Sindh Rural 11.4%, Sindh Urban 7.6%, KPK 11.5%, Balochistan 6%, Ex-FATA/GB 4%, AJK 2%).",
     cities: [

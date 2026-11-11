@@ -427,25 +427,31 @@ export default function JobDetailPage({ params }) {
             </dl>
           </section>
 
-          {/* Official Verification & Freshness Banner */}
-          <div className="official-verification-banner card p-4 mb-6">
-            <div className="flex items-start gap-3">
-              <ShieldCheck size={22} className="text-emerald-500 flex-shrink-0 mt-0.5" />
-              <div dir="auto">
-                <div className="font-bold text-sm text-primary mb-1">
-                  100% Authentic Official Listing
-                </div>
-                <div className="text-xs text-secondary leading-relaxed">
-                  Source Attribution: <strong>{job.officialSourceLabel || "Official Government Notification"}</strong>
-                  <br />
-                  <span className="inline-flex items-center gap-1.5 mt-0.5 font-medium text-main">
-                    <Clock size={12} className="text-emerald-500" />
-                    <span>Last verified & updated on: <strong>{job.lastVerifiedDate || "September 04, 2026"}</strong></span>
-                  </span>
+          {/* Official Source Link Banner */}
+          {job.sourceUrl ? (
+            <div className="official-verification-banner card p-4 mb-6">
+              <div className="flex items-start gap-3">
+                <ShieldCheck size={22} className="text-emerald-500 flex-shrink-0 mt-0.5" />
+                <div dir="auto">
+                  <div className="font-bold text-sm text-primary mb-1">
+                    Official source link
+                  </div>
+                  <div className="text-xs text-secondary leading-relaxed">
+                    Source Attribution: <a href={job.sourceUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline">{job.officialSourceLabel || job.agency || "Official source notice"}</a>
+                    {job.scrapedAt && (
+                      <>
+                        <br />
+                        <span className="inline-flex items-center gap-1.5 mt-0.5 font-medium text-main">
+                          <Clock size={12} className="text-emerald-500" />
+                          <span>Last synchronized: <strong>{new Date(job.scrapedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</strong></span>
+                        </span>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : null}
 
           {/* Zero-Tolerance / Statutory Compliance Banner */}
           {job.complianceNotice && (

@@ -13,7 +13,7 @@ export const metadata = {
   },
   openGraph: {
     title: "About Tainaati — Pakistan's Verified Career Intelligence Authority",
-    description: "Learn why Tainaati was built: 100% verified government gazette pipeline.",
+    description: "Learn why Tainaati was built: public sector job notices linked to official sources.",
     url: `${siteUrl}/about`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
@@ -45,7 +45,7 @@ export default function AboutPage() {
             About Tainaati
           </h1>
           <p className="text-secondary text-sm md:text-base leading-relaxed">
-            Tainaati is an independent, non-partisan digital intelligence portal engineered to bring clarity, speed, and 100% verified accuracy to Pakistan&apos;s employment and competitive examination landscape.
+            Tainaati is an independent, non-partisan portal designed to bring clarity, speed, and direct links to official sources for Pakistan&apos;s employment and competitive examination landscape.
           </p>
         </div>
 

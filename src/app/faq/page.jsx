@@ -107,12 +107,12 @@ const FAQ_SECTIONS = [
   },
   {
     id: "verification-integrity",
-    title: "Tainaati Platform & Zero-Tolerance Anti-Fabrication Pledge",
+    title: "Platform Accuracy & Source Verification",
     icon: ShieldCheck,
     questions: [
       {
-        q: "How does Tainaati guarantee 100% verified listings?",
-        a: "Every job listing on Tainaati is verified against primary government gazettes, consolidated advertisements, and direct public portal circulars. If a quota or fee detail cannot be verified with 100% certainty, we state it transparently rather than guessing."
+        q: "How does Tainaati source and verify job listings?",
+        a: "Every government job listing on Tainaati links to the official circular, portal advertisement, or gazette notice. If a quota or fee detail is not specified in the official notice, we state it transparently rather than guessing."
       },
       {
         q: "How often are job listings synchronized on Tainaati?",

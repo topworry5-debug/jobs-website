@@ -137,15 +137,15 @@ export default function CategoryLandingPage({ category, jobs = [] }) {
             <Sparkles size={28} />
           </div>
           <h2 className="text-xl font-bold text-primary mb-2">
-            Verified {category.name} Postings In Vetting
+            No Active {category.name} Postings
           </h2>
           <p className="text-sm text-secondary leading-relaxed mb-6">
-            Tainaati enforces a strict <strong>Zero Fake Jobs / 100% Verified Gazette</strong> standard. We do not publish unverified or outdated vacancies. Postings for {category.name} will go live once authentic circulars are validated against official recruiting portals.
+            Tainaati lists government and sector jobs with official source links. There are currently no active openings posted for {category.name}. Check back soon or browse active government jobs.
           </p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <Link href="/jobs/govt" className="btn btn-primary btn-sm flex items-center gap-1.5">
               <Landmark size={14} />
-              <span>Explore Verified Govt Jobs</span>
+              <span>Explore Govt Jobs</span>
             </Link>
             <Link href="/jobs/banking-finance" className="btn btn-outline btn-sm flex items-center gap-1.5">
               <span>Explore Banking & Finance</span>

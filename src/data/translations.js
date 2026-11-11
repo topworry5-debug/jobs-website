@@ -27,7 +27,7 @@ export const TRANSLATIONS = {
       resources: "Resources"
     },
     hero: {
-      trustBadge: "100% Verified Advertisements — No Outdated Ads or Clutter",
+      trustBadge: "Government job notices with official source links",
       titlePrefix: "The Authority on Careers & Competitive Exams",
       titleIn: "in",
       titleCountry: "Pakistan",
@@ -134,7 +134,7 @@ export const TRANSLATIONS = {
       privateBadge: "Private Sector Career",
       verifiedBadge: "Verified Gazette Notice",
       applyOfficialPortal: "Apply on Official Portal",
-      authenticTitle: "100% Authentic Official Listing",
+      authenticTitle: "Official source link",
       sourceRef: "Source Reference:",
       lastVerifiedAgainst: "Last verified against official commission portal on",
       keySpecs: "Key Position Specifications",
@@ -286,7 +286,7 @@ export const TRANSLATIONS = {
       resources: "وسائل"
     },
     hero: {
-      trustBadge: "100% تصدیق شدہ سرکاری اشتہارات — بغیر کسی جعلی اشتہار کے",
+      trustBadge: "سرکاری ملازمتوں کے نوٹس مع سرکاری ذرائع کے لنکس",
       titlePrefix: "پاکستان میں ملازمتوں اور مسابقتی امتحانات کا",
       titleIn: "سب سے معتبر",
       titleCountry: "پلیٹ فارم",
@@ -449,7 +449,7 @@ export const TRANSLATIONS = {
       privateBadge: "پرائیویٹ سیکٹر کیریئر",
       verifiedBadge: "تصدیق شدہ گزٹ نوٹس",
       applyOfficialPortal: "سرکاری پورٹل پر آن لائن اپلائی کریں",
-      authenticTitle: "100% مستند سرکاری نوٹس",
+      authenticTitle: "سرکاری ذریعہ کا لنک",
       sourceRef: "اشتہار کا حوالہ:",
       lastVerifiedAgainst: "سرکاری کمیشن ویب سائٹ سے تصدیق کی تاریخ:",
       keySpecs: "نوکری کی بنیادی تفصیلات و شرائط",
@@ -561,7 +561,7 @@ export const TRANSLATIONS = {
       resources: "Resources"
     },
     hero: {
-      trustBadge: "100% Tasdeeq Shuda Sarkari Jobs — Baghair Kisi Fraud Ya Ads Ke",
+      trustBadge: "Sarkari mulazmaton ke notices official source links ke sath",
       titlePrefix: "Pakistan Mein Careers Aur Competitive Exams Ka",
       titleIn: "Sub Se Mufeed",
       titleCountry: "Platform",
