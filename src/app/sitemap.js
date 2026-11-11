@@ -46,7 +46,7 @@ export default function sitemap() {
   // Individual Active Job Pages (Strictly excludes expired/archived jobs for optimal crawl budget)
   const activeJobs = JOBS_DATA.filter(isJobOpen);
   const jobRoutes = activeJobs.map((job) => ({
-    url: `${baseUrl}/jobs/${job.id}`,
+    url: `${baseUrl}/jobs/${job.slug || job.id}`,
     lastModified: job.postDate ? `${job.postDate}T00:00:00.000Z` : lastModified,
     changeFrequency: 'daily',
     priority: job.featured ? 0.95 : 0.85,

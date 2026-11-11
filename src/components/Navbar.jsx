@@ -992,7 +992,7 @@ export default function Navbar() {
           jobs={JOBS_DATA}
           onSelectJob={(job) => {
             setSearchModalOpen(false);
-            router.push(`/jobs/${job.id}`);
+            router.push(`/jobs/${job.slug || job.id}`);
           }}
         />
       )}

@@ -1,5 +1,6 @@
 import liveScrapedJobs from './liveScrapedJobs.json';
 import { CATEGORIES_CONFIG } from './categoriesData.js';
+import { getJobSlug } from '../lib/jobStatus.js';
 
 export const BASE_JOBS_DATA = [
   // ==========================================
@@ -1436,7 +1437,10 @@ export const BASE_JOBS_DATA = [
   }
 ];
 
-export const JOBS_DATA = [...BASE_JOBS_DATA, ...liveScrapedJobs];
+export const JOBS_DATA = [...BASE_JOBS_DATA, ...liveScrapedJobs].map(job => ({
+  ...job,
+  slug: getJobSlug(job)
+}));
 
 export const CITIES = [
   "All Cities",

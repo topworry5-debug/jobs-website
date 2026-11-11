@@ -92,7 +92,7 @@ export default function QuickSearchModal({
     if (onSelectJob) {
       onSelectJob(job);
     } else {
-      router.push(`/jobs/${job.id}`);
+      router.push(`/jobs/${job.slug || job.id}`);
     }
   };
 

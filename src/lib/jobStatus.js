@@ -351,3 +351,81 @@ export function getLastUpdatedTimestamp(jobs = liveScrapedJobs) {
     return latestDate.toISOString();
   }
 }
+
+/**
+ * Converts any string into a clean, URL-safe slug.
+ * @param {string} text
+ * @returns {string}
+ */
+export function slugify(text) {
+  if (!text) return '';
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/&amp;/g, 'and')
+    .replace(/&/g, 'and')
+    .replace(/[\s_]+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+}
+
+/**
+ * Generates an indexable, clean URL slug for a job following:
+ * /jobs/{agency}-{post-title}-{city}-{year}-{id}
+ * 
+ * @param {Object} job
+ * @returns {string} Clean URL slug
+ */
+export function getJobSlug(job) {
+  if (!job) return '';
+  if (job.slug) return job.slug;
+
+  // If base job ID already contains full clean slug structure (agency-title-...-year)
+  if (job.id && /^[a-z0-9]+-[a-z0-9]+.*-(19|20)\d{2}$/i.test(job.id)) {
+    return slugify(job.id);
+  }
+
+  const agency = slugify(job.agency || 'govt') || 'govt';
+  const rawTitle = slugify(job.title || 'job-vacancy').slice(0, 45).replace(/-+$/, '');
+  const rawCity = slugify(job.city ? job.city.split(',')[0].split('/')[0] : 'pakistan').slice(0, 20).replace(/-+$/, '');
+  const year = job.postDate ? job.postDate.split('-')[0] : (job.lastDate ? job.lastDate.split('-')[0] : '2026');
+  
+  // Clean idSuffix by stripping duplicate live prefixes
+  const idSuffix = slugify(job.id || 'post').replace(/^(fpsc|ppsc|spsc|kppsc|bpsc|nts)-live-/, '');
+
+  return `${agency}-${rawTitle}-${rawCity}-${year}-${idSuffix}`.replace(/--+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Returns the canonical relative URL for a job.
+ * @param {Object} job
+ * @returns {string} e.g. "/jobs/fpsc-css-competitive-examination-2027-islamabad-2026-api-101"
+ */
+export function getJobUrl(job) {
+  if (!job) return '/jobs/govt';
+  const slug = job.slug || getJobSlug(job) || job.id;
+  return `/jobs/${slug}`;
+}
+
+/**
+ * Resolves a job object from a list by clean slug or raw ID (case-insensitive).
+ * @param {string} slugOrId
+ * @param {Array} jobsList
+ * @returns {Object|null}
+ */
+export function findJobBySlugOrId(slugOrId, jobsList = []) {
+  if (!slugOrId || !Array.isArray(jobsList)) return null;
+  const target = String(slugOrId).toLowerCase().trim();
+
+  return jobsList.find(j => {
+    if (!j) return false;
+    if (j.slug && j.slug.toLowerCase() === target) return true;
+    if (j.id && j.id.toLowerCase() === target) return true;
+    if (getJobSlug(j).toLowerCase() === target) return true;
+    return false;
+  }) || null;
+}
+

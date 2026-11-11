@@ -262,7 +262,7 @@ export default function SavedJobsTracker() {
                       <span className="text-xs text-muted truncate max-w-xs">{job.department || job.company}</span>
                     </div>
                     <h2 className="text-base font-bold text-main">
-                      <Link href={`/jobs/${job.id}`} className="hover:text-emerald-500 transition-colors">
+                      <Link href={`/jobs/${job.slug || job.id}`} className="hover:text-emerald-500 transition-colors">
                         {job.title}
                       </Link>
                     </h2>
@@ -318,7 +318,7 @@ export default function SavedJobsTracker() {
 
                   <div className="flex items-center gap-2">
                     <Link
-                      href={`/jobs/${job.id}`}
+                      href={`/jobs/${job.slug || job.id}`}
                       className="btn btn-sm btn-outline text-xs"
                     >
                       View Details
