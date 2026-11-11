@@ -91,9 +91,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/jobs/private" className="footer-link-btn">
+                <Link href="/agency/nts" className="footer-link-btn">
                   <Building2 size={14} />
-                  <span>{t.footer.privateJobsLink}</span>
+                  <span>Testing Services & Projects (NTS)</span>
                 </Link>
               </li>
               <li>

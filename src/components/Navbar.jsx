@@ -295,13 +295,12 @@ export default function Navbar() {
                     </div>
                   </div>
 
-                  {/* Govt Sub-categories */}
+                  {/* Govt Sub-categories with active jobs */}
                   <div className="nav-dropdown-items-list">
-                    {govtCategories.map((cat) => {
+                    {govtCategories.filter(cat => (categoryCounts[cat.slug] || 0) > 0).map((cat) => {
                       const count = categoryCounts[cat.slug] || 0;
                       const IconComp = ICON_MAP[cat.icon] || Landmark;
                       const active = pathname === `/jobs/${cat.slug}`;
-                      const isComingSoon = count === 0;
 
                       return (
                         <Link
@@ -314,11 +313,7 @@ export default function Navbar() {
                             <IconComp size={14} className={active ? 'text-emerald-600' : 'text-muted'} />
                             <span>{cat.name}</span>
                           </div>
-                          {isComingSoon ? (
-                            <span className="nav-dropdown-coming-soon">Coming Soon</span>
-                          ) : (
-                            <span className="nav-dropdown-count">{count}</span>
-                          )}
+                          <span className="nav-dropdown-count">{count}</span>
                         </Link>
                       );
                     })}
@@ -750,10 +745,9 @@ export default function Navbar() {
                       <Link href="/kpk-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🏔️ KPK Job Portal (KPPSC & Govt)</Link>
                       <Link href="/balochistan-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🦅 Balochistan Job Portal (BPSC & Govt)</Link>
                     </div>
-                    {govtCategories.map((cat) => {
+                    {govtCategories.filter(cat => (categoryCounts[cat.slug] || 0) > 0).map((cat) => {
                       const count = categoryCounts[cat.slug] || 0;
                       const IconComp = ICON_MAP[cat.icon] || Landmark;
-                      const isComingSoon = count === 0;
 
                       return (
                         <Link
@@ -766,11 +760,7 @@ export default function Navbar() {
                             <IconComp size={13} className="text-muted" />
                             <span>{cat.name}</span>
                           </div>
-                          {isComingSoon ? (
-                            <span className="nav-dropdown-coming-soon">Coming Soon</span>
-                          ) : (
-                            <span className="nav-dropdown-count">{count}</span>
-                          )}
+                          <span className="nav-dropdown-count">{count}</span>
                         </Link>
                       );
                     })}
