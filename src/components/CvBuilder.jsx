@@ -294,29 +294,29 @@ const TEMPLATE_CARDS = [
   {
     id: 'executive',
     name: 'Executive Minimalist',
-    tagline: 'Authoritative serif display headings with dual tone and executive focus.',
-    atsScore: '100% ATS Safe',
+    tagline: 'Clean serif display headings with dual tone and executive focus.',
+    atsScore: 'Single-Column Layout',
     badgeClass: 'badge-verified'
   },
   {
     id: 'govt',
     name: 'Govt & Academic Standard',
     tagline: 'Conservative, high-contrast B&W layout tailored for FPSC, PPSC, HEC, and civil service dossiers.',
-    atsScore: 'Civil Gazette Standard',
+    atsScore: 'Single-Column Layout',
     badgeClass: 'badge-verified'
   },
   {
     id: 'modern',
     name: 'Modern Tech & Software',
     tagline: 'Streamlined sans-serif with subtle emerald accent bar, tech skills & projects emphasis.',
-    atsScore: '100% ATS Safe',
+    atsScore: 'Single-Column Layout',
     badgeClass: 'badge-verified'
   },
   {
     id: 'classic',
     name: 'Classic Professional',
     tagline: 'Single-column with traditional serif headers & horizontal dividing rules.',
-    atsScore: '100% ATS Safe',
+    atsScore: 'Single-Column Layout',
     badgeClass: 'badge-verified'
   }
 ];
@@ -1034,7 +1034,7 @@ export default function CvBuilder() {
           <div className="flex items-center gap-3">
             <span className="badge badge-verified">
               <ShieldCheck size={13} />
-              <span>100% Single-Column ATS Guaranteed</span>
+              <span>Single-column layout</span>
             </span>
             <span className="save-status-text">
               <Check size={12} className="text-emerald-500 inline mr-1" />
@@ -1147,7 +1147,7 @@ export default function CvBuilder() {
             {currentStep === 0 && (
               <div className="space-y-4 animate-fade-in">
                 <p className="text-xs text-secondary leading-relaxed">
-                  Choose an ATS-verified layout. Every template is strictly <strong>single-column</strong> and structured for 100% readability by government scanners (FPSC, PPSC, NTS) and enterprise ATS systems. You can switch anytime without losing data.
+                  Choose a clean layout. Every template uses a <strong>single-column layout</strong>. You can switch anytime without losing data.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
