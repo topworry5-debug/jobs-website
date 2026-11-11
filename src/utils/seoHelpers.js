@@ -103,7 +103,7 @@ export function generateOrganizationSchema() {
     "alternateName": "Tainaati Pakistan Jobs Portal",
     "url": siteUrl,
     "logo": `${siteUrl}/icons/logo.png`,
-    "description": "Pakistan's 100% verified zero-fabrication public sector recruitment and career opportunities platform (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS).",
+    "description": "Pakistan's official gazette public sector recruitment and career opportunities platform (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS).",
     "foundingLocation": {
       "@type": "Country",
       "name": "Pakistan"

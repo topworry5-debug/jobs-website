@@ -190,7 +190,7 @@ export default function Footer() {
               <Lock size={12} />
               <span>{t.footer.sslBadge || "SSL 256-Bit Encrypted"}</span>
             </span>
-            <span className="footer-badge-item">{t.footer.gazetteBadge || "100% Gazette Verified"}</span>
+            <span className="footer-badge-item">{t.footer.gazetteBadge || "Official Gazette Sourced"}</span>
           </div>
         </div>
       </div>

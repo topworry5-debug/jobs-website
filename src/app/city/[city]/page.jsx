@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import HomeClientFilter from '../../../components/HomeClientFilter';
 import { JOBS_DATA, CITIES } from '../../../data/jobsData';
+import { filterOpenJobs } from '../../../lib/jobStatus';
 import { CITY_LANDING_CONTENT } from '../../../data/landingPagesData';
 import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
 import { MapPin, Building2, Landmark, ShieldCheck, ArrowRight, HelpCircle, BookOpen } from 'lucide-react';
@@ -75,7 +76,11 @@ export default function CityLandingPage({ params }) {
     (j) => j.city?.toLowerCase().includes(cityKey) || j.city?.toLowerCase().includes('all pakistan')
   );
 
-  const itemListSchema = generateItemListSchema(cityJobs, `${siteUrl}/city/${city}`);
+  const openCityJobs = filterOpenJobs(cityJobs);
+  const openGovtInCity = openCityJobs.filter(j => j.type === 'govt').length;
+  const openPrivateInCity = openCityJobs.filter(j => j.type === 'private').length;
+
+  const itemListSchema = generateItemListSchema(openCityJobs.slice(0, 20), `${siteUrl}/city/${city}`);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: `${siteUrl}` },
     { name: "Cities", url: `${siteUrl}` },
@@ -109,7 +114,11 @@ export default function CityLandingPage({ params }) {
           </span>
           <span className="badge badge-verified">
             <ShieldCheck size={13} />
-            <span>{cityJobs.length} Active Listings</span>
+            {openCityJobs.length > 0 ? (
+              <span>{openCityJobs.length} Active Listings</span>
+            ) : (
+              <span>No active listings</span>
+            )}
           </span>
         </div>
 
@@ -149,23 +158,25 @@ export default function CityLandingPage({ params }) {
           </Link>
         </div>
 
-        {/* Stats Row */}
-        {content.stats && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4 pt-4 border-t border-subtle">
-            <div className="label-caption-group">
-              <span className="text-xs text-muted block">Govt Openings</span>
-              <strong className="text-base text-primary block">{content.stats.govtVacancies}</strong>
-            </div>
-            <div className="label-caption-group">
-              <span className="text-xs text-muted block">Private Careers</span>
-              <strong className="text-base text-primary block">{content.stats.privateOpenings}</strong>
-            </div>
-            <div className="col-span-2 sm:col-span-1 label-caption-group">
-              <span className="text-xs text-muted block">Primary Sectors</span>
-              <strong className="text-xs text-primary block">{content.stats.topDepts}</strong>
-            </div>
+        {/* Stats Row with honest dynamic counts */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4 pt-4 border-t border-subtle">
+          <div className="label-caption-group">
+            <span className="text-xs text-muted block">Govt Openings</span>
+            <strong className="text-base text-primary block">
+              {openGovtInCity > 0 ? openGovtInCity : <span className="text-xs text-muted font-normal">None Active</span>}
+            </strong>
           </div>
-        )}
+          <div className="label-caption-group">
+            <span className="text-xs text-muted block">Private Careers</span>
+            <strong className="text-base text-primary block">
+              {openPrivateInCity > 0 ? openPrivateInCity : <span className="text-xs text-muted font-normal">None Active</span>}
+            </strong>
+          </div>
+          <div className="col-span-2 sm:col-span-1 label-caption-group">
+            <span className="text-xs text-muted block">Primary Sectors</span>
+            <strong className="text-xs text-primary block">{content.stats?.topDepts || "Public Service & Authorities"}</strong>
+          </div>
+        </div>
       </div>
 
       <HomeClientFilter 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import HomeClientFilter from '../../../components/HomeClientFilter';
 import { JOBS_DATA } from '../../../data/jobsData';
+import { filterOpenJobs, getLastUpdatedTimestamp } from '../../../lib/jobStatus';
 import { AGENCY_LANDING_CONTENT } from '../../../data/landingPagesData';
 import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
 import { Landmark, ShieldCheck, ExternalLink, Award, FileText, CheckCircle2, BookOpen, Clock, HelpCircle, AlertCircle, ArrowRight, MapPin } from 'lucide-react';
@@ -76,7 +77,10 @@ export default function AgencyLandingPage({ params }) {
     return (j.agency || '').toUpperCase() === code || (j.category || '').toUpperCase().includes(code);
   });
 
-  const itemListSchema = generateItemListSchema(agencyJobs, `${siteUrl}/agency/${agency}`);
+  const openAgencyJobs = filterOpenJobs(agencyJobs);
+  const lastUpdatedStr = getLastUpdatedTimestamp(agencyJobs);
+
+  const itemListSchema = generateItemListSchema(openAgencyJobs.slice(0, 20), `${siteUrl}/agency/${agency}`);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: `${siteUrl}` },
     { name: "Public Service Commissions", url: `${siteUrl}/jobs/govt` },
@@ -111,7 +115,11 @@ export default function AgencyLandingPage({ params }) {
             </span>
             <span className="badge badge-verified">
               <ShieldCheck size={13} />
-              <span>{agencyJobs.length} Live Openings</span>
+              {openAgencyJobs.length > 0 ? (
+                <span>{openAgencyJobs.length} Live Openings</span>
+              ) : (
+                <span>No active circulars</span>
+              )}
             </span>
           </div>
 
@@ -182,16 +190,19 @@ export default function AgencyLandingPage({ params }) {
         </div>
 
         {/* Live Zero-Vacancy Official Advisory */}
-        {agencyJobs.length === 0 && (
+        {openAgencyJobs.length === 0 && (
           <div className="p-4 mt-4 rounded-xl border border-emerald-900/30 bg-emerald-950/20 text-xs text-secondary flex items-start gap-3">
             <ShieldCheck size={20} className="text-emerald-400 flex-shrink-0 mt-0.5" />
             <div>
               <strong className="text-emerald-300 font-semibold text-sm block mb-1">
                 Official Commission Status: No Active Advertisements Currently Open
               </strong>
-              <p className="leading-relaxed">
-                Direct monitoring of {content.agencyCode} confirms that the previous recruitment advertisement has closed, and the Commission has not yet released its next consolidated gazette. As soon as {content.agencyCode} gazettes new vacancies, Tainaati will ingest them automatically.
+              <p className="leading-relaxed mb-1">
+                Direct monitoring of {content.agencyCode} confirms that all previous recruitment advertisements have closed, and the Commission has not yet released its next consolidated gazette.
               </p>
+              <span className="text-[11px] text-muted font-mono block">
+                Last checked: {lastUpdatedStr}
+              </span>
             </div>
           </div>
         )}

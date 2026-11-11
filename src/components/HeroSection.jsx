@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { CITIES } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
-import { computeJobMetrics, isClosingSoon } from '../utils/jobMetrics';
+import { computeJobMetrics, isClosingSoon, filterOpenJobs } from '../utils/jobMetrics';
 import AnimatedCount from './AnimatedCount';
 
 export default function HeroSection({ 
@@ -61,9 +61,10 @@ export default function HeroSection({
   // Centralized single source of truth dynamic metrics
   const metrics = computeJobMetrics(jobs, examSchedules);
 
-  // Filter autosuggest results
+  // Filter autosuggest results — strictly suggest verified OPEN jobs
+  const openJobs = filterOpenJobs(jobs);
   const autosuggestResults = (localQuery || '').trim().length > 1
-    ? jobs.filter(j => 
+    ? openJobs.filter(j => 
         j.title.toLowerCase().includes((localQuery || '').toLowerCase()) ||
         (j.department && j.department.toLowerCase().includes((localQuery || '').toLowerCase())) ||
         (j.company && j.company.toLowerCase().includes((localQuery || '').toLowerCase())) ||
@@ -136,7 +137,13 @@ export default function HeroSection({
     { label: 'WAPDA & Engineering', query: 'Engineering' },
     { label: 'Armed Forces & Defence', query: 'Navy' },
     { label: 'SPSC Sindh Cadre', query: 'SPSC' },
-    { label: `${t.hero.closingIn3Days} (${metrics.urgentCount})`, query: 'urgent', isUrgentFilter: true }
+    { 
+      label: metrics.urgentCount > 0 
+        ? `${t.hero.closingIn3Days} (${metrics.urgentCount})` 
+        : t.hero.closingIn3Days, 
+      query: 'urgent', 
+      isUrgentFilter: true 
+    }
   ];
 
   return (
@@ -305,7 +312,7 @@ export default function HeroSection({
               {t.hero.trackGovtDesc}
             </p>
             <div className="pathway-footer">
-              <span>{t.hero.trackGovtAction} ({metrics.govtCount})</span>
+              <span>{t.hero.trackGovtAction}{metrics.govtCount > 0 ? ` (${metrics.govtCount})` : ''}</span>
               <ArrowRight size={16} />
             </div>
           </Link>
@@ -346,7 +353,7 @@ export default function HeroSection({
                 Screening tests and recruitment projects for Sindh Social Protection Authority, Judiciary, and public sector corporations.
               </p>
               <div className="pathway-footer">
-                <span>Explore Testing Openings ({metrics.agencyCounts.NTS || 0})</span>
+                <span>Explore Testing Openings{(metrics.agencyCounts.NTS || 0) > 0 ? ` (${metrics.agencyCounts.NTS})` : ''}</span>
                 <ArrowRight size={16} />
               </div>
             </Link>
@@ -367,7 +374,7 @@ export default function HeroSection({
               {t.hero.trackExamsDesc}
             </p>
             <div className="pathway-footer">
-              <span>{t.hero.trackExamsAction} ({metrics.upcomingExamsCount})</span>
+              <span>{t.hero.trackExamsAction}{metrics.upcomingExamsCount > 0 ? ` (${metrics.upcomingExamsCount})` : ''}</span>
               <ArrowRight size={16} />
             </div>
           </Link>
@@ -379,9 +386,13 @@ export default function HeroSection({
             <div className="stat-item">
               <div className="stat-number-wrapper">
                 <span className="stat-number">
-                  <AnimatedCount target={metrics.totalListings} suffix="+" />
+                  {metrics.totalListings > 0 ? (
+                    <AnimatedCount target={metrics.totalListings} />
+                  ) : (
+                    <span className="text-muted">None Active</span>
+                  )}
                 </span>
-                <span className="stat-indicator green" />
+                <span className={`stat-indicator ${metrics.totalListings > 0 ? 'green' : 'gray'}`} />
               </div>
               <span className="stat-label">{t.hero.statVacancies}</span>
             </div>
@@ -391,7 +402,11 @@ export default function HeroSection({
             <div className="stat-item">
               <div className="stat-number-wrapper">
                 <span className="stat-number">
-                  <AnimatedCount target={metrics.verifiedDeptsCount} />
+                  {metrics.verifiedDeptsCount > 0 ? (
+                    <AnimatedCount target={metrics.verifiedDeptsCount} />
+                  ) : (
+                    <span className="text-muted">None</span>
+                  )}
                 </span>
                 <ShieldCheck size={16} className="text-emerald-500" />
               </div>
@@ -403,9 +418,13 @@ export default function HeroSection({
             <div className="stat-item">
               <div className="stat-number-wrapper">
                 <span className="stat-number text-urgent">
-                  <AnimatedCount target={metrics.urgentCount} />
+                  {metrics.urgentCount > 0 ? (
+                    <AnimatedCount target={metrics.urgentCount} />
+                  ) : (
+                    <span className="text-muted font-normal text-lg">None</span>
+                  )}
                 </span>
-                <Flame size={16} className="text-red-500" />
+                <Flame size={16} className={metrics.urgentCount > 0 ? "text-red-500" : "text-muted"} />
               </div>
               <span className="stat-label">{t.hero.statUrgent}</span>
             </div>
@@ -415,7 +434,11 @@ export default function HeroSection({
             <div className="stat-item">
               <div className="stat-number-wrapper">
                 <span className="stat-number">
-                  <AnimatedCount target={metrics.upcomingExamsCount} />
+                  {metrics.upcomingExamsCount > 0 ? (
+                    <AnimatedCount target={metrics.upcomingExamsCount} />
+                  ) : (
+                    <span className="text-muted">None</span>
+                  )}
                 </span>
                 <Calendar size={16} className="text-blue-500" />
               </div>

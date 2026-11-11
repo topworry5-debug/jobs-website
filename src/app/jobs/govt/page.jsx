@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import HomeClientFilter from '../../../components/HomeClientFilter';
 import { JOBS_DATA } from '../../../data/jobsData';
+import { filterOpenJobs } from '../../../lib/jobStatus';
 import { generateItemListSchema, generateBreadcrumbSchema } from '../../../utils/seoHelpers';
 import { Landmark, ShieldCheck } from 'lucide-react';
 import { getSiteUrl } from '../../../utils/siteUrl';
@@ -25,7 +26,8 @@ export const metadata = {
 export default function GovtJobsPage() {
   const currentUrl = getSiteUrl();
   const govtJobs = JOBS_DATA.filter((j) => j.type === 'govt');
-  const itemListSchema = generateItemListSchema(govtJobs, `${currentUrl}/jobs/govt`);
+  const openGovtJobs = filterOpenJobs(govtJobs);
+  const itemListSchema = generateItemListSchema(openGovtJobs.slice(0, 20), `${currentUrl}/jobs/govt`);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: `${currentUrl}` },
     { name: "Government Jobs", url: `${currentUrl}/jobs/govt` }
@@ -47,11 +49,15 @@ export default function GovtJobsPage() {
         <div className="flex items-center gap-2 mb-2">
           <span className="badge badge-govt">
             <Landmark size={13} />
-            <span>Public Sector Intelligence</span>
+            <span>Public Sector Opportunities</span>
           </span>
           <span className="badge badge-verified">
             <ShieldCheck size={13} />
-            <span>100% Gazette Verified</span>
+            {openGovtJobs.length > 0 ? (
+              <span>{openGovtJobs.length} Active Openings</span>
+            ) : (
+              <span>Archived Notices</span>
+            )}
           </span>
         </div>
 

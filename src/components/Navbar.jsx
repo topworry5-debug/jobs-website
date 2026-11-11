@@ -261,7 +261,9 @@ export default function Navbar() {
                         <div className="text-[10px] text-muted">FPSC, PPSC, SPSC, KPPSC & NTS</div>
                       </div>
                     </div>
-                    <span className="nav-dropdown-count text-emerald-600 font-bold">{categoryCounts.govt || 0}</span>
+                    {categoryCounts.govt > 0 && (
+                      <span className="nav-dropdown-count text-emerald-600 font-bold">{categoryCounts.govt}</span>
+                    )}
                   </Link>
 
                   {/* Province & National Job Portals Links */}
@@ -359,7 +361,9 @@ export default function Navbar() {
                         <div className="text-[10px] text-muted">Banking, Engineering, Tech & Remote</div>
                       </div>
                     </div>
-                    <span className="nav-dropdown-count text-blue-600 font-bold">{categoryCounts.private || 0}</span>
+                    {categoryCounts.private > 0 && (
+                      <span className="nav-dropdown-count text-blue-600 font-bold">{categoryCounts.private}</span>
+                    )}
                   </Link>
 
                   {/* Private & Cross-cutting Sub-categories */}
@@ -715,7 +719,7 @@ export default function Navbar() {
                 >
                   <div className="flex items-center gap-2">
                     <Landmark size={16} className="text-emerald-600" />
-                    <span>Government Jobs ({categoryCounts.govt || 0})</span>
+                    <span>Government Jobs{categoryCounts.govt > 0 ? ` (${categoryCounts.govt})` : ''}</span>
                   </div>
                   <ChevronDown size={14} className={`transition-transform duration-200 ${mobileGovtOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -728,7 +732,9 @@ export default function Navbar() {
                       className="mobile-sub-item font-semibold text-primary"
                     >
                       <span>🏛️ View All Govt Gazette Jobs</span>
-                      <span className="nav-dropdown-count">{categoryCounts.govt || 0}</span>
+                      {categoryCounts.govt > 0 && (
+                        <span className="nav-dropdown-count">{categoryCounts.govt}</span>
+                      )}
                     </Link>
 
                     {/* Mobile Province & National Portals List */}
@@ -777,7 +783,7 @@ export default function Navbar() {
                 >
                   <div className="flex items-center gap-2">
                     <Building2 size={16} className="text-blue-600" />
-                    <span>Private & Careers ({categoryCounts.private || 0})</span>
+                    <span>Private & Careers{categoryCounts.private > 0 ? ` (${categoryCounts.private})` : ''}</span>
                   </div>
                   <ChevronDown size={14} className={`transition-transform duration-200 ${mobilePrivateOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -790,7 +796,9 @@ export default function Navbar() {
                       className="mobile-sub-item font-semibold text-primary"
                     >
                       <span>💼 View All Private & Corporate Jobs</span>
-                      <span className="nav-dropdown-count">{categoryCounts.private || 0}</span>
+                      {categoryCounts.private > 0 && (
+                        <span className="nav-dropdown-count">{categoryCounts.private}</span>
+                      )}
                     </Link>
                     {privateCategories.map((cat) => {
                       const count = categoryCounts[cat.slug] || 0;

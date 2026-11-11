@@ -666,6 +666,7 @@ export function matchesJobCategory(job, categoryId) {
     if (categoryId === 'ppsc') return job.agency === 'PPSC' || job.category?.includes('Punjab');
     if (categoryId === 'spsc') return job.agency === 'SPSC' || job.category?.includes('Sindh');
     if (categoryId === 'kppsc') return job.agency === 'KPPSC' || job.category?.includes('KPK');
+    if (categoryId === 'bpsc') return job.agency === 'BPSC' || job.category?.includes('Balochistan');
     if (categoryId === 'nts') return job.agency === 'NTS' || job.category?.includes('NTS');
     return false;
   }

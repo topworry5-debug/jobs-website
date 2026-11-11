@@ -251,7 +251,7 @@ export const TRANSLATIONS = {
       terms: "Terms of Service",
       telemetry: "Pipeline Telemetry",
       sslBadge: "SSL 256-Bit Encrypted",
-      gazetteBadge: "100% Gazette Verified",
+      gazetteBadge: "Official Gazette Sourced",
       legalDisclaimer: "Disclaimer & Official Status",
       disclaimerText: "Tainaati is an independent, ad-free career intelligence platform. All government job circulars, syllabus notices, and examination timetables are directly cross-verified against official Federal (FPSC) and Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes.",
       copyright: "© 2026 Tainaati. All rights reserved. Built for job seekers across Pakistan."

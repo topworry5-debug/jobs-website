@@ -61,9 +61,15 @@ export default function CommissionsBar({ jobsCountMap = {} }) {
                     <div className="text-xs text-muted">{agency.sub}</div>
                   </div>
                 </div>
-                <span className="badge badge-bps text-xs font-mono">
-                  {isRtl ? `${agency.count} ${c.activeCount}` : `${agency.count} ${c.activeCount}`}
-                </span>
+                {agency.count > 0 ? (
+                  <span className="badge badge-bps text-xs font-mono">
+                    {agency.count} {c.activeCount || "Active"}
+                  </span>
+                ) : (
+                  <span className="badge badge-subtle text-xs font-mono text-muted">
+                    Archived
+                  </span>
+                )}
               </Link>
             );
           })}
