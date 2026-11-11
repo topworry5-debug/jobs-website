@@ -239,14 +239,13 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     return counts;
   }, [openJobs]);
 
-  // Only display categories that have active open jobs (or are the master 'all'/'govt' views)
+  // Only display categories that contain at least 1 job (plus 'all' and currently selected category)
   const visibleCategories = useMemo(() => {
-    const active = CATEGORIES.filter(cat => {
+    return CATEGORIES.filter(cat => {
+      if (cat.id === 'all' || cat.id === selectedCategory) return true;
       const count = categoryCounts[cat.id] ?? 0;
-      if (cat.id === 'all' || cat.id === 'govt' || cat.id === selectedCategory) return true;
-      return count > 0;
+      return count >= 1;
     });
-    return active;
   }, [categoryCounts, selectedCategory]);
 
   // Lock body scroll when mobile filter drawer is open
