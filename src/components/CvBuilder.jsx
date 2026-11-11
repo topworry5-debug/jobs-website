@@ -461,7 +461,7 @@ export default function CvBuilder() {
     return 'govt'; // Default
   }, [cvData.personal?.title]);
 
-  // Real-time ATS Strength Score Calculation (0-100%)
+  // Real-time ATS Strength Score Calculation (0-100 scale)
   const { strengthScore, checklist } = useMemo(() => {
     const checks = [];
     let score = 0;
@@ -1219,7 +1219,7 @@ export default function CvBuilder() {
                         </div>
                       ) : (
                         <div style={{ width: '64px', height: '64px', minWidth: '64px', borderRadius: '6px', overflow: 'hidden' }} className="bg-surface border border-subtle flex items-center justify-center">
-                          <img src={NEUTRAL_SILHOUETTE_PLACEHOLDER} alt="Placeholder" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <img src={NEUTRAL_SILHOUETTE_PLACEHOLDER} alt="Placeholder" className="w-full h-full object-cover" />
                         </div>
                       )}
                     </div>

@@ -102,7 +102,7 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm text-primary">Zero-Tolerance Anti-Fabrication Policy</h3>
-                  <p className="text-xs text-secondary mt-0.5">Every listing on Tainaati links directly to the underlying official commission notice or verified employer career page. If a sub-quota or fee detail cannot be verified with 100% certainty, we state it transparently rather than guessing.</p>
+                  <p className="text-xs text-secondary mt-0.5">Every listing on Tainaati links directly to the underlying official commission notice or verified employer career page. If a sub-quota or fee detail cannot be verified with certainty, we state it transparently rather than guessing.</p>
                 </div>
               </div>
 
@@ -111,8 +111,8 @@ export default function AboutPage() {
                   <FileText size={16} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-primary">100% Free Public Utilities</h3>
-                  <p className="text-xs text-secondary mt-0.5">Beyond listings, we provide candidate tools including a privacy-first ATS CV Builder (processed 100% in your browser), a Competitive Exam Calendar (tracking CSS, PMS, and Screening dates), and an interactive MCQs test prep engine.</p>
+                  <h3 className="font-bold text-sm text-primary">Free Public Utilities</h3>
+                  <p className="text-xs text-secondary mt-0.5">Beyond listings, we provide candidate tools including a privacy-first ATS CV Builder (processed entirely in your browser), a Competitive Exam Calendar (tracking CSS, PMS, and Screening dates), and an interactive MCQs test prep engine.</p>
                 </div>
               </div>
             </div>

@@ -186,8 +186,8 @@ export default function FaqPage() {
           </p>
 
           <div className="mt-4 pt-4 border-t border-subtle flex items-center gap-4 flex-wrap text-xs text-muted">
-            <span>• 100% Official Regulations</span>
-            <span>• Zero Fabrication</span>
+            <span>• Official Regulations</span>
+            <span>• Direct Source Links</span>
             <span>• Updated Daily</span>
           </div>
         </div>

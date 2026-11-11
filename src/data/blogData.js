@@ -97,7 +97,7 @@ Only candidates holding a **valid Punjab Domicile** and computerised National Id
       {
         id: 'step-by-step-apply',
         heading: 'Step-by-Step Online Application Procedure',
-        content: `Applying for PPSC jobs is 100% computerized. Follow these sequential steps to avoid rejection:
+        content: `Applying for PPSC jobs is fully computerized. Follow these sequential steps to avoid rejection:
 
 1. **Visit the Official Portal**: Navigate to \`ppsc.gop.pk\` and select **Apply Online**.
 2. **Select the Advertisement & Post**: Choose the exact Case Number (e.g., *Case No. 08-RH/2026*).
@@ -134,7 +134,7 @@ Only candidates holding a **valid Punjab Domicile** and computerised National Id
 - **Passing Threshold**: Minimum 40% (40 marks out of 100) to qualify for academic merit calculation.
 
 ### Syllabus Distribution (General vs Specific Posts)
-- **General Ability Posts (80/20 Rule)**: 100% General Knowledge (Pakistan Affairs, Current Affairs, Islamic Studies, Geography, Basic Math, English, Everyday Science, and Computer Studies).
+- **General Ability Posts (80/20 Rule)**: Comprehensive General Knowledge (Pakistan Affairs, Current Affairs, Islamic Studies, Geography, Basic Math, English, Everyday Science, and Computer Studies).
 - **Technical/Subject Posts (80/20 Rule)**: 80% Questions from Qualification Discipline (e.g., Computer Science, Pharmacy, Civil Engineering) + 20% General Knowledge.`
       }
     ],
@@ -374,7 +374,7 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
       },
       {
         question: "Can I apply for government jobs online for free?",
-        answer: "While Tainaati provides 100% free access to verified notices and tools, government commissions charge official examination processing fees (typically PKR 300 for FPSC and PKR 600 for PPSC) deposited directly into government treasury accounts."
+        answer: "While Tainaati provides free access to notices and candidate tools, government commissions charge official examination processing fees (typically PKR 300 for FPSC and PKR 600 for PPSC) deposited directly into government treasury accounts."
       }
     ],
     relatedTools: [
@@ -415,7 +415,7 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
       {
         id: 'njp-steps-info',
         sectionId: 'create-njp-profile',
-        title: 'NJP 5-Step 100% Profile Completion & One-Click Apply Flow',
+        title: 'NJP 5-Step Profile Completion & One-Click Apply Flow',
         items: [
           { num: '01', title: 'CNIC Authentication', desc: '13-digit NADRA-linked identity sign-up verified with SMS OTP.' },
           { num: '02', title: 'Academic Vault', desc: 'Chronological degree entries with HEC-verified grading scales.' },
@@ -428,7 +428,7 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
     tableOfContents: [
       { id: 'what-is-njp', title: '1. What is the National Job Portal (NJP)?' },
       { id: 'njp-vs-fpsc', title: '2. NJP vs FPSC — What is the Difference?' },
-      { id: 'create-njp-profile', title: '3. How to Build a 100% Complete NJP Profile' },
+      { id: 'create-njp-profile', title: '3. How to Build a Complete NJP Profile' },
       { id: 'njp-faqs', title: '4. Frequently Asked Questions (FAQs)' }
     ],
     contentSections: [
@@ -456,8 +456,8 @@ Key features of NJP include:
       },
       {
         id: 'create-njp-profile',
-        heading: 'How to Build a 100% Complete NJP Profile',
-        content: `To prevent system disqualification on NJP, ensure your profile reaches 100% completion:
+        heading: 'How to Build a Complete NJP Profile',
+        content: `To prevent system disqualification on NJP, ensure your profile reaches full completion:
 
 1. **CNIC Authentication**: Sign up with your 13-digit CNIC and verify via SMS OTP.
 2. **Personal Information**: Enter full name as per matriculation certificate, father's name, and permanent address.

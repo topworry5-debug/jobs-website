@@ -36,7 +36,7 @@ export default function AdminPipelineDashboard({ jobs, onUpdateJobs }) {
     {
       time: "08:00:00 AM PST",
       type: "SUCCESS",
-      msg: "Daily Email Digest dispatched to verified subscribers (Resend Delivery Rate: 100%)."
+      msg: "Daily Email Digest dispatched to verified subscribers (Resend Delivery Rate: High)."
     }
   ]);
 
@@ -212,7 +212,7 @@ export default function AdminPipelineDashboard({ jobs, onUpdateJobs }) {
               <span className="stat-label">Active Live Parsers</span>
               <div className="stat-number-row">
                 <span className="stat-big-val">5 / 5</span>
-                <span className="badge badge-verified">100% Live HTML</span>
+                <span className="badge badge-verified">Live HTML</span>
               </div>
               <span className="stat-sub">PPSC (40), NTS (18), SPSC (7), FPSC (2), KPPSC (1)</span>
             </div>
@@ -238,7 +238,7 @@ export default function AdminPipelineDashboard({ jobs, onUpdateJobs }) {
               <div className="stat-number-row">
                 <span className="stat-big-val">Enforced</span>
               </div>
-              <span className="stat-sub">100% spam-free deliverability protection</span>
+              <span className="stat-sub">Spam-free deliverability protection</span>
             </div>
           </div>
 

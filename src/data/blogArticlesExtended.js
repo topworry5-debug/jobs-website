@@ -2133,11 +2133,11 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
     tableOfContents: [
       { id: 'pakistan-tech-landscape', title: '1. The Software Engineering Landscape in Pakistan' },
       { id: 'top-languages-ranked', title: '2. The 5 Most In-Demand Programming Languages Ranked' },
-      { id: 'javascript-typescript', title: '3. #1: JavaScript & TypeScript (The Volume Champion)' },
-      { id: 'python-ai-data', title: '4. #2: Python (AI, Machine Learning & Automation)' },
-      { id: 'java-spring-enterprise', title: '5. #3: Java & Spring Boot (The Enterprise Heavyweight)' },
-      { id: 'php-laravel-local', title: '6. #4: PHP & Laravel (The Pakistani SME Backbone)' },
-      { id: 'golang-cloud', title: '7. #5: Go (Golang) (High-Concurrency Cloud Architecture)' },
+      { id: 'javascript-typescript', title: '3. Rank 1: JavaScript & TypeScript (The Volume Champion)' },
+      { id: 'python-ai-data', title: '4. Rank 2: Python (AI, Machine Learning & Automation)' },
+      { id: 'java-spring-enterprise', title: '5. Rank 3: Java & Spring Boot (The Enterprise Heavyweight)' },
+      { id: 'php-laravel-local', title: '6. Rank 4: PHP & Laravel (The Pakistani SME Backbone)' },
+      { id: 'golang-cloud', title: '7. Rank 5: Go (Golang) (High-Concurrency Cloud Architecture)' },
       { id: 'tech-career-faqs', title: '8. Frequently Asked Questions (FAQs)' }
     ],
     contentSections: [
@@ -2152,7 +2152,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
       },
       {
         id: 'javascript-typescript',
-        heading: '#1: JavaScript & TypeScript (The Volume Champion)',
+        heading: 'Rank 1: JavaScript & TypeScript (The Volume Champion)',
         content: `If your immediate goal is to land your first software engineering job within 6 months, **JavaScript and TypeScript** are the safest investments:
 
 - **Ecosystem**: React, Next.js, Vue on the frontend; Node.js, Express, Nest.js on the backend.
@@ -2161,7 +2161,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
       },
       {
         id: 'python-ai-data',
-        heading: '#2: Python (AI, Machine Learning & Automation)',
+        heading: 'Rank 2: Python (AI, Machine Learning & Automation)',
         content: `Python has surged in demand due to global artificial intelligence adoption:
 
 - **Core Frameworks**: FastAPI, Django, PyTorch, Pandas, Scikit-learn.
@@ -2169,7 +2169,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
       },
       {
         id: 'java-spring-enterprise',
-        heading: '#3: Java & Spring Boot (The Enterprise Heavyweight)',
+        heading: 'Rank 3: Java & Spring Boot (The Enterprise Heavyweight)',
         content: `While less trendy on social media, **Java** powers the financial infrastructure of Pakistan:
 
 - **Key Employers**: Commercial banking backends (State Bank, HBL, MCB), core telecom billing systems (Jazz, PTCL), and large-scale ERP implementations.
