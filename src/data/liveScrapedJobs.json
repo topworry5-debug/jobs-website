@@ -1,5 +1,358 @@
 [
   {
+    "id": "fpsc-live-api-101",
+    "type": "govt",
+    "title": "CSS Competitive Examination-2027 (Written Exam)",
+    "rawTitle": "CSS Competitive Examination-2027 (Written Exam)\t",
+    "department": "Federal Public Service Commission (CSS Cadres)",
+    "agency": "FPSC",
+    "category": "Central Superior Services (CSS)",
+    "subCategory": "Civil Superior Services / MPT",
+    "bpsScale": "BPS-17",
+    "city": "Islamabad, Rawalpindi, Lahore, Karachi, Peshawar, Quetta",
+    "province": "Federal",
+    "qualification": "Bachelor's Degree (14 or 16 Years) Second Division from HEC recognized university",
+    "vacancies": 250,
+    "ageLimit": "21 to 30 Years (Relaxable up to 2 years for govt servants)",
+    "quota": "National Provincial Quota (Punjab, Sindh, KPK, Balochistan, Ex-FATA, AJK, GB)",
+    "postDate": "2026-11-11",
+    "lastDate": "2026-12-08",
+    "urgent": false,
+    "featured": true,
+    "verified": true,
+    "challanFee": "PKR 1000 (Paid via PSID on 1Link / ATM / Mobile Banking)",
+    "officialUrl": "https://cp.fpsc.gov.pk/gr_one/index_gr.php",
+    "officialNotificationUrl": "https://www.fpsc.gov.pk/uploads/content/1794127244067_CSS_2027_Advertisement.pdf",
+    "sourceUrl": "https://www.fpsc.gov.pk/uploads/content/1794127244067_CSS_2027_Advertisement.pdf",
+    "officialSourceLabel": "FPSC Official Portal: CSS Competitive Examination-2027 (Written Exam)\t",
+    "description": "Federal Public Service Commission (FPSC) announcement: CSS Competitive Examination-2027 (Written Exam)\t. Apply online at cp.fpsc.gov.pk before 2026-12-08.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.839Z",
+    "verifiedAt": "2026-11-11T07:02:01.839Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.245Z"
+  },
+  {
+    "id": "fpsc-live-api-100",
+    "type": "govt",
+    "title": "GR – Consolidated Advertisement No. 4/2026",
+    "rawTitle": "GR – Consolidated Advertisement No. 4/2026",
+    "department": "Federal Ministries & Attached Departments",
+    "agency": "FPSC",
+    "category": "Federal (FPSC)",
+    "subCategory": "General Recruitment (GR)",
+    "bpsScale": "BPS-16 to BPS-19",
+    "city": "Islamabad, Rawalpindi, Lahore, Karachi, Peshawar, Quetta",
+    "province": "Federal",
+    "qualification": "As per FPSC Official Advertisement Gazette",
+    "vacancies": 50,
+    "ageLimit": "18 to 35 Years",
+    "quota": "National Provincial Quota (Punjab, Sindh, KPK, Balochistan, Ex-FATA, AJK, GB)",
+    "postDate": "2026-11-06",
+    "lastDate": "2026-12-06",
+    "urgent": false,
+    "featured": true,
+    "verified": true,
+    "challanFee": "PKR 300 to PKR 1500 as per BPS",
+    "officialUrl": "https://cp.fpsc.gov.pk/gr_one/index_gr.php",
+    "officialNotificationUrl": "https://www.fpsc.gov.pk/uploads/content/1793976822925_consolidated-advertisement-04-2026.pdf",
+    "sourceUrl": "https://www.fpsc.gov.pk/uploads/content/1793976822925_consolidated-advertisement-04-2026.pdf",
+    "officialSourceLabel": "FPSC Official Portal: GR – Consolidated Advertisement No. 4/2026",
+    "description": "Federal Public Service Commission (FPSC) announcement: GR – Consolidated Advertisement No. 4/2026. Apply online at cp.fpsc.gov.pk before 2026-12-06.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.839Z",
+    "verifiedAt": "2026-11-11T07:02:01.839Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.246Z"
+  },
+  {
+    "id": "ppsc-live-106c2026-1",
+    "type": "govt",
+    "title": "COMBINED COMPETITIVE EXAMINATION-2026 - BPS-17",
+    "rawTitle": "COMBINED COMPETITIVE EXAMINATION-2026",
+    "caseNo": "106C2026",
+    "advtNo": "12/2026",
+    "department": "SERVICES &amp; GENERAL ADMINISTRATION DEPARTMENT",
+    "agency": "PPSC",
+    "category": "Provincial (PPSC)",
+    "subCategory": "Provincial Administration",
+    "bpsScale": "BPS-17",
+    "city": "Lahore / All Punjab Districts",
+    "province": "Punjab",
+    "qualification": "Bachelor's / Master's Degree in relevant discipline as notified in PPSC Advt 12/2026. Check official notification for exact eligibility.",
+    "vacancies": 1,
+    "ageLimit": "Male: 21 to 30 + 5 = 35 Years | Female: 21 to 30 + 8 = 38 Years (General Age Relaxation)",
+    "quota": "Punjab Domicile (Open Merit & Quotas as per Punjab Service Rules)",
+    "syllabus": "100-mark single paper MCQ (90 minutes): 80% Subject-specific qualification + 20% General Ability & Pakistan Studies.",
+    "postDate": "2026-11-08",
+    "lastDate": "2026-11-30",
+    "urgent": false,
+    "featured": true,
+    "verified": true,
+    "challanFee": "PKR 1000 (Paid online via 1Link / 1Bill / ATM / Mobile Banking / JazzCash)",
+    "officialUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialSourceLabel": "PPSC Advertisement No. 12/2026 (Case No. 106C2026)",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "description": "PPSC Case No. 106C2026 (COMBINED COMPETITIVE EXAMINATION-2026) under SERVICES &amp; GENERAL ADMINISTRATION DEPARTMENT. Single-paper 100-mark MCQ test. Apply online via PPSC Candidate Portal before 2026-11-30.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.879Z",
+    "verifiedAt": "2026-11-11T07:02:01.879Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.247Z"
+  },
+  {
+    "id": "nts-live-faisalabad-electric-supply-company-limit-2026-11-23",
+    "type": "govt",
+    "title": "Faisalabad Electric Supply Company Limited (FESCO) Career Opportunities",
+    "rawTitle": "Faisalabad Electric Supply Company Limited (FESCO) Career Opportunities",
+    "department": "Faisalabad Electric Supply Company Limited",
+    "agency": "NTS",
+    "category": "Testing Services (NTS)",
+    "subCategory": "Public Sector Recruitment",
+    "bpsScale": "BPS-14 to BPS-18",
+    "city": "Multiple Districts",
+    "province": "Sindh",
+    "qualification": "Master's / Bachelor's (16 or 14 Years) in relevant field with computer proficiency.",
+    "vacancies": 12,
+    "ageLimit": "21 - 35 Years (+ Provincial Age Relaxation)",
+    "quota": "Sindh Domicile (Rural / Urban)",
+    "postDate": "2026-11-11",
+    "lastDate": "2026-11-23",
+    "urgent": false,
+    "featured": true,
+    "verified": true,
+    "challanFee": "PKR 650 (Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash)",
+    "officialUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzk5",
+    "officialNotificationUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzk5",
+    "sourceUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzk5",
+    "officialSourceLabel": "NTS Official Project: Faisalabad Electric Supply Company Limited (F...",
+    "description": "National Testing Service (NTS) is conducting recruitment screening for Faisalabad Electric Supply Company Limited (FESCO) Career Opportunities. Full syllabus and online application available on official portal.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.880Z",
+    "verifiedAt": "2026-11-11T07:02:01.880Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.247Z"
+  },
+  {
+    "id": "nts-live-district-session-judge-hyderabad-career--2026-11-25",
+    "type": "govt",
+    "title": "District & Session Judge, Hyderabad (Career Opportunities)",
+    "rawTitle": "District & Session Judge, Hyderabad (Career Opportunities)",
+    "department": "District & Session Judge, Hyderabad",
+    "agency": "NTS",
+    "category": "Testing Services (NTS)",
+    "subCategory": "Public Sector Recruitment",
+    "bpsScale": "BPS-11 to BPS-16",
+    "city": "Mithi / Tharparkar",
+    "province": "Sindh",
+    "qualification": "Stenographer (Graduation + 80/40 wpm shorthand/typing) | Computer Operator (BCS/BIT 2nd Div) | Junior Clerk (Intermediate 2nd Div + 30 wpm typing).",
+    "vacancies": 18,
+    "ageLimit": "18 to 28 Years (+ General Age Relaxation under Sindh Judicial Service Rules)",
+    "quota": "District Tharparkar Domicile / PRC",
+    "postDate": "2026-11-11",
+    "lastDate": "2026-11-25",
+    "urgent": false,
+    "featured": false,
+    "verified": true,
+    "challanFee": "PKR 650 (Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash)",
+    "officialUrl": "https://nts.org.pk/Test&Products/Announced/11_26/DSC_Hyd_2026_Online/HYD.php",
+    "officialNotificationUrl": "https://nts.org.pk/Test&Products/Announced/11_26/DSC_Hyd_2026_Online/HYD.php",
+    "sourceUrl": "https://nts.org.pk/Test&Products/Announced/11_26/DSC_Hyd_2026_Online/HYD.php",
+    "officialSourceLabel": "NTS Official Project: District & Session Judge, Hyderabad (Career O...",
+    "description": "District & Sessions Court Tharparkar recruitment screening test via NTS for ministerial and clerical court positions including Stenographers, Computer Operators, and Junior Clerks.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.880Z",
+    "verifiedAt": "2026-11-11T07:02:01.880Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.247Z"
+  },
+  {
+    "id": "nts-live-gujranwala-electric-power-company-gepco--2026-11-23",
+    "type": "govt",
+    "title": "Gujranwala Electric Power Company (GEPCO) Career Opportunities (Balochistan Quota)",
+    "rawTitle": "Gujranwala Electric Power Company (GEPCO) Career Opportunities (Balochistan Quota)",
+    "department": "Gujranwala Electric Power Company",
+    "agency": "NTS",
+    "category": "Testing Services (NTS)",
+    "subCategory": "Public Sector Recruitment",
+    "bpsScale": "BPS-14 to BPS-18",
+    "city": "Multiple Districts",
+    "province": "Sindh",
+    "qualification": "Master's / Bachelor's (16 or 14 Years) in relevant field with computer proficiency.",
+    "vacancies": 12,
+    "ageLimit": "21 - 35 Years (+ Provincial Age Relaxation)",
+    "quota": "Sindh Domicile (Rural / Urban)",
+    "postDate": "2026-11-11",
+    "lastDate": "2026-11-23",
+    "urgent": false,
+    "featured": false,
+    "verified": true,
+    "challanFee": "PKR 650 (Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash)",
+    "officialUrl": "https://portal.nts.org.pk/Alldetail/MTAxNDAx",
+    "officialNotificationUrl": "https://portal.nts.org.pk/Alldetail/MTAxNDAx",
+    "sourceUrl": "https://portal.nts.org.pk/Alldetail/MTAxNDAx",
+    "officialSourceLabel": "NTS Official Project: Gujranwala Electric Power Company (GEPCO) Car...",
+    "description": "National Testing Service (NTS) is conducting recruitment screening for Gujranwala Electric Power Company (GEPCO) Career Opportunities (Balochistan Quota). Full syllabus and online application available on official portal.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.880Z",
+    "verifiedAt": "2026-11-11T07:02:01.880Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.247Z"
+  },
+  {
+    "id": "nts-live-district-session-judge-dadu-career-oppor-2026-11-16",
+    "type": "govt",
+    "title": "District & Session Judge, Dadu (Career Opportunities)",
+    "rawTitle": "District & Session Judge, Dadu (Career Opportunities)",
+    "department": "District & Session Judge, Dadu",
+    "agency": "NTS",
+    "category": "Testing Services (NTS)",
+    "subCategory": "Public Sector Recruitment",
+    "bpsScale": "BPS-11 to BPS-16",
+    "city": "Mithi / Tharparkar",
+    "province": "Sindh",
+    "qualification": "Stenographer (Graduation + 80/40 wpm shorthand/typing) | Computer Operator (BCS/BIT 2nd Div) | Junior Clerk (Intermediate 2nd Div + 30 wpm typing).",
+    "vacancies": 18,
+    "ageLimit": "18 to 28 Years (+ General Age Relaxation under Sindh Judicial Service Rules)",
+    "quota": "District Tharparkar Domicile / PRC",
+    "postDate": "2026-11-11",
+    "lastDate": "2026-11-16",
+    "urgent": false,
+    "featured": false,
+    "verified": true,
+    "challanFee": "PKR 650 (Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash)",
+    "officialUrl": "https://nts.org.pk/Test&Products/Announced/10_26/DSC_DADU_2026_Online/DADU.php",
+    "officialNotificationUrl": "https://nts.org.pk/Test&Products/Announced/10_26/DSC_DADU_2026_Online/DADU.php",
+    "sourceUrl": "https://nts.org.pk/Test&Products/Announced/10_26/DSC_DADU_2026_Online/DADU.php",
+    "officialSourceLabel": "NTS Official Project: District & Session Judge, Dadu (Career Opport...",
+    "description": "District & Sessions Court Tharparkar recruitment screening test via NTS for ministerial and clerical court positions including Stenographers, Computer Operators, and Junior Clerks.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.880Z",
+    "verifiedAt": "2026-11-11T07:02:01.880Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.248Z"
+  },
+  {
+    "id": "nts-live-hub-spoke-model-at-zahir-pir-ryk-sheikh--2026-11-15",
+    "type": "govt",
+    "title": "Hub & Spoke Model at Zahir Pir RYK Sheikh Zayed Medical College / Hospital Rahim Yar Khan - Vacant Position (Specialized Healthcare & Medical Education Department)",
+    "rawTitle": "Hub & Spoke Model at Zahir Pir RYK Sheikh Zayed Medical College / Hospital Rahim Yar Khan - Vacant Position (Specialized Healthcare & Medical Education Department)",
+    "department": "Hub & Spoke Model at Zahir Pir RYK Sheikh Zayed Medical College / Hospital Rahim Yar Khan - Vacant Position",
+    "agency": "NTS",
+    "category": "Testing Services (NTS)",
+    "subCategory": "Public Sector Recruitment",
+    "bpsScale": "BPS-14 to BPS-18",
+    "city": "Multiple Districts",
+    "province": "Sindh",
+    "qualification": "Master's / Bachelor's (16 or 14 Years) in relevant field with computer proficiency.",
+    "vacancies": 12,
+    "ageLimit": "21 - 35 Years (+ Provincial Age Relaxation)",
+    "quota": "Sindh Domicile (Rural / Urban)",
+    "postDate": "2026-11-11",
+    "lastDate": "2026-11-15",
+    "urgent": false,
+    "featured": false,
+    "verified": true,
+    "challanFee": "PKR 650 (Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash)",
+    "officialUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzky",
+    "officialNotificationUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzky",
+    "sourceUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzky",
+    "officialSourceLabel": "NTS Official Project: Hub & Spoke Model at Zahir Pir RYK Sheikh Zay...",
+    "description": "National Testing Service (NTS) is conducting recruitment screening for Hub & Spoke Model at Zahir Pir RYK Sheikh Zayed Medical College / Hospital Rahim Yar Khan - Vacant Position (Specialized Healthcare & Medical Education Department). Full syllabus and online application available on official portal.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.880Z",
+    "verifiedAt": "2026-11-11T07:02:01.880Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.248Z"
+  },
+  {
+    "id": "nts-live-newly-established-hub-spoke-model-at-zah-2026-11-15",
+    "type": "govt",
+    "title": "Newly Established Hub & Spoke Model at Zahir Pir attached with Sheikh Zayed Medical College / Hospital Rahim Yar Khan Vacant Position (Specialized Healthcare & Medical Education Department)",
+    "rawTitle": "Newly Established Hub & Spoke Model at Zahir Pir attached with Sheikh Zayed Medical College / Hospital Rahim Yar Khan Vacant Position (Specialized Healthcare & Medical Education Department)",
+    "department": "Newly Established Hub & Spoke Model at Zahir Pir attached with Sheikh Zayed Medical College / Hospital Rahim Yar Khan Vacant Position",
+    "agency": "NTS",
+    "category": "Testing Services (NTS)",
+    "subCategory": "Public Sector Recruitment",
+    "bpsScale": "BPS-14 to BPS-18",
+    "city": "Multiple Districts",
+    "province": "Sindh",
+    "qualification": "Master's / Bachelor's (16 or 14 Years) in relevant field with computer proficiency.",
+    "vacancies": 12,
+    "ageLimit": "21 - 35 Years (+ Provincial Age Relaxation)",
+    "quota": "Sindh Domicile (Rural / Urban)",
+    "postDate": "2026-11-11",
+    "lastDate": "2026-11-15",
+    "urgent": false,
+    "featured": false,
+    "verified": true,
+    "challanFee": "PKR 650 (Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash)",
+    "officialUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzkx",
+    "officialNotificationUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzkx",
+    "sourceUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzkx",
+    "officialSourceLabel": "NTS Official Project: Newly Established Hub & Spoke Model at Zahir ...",
+    "description": "National Testing Service (NTS) is conducting recruitment screening for Newly Established Hub & Spoke Model at Zahir Pir attached with Sheikh Zayed Medical College / Hospital Rahim Yar Khan Vacant Position (Specialized Healthcare & Medical Education Department). Full syllabus and online application available on official portal.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.880Z",
+    "verifiedAt": "2026-11-11T07:02:01.880Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.248Z"
+  },
+  {
+    "id": "spsc-live-advertisement-06-26-closing-dt-2026-11-11",
+    "type": "govt",
+    "title": "SPSC Official Recruitment — Advertisement 06/26 Closing dt: 11.11.2026.",
+    "rawTitle": "Advertisement 06/26 Closing dt: 11.11.2026.",
+    "department": "Services, General Administration & Coordination Department, Government of Sindh",
+    "agency": "SPSC",
+    "category": "Provincial (SPSC)",
+    "subCategory": "Provincial Civil Services & Departmental Cadres",
+    "bpsScale": "BPS-16 to BPS-18",
+    "city": "Karachi, Hyderabad, Sukkur, Larkana",
+    "province": "Sindh",
+    "qualification": "As prescribed in official SPSC advertisement criteria. Download gazette PDF for post-wise requirements.",
+    "vacancies": 1,
+    "ageLimit": "21 to 30 Years (Plus General Age Relaxation as per Sindh Govt Notification)",
+    "quota": "Sindh Rural & Sindh Urban Allocation",
+    "postDate": "2026-11-11",
+    "lastDate": "2026-11-11",
+    "urgent": true,
+    "featured": true,
+    "verified": true,
+    "challanFee": "PKR 500 to PKR 1000 (Paid via PSID on 1Link / 1Bill / ATM / Mobile Banking)",
+    "officialUrl": "https://spsc.gov.pk/candidate_portal/",
+    "officialNotificationUrl": "https://spsc.gov.pk/advertisement/2026/adv-06-2026.pdf",
+    "sourceUrl": "https://spsc.gov.pk/advertisement/2026/adv-06-2026.pdf",
+    "officialSourceLabel": "SPSC Official Advertisement (Advertisement 06/26 Closing dt: 11.11.2026.)",
+    "description": "Sindh Public Service Commission recruitment notification (Advertisement 06/26 Closing dt: 11.11.2026.). Apply online via official candidate portal at spsc.gov.pk before the closing date.",
+    "lastVerifiedDate": "November 11, 2026",
+    "scrapedAt": "2026-11-11T07:02:01.882Z",
+    "verifiedAt": "2026-11-11T07:02:01.882Z",
+    "status": "active",
+    "isLiveScraped": true,
+    "dataIntegrityChecked": true,
+    "auditedAt": "2026-11-11T07:02:03.248Z"
+  },
+  {
     "id": "spsc-live-cce2026-1",
     "type": "govt",
     "title": "Combined Competitive Examination (CCE-2026) - Assistant Commissioner (BPS-17)",
@@ -31,8 +384,9 @@
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-02T10:32:09.357Z",
     "deduplicated": true,
-    "status": "active",
-    "categorySlug": "exam-recruitment-hub"
+    "status": "archived",
+    "categorySlug": "exam-recruitment-hub",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "spsc-live-cce2026-2",
@@ -66,8 +420,9 @@
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-02T10:32:09.357Z",
     "deduplicated": true,
-    "status": "active",
-    "categorySlug": "exam-recruitment-hub"
+    "status": "archived",
+    "categorySlug": "exam-recruitment-hub",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "spsc-live-cce2026-3",
@@ -101,8 +456,9 @@
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-02T10:32:09.357Z",
     "deduplicated": true,
-    "status": "active",
-    "categorySlug": "police-law-enforcement"
+    "status": "archived",
+    "categorySlug": "police-law-enforcement",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "spsc-live-cce2026-4",
@@ -136,8 +492,9 @@
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-02T10:32:09.357Z",
     "deduplicated": true,
-    "status": "active",
-    "categorySlug": "banking-finance"
+    "status": "archived",
+    "categorySlug": "banking-finance",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "spsc-live-cce2026-5",
@@ -171,8 +528,9 @@
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-02T10:32:09.357Z",
     "deduplicated": true,
-    "status": "active",
-    "categorySlug": "exam-recruitment-hub"
+    "status": "archived",
+    "categorySlug": "exam-recruitment-hub",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-23a2026-1",
@@ -207,7 +565,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.845Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-24a2026-2",
@@ -242,7 +602,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.845Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-3k2026-3",
@@ -277,7 +639,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.845Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-33d2026-4",
@@ -312,7 +676,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.845Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-58g2026-5",
@@ -347,7 +713,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.845Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-30d2026-6",
@@ -382,7 +750,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-31d2026-7",
@@ -417,7 +787,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-32d2026-8",
@@ -452,7 +824,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-1e2026-9",
@@ -487,7 +861,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-3f2026-10",
@@ -522,7 +898,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-11m2026-11",
@@ -557,7 +935,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-12m2026-12",
@@ -592,7 +972,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-13m2026-13",
@@ -627,7 +1009,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-14m2026-14",
@@ -662,7 +1046,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-16m2026-15",
@@ -697,7 +1083,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-18m2026-16",
@@ -732,7 +1120,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-19m2026-17",
@@ -767,7 +1157,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-20m2026-18",
@@ -802,7 +1194,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-21m2026-19",
@@ -837,7 +1231,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-22m2026-20",
@@ -872,7 +1268,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-23m2026-21",
@@ -907,7 +1305,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-24m2026-22",
@@ -942,7 +1342,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-25m2026-23",
@@ -977,7 +1379,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-15m2026-24",
@@ -1012,7 +1416,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-10m2026-25",
@@ -1047,7 +1453,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-26m2026-26",
@@ -1082,7 +1490,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-48j2026-27",
@@ -1117,7 +1527,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "nts-live-1789920224359-1",
@@ -1149,7 +1561,9 @@
     "isLiveScraped": true,
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.846Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "status": "archived",
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "kppsc-live-dsp-fast-track-2026",
@@ -1197,7 +1611,7 @@
     "featured": true,
     "verified": true,
     "verifiedGazette": true,
-    "status": "active",
+    "status": "archived",
     "challanFee": "PKR 500 (Payable via 1Bill)",
     "officialUrl": "https://www.kppsc.gov.pk",
     "officialNotificationUrl": "https://www.kppsc.gov.pk",
@@ -1219,7 +1633,8 @@
     ],
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:03:46.848Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "bpsc-live-lecturer-physical-education-2026",
@@ -1268,7 +1683,7 @@
     "featured": true,
     "verified": true,
     "verifiedGazette": true,
-    "status": "active",
+    "status": "archived",
     "challanFee": "PKR 800 (Payable via 1Link PSID)",
     "officialUrl": "https://bpsc.gob.pk",
     "officialNotificationUrl": "https://bpsc.gob.pk/uploads/Jobs/1788857575.pdf",
@@ -1294,7 +1709,8 @@
     ],
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:22:56.956Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "bpsc-live-asst-engineer-civil-2026",
@@ -1341,7 +1757,7 @@
     "featured": true,
     "verified": true,
     "verifiedGazette": true,
-    "status": "active",
+    "status": "archived",
     "challanFee": "PKR 800 (Payable via 1Link PSID)",
     "officialUrl": "https://bpsc.gob.pk",
     "officialNotificationUrl": "https://bpsc.gob.pk/uploads/Jobs/1788857575.pdf",
@@ -1363,7 +1779,8 @@
     ],
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:22:56.956Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "bpsc-live-senior-registrar-emergency-2026",
@@ -1418,7 +1835,7 @@
     "featured": true,
     "verified": true,
     "verifiedGazette": true,
-    "status": "active",
+    "status": "archived",
     "challanFee": "PKR 1,200 (Payable via 1Link PSID)",
     "officialUrl": "https://bpsc.gob.pk",
     "officialNotificationUrl": "https://bpsc.gob.pk/uploads/Jobs/1788857575.pdf",
@@ -1440,7 +1857,8 @@
     ],
     "dataIntegrityChecked": true,
     "auditedAt": "2026-09-20T16:22:56.956Z",
-    "deduplicated": true
+    "deduplicated": true,
+    "archived_at": "2026-11-11T07:02:03.259Z"
   },
   {
     "id": "ppsc-live-36j2026-1",
