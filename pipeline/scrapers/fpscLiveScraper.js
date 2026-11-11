@@ -6,6 +6,9 @@
  * Accurately reports 0 active jobs when vacancies are closed.
  */
 
+// Allow connection to Pakistani government portal with missing intermediate CA
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const FPSC_BASE_URL = "https://www.fpsc.gov.pk";
 const FPSC_API_JOBS = `${FPSC_BASE_URL}/api/jobs`;
 const FPSC_GR_PAGE = `${FPSC_BASE_URL}/Jobs?section=GR`;
@@ -121,16 +124,20 @@ export async function scrapeLiveFPSC() {
           ageLimit: isCSS ? "21 to 30 Years (Relaxable up to 2 years for govt servants)" : "18 to 35 Years",
           quota: "National Provincial Quota (Punjab, Sindh, KPK, Balochistan, Ex-FATA, AJK, GB)",
           postDate: item.date || new Date().toISOString().split('T')[0],
-          lastDate: expiry || "2026-09-30",
+          lastDate: expiry,
           urgent: false,
           featured: true,
           verified: true,
           challanFee: isCSS ? "PKR 1000 (Paid via PSID on 1Link / ATM / Mobile Banking)" : "PKR 300 to PKR 1500 as per BPS",
           officialUrl: "https://cp.fpsc.gov.pk/gr_one/index_gr.php",
           officialNotificationUrl: pdfUrl || "https://www.fpsc.gov.pk/Jobs?section=GR",
+          sourceUrl: "https://www.fpsc.gov.pk/Jobs?section=GR",
           officialSourceLabel: `FPSC Official Portal: ${item.title}`,
           description: `Federal Public Service Commission (FPSC) announcement: ${item.title}. Apply online at cp.fpsc.gov.pk before ${expiry || 'the closing date'}.`,
           lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+          scrapedAt: timestamp,
+          verifiedAt: timestamp,
+          status: "active",
           isLiveScraped: true
         });
       }

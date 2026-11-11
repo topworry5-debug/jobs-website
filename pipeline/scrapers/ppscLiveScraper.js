@@ -71,7 +71,7 @@ export async function scrapeLivePPSC() {
         // Determine BPS Scale
         let bpsScale = meta.bpsScale || "BPS-16";
         if (!meta.bpsScale) {
-          if (postName.includes("DIRECTOR") || postName.includes("REGISTRAR") || postName.includes("OFFICER") || postName.includes("ENGINEER") || postName.includes("PROGRAMMER") || postName.includes("ADMINISTRATOR") || postName.includes("TEHSILDAR") || postName.includes("LECTURER") || postName.includes("INSPECTOR (GENERAL)")) {
+          if (postName.includes("COMBINED COMPETITIVE EXAMINATION") || postName.includes("PMS") || postName.includes("DIRECTOR") || postName.includes("REGISTRAR") || postName.includes("OFFICER") || postName.includes("ENGINEER") || postName.includes("PROGRAMMER") || postName.includes("ADMINISTRATOR") || postName.includes("TEHSILDAR") || postName.includes("LECTURER") || postName.includes("INSPECTOR (GENERAL)")) {
             bpsScale = "BPS-17";
           } else if (postName.includes("DEPUTY DIRECTOR") || postName.includes("CHIEF OFFICER") || postName.includes("SENIOR REGISTRAR")) {
             bpsScale = "BPS-18";
@@ -120,8 +120,12 @@ export async function scrapeLivePPSC() {
           officialUrl: "https://www.ppsc.gop.pk/Jobs.aspx",
           officialSourceLabel: `PPSC Advertisement No. ${adNo} (Case No. ${caseNo})`,
           officialNotificationUrl: "https://www.ppsc.gop.pk/Jobs.aspx",
+          sourceUrl: "https://www.ppsc.gop.pk/Jobs.aspx",
           description: description,
           lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+          scrapedAt: timestamp,
+          verifiedAt: timestamp,
+          status: "active",
           isLiveScraped: true
         });
       }

@@ -77,8 +77,9 @@ export async function scrapeNTS() {
       // If date missing from summary or to verify, probe subpage
       if (!dateStr || dateStr.length < 5) {
         try {
+          await new Promise(r => setTimeout(r, 400)); // Polite crawl rate limiting
           const subRes = await fetch(fullLink, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Tainaati-Crawler/1.0' }
           });
           if (subRes.ok) {
             const subHtml = await subRes.text();
@@ -132,8 +133,10 @@ export async function scrapeNTS() {
         description = "Sindh Social Protection Authority (Government of Sindh) recruitment for Social Protection Officers, Monitoring Executives, and Field Data Analysts to implement poverty alleviation and mother-child support initiatives.";
       }
 
+      const cleanId = rawTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 40);
+
       scrapedJobs.push({
-        id: `nts-live-${Date.now()}-${scrapedJobs.length + 1}`,
+        id: `nts-live-${cleanId}-${isoDate}`,
         type: "govt",
         title: rawTitle,
         rawTitle,
@@ -156,9 +159,13 @@ export async function scrapeNTS() {
         challanFee: "PKR 650 (Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash)",
         officialUrl: fullLink,
         officialNotificationUrl: fullLink,
+        sourceUrl: fullLink,
         officialSourceLabel: `NTS Official Project: ${rawTitle.substring(0, 45)}...`,
         description,
         lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        scrapedAt: timestamp,
+        verifiedAt: timestamp,
+        status: "active",
         isLiveScraped: true
       });
     }

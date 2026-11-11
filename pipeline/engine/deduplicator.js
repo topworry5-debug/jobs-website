@@ -1,7 +1,8 @@
 /**
  * Tainaati — Intelligent Job Deduplication Engine
- * Identifies duplicate job postings across multiple sources (e.g. FPSC gazette vs Ministry website)
- * using string normalization, department fuzzy matching, and closing date alignment.
+ * Identifies duplicate job postings across multiple sources
+ * using stable ID matching, string normalization, and closing date alignment.
+ * Never drops existing archived jobs; safely merges and updates live records.
  */
 
 export function normalizeString(str) {
@@ -30,63 +31,77 @@ export function calculateSimilarity(str1, str2) {
 }
 
 /**
- * Deduplicates an incoming job list against an existing database
- * @param {Array} incomingJobs - Newly scraped jobs
- * @param {Array} existingJobs - Current database of jobs
- * @returns {Object} { uniqueJobs: Array, duplicateCount: number, duplicates: Array }
+ * Deduplicates and merges incoming validated jobs against existing records.
+ * @param {Array} incomingJobs - Newly scraped & validated jobs
+ * @param {Array} existingJobs - Current repository jobs
+ * @returns {Object} { mergedJobs, newJobs, updatedJobs, duplicateCount, duplicates }
  */
-export function deduplicateJobs(incomingJobs, existingJobs = []) {
-  const uniqueJobs = [];
+export function deduplicateJobs(incomingJobs = [], existingJobs = []) {
+  const newJobs = [];
   const duplicates = [];
-  const allKnownJobs = [...existingJobs];
+  const mergedMap = new Map();
 
-  for (const newJob of incomingJobs) {
-    let isDuplicate = false;
-    let matchedExisting = null;
-
-    for (const existing of allKnownJobs) {
-      // 1. Direct ID match
-      if (newJob.id && existing.id === newJob.id) {
-        isDuplicate = true;
-        matchedExisting = existing;
-        break;
-      }
-
-      // 2. Exact Title + Department + LastDate match
-      const titleSim = calculateSimilarity(newJob.title, existing.title);
-      const deptSim = calculateSimilarity(
-        newJob.department || newJob.company, 
-        existing.department || existing.company
-      );
-      const sameLastDate = newJob.lastDate === existing.lastDate;
-
-      // Duplicate condition: High title similarity (>0.75) and same department (>0.7) and matching last date
-      if (titleSim >= 0.75 && deptSim >= 0.65 && sameLastDate) {
-        isDuplicate = true;
-        matchedExisting = existing;
-        break;
-      }
-    }
-
-    if (isDuplicate) {
-      duplicates.push({
-        incoming: newJob,
-        matchedWith: matchedExisting,
-        reason: `Matched with "${matchedExisting.title}" in ${matchedExisting.department} (Deadline: ${matchedExisting.lastDate})`
-      });
-    } else {
-      uniqueJobs.push({
-        ...newJob,
-        lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-        deduplicated: true
-      });
-      allKnownJobs.push(newJob);
+  // Seed with all existing jobs (preserving historical and archived jobs)
+  for (const job of existingJobs) {
+    if (job && job.id) {
+      mergedMap.set(job.id, { ...job });
     }
   }
 
+  const existingArray = Array.from(mergedMap.values());
+
+  for (const newJob of incomingJobs) {
+    let matchedExistingId = null;
+
+    // 1. Direct stable ID match
+    if (mergedMap.has(newJob.id)) {
+      matchedExistingId = newJob.id;
+    } else {
+      // 2. Fuzzy match on title + agency + lastDate
+      for (const existing of existingArray) {
+        const sameAgency = (newJob.agency || '').toUpperCase() === (existing.agency || '').toUpperCase();
+        const sameLastDate = newJob.lastDate === existing.lastDate;
+        const titleSim = calculateSimilarity(newJob.title, existing.title);
+
+        if (sameAgency && sameLastDate && titleSim >= 0.70) {
+          matchedExistingId = existing.id;
+          break;
+        }
+      }
+    }
+
+    if (matchedExistingId) {
+      // Update existing record with latest scrape/verification metadata
+      const current = mergedMap.get(matchedExistingId);
+      mergedMap.set(matchedExistingId, {
+        ...current,
+        ...newJob,
+        id: matchedExistingId, // keep original ID stable
+        scrapedAt: newJob.scrapedAt || new Date().toISOString(),
+        verifiedAt: newJob.verifiedAt || current.verifiedAt || new Date().toISOString(),
+        lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        status: newJob.status || current.status
+      });
+
+      duplicates.push({
+        incomingTitle: newJob.title,
+        matchedId: matchedExistingId,
+        reason: `Matched existing record "${current.title}" (${current.agency})`
+      });
+    } else {
+      // Brand new job
+      newJobs.push(newJob);
+      mergedMap.set(newJob.id, newJob);
+    }
+  }
+
+  const mergedJobs = Array.from(mergedMap.values());
+
   return {
-    uniqueJobs,
+    mergedJobs,
+    newJobs,
     duplicateCount: duplicates.length,
-    duplicates
+    duplicates,
+    uniqueJobs: newJobs
   };
 }
