@@ -409,7 +409,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
               <div className="inline-flex items-center justify-center p-4 rounded-full bg-emerald-500/10 text-emerald-600 mb-3 mx-auto">
                 <ShieldCheck size={36} />
               </div>
-              <h3 className="text-xl font-bold font-display text-primary mb-1">
+              <h3 className="text-xl font-bold text-primary mb-1">
                 No open jobs right now
               </h3>
               <div className="text-xs text-muted font-mono mb-4">

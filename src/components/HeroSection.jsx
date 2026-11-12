@@ -148,10 +148,6 @@ export default function HeroSection({
 
   return (
     <div className="hero-container">
-      {/* Subtle Background Glows */}
-      <div className="hero-glow-green" />
-      <div className="hero-glow-blue" />
-
       <div className="container-xl hero-content">
         {/* Trust Pill */}
         <div className="trust-announcement-pill hero-fade-in-1">
@@ -163,7 +159,7 @@ export default function HeroSection({
 
         {/* Hero Title & Subtitle */}
         <h1 className="hero-title hero-fade-in-2">
-          {t.hero.titlePrefix} {t.hero.titleIn} <span className="text-gold-accent font-serif">{t.hero.titleCountry}</span>
+          {t.hero.titlePrefix} {t.hero.titleIn} <span className="text-gold-accent">{t.hero.titleCountry}</span>
         </h1>
         <p className="hero-subtitle hero-fade-in-3">
           {t.hero.subtitle}

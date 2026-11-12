@@ -82,7 +82,7 @@ export default function AnimatedCount({ target = 0, suffix = '', duration = 1000
   }, [targetNum, duration]);
 
   return (
-    <span ref={elementRef} className="tabular-nums font-display font-bold" suppressHydrationWarning>
+    <span ref={elementRef} className="tabular-nums font-bold" suppressHydrationWarning>
       {count}{suffix}
     </span>
   );

@@ -208,7 +208,7 @@ export default function Navbar() {
               <ShieldCheck className="brand-icon" size={20} />
             </div>
             <div className="brand-text-box">
-              <span className="brand-title font-display">
+              <span className="brand-title">
                 {t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span>
               </span>
               <span className="brand-tagline">{t.nav.tagline}</span>
@@ -640,7 +640,7 @@ export default function Navbar() {
                 <div className="logo-icon-box">
                   <ShieldCheck className="brand-icon" size={18} />
                 </div>
-                <span className="brand-title font-display text-base">
+                <span className="brand-title text-base">
                   {t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span>
                 </span>
               </Link>

@@ -78,7 +78,7 @@ export default function BpsSalaryCalculator() {
             <span className="badge badge-govt text-[10px] font-bold">BPS-{selectedGrade}</span>
             <span className="text-[11px] text-muted font-medium">Stage {stage}</span>
           </div>
-          <div className={`text-lg font-bold font-serif ${isAnimating ? 'salary-pulse-active' : ''}`} style={{ color: '#C9A227' }}>
+          <div className={`text-lg font-bold tabular-nums ${isAnimating ? 'salary-pulse-active' : ''}`} style={{ color: 'var(--accent-gold)' }}>
             {formatPKR(grossSalary)}
             <span className="text-[10px] text-muted font-sans font-normal ml-1">gross</span>
           </div>
@@ -109,7 +109,7 @@ export default function BpsSalaryCalculator() {
           </span>
         </div>
 
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-primary font-serif tracking-tight mb-2">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-primary tracking-tight mb-2">
           Government of Pakistan BPS Pay Scale & Salary Calculator
         </h1>
 

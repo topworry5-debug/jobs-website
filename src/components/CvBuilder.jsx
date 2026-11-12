@@ -1127,7 +1127,7 @@ export default function CvBuilder() {
                 <span className="text-[11px] font-mono uppercase font-bold text-muted tracking-wider">
                   Step {currentStep + 1} of {STEP_DEFINITIONS.length}
                 </span>
-                <h2 className="text-xl font-bold font-display text-primary mt-1">
+                <h2 className="text-xl font-bold text-primary mt-1">
                   {STEP_DEFINITIONS[currentStep].label}
                 </h2>
               </div>
@@ -2297,7 +2297,7 @@ export default function CvBuilder() {
                       />
                     </svg>
                     <div className="absolute text-center">
-                      <span className="text-2xl font-bold font-display text-primary">{strengthScore}%</span>
+                      <span className="text-2xl font-bold tabular-nums text-primary">{strengthScore}%</span>
                       <span className="text-[10px] text-muted block uppercase font-mono">ATS Score</span>
                     </div>
                   </div>
@@ -2495,7 +2495,7 @@ export default function CvBuilder() {
                     {/* Header Row: Left Info (~75%) + Top-Right Passport Photo */}
                     <header className="pb-3 mb-3 border-b border-gray-400 flex items-start justify-between gap-4">
                       <div className={debouncedData.personal.photoUrl && debouncedData.personal.showPhoto ? "flex-1 min-w-0" : "w-full"}>
-                        <h1 className="text-2xl font-serif font-bold text-gray-900 tracking-tight uppercase mb-1">
+                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight uppercase mb-1">
                           {debouncedData.personal.fullName || "Your Full Name"}
                         </h1>
                         <div className="text-xs font-semibold text-gray-700 tracking-wide mb-1.5">
@@ -2834,7 +2834,7 @@ export default function CvBuilder() {
                     {/* Header Row: Left Info (~75%) + Top-Right Square Passport Photo */}
                     <header className="pb-2 mb-3 border-b-2 border-black flex items-start justify-between gap-4">
                       <div className={debouncedData.personal.photoUrl && debouncedData.personal.showPhoto ? "flex-1 min-w-0" : "w-full"}>
-                        <h1 className="text-2xl font-serif font-bold text-black uppercase tracking-tight mb-0.5">
+                        <h1 className="text-2xl font-bold text-black uppercase tracking-tight mb-0.5">
                           {debouncedData.personal.fullName || "YOUR FULL NAME"}
                         </h1>
                         <div className="text-xs font-bold text-black uppercase tracking-wider mb-2">
@@ -2990,7 +2990,7 @@ export default function CvBuilder() {
                     {/* Header Row: Left Info + Contact + Top-Right Square Passport Photo */}
                     <header className="pb-3 mb-3 border-b-2 border-emerald-900 flex items-start justify-between gap-4">
                       <div className={debouncedData.personal.photoUrl && debouncedData.personal.showPhoto ? "flex-1 min-w-0" : "w-full"}>
-                        <h1 className="text-2xl font-serif font-bold text-gray-900 tracking-tight">
+                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
                           {debouncedData.personal.fullName || "Your Full Name"}
                         </h1>
                         <div className="text-xs font-bold text-emerald-900 uppercase tracking-widest mt-1 mb-2">

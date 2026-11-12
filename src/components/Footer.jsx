@@ -65,7 +65,7 @@ export default function Footer() {
                 <ShieldCheck className="brand-icon" size={22} />
               </div>
               <div className="brand-text-box">
-                <span className="brand-title font-display">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
+                <span className="brand-title">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
                 <span className="brand-tagline">{t.nav.tagline}</span>
               </div>
             </Link>

@@ -124,7 +124,7 @@ export default function AgencyLandingPage({
               <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3">
                 <CheckCircle2 size={24} />
               </div>
-              <h3 className="text-lg font-bold text-primary mb-1.5 font-display">
+              <h3 className="text-lg font-bold text-primary mb-1.5">
                 No Active Vacancy Advertisements Right Now
               </h3>
               <p className="text-sm text-secondary max-w-lg mx-auto mb-5 leading-relaxed">

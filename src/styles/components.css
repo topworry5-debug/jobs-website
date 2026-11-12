@@ -6,7 +6,7 @@
    0. URDU & RTL SUPPORT & GLOBAL HELPERS
    -------------------------------------------------------------------------- */
 .font-urdu {
-  font-family: 'Noto Nastaliq Urdu', 'Plus Jakarta Sans', sans-serif !important;
+  font-family: var(--font-urdu, 'Noto Nastaliq Urdu', serif) !important;
 }
 
 [dir="rtl"] {
@@ -788,32 +788,15 @@
    -------------------------------------------------------------------------- */
 .hero-container {
   position: relative;
-  padding: 4rem 0 2.5rem 0;
-  background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 65%);
+  padding: 3.5rem 0 2rem 0;
+  background: var(--bg-main);
   overflow: hidden;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border);
 }
 
-.hero-glow-green {
-  position: absolute;
-  top: -120px;
-  left: 20%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
-  pointer-events: none;
-  filter: blur(60px);
-}
-
+.hero-glow-green,
 .hero-glow-blue {
-  position: absolute;
-  top: -100px;
-  right: 20%;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
-  pointer-events: none;
-  filter: blur(60px);
+  display: none !important;
 }
 
 .hero-content {
@@ -1240,8 +1223,10 @@
 
 .stat-number {
   font-size: 2.25rem;
-  font-weight: 600;
-  font-family: var(--font-display);
+  font-weight: 700;
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   color: var(--accent-gold);
   line-height: 1;
 }
@@ -1857,10 +1842,10 @@
 
 .job-card-title,
 .job-card-title a {
-  font-family: var(--font-serif);
-  font-size: 1.125rem; /* 18px */
-  font-weight: 700;
-  line-height: 1.4;
+  font-family: var(--font-sans) !important;
+  font-size: 1.0625rem; /* 17px */
+  font-weight: 600;
+  line-height: 1.35;
   color: var(--text-primary);
   text-decoration: none;
   cursor: pointer;
@@ -6374,7 +6359,7 @@
 
 /* Typography Scale Enhancements */
 h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
-  font-family: var(--font-display, 'Outfit', 'Inter', sans-serif);
+  font-family: var(--font-sans) !important;
   letter-spacing: -0.02em;
 }
 
@@ -6431,7 +6416,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   margin-bottom: 0.85rem;
   line-height: 1.25;
   letter-spacing: -0.025em;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 @media (max-width: 768px) {
@@ -6486,7 +6471,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   color: var(--text-primary);
   margin-bottom: 0.5rem;
   line-height: 1.35;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 .blog-flagship-title a {
@@ -6647,7 +6632,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
 }
 
 .blog-card-title {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.125rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -6705,7 +6690,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
 
 .prose-content h2, .prose-content h3 {
   color: var(--text-primary);
-  font-family: var(--font-display, sans-serif);
+  font-family: var(--font-sans);
 }
 
 .scroll-mt-20 {
@@ -6790,7 +6775,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--text-primary);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 .article-crest-dept-sub {
@@ -6841,7 +6826,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   font-size: 0.875rem;
   font-weight: 800;
   color: var(--text-primary);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
 }
 
 /* Article Infographic Visual Breakdown Cards */
@@ -6869,7 +6854,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   font-size: 1rem;
   font-weight: 800;
   color: var(--text-primary);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -6914,7 +6899,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   font-size: 1.5rem;
   font-weight: 900;
   color: var(--primary-600);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   line-height: 1;
 }
 
@@ -8031,10 +8016,13 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
 }
 
 .salary-hero-amount {
-  font-family: var(--font-serif);
-  color: #C9A227;
+  font-family: var(--font-sans) !important;
+  font-weight: 700;
+  color: var(--accent-gold);
   letter-spacing: -0.02em;
   line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
 }
 
 [data-theme='dark'] .salary-hero-amount {
