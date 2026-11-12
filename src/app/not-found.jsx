@@ -83,7 +83,7 @@ export default function NotFound() {
           </Link>
         </div>
 
-        {/* 3. Latest Verified Open Jobs List */}
+        {/* 3. Latest Open Jobs List */}
         {openJobs.length > 0 && (
           <div className="text-left card p-6 bg-surface-subtle border border-subtle">
             <div className="flex items-center justify-between mb-4 border-b border-subtle pb-3">

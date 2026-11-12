@@ -146,7 +146,7 @@ export default function HomeTeasers({ examSchedules = [] }) {
         {subscribed && (
           <div className="teaser-alerts-success">
             <CheckCircle2 size={14} className="text-brand-primary flex-shrink-0" />
-            <span>You have been subscribed to verified job notifications.</span>
+            <span>You have been subscribed to job notifications.</span>
           </div>
         )}
       </section>

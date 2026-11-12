@@ -26,7 +26,7 @@ export default function AgencyLandingPage({
   useEffect(() => {
     updatePageMeta({
       title: `${agencyData.code} Jobs 2026 — Official ${agencyData.fullName}`,
-      description: `Complete verified advertisement list, syllabus guidelines, and bank challan instructions for ${agencyData.fullName}.`
+      description: `Complete advertisement list, syllabus guidelines, and bank challan instructions for ${agencyData.fullName}.`
     });
 
     const faqSchema = generateFAQSchema(agencyData.faqs);
@@ -59,7 +59,7 @@ export default function AgencyLandingPage({
               <Landmark size={13} />
               <span>{agencyData.jurisdiction}</span>
             </span>
-            <span className="badge badge-verified">
+            <span className="badge badge-subtle">
               <ShieldCheck size={13} />
               <span>Official Commission Hub</span>
             </span>
@@ -67,7 +67,7 @@ export default function AgencyLandingPage({
 
           <h1 className="agency-headline">{agencyData.fullName} ({agencyData.code}) Jobs 2026</h1>
           <p className="agency-desc">
-            Directly verified gazette advertisements, screening syllabus, bank challan instructions, and online application portal.
+            Direct gazette advertisements, screening syllabus, bank challan instructions, and online application portal.
           </p>
 
           <div className="agency-action-bar">

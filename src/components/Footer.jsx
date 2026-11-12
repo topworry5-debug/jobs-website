@@ -127,7 +127,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/faq" className="footer-link">
-                  Verified FAQ
+                  {t.footer?.faq || "FAQ"}
                 </Link>
               </li>
             </ul>

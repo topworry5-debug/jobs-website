@@ -286,9 +286,9 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
 
   {
     slug: 'today-govt-jobs-pakistan-live-digest',
-    title: 'Today Govt Jobs in Pakistan 2026: Daily Verified Gazette Announcements & Direct Online Apply',
-    metaTitle: 'Today Govt Jobs in Pakistan 2026: Live Verified Gazette Updates',
-    metaDescription: 'Track today’s newest government jobs in Pakistan. Daily cross-verified gazette announcements from FPSC, PPSC, NTS, SPSC, and autonomous federal ministries with direct apply links.',
+    title: 'Today Govt Jobs in Pakistan 2026: Daily Official Gazette Announcements & Direct Online Apply',
+    metaTitle: 'Today Govt Jobs in Pakistan 2026: Live Official Gazette Updates',
+    metaDescription: 'Track today’s newest government jobs in Pakistan. Daily official gazette announcements from FPSC, PPSC, NTS, SPSC, and autonomous federal ministries with direct apply links.',
     cluster: 'today-jobs',
     clusterLabel: 'Freshness & Today Roundups',
     readTime: '5 min read',
@@ -296,8 +296,8 @@ Fee can be deposited at any branch of the **National Bank of Pakistan (NBP)** or
     updatedDate: '2026-09-01',
     author: {
       name: 'Tainaati Editorial',
-      role: 'Gazette Auditing & Telemetry Desk',
-      avatar: '/logos/verified.svg'
+      role: 'Gazette Auditing Desk',
+      avatar: '/logos/default-govt.svg'
     },
     targetKeywords: ['today govt jobs in pakistan', 'free jobs in pakistan', 'government jobs in pakistan today online apply', 'govt jobs in pakistan 2026'],
     heroBanner: {

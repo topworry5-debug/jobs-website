@@ -38,7 +38,7 @@ export default function TestPrepHub() {
             </div>
             <h1 className="test-prep-title">Competitive Exam MCQ Practice & Past Papers</h1>
             <p className="test-prep-desc">
-              Prepare with verified past papers, instant conceptual explanations, timed screening simulations, and negative marking penalty calculation.
+              Prepare with authentic past papers, instant conceptual explanations, timed screening simulations, and negative marking penalty calculation.
             </p>
           </div>
         </div>
@@ -53,8 +53,8 @@ export default function TestPrepHub() {
               <CheckCircle2 size={20} />
             </div>
             <div>
-              <span className="stat-b-title">Instant Verification</span>
-              <p className="stat-b-sub">Every MCQ contains verified statutory & conceptual references</p>
+              <span className="stat-b-title">Instant Answers</span>
+              <p className="stat-b-sub">Every MCQ contains statutory & conceptual references</p>
             </div>
           </div>
 

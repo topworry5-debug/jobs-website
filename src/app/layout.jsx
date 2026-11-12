@@ -28,7 +28,7 @@ export const metadata = {
     default: "Tainaati — Government Jobs & Exam Portal in Pakistan",
     template: "%s | Tainaati"
   },
-  description: "Find verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), competitive exam schedules, syllabus guidelines, and ATS-ready resume tools.",
+  description: "Find Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), competitive exam schedules, syllabus guidelines, and ATS-ready resume tools.",
   authors: [{ name: "Tainaati Editorial" }],
   creator: "Tainaati",
   publisher: "Tainaati",
