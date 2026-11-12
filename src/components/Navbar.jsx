@@ -1,52 +1,30 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { 
-  Briefcase, 
-  Landmark, 
-  Building2, 
-  Calendar, 
-  FileText, 
-  Moon, 
-  Sun, 
-  Search, 
-  Menu, 
-  X, 
   ShieldCheck, 
-  BookOpen, 
+  Search, 
+  Bookmark, 
   Bell, 
   Languages, 
+  Sun, 
+  Moon, 
+  Menu, 
+  X, 
   ChevronDown, 
-  Check,
-  Sparkles,
-  Shield,
-  ShieldAlert,
-  Scale,
-  Factory,
-  GraduationCap,
-  Stethoscope,
-  MapPin,
-  Wrench,
-  HeartHandshake,
-  Plane,
-  Laptop,
-  FileCheck,
-  ArrowRight,
-  UserCheck,
-  Leaf,
-  Mountain,
-  Flame,
-  Clock,
-  Tv,
-  Calculator,
-  Bookmark
+  Check, 
+  Landmark, 
+  Building2, 
+  BookOpen, 
+  Calendar, 
+  FileCheck, 
+  Calculator, 
+  FileText,
+  MapPin
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { JOBS_DATA } from '../data/jobsData';
-import { CATEGORIES_CONFIG, matchesJobCategory } from '../data/categoriesData';
-import { isJobExpired } from '../utils/jobStatus';
 import QuickSearchModal from './QuickSearchModal';
 
 const LANGUAGES = [
@@ -55,51 +33,24 @@ const LANGUAGES = [
   { code: 'roman', label: 'Roman Urdu', native: 'Roman', flag: '🇵🇰' }
 ];
 
-const ICON_MAP = {
-  Shield,
-  ShieldAlert,
-  Scale,
-  Factory,
-  GraduationCap,
-  Stethoscope,
-  MapPin,
-  Landmark,
-  Wrench,
-  HeartHandshake,
-  Sparkles,
-  Plane,
-  Laptop,
-  FileCheck,
-  Building2,
-  UserCheck,
-  Leaf,
-  Mountain,
-  Flame,
-  Clock,
-  Tv,
-  Calculator,
-  Bookmark
-};
-
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
-  const { lang, setLang, t, theme, toggleTheme, isRtl } = useLanguage();
+  const { lang, setLang, t, theme, toggleTheme } = useLanguage();
+  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null); // 'govt' | 'private' | 'tools' | null
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'govt' | 'resources' | null
   const [savedCount, setSavedCount] = useState(0);
-  
-  // Mobile accordion states
-  const [mobileGovtOpen, setMobileGovtOpen] = useState(false);
-  const [mobilePrivateOpen, setMobilePrivateOpen] = useState(false);
-  const [mobileExamsOpen, setMobileExamsOpen] = useState(false);
 
-  const langDropdownRef = useRef(null);
-  const govtDropdownRef = useRef(null);
-  const privateDropdownRef = useRef(null);
-  const toolsDropdownRef = useRef(null);
+  // Mobile accordion state
+  const [mobileGovtOpen, setMobileGovtOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
+
+  const headerRef = useRef(null);
+  const govtTriggerRef = useRef(null);
+  const resourcesTriggerRef = useRef(null);
+  const langTriggerRef = useRef(null);
 
   // Sync saved jobs count reactive to storage events
   useEffect(() => {
@@ -107,7 +58,9 @@ export default function Navbar() {
       try {
         const list = JSON.parse(localStorage.getItem('tainaati_saved_jobs') || '[]');
         setSavedCount(Array.isArray(list) ? list.length : 0);
-      } catch (e) {}
+      } catch (e) {
+        setSavedCount(0);
+      }
     };
     updateCount();
     window.addEventListener('storage', updateCount);
@@ -118,59 +71,39 @@ export default function Navbar() {
     };
   }, []);
 
-  // Compute live job counts for all categories dynamically (strictly active listings)
-  const categoryCounts = useMemo(() => {
-    const activeJobs = JOBS_DATA.filter(j => !isJobExpired(j));
-    const counts = {};
-    CATEGORIES_CONFIG.forEach(cat => {
-      counts[cat.slug] = activeJobs.filter(j => matchesJobCategory(j, cat.id)).length;
-    });
-    counts['govt'] = activeJobs.filter(j => j.type === 'govt').length;
-    counts['private'] = activeJobs.filter(j => j.type === 'private').length;
-    return counts;
-  }, []);
-
-  // Filter categories by group
-  const govtCategories = useMemo(() => 
-    CATEGORIES_CONFIG.filter(c => c.group === 'govt'), []
-  );
-
-  const privateCategories = useMemo(() => 
-    CATEGORIES_CONFIG.filter(c => c.group === 'private' || c.group === 'cross-cutting' && c.id !== 'exam-recruitment-hub'), []
-  );
-
-  // Global Cmd+K / Ctrl+K listener
+  // Global Cmd+K / Ctrl+K shortcut listener
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setSearchModalOpen((prev) => !prev);
       }
+      if (e.key === 'Escape') {
+        setActiveDropdown(null);
+        setLangMenuOpen(false);
+        setMobileMenuOpen(false);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Close dropdowns on outside click or route change
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target)) {
-        setLangMenuOpen(false);
-      }
-      if (
-        (!govtDropdownRef.current || !govtDropdownRef.current.contains(event.target)) &&
-        (!privateDropdownRef.current || !privateDropdownRef.current.contains(event.target)) &&
-        (!toolsDropdownRef.current || !toolsDropdownRef.current.contains(event.target))
-      ) {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
         setActiveDropdown(null);
+        setLangMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Close all dropdowns & mobile menu on route change
   useEffect(() => {
     setActiveDropdown(null);
+    setLangMenuOpen(false);
     setMobileMenuOpen(false);
   }, [pathname]);
 
@@ -192,409 +125,321 @@ export default function Navbar() {
     return false;
   };
 
-  const isGovtActive = pathname.startsWith('/jobs/govt') || govtCategories.some(c => pathname === `/jobs/${c.slug}`);
-  const isPrivateActive = pathname.startsWith('/jobs/private') || privateCategories.some(c => pathname === `/jobs/${c.slug}`);
-  const isResourcesActive = ['/exams', '/exam-results', '/salary-calculator', '/cv-builder', '/blog'].some(p => pathname === p || pathname.startsWith(p + '/'));
+  const isGovtActive = pathname.startsWith('/jobs/govt') || 
+    ['/agency/fpsc', '/agency/ppsc', '/agency/spsc', '/agency/kppsc', '/agency/bpsc', '/agency/nts',
+     '/national-job-portal', '/punjab-job-portal', '/sindh-job-portal', '/kpk-job-portal', '/balochistan-job-portal'
+    ].some(p => pathname === p || pathname.startsWith(p + '/'));
+
+  const isResourcesActive = ['/exams', '/exam-results', '/salary-calculator', '/cv-builder', '/blog']
+    .some(p => pathname === p || pathname.startsWith(p + '/'));
 
   const currentLangObj = LANGUAGES.find(l => l.code === lang) || LANGUAGES[0];
 
   return (
     <>
-      <header className="navbar-wrapper">
-        <div className="container-xl navbar-inner">
-          {/* Brand Logo */}
-          <Link href="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
-            <div className="logo-icon-box">
-              <ShieldCheck className="brand-icon" size={20} />
+      <header className="header-root" ref={headerRef}>
+        <div className="header-inner">
+          {/* Left: Brand Logo + Tainaati */}
+          <Link 
+            href="/" 
+            className="header-brand"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Tainaati Homepage"
+          >
+            <div className="header-brand-icon-box">
+              <ShieldCheck className="header-brand-icon" size={20} />
             </div>
-            <div className="brand-text-box">
-              <span className="brand-title">
-                {t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span>
-              </span>
-              <span className="brand-tagline">{t.nav.tagline}</span>
-            </div>
+            <span className="header-brand-title">
+              {t.nav?.brandName || 'Tainaa'}<span className="brand-accent">{t.nav?.brandAccent || 'ti'}</span>
+            </span>
           </Link>
 
-          {/* Desktop Navigation Links with Rich Dropdowns */}
-          <nav className="desktop-nav-links" aria-label="Main Navigation">
-            {/* All Jobs Link */}
+          {/* Center (Desktop >= 1024px): All Jobs, Govt Jobs (dropdown), Test Prep, Resources (dropdown) */}
+          <nav className="header-nav" aria-label="Main Navigation">
+            {/* 1. All Jobs */}
             <Link
               href="/"
-              className={`nav-link-item ${isActive('/') ? 'active' : ''}`}
+              className={`header-nav-link ${isActive('/') && !isGovtActive && !isResourcesActive && pathname !== '/test-prep' ? 'active' : ''}`}
             >
-              <Briefcase size={14} className="nav-icon" />
-              <span>{t.nav.allJobs}</span>
+              <span>{t.nav?.allJobs || 'All Jobs'}</span>
             </Link>
 
-            {/* 1. Government Jobs Dropdown */}
+            {/* 2. Govt Jobs (dropdown) */}
             <div 
-              className="nav-dropdown-container" 
-              ref={govtDropdownRef}
+              className="header-dropdown-container"
               onMouseEnter={() => setActiveDropdown('govt')}
               onMouseLeave={() => setActiveDropdown(null)}
             >
               <button
+                ref={govtTriggerRef}
                 type="button"
-                className={`nav-dropdown-trigger ${isGovtActive ? 'active' : ''} ${activeDropdown === 'govt' ? 'open' : ''}`}
+                className={`header-nav-link header-dropdown-trigger ${isGovtActive ? 'active' : ''}`}
                 onClick={() => setActiveDropdown(activeDropdown === 'govt' ? null : 'govt')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') setActiveDropdown(null);
+                }}
                 aria-expanded={activeDropdown === 'govt'}
                 aria-haspopup="true"
               >
-                <Landmark size={14} className="nav-icon" />
-                <span>{t.nav.govtJobs}</span>
-                <span className="nav-badge badge-official">{t.nav.officialBadge}</span>
-                <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'govt' ? 'rotate-180' : ''}`} />
+                <span>{t.nav?.govtJobs || 'Govt Jobs'}</span>
+                <ChevronDown size={14} className={`dropdown-chevron ${activeDropdown === 'govt' ? 'rotated' : ''}`} />
               </button>
 
               {activeDropdown === 'govt' && (
-                <div className="nav-mega-dropdown" role="menu">
-                  {/* Master View All Govt Jobs */}
-                  <Link 
-                    href="/jobs/govt"
-                    className="nav-dropdown-header-card"
-                    onClick={() => setActiveDropdown(null)}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Landmark size={16} className="text-emerald-500" />
-                      <div>
-                        <div className="text-xs font-bold text-primary">All Government Gazette Jobs</div>
-                        <div className="text-[10px] text-muted">FPSC, PPSC, SPSC, KPPSC & NTS</div>
+                <div 
+                  className="header-dropdown-menu header-dropdown-mega" 
+                  role="menu"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      setActiveDropdown(null);
+                      govtTriggerRef.current?.focus();
+                    }
+                  }}
+                >
+                  <div className="dropdown-mega-header">
+                    <Link 
+                      href="/jobs/govt" 
+                      className="dropdown-mega-title-card"
+                      onClick={() => setActiveDropdown(null)}
+                      role="menuitem"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Landmark size={16} className="text-brand-primary" />
+                        <div>
+                          <div className="dropdown-title-strong">All Government Jobs</div>
+                          <div className="dropdown-title-sub">Federal & Provincial Gazette Announcements</div>
+                        </div>
                       </div>
-                    </div>
-                    {categoryCounts.govt > 0 && (
-                      <span className="nav-dropdown-count text-emerald-600 font-bold">{categoryCounts.govt}</span>
-                    )}
-                  </Link>
-
-                  {/* Province & National Job Portals Links */}
-                  <div className="p-2 border-b border-subtle bg-surface-subtle/50 rounded-lg mx-2 mb-2">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5 px-1">
-                      Official Province & National Hubs:
-                    </div>
-                    <div className="grid grid-cols-2 gap-1 text-xs">
-                      <Link href="/national-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between">
-                        <span>🇵🇰 National Portal</span>
-                        <span className="text-[10px] text-emerald-600 font-bold">All-PK</span>
-                      </Link>
-                      <Link href="/punjab-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between">
-                        <span>🌾 Punjab Portal</span>
-                        <span className="text-[10px] text-emerald-600 font-bold">PPSC+</span>
-                      </Link>
-                      <Link href="/sindh-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between">
-                        <span>🌊 Sindh Portal</span>
-                        <span className="text-[10px] text-emerald-600 font-bold">SPSC+</span>
-                      </Link>
-                      <Link href="/kpk-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between">
-                        <span>🏔️ KPK Portal</span>
-                        <span className="text-[10px] text-emerald-600 font-bold">KPPSC+</span>
-                      </Link>
-                      <Link href="/balochistan-job-portal" onClick={() => setActiveDropdown(null)} className="px-2 py-1 rounded hover:bg-surface text-primary font-medium flex items-center justify-between col-span-2">
-                        <span>🦅 Balochistan Portal</span>
-                        <span className="text-[10px] text-emerald-600 font-bold">BPSC+</span>
-                      </Link>
-                    </div>
+                    </Link>
                   </div>
 
-                  {/* Govt Sub-categories with active jobs */}
-                  <div className="nav-dropdown-items-list">
-                    {govtCategories.filter(cat => (categoryCounts[cat.slug] || 0) > 0).map((cat) => {
-                      const count = categoryCounts[cat.slug] || 0;
-                      const IconComp = ICON_MAP[cat.icon] || Landmark;
-                      const active = pathname === `/jobs/${cat.slug}`;
+                  <div className="dropdown-mega-columns">
+                    {/* Commissions Column */}
+                    <div className="dropdown-col">
+                      <div className="dropdown-col-heading">Public Service Commissions</div>
+                      <Link href="/agency/fpsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>FPSC Federal</span>
+                        <span className="dropdown-item-badge">BPS 16-22</span>
+                      </Link>
+                      <Link href="/agency/ppsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>PPSC Punjab</span>
+                        <span className="dropdown-item-badge">Official</span>
+                      </Link>
+                      <Link href="/agency/spsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>SPSC Sindh</span>
+                        <span className="dropdown-item-badge">CCE</span>
+                      </Link>
+                      <Link href="/agency/kppsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>KPPSC Khyber</span>
+                        <span className="dropdown-item-badge">Provincial</span>
+                      </Link>
+                      <Link href="/agency/bpsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>BPSC Balochistan</span>
+                        <span className="dropdown-item-badge">Gazette</span>
+                      </Link>
+                      <Link href="/agency/nts" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>NTS Testing</span>
+                        <span className="dropdown-item-badge">Projects</span>
+                      </Link>
+                    </div>
 
-                      return (
-                        <Link
-                          key={cat.slug}
-                          href={`/jobs/${cat.slug}`}
-                          className={`nav-dropdown-item-link ${active ? 'active' : ''}`}
-                          onClick={() => setActiveDropdown(null)}
-                        >
-                          <div className="flex items-center gap-2">
-                            <IconComp size={14} className={active ? 'text-emerald-600' : 'text-muted'} />
-                            <span>{cat.name}</span>
-                          </div>
-                          <span className="nav-dropdown-count">{count}</span>
-                        </Link>
-                      );
-                    })}
+                    {/* Official Portals Column */}
+                    <div className="dropdown-col">
+                      <div className="dropdown-col-heading">Official Portal Hubs</div>
+                      <Link href="/national-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>National Job Portal (NJP)</span>
+                      </Link>
+                      <Link href="/punjab-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>Punjab Job Portal</span>
+                      </Link>
+                      <Link href="/sindh-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>Sindh Job Portal</span>
+                      </Link>
+                      <Link href="/kpk-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>KPK Job Portal</span>
+                      </Link>
+                      <Link href="/balochistan-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                        <span>Balochistan Job Portal</span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* 2. Private & Careers Dropdown (Visible only when >= 20 active jobs exist) */}
-            {categoryCounts.private >= 20 && (
-            <div 
-              className="nav-dropdown-container" 
-              ref={privateDropdownRef}
-              onMouseEnter={() => setActiveDropdown('private')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <button
-                type="button"
-                className={`nav-dropdown-trigger ${isPrivateActive ? 'active' : ''} ${activeDropdown === 'private' ? 'open' : ''}`}
-                onClick={() => setActiveDropdown(activeDropdown === 'private' ? null : 'private')}
-                aria-expanded={activeDropdown === 'private'}
-                aria-haspopup="true"
-              >
-                <Building2 size={14} className="nav-icon" />
-                <span>Private & Careers</span>
-                <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'private' ? 'rotate-180' : ''}`} />
-              </button>
-
-              {activeDropdown === 'private' && (
-                <div className="nav-mega-dropdown" role="menu">
-                  {/* Master View All Private Jobs */}
-                  <Link 
-                    href="/jobs/private"
-                    className="nav-dropdown-header-card"
-                    onClick={() => setActiveDropdown(null)}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Building2 size={16} className="text-blue-500" />
-                      <div>
-                        <div className="text-xs font-bold text-primary">All Corporate & Private Jobs</div>
-                        <div className="text-[10px] text-muted">Banking, Engineering, Tech & Remote</div>
-                      </div>
-                    </div>
-                    {categoryCounts.private > 0 && (
-                      <span className="nav-dropdown-count text-blue-600 font-bold">{categoryCounts.private}</span>
-                    )}
-                  </Link>
-
-                  {/* Private & Cross-cutting Sub-categories */}
-                  <div className="nav-dropdown-items-list">
-                    {privateCategories.map((cat) => {
-                      const count = categoryCounts[cat.slug] || 0;
-                      const IconComp = ICON_MAP[cat.icon] || Building2;
-                      const active = pathname === `/jobs/${cat.slug}`;
-                      const isComingSoon = count === 0;
-
-                      return (
-                        <Link
-                          key={cat.slug}
-                          href={`/jobs/${cat.slug}`}
-                          className={`nav-dropdown-item-link ${active ? 'active' : ''}`}
-                          onClick={() => setActiveDropdown(null)}
-                        >
-                          <div className="flex items-center gap-2">
-                            <IconComp size={14} className={active ? 'text-blue-600' : 'text-muted'} />
-                            <span>{cat.name}</span>
-                          </div>
-                          {isComingSoon ? (
-                            <span className="nav-dropdown-coming-soon">Coming Soon</span>
-                          ) : (
-                            <span className="nav-dropdown-count">{count}</span>
-                          )}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-            )}
-
-            {/* Test Prep Link */}
+            {/* 3. Test Prep */}
             <Link
               href="/test-prep"
-              className={`nav-link-item ${isActive('/test-prep') ? 'active' : ''} highlight-item`}
+              className={`header-nav-link ${isActive('/test-prep') ? 'active' : ''}`}
             >
-              <BookOpen size={14} className="nav-icon" />
-              <span>{t.nav.testPrep}</span>
-              <span className="nav-badge badge-mcq">{t.nav.mcqBadge}</span>
+              <span>{t.nav?.testPrep || 'Test Prep'}</span>
             </Link>
 
-            {/* Resources & Tools Dropdown (Consolidates Exams, Results, Salary, CV Builder, Guides) */}
+            {/* 4. Resources (dropdown) */}
             <div 
-              className="nav-dropdown-container" 
-              ref={toolsDropdownRef}
+              className="header-dropdown-container"
               onMouseEnter={() => setActiveDropdown('resources')}
               onMouseLeave={() => setActiveDropdown(null)}
             >
               <button
+                ref={resourcesTriggerRef}
                 type="button"
-                className={`nav-dropdown-trigger ${isResourcesActive ? 'active' : ''} ${activeDropdown === 'resources' ? 'open' : ''}`}
+                className={`header-nav-link header-dropdown-trigger ${isResourcesActive ? 'active' : ''}`}
                 onClick={() => setActiveDropdown(activeDropdown === 'resources' ? null : 'resources')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') setActiveDropdown(null);
+                }}
                 aria-expanded={activeDropdown === 'resources'}
                 aria-haspopup="true"
               >
-                <Sparkles size={14} className="nav-icon text-amber-500" />
-                <span>{t.nav.resources || "Resources"}</span>
-                <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'resources' ? 'rotate-180' : ''}`} />
+                <span>{t.nav?.resources || 'Resources'}</span>
+                <ChevronDown size={14} className={`dropdown-chevron ${activeDropdown === 'resources' ? 'rotated' : ''}`} />
               </button>
 
               {activeDropdown === 'resources' && (
-                <div className="nav-mega-dropdown nav-resources-dropdown" role="menu">
-                  <div className="nav-dropdown-header-card">
-                    <div className="flex items-center gap-2">
-                      <Sparkles size={16} className="text-amber-500" />
-                      <div>
-                        <div className="text-xs font-bold text-primary">Candidate Resources & Tools</div>
-                        <div className="text-[10px] text-muted">Exam tracking, salary calculation & ATS tools</div>
-                      </div>
+                <div 
+                  className="header-dropdown-menu header-dropdown-list" 
+                  role="menu"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      setActiveDropdown(null);
+                      resourcesTriggerRef.current?.focus();
+                    }
+                  }}
+                >
+                  <Link href="/exams" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                    <Calendar size={16} className="text-brand-primary flex-shrink-0" />
+                    <div>
+                      <div className="dropdown-item-title">{t.nav?.examCalendar || 'Exam Calendar'}</div>
+                      <div className="dropdown-item-desc">FPSC, PPSC & NTS Test Schedules</div>
                     </div>
-                  </div>
+                  </Link>
 
-                  <div className="nav-dropdown-items-list">
-                    <Link
-                      href="/exams"
-                      className={`nav-dropdown-item-link ${pathname === '/exams' ? 'active' : ''}`}
-                      onClick={() => setActiveDropdown(null)}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Calendar size={15} className="text-blue-500 flex-shrink-0" />
-                        <div>
-                          <span className="font-semibold block">{t.nav.examCalendar}</span>
-                          <span className="text-[10px] text-muted block">FPSC, PPSC & NTS Test Schedules</span>
-                        </div>
-                      </div>
-                      <span className="nav-dropdown-count">Live</span>
-                    </Link>
+                  <Link href="/exam-results" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                    <FileCheck size={16} className="text-emerald-600 flex-shrink-0" />
+                    <div>
+                      <div className="dropdown-item-title">{t.nav?.examResults || 'Results & Roll No Slips'}</div>
+                      <div className="dropdown-item-desc">Merit lists & admission certificates</div>
+                    </div>
+                  </Link>
 
-                    <Link
-                      href="/exam-results"
-                      className={`nav-dropdown-item-link ${pathname === '/exam-results' ? 'active' : ''}`}
-                      onClick={() => setActiveDropdown(null)}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <FileCheck size={15} className="text-emerald-500 flex-shrink-0" />
-                        <div>
-                          <span className="font-semibold block">{t.nav.examResults || "Results & Roll No Slips"}</span>
-                          <span className="text-[10px] text-muted block">Merit lists & interview letters</span>
-                        </div>
-                      </div>
-                      <span className="nav-badge badge-official">Verified</span>
-                    </Link>
+                  <Link href="/salary-calculator" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                    <Calculator size={16} className="text-amber-600 flex-shrink-0" />
+                    <div>
+                      <div className="dropdown-item-title">{t.nav?.salaryCalculator || 'BPS Salary Calculator'}</div>
+                      <div className="dropdown-item-desc">Pay scales & allowance calculator</div>
+                    </div>
+                  </Link>
 
-                    <Link
-                      href="/salary-calculator"
-                      className={`nav-dropdown-item-link ${pathname === '/salary-calculator' ? 'active' : ''}`}
-                      onClick={() => setActiveDropdown(null)}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Calculator size={15} className="text-amber-500 flex-shrink-0" />
-                        <div>
-                          <span className="font-semibold block">{t.nav.salaryCalculator || "BPS Salary Calculator"}</span>
-                          <span className="text-[10px] text-muted block">Pay scales & allowance calculator (BPS 1-22)</span>
-                        </div>
-                      </div>
-                      <span className="nav-badge badge-mcq">2026</span>
-                    </Link>
+                  <Link href="/cv-builder" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                    <FileText size={16} className="text-indigo-600 flex-shrink-0" />
+                    <div>
+                      <div className="dropdown-item-title">{t.nav?.cvBuilder || 'ATS CV Builder'}</div>
+                      <div className="dropdown-item-desc">Standard single-column PDF resume</div>
+                    </div>
+                  </Link>
 
-                    <Link
-                      href="/cv-builder"
-                      className={`nav-dropdown-item-link ${pathname === '/cv-builder' ? 'active' : ''}`}
-                      onClick={() => setActiveDropdown(null)}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <FileText size={15} className="text-purple-500 flex-shrink-0" />
-                        <div>
-                          <span className="font-semibold block">{t.nav.cvBuilder}</span>
-                          <span className="text-[10px] text-muted block">ATS-friendly PDF resume generator</span>
-                        </div>
-                      </div>
-                      <span className="nav-badge badge-free text-[9px] bg-emerald-500/10 text-emerald-600 font-bold px-1.5 py-0.5 rounded-full">{t.nav.freeBadge}</span>
-                    </Link>
-
-                    <Link
-                      href="/blog"
-                      className={`nav-dropdown-item-link ${pathname === '/blog' || pathname.startsWith('/blog/') ? 'active' : ''}`}
-                      onClick={() => setActiveDropdown(null)}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <BookOpen size={15} className="text-rose-500 flex-shrink-0" />
-                        <div>
-                          <span className="font-semibold block">{t.nav.guides}</span>
-                          <span className="text-[10px] text-muted block">Syllabus patterns, test prep & guides</span>
-                        </div>
-                      </div>
-                      <span className="nav-dropdown-count">Guides</span>
-                    </Link>
-                  </div>
+                  <Link href="/blog" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                    <BookOpen size={16} className="text-rose-600 flex-shrink-0" />
+                    <div>
+                      <div className="dropdown-item-title">{t.nav?.guides || 'Career Guides'}</div>
+                      <div className="dropdown-item-desc">Syllabus analysis & preparation guides</div>
+                    </div>
+                  </Link>
                 </div>
               )}
             </div>
           </nav>
 
-          {/* Right Utilities Cluster */}
-          <div className="navbar-actions">
-            {/* Quick Search Button */}
+          {/* Right: Search, Saved, Alerts, Language switch, Theme toggle (40x40 icon buttons) */}
+          <div className="header-actions">
+            {/* Search Icon Button (40x40) */}
             <button
+              type="button"
+              className="header-icon-btn"
               onClick={() => setSearchModalOpen(true)}
-              className="action-btn search-trigger-btn"
-              title="Search Jobs (Ctrl + K / Cmd + K)"
-              aria-label="Quick Search"
+              aria-label="Search jobs (Ctrl+K)"
+              title="Search jobs (Ctrl+K)"
             >
-              <Search size={15} />
-              <kbd className="search-shortcut">⌘K</kbd>
+              <Search size={18} />
             </button>
 
-            {/* Saved Jobs Shortcut Button */}
+            {/* Saved Jobs (40x40 with badge only if > 0) */}
             <Link
               href="/saved-jobs"
-              className={`action-btn desktop-saved-btn relative ${isActive('/saved-jobs') ? 'active' : ''}`}
-              title={t.nav.savedJobs || "Saved Jobs & Application Tracker"}
-              aria-label="Saved Jobs"
+              className={`header-icon-btn ${isActive('/saved-jobs') ? 'active' : ''}`}
+              aria-label={savedCount > 0 ? `Saved jobs (${savedCount})` : 'Saved jobs'}
+              title={savedCount > 0 ? `Saved jobs (${savedCount})` : 'Saved jobs'}
             >
-              <Bookmark size={16} className={savedCount > 0 ? "fill-emerald-500 text-emerald-500" : ""} />
-              <span className="sr-only">Saved Jobs</span>
+              <Bookmark size={18} className={savedCount > 0 ? 'fill-current text-brand-primary' : ''} />
               {savedCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white font-mono text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm" aria-hidden="true">
+                <span className="header-badge-count tabular-nums" aria-hidden="true">
                   {savedCount}
                 </span>
               )}
             </Link>
 
-            {/* Alerts Quick Button */}
+            {/* Alerts (40x40) */}
             <Link
               href="/alerts"
-              className={`action-btn desktop-alerts-btn ${isActive('/alerts') ? 'active' : ''}`}
-              title={t.nav.alerts}
-              aria-label="Job Alerts"
+              className={`header-icon-btn ${isActive('/alerts') ? 'active' : ''}`}
+              aria-label="Job alerts"
+              title="Job alerts"
             >
-              <Bell size={16} />
-              <span className="sr-only">Job Alerts</span>
+              <Bell size={18} />
             </Link>
 
-            {/* 3-Language Switcher Dropdown (Always Visible Desktop & Mobile) */}
-            <div className="lang-switcher-wrapper" ref={langDropdownRef}>
+            {/* Language Switcher (40x40 or compact trigger) */}
+            <div className="header-lang-wrapper">
               <button
-                onClick={() => setLangMenuOpen(!langMenuOpen)}
-                className="action-btn lang-dropdown-trigger"
-                title={t.nav.selectLanguage}
-                aria-label="Select Language"
+                ref={langTriggerRef}
+                type="button"
+                className="header-icon-btn"
+                onClick={() => setLangMenuOpen(v => !v)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') setLangMenuOpen(false);
+                }}
+                aria-label={`Select language (Current: ${currentLangObj.label})`}
+                title={`Select language (Current: ${currentLangObj.label})`}
                 aria-expanded={langMenuOpen}
+                aria-haspopup="true"
               >
-                <Languages size={15} />
-                <span className="current-lang-text font-bold">{currentLangObj.native}</span>
-                <ChevronDown size={12} className={`transition-transform duration-200 ${langMenuOpen ? 'rotate-180' : ''}`} />
+                <Languages size={18} />
               </button>
 
               {langMenuOpen && (
-                <div className="lang-dropdown-menu">
-                  <div className="lang-dropdown-header">
-                    <span className="text-[11px] font-bold text-muted uppercase tracking-wider">{t.nav.selectLanguage}</span>
-                  </div>
+                <div 
+                  className="header-dropdown-menu header-lang-menu" 
+                  role="menu"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      setLangMenuOpen(false);
+                      langTriggerRef.current?.focus();
+                    }
+                  }}
+                >
+                  <div className="header-lang-menu-title">Select Language</div>
                   {LANGUAGES.map((l) => {
                     const isSelected = lang === l.code;
                     return (
                       <button
                         key={l.code}
-                        className={`lang-option-btn ${isSelected ? 'selected' : ''}`}
+                        type="button"
+                        className={`header-lang-item ${isSelected ? 'selected' : ''}`}
                         onClick={() => {
                           setLang(l.code);
                           setLangMenuOpen(false);
                         }}
+                        role="menuitem"
                       >
                         <div className="flex items-center gap-2">
-                          <span className="text-sm">{l.flag}</span>
+                          <span className="text-base leading-none">{l.flag}</span>
                           <div className="text-left">
-                            <span className="font-semibold block text-xs text-primary">{l.native}</span>
+                            <span className="font-semibold block text-xs">{l.native}</span>
                             <span className="text-[10px] text-muted block">{l.label}</span>
                           </div>
                         </div>
-                        {isSelected && <Check size={14} className="text-emerald-500" />}
+                        {isSelected && <Check size={14} className="text-brand-primary" />}
                       </button>
                     );
                   })}
@@ -602,400 +447,234 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Modern Dual-Slot Dark/Light Mode Switch */}
+            {/* Theme Toggle (40x40) */}
             <button
+              type="button"
+              className="header-icon-btn"
               onClick={toggleTheme}
-              className="theme-toggle-pill"
-              title={theme === 'dark' ? t.nav.themeLight : t.nav.themeDark}
-              aria-label="Toggle Dark / Light Theme"
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              <div className={`theme-icon-slot ${theme === 'light' ? 'active-slot' : ''}`}>
-                <Sun size={14} className={theme === 'light' ? 'text-amber-500' : ''} />
-              </div>
-              <div className={`theme-icon-slot ${theme === 'dark' ? 'active-slot' : ''}`}>
-                <Moon size={14} className={theme === 'dark' ? 'text-emerald-400' : ''} />
-              </div>
+              {theme === 'dark' ? (
+                <Sun size={18} className="text-amber-400" />
+              ) : (
+                <Moon size={18} className="text-slate-700" />
+              )}
             </button>
 
-            {/* Mobile Menu Toggle Button */}
+            {/* Mobile Hamburger Toggle (Visible below 1024px) */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="action-btn mobile-menu-toggle"
-              aria-label="Toggle mobile menu"
+              type="button"
+              className="header-icon-btn mobile-menu-toggle-btn"
+              onClick={() => setMobileMenuOpen(v => !v)}
+              aria-label={mobileMenuOpen ? 'Close mobile navigation menu' : 'Open mobile navigation menu'}
+              title="Menu"
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Slide-Out Drawer Menu */}
+      {/* Mobile Drawer Menu (Below 1024px) */}
       {mobileMenuOpen && (
-        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
-          <div className="mobile-menu-drawer" onClick={(e) => e.stopPropagation()}>
+        <div 
+          className="mobile-drawer-overlay" 
+          onClick={() => setMobileMenuOpen(false)}
+          aria-modal="true"
+          role="dialog"
+        >
+          <div 
+            className="mobile-drawer-panel" 
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Drawer Header */}
             <div className="mobile-drawer-header">
-              <Link href="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
-                <div className="logo-icon-box">
-                  <ShieldCheck className="brand-icon" size={18} />
+              <Link 
+                href="/" 
+                className="header-brand" 
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <div className="header-brand-icon-box">
+                  <ShieldCheck className="header-brand-icon" size={18} />
                 </div>
-                <span className="brand-title text-base">
-                  {t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span>
+                <span className="header-brand-title text-base">
+                  {t.nav?.brandName || 'Tainaa'}<span className="brand-accent">{t.nav?.brandAccent || 'ti'}</span>
                 </span>
               </Link>
               <button 
-                className="action-btn-sm" 
+                type="button"
+                className="header-icon-btn" 
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close menu"
               >
-                <X size={17} />
+                <X size={18} />
               </button>
             </div>
 
-            {/* Mobile Quick Search Button */}
-            <div className="p-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setSearchModalOpen(true);
-                }}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-surface-subtle border border-subtle text-sm text-secondary hover:text-primary transition-all"
-              >
-                <div className="flex items-center gap-2.5">
-                  <Search size={16} className="text-emerald-500" />
-                  <span className="font-medium">{t.nav.quickSearch}</span>
-                </div>
-                <kbd className="px-2 py-0.5 text-xs rounded bg-surface border border-subtle font-mono text-muted">⌘K</kbd>
-              </button>
-            </div>
-
-            {/* Mobile 3-Language Segmented Picker */}
-            <div className="px-3 py-2">
-              <span className="text-[11px] font-bold text-muted uppercase tracking-wider block mb-2 px-1">
-                {t.nav.selectLanguage}:
-              </span>
-              <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-surface-subtle border border-subtle">
-                {LANGUAGES.map((l) => (
-                  <button
-                    key={l.code}
-                    onClick={() => setLang(l.code)}
-                    className={`text-xs py-2 px-1 rounded-lg font-bold transition-all text-center flex items-center justify-center gap-1 ${
-                      lang === l.code 
-                        ? 'bg-emerald-600 text-white shadow-sm' 
-                        : 'bg-transparent text-secondary hover:text-primary'
-                    }`}
-                  >
-                    <span>{l.flag}</span>
-                    <span>{l.native}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Mobile Nav Links List with Expandable Accordions */}
-            <div className="mobile-nav-scroll-list px-3 py-2 flex-1 overflow-y-auto">
-              {/* All Jobs Direct Link */}
+            {/* Drawer Navigation Links (Min 44px tap targets) */}
+            <div className="mobile-drawer-nav">
+              {/* All Jobs */}
               <Link
                 href="/"
+                className={`mobile-nav-link ${isActive('/') && !isGovtActive && !isResourcesActive ? 'active' : ''}`}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`mobile-nav-item mb-2 ${isActive('/') ? 'active' : ''}`}
               >
-                <div className="flex items-center gap-3">
-                  <div className="nav-icon-box">
-                    <Briefcase size={16} />
-                  </div>
-                  <span className="font-semibold text-sm">{t.nav.allJobs}</span>
-                </div>
+                <span>{t.nav?.allJobs || 'All Jobs'}</span>
               </Link>
 
-              {/* Accordion 1: Government Jobs */}
-              <div className="mobile-nav-accordion">
+              {/* Govt Jobs Accordion */}
+              <div className="mobile-accordion">
                 <button
-                  className="mobile-accordion-toggle"
-                  onClick={() => setMobileGovtOpen(!mobileGovtOpen)}
+                  type="button"
+                  className={`mobile-nav-link mobile-accordion-trigger ${isGovtActive ? 'active' : ''}`}
+                  onClick={() => setMobileGovtOpen(v => !v)}
                   aria-expanded={mobileGovtOpen}
                 >
-                  <div className="flex items-center gap-2">
-                    <Landmark size={16} className="text-emerald-600" />
-                    <span>Government Jobs{categoryCounts.govt > 0 ? ` (${categoryCounts.govt})` : ''}</span>
-                  </div>
-                  <ChevronDown size={14} className={`transition-transform duration-200 ${mobileGovtOpen ? 'rotate-180' : ''}`} />
+                  <span>{t.nav?.govtJobs || 'Govt Jobs'}</span>
+                  <ChevronDown size={16} className={`dropdown-chevron ${mobileGovtOpen ? 'rotated' : ''}`} />
                 </button>
-
                 {mobileGovtOpen && (
                   <div className="mobile-accordion-body">
-                    <Link
-                      href="/jobs/govt"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="mobile-sub-item font-semibold text-primary"
-                    >
-                      <span>🏛️ View All Govt Gazette Jobs</span>
-                      {categoryCounts.govt > 0 && (
-                        <span className="nav-dropdown-count">{categoryCounts.govt}</span>
-                      )}
+                    <Link href="/jobs/govt" className="mobile-subnav-link font-semibold text-brand-primary" onClick={() => setMobileMenuOpen(false)}>
+                      All Government Gazette Jobs
                     </Link>
-
-                    {/* Mobile Province & National Portals List */}
-                    <div className="p-2 my-1 bg-surface-subtle rounded-lg border border-subtle">
-                      <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-1 px-1">Province & National Portals:</div>
-                      <Link href="/national-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🇵🇰 National Job Portal (All PK)</Link>
-                      <Link href="/punjab-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🌾 Punjab Job Portal (PPSC & Govt)</Link>
-                      <Link href="/sindh-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🌊 Sindh Job Portal (SPSC & Govt)</Link>
-                      <Link href="/kpk-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🏔️ KPK Job Portal (KPPSC & Govt)</Link>
-                      <Link href="/balochistan-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🦅 Balochistan Job Portal (BPSC & Govt)</Link>
-                    </div>
-                    {govtCategories.filter(cat => (categoryCounts[cat.slug] || 0) > 0).map((cat) => {
-                      const count = categoryCounts[cat.slug] || 0;
-                      const IconComp = ICON_MAP[cat.icon] || Landmark;
-
-                      return (
-                        <Link
-                          key={cat.slug}
-                          href={`/jobs/${cat.slug}`}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="mobile-sub-item"
-                        >
-                          <div className="flex items-center gap-2">
-                            <IconComp size={13} className="text-muted" />
-                            <span>{cat.name}</span>
-                          </div>
-                          <span className="nav-dropdown-count">{count}</span>
-                        </Link>
-                      );
-                    })}
+                    <div className="mobile-subnav-label">Public Service Commissions</div>
+                    <Link href="/agency/fpsc" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>FPSC Federal</Link>
+                    <Link href="/agency/ppsc" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>PPSC Punjab</Link>
+                    <Link href="/agency/spsc" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>SPSC Sindh</Link>
+                    <Link href="/agency/kppsc" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>KPPSC Khyber</Link>
+                    <Link href="/agency/bpsc" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>BPSC Balochistan</Link>
+                    <Link href="/agency/nts" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>NTS Testing</Link>
+                    <div className="mobile-subnav-label">Official Portals</div>
+                    <Link href="/national-job-portal" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>National Job Portal</Link>
+                    <Link href="/punjab-job-portal" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>Punjab Job Portal</Link>
+                    <Link href="/sindh-job-portal" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>Sindh Job Portal</Link>
+                    <Link href="/kpk-job-portal" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>KPK Job Portal</Link>
+                    <Link href="/balochistan-job-portal" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>Balochistan Job Portal</Link>
                   </div>
                 )}
               </div>
 
-              {/* Accordion 2: Private & Careers (Visible only when >= 20 active jobs exist) */}
-              {categoryCounts.private >= 20 && (
-              <div className="mobile-nav-accordion">
+              {/* Test Prep */}
+              <Link
+                href="/test-prep"
+                className={`mobile-nav-link ${isActive('/test-prep') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>{t.nav?.testPrep || 'Test Prep'}</span>
+              </Link>
+
+              {/* Resources Accordion */}
+              <div className="mobile-accordion">
                 <button
-                  className="mobile-accordion-toggle"
-                  onClick={() => setMobilePrivateOpen(!mobilePrivateOpen)}
-                  aria-expanded={mobilePrivateOpen}
+                  type="button"
+                  className={`mobile-nav-link mobile-accordion-trigger ${isResourcesActive ? 'active' : ''}`}
+                  onClick={() => setMobileResourcesOpen(v => !v)}
+                  aria-expanded={mobileResourcesOpen}
                 >
-                  <div className="flex items-center gap-2">
-                    <Building2 size={16} className="text-blue-600" />
-                    <span>Private & Careers{categoryCounts.private > 0 ? ` (${categoryCounts.private})` : ''}</span>
-                  </div>
-                  <ChevronDown size={14} className={`transition-transform duration-200 ${mobilePrivateOpen ? 'rotate-180' : ''}`} />
+                  <span>{t.nav?.resources || 'Resources'}</span>
+                  <ChevronDown size={16} className={`dropdown-chevron ${mobileResourcesOpen ? 'rotated' : ''}`} />
                 </button>
-
-                {mobilePrivateOpen && (
+                {mobileResourcesOpen && (
                   <div className="mobile-accordion-body">
-                    <Link
-                      href="/jobs/private"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="mobile-sub-item font-semibold text-primary"
-                    >
-                      <span>💼 View All Private & Corporate Jobs</span>
-                      {categoryCounts.private > 0 && (
-                        <span className="nav-dropdown-count">{categoryCounts.private}</span>
-                      )}
+                    <Link href="/exams" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>
+                      {t.nav?.examCalendar || 'Exam Calendar'}
                     </Link>
-                    {privateCategories.map((cat) => {
-                      const count = categoryCounts[cat.slug] || 0;
-                      const IconComp = ICON_MAP[cat.icon] || Building2;
-                      const isComingSoon = count === 0;
-
-                      return (
-                        <Link
-                          key={cat.slug}
-                          href={`/jobs/${cat.slug}`}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="mobile-sub-item"
-                        >
-                          <div className="flex items-center gap-2">
-                            <IconComp size={13} className="text-muted" />
-                            <span>{cat.name}</span>
-                          </div>
-                          {isComingSoon ? (
-                            <span className="nav-dropdown-coming-soon">Coming Soon</span>
-                          ) : (
-                            <span className="nav-dropdown-count">{count}</span>
-                          )}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-              )}
-
-              {/* Accordion 3: Exams & Hub */}
-              <div className="mobile-nav-accordion">
-                <button
-                  className="mobile-accordion-toggle"
-                  onClick={() => setMobileExamsOpen(!mobileExamsOpen)}
-                  aria-expanded={mobileExamsOpen}
-                >
-                  <div className="flex items-center gap-2">
-                    <Calendar size={16} className="text-amber-500" />
-                    <span>Competitive Exams & Hub</span>
-                  </div>
-                  <ChevronDown size={14} className={`transition-transform duration-200 ${mobileExamsOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {mobileExamsOpen && (
-                  <div className="mobile-accordion-body">
-                    <Link
-                      href="/jobs/exam-recruitment-hub"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="mobile-sub-item font-semibold text-primary"
-                    >
-                      <div className="flex items-center gap-2">
-                        <FileCheck size={13} className="text-emerald-500" />
-                        <span>Exam Recruitment Hub</span>
-                      </div>
-                      <span className="nav-dropdown-count">{categoryCounts['exam-recruitment-hub'] || 0}</span>
+                    <Link href="/exam-results" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>
+                      {t.nav?.examResults || 'Results & Roll No Slips'}
                     </Link>
-                    <Link
-                      href="/test-prep"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="mobile-sub-item"
-                    >
-                      <div className="flex items-center gap-2">
-                        <BookOpen size={13} className="text-amber-500" />
-                        <span>Interactive Test Prep (MCQs)</span>
-                      </div>
-                      <span className="nav-badge badge-mcq">{t.nav.mcqBadge}</span>
+                    <Link href="/salary-calculator" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>
+                      {t.nav?.salaryCalculator || 'BPS Salary Calculator'}
                     </Link>
-                    <Link
-                      href="/exams"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="mobile-sub-item"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Calendar size={13} className="text-blue-500" />
-                        <span>FPSC / PPSC Exam Calendar</span>
-                      </div>
+                    <Link href="/cv-builder" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>
+                      {t.nav?.cvBuilder || 'ATS CV Builder'}
+                    </Link>
+                    <Link href="/blog" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>
+                      {t.nav?.guides || 'Career Guides'}
                     </Link>
                   </div>
                 )}
               </div>
 
-              {/* Utility Direct Links */}
-              <div className="mt-3 flex flex-col gap-1">
-                {/* Saved Jobs & Application Tracker */}
-                <Link
-                  href="/saved-jobs"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`mobile-nav-item ${isActive('/saved-jobs') ? 'active' : ''}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="nav-icon-box">
-                      <Bookmark size={16} className={savedCount > 0 ? "text-emerald-500 fill-emerald-500" : ""} />
-                    </div>
-                    <span className="font-semibold text-sm">{t.nav.savedJobs || "Saved Jobs & Tracker"}</span>
-                  </div>
-                  {savedCount > 0 && (
-                    <span className="nav-dropdown-count bg-emerald-600 text-white font-mono font-bold">{savedCount}</span>
-                  )}
-                </Link>
+              {/* Saved Jobs with count */}
+              <Link
+                href="/saved-jobs"
+                className={`mobile-nav-link ${isActive('/saved-jobs') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <div className="flex items-center gap-2">
+                  <Bookmark size={18} />
+                  <span>{t.nav?.savedJobs || 'Saved Jobs'}</span>
+                </div>
+                {savedCount > 0 && (
+                  <span className="header-badge-count-inline tabular-nums">
+                    {savedCount}
+                  </span>
+                )}
+              </Link>
 
-                {/* Exam Results & Roll No Slips */}
-                <Link
-                  href="/exam-results"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`mobile-nav-item ${isActive('/exam-results') ? 'active' : ''}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="nav-icon-box">
-                      <FileCheck size={16} className="text-emerald-500" />
-                    </div>
-                    <span className="font-semibold text-sm">{t.nav.examResults || "Results & Roll No Slips"}</span>
-                  </div>
-                </Link>
-
-                {/* BPS Salary Calculator */}
-                <Link
-                  href="/salary-calculator"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`mobile-nav-item ${isActive('/salary-calculator') ? 'active' : ''}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="nav-icon-box">
-                      <Calculator size={16} className="text-amber-500" />
-                    </div>
-                    <span className="font-semibold text-sm">{t.nav.salaryCalculator || "BPS Salary Calculator"}</span>
-                  </div>
-                </Link>
-
-                <Link
-                  href="/cv-builder"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`mobile-nav-item ${isActive('/cv-builder') ? 'active' : ''}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="nav-icon-box">
-                      <FileText size={16} />
-                    </div>
-                    <span className="font-semibold text-sm">{t.nav.cvBuilder}</span>
-                  </div>
-                  <span className="nav-badge badge-free text-[9px] bg-emerald-500/10 text-emerald-600 font-bold px-1.5 py-0.5 rounded-full">{t.nav.freeBadge}</span>
-                </Link>
-
-                <Link
-                  href="/blog"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`mobile-nav-item ${isActive('/blog') ? 'active' : ''}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="nav-icon-box">
-                      <BookOpen size={16} />
-                    </div>
-                    <span className="font-semibold text-sm">{t.nav.guides}</span>
-                  </div>
-                </Link>
-
-                <Link
-                  href="/alerts"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`mobile-nav-item ${isActive('/alerts') ? 'active' : ''}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="nav-icon-box">
-                      <Bell size={16} />
-                    </div>
-                    <span className="font-semibold text-sm">{t.nav.alerts}</span>
-                  </div>
-                </Link>
-              </div>
+              {/* Job Alerts */}
+              <Link
+                href="/alerts"
+                className={`mobile-nav-link ${isActive('/alerts') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <div className="flex items-center gap-2">
+                  <Bell size={18} />
+                  <span>{t.nav?.alerts || 'Job Alerts'}</span>
+                </div>
+              </Link>
             </div>
 
-            {/* Drawer Footer with Theme Toggle */}
-            <div className="mobile-drawer-footer p-3 border-t border-subtle bg-surface-subtle flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {theme === 'dark' ? <Moon size={16} className="text-emerald-400" /> : <Sun size={16} className="text-amber-500" />}
-                <span className="text-xs font-semibold text-primary">
-                  {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
-                </span>
+            {/* Drawer Bottom Utilities */}
+            <div className="mobile-drawer-footer">
+              <div className="mobile-drawer-footer-row">
+                <span className="text-xs font-semibold text-muted">Language:</span>
+                <div className="flex gap-1">
+                  {LANGUAGES.map((l) => (
+                    <button
+                      key={l.code}
+                      type="button"
+                      className={`btn-filter-pill ${lang === l.code ? 'active' : ''}`}
+                      onClick={() => setLang(l.code)}
+                    >
+                      {l.label}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <button
-                onClick={toggleTheme}
-                className="btn btn-outline btn-sm py-1.5 px-3 text-xs"
-              >
-                Switch to {theme === 'dark' ? 'Light' : 'Dark'}
-              </button>
+              <div className="mobile-drawer-footer-row">
+                <span className="text-xs font-semibold text-muted">Theme:</span>
+                <button
+                  type="button"
+                  className="btn-filter-pill flex items-center gap-1.5"
+                  onClick={toggleTheme}
+                >
+                  {theme === 'dark' ? (
+                    <>
+                      <Sun size={14} className="text-amber-400" />
+                      <span>Light Mode</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon size={14} className="text-slate-700" />
+                      <span>Dark Mode</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Quick Search Modal Overlay */}
-      {searchModalOpen && (
-        <QuickSearchModal 
-          isOpen={searchModalOpen}
-          onClose={() => setSearchModalOpen(false)}
-          jobs={JOBS_DATA}
-          onSelectJob={(job) => {
-            setSearchModalOpen(false);
-            router.push(`/jobs/${job.slug || job.id}`);
-          }}
-        />
-      )}
+      {/* Global Quick Search Modal (Cmd+K) */}
+      <QuickSearchModal
+        isOpen={searchModalOpen}
+        onClose={() => setSearchModalOpen(false)}
+      />
     </>
   );
 }
