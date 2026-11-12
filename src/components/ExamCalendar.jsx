@@ -65,7 +65,7 @@ export default function ExamCalendar() {
                 <ShieldCheck size={13} />
                 <span>Central Competitive Schedule</span>
               </span>
-              <span className="badge badge-verified">Updated Daily</span>
+              <span className="badge badge-subtle">Updated Daily</span>
             </div>
 
             <h1 className="exam-calendar-title">
@@ -230,7 +230,7 @@ export default function ExamCalendar() {
                 onClick={() => setSelectedAgency('ALL')}
                 className="btn btn-sm btn-primary"
               >
-                <span>View All Verified Schedules</span>
+                <span>View All Schedules</span>
               </button>
             </div>
           </div>

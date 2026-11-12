@@ -25,7 +25,11 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto">
         {/* Back Link */}
         <div className="mb-6">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors"
+            style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}
+          >
             <ArrowLeft size={14} />
             <span>Back to Home</span>
           </Link>
@@ -34,7 +38,7 @@ export default function AboutPage() {
         {/* Header Hero */}
         <div className="card p-6 md:p-8 mb-8 border-l-4 border-l-emerald-500">
           <div className="flex items-center gap-2 mb-3">
-            <span className="badge badge-verified">
+            <span className="badge badge-subtle">
               <ShieldCheck size={14} />
               <span>Our Story & Mission</span>
             </span>
@@ -162,13 +166,13 @@ export default function AboutPage() {
               Tainaati is an independent software project. We do not accept sponsorships from paid test academies to promote unverified materials, and we will never sell candidate email addresses to third parties.
             </p>
             <div className="pt-2 flex items-center gap-3 flex-wrap">
-              <Link href="/jobs/govt" className="btn btn-primary btn-sm">
-                <span>Browse Verified Govt Jobs</span>
+              <Link href="/jobs/govt" className="btn btn-primary btn-sm min-h-[44px] inline-flex items-center">
+                <span>Browse Govt Jobs</span>
               </Link>
-              <Link href="/cv-builder" className="btn btn-outline btn-sm">
+              <Link href="/cv-builder" className="btn btn-outline btn-sm min-h-[44px] inline-flex items-center">
                 <span>Create Free ATS Resume</span>
               </Link>
-              <Link href="/contact" className="btn btn-outline btn-sm">
+              <Link href="/contact" className="btn btn-outline btn-sm min-h-[44px] inline-flex items-center">
                 <span>Contact Our Team</span>
               </Link>
             </div>

@@ -463,7 +463,7 @@ export default function JobDetailPage({ params }) {
               {job.bpsScale && (
                 <div>
                   <dt className="text-muted">Basic Pay Scale</dt>
-                  <dd className="font-semibold text-emerald-600 dark:text-emerald-400 font-mono mt-0.5">{job.bpsScale}</dd>
+                  <dd className="spec-value-highlight font-mono mt-0.5">{job.bpsScale}</dd>
                 </div>
               )}
 
@@ -521,7 +521,7 @@ export default function JobDetailPage({ params }) {
               {job.challanFee && (
                 <div>
                   <dt className="text-muted">Application Fee</dt>
-                  <dd className="font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">{job.challanFee}</dd>
+                  <dd className="spec-value-highlight mt-0.5">{job.challanFee}</dd>
                 </div>
               )}
 
@@ -533,7 +533,7 @@ export default function JobDetailPage({ params }) {
                       href={job.officialUrl} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline inline-flex items-center gap-1"
+                      className="spec-value-highlight hover:underline inline-flex items-center gap-1 min-h-[44px] py-1"
                     >
                       <span>Visit Portal</span>
                       <ExternalLink size={11} />

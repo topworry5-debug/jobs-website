@@ -67,7 +67,11 @@ export default function ContactPage() {
       <div className="max-w-4xl mx-auto">
         {/* Back Link */}
         <div className="mb-6">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors"
+            style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}
+          >
             <ArrowLeft size={14} />
             <span>Back to Home</span>
           </Link>
@@ -76,7 +80,7 @@ export default function ContactPage() {
         {/* Header Hero */}
         <div className="card p-6 md:p-8 mb-8 border-l-4 border-l-emerald-500">
           <div className="flex items-center gap-2 mb-3">
-            <span className="badge badge-verified">
+            <span className="badge badge-subtle">
               <MessageSquare size={14} />
               <span>Direct Support & Inquiries</span>
             </span>

@@ -343,7 +343,6 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 type="button"
                 className={`mobile-filter-open-btn ${isFilterActive ? 'has-filters' : ''}`}
                 onClick={() => setMobileFilterOpen(true)}
-                aria-label="Open filter options"
               >
                 <SlidersHorizontal size={15} />
                 <span>Filters</span>

@@ -126,7 +126,7 @@ export default function BlogClientHub({ articles = [], clusters = [] }) {
                 </span>
                 <Link 
                   href={`/blog/${art.slug}`}
-                  className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1.5"
+                  className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1.5 min-h-[44px] py-2 px-1"
                 >
                   <span>Read Guide</span>
                   <ArrowRight size={13} className="flex-shrink-0" />
