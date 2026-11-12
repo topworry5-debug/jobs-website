@@ -18,13 +18,13 @@ import { generateBreadcrumbSchema } from '../../utils/seoHelpers';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Frequently Asked Questions (FAQ) — Government Jobs & Public Commissions | Tainaati",
-  description: "Comprehensive verified answers on PPSC 1Link fees, FPSC negative marking, SPSC 60:40 quota, KPPSC zones, BPSC applications, age relaxation rules, and recruitment procedures in Pakistan.",
+  title: "Frequently Asked Questions (FAQ) — Government Jobs & Public Commissions",
+  description: "Comprehensive answers on PPSC 1Link fees, FPSC negative marking, SPSC 60:40 quota, KPPSC zones, BPSC applications, age relaxation rules, and recruitment procedures in Pakistan.",
   alternates: {
     canonical: `${siteUrl}/faq`
   },
   openGraph: {
-    title: "Frequently Asked Questions (FAQ) — Pakistan Public Service Commissions | Tainaati",
+    title: "Frequently Asked Questions (FAQ) — Pakistan Public Service Commissions",
     description: "Verified answers to top questions about PPSC, FPSC, SPSC, KPPSC, BPSC, NTS, age relaxation, and challan payments.",
     url: `${siteUrl}/faq`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
@@ -107,16 +107,16 @@ const FAQ_SECTIONS = [
   },
   {
     id: "verification-integrity",
-    title: "Tainaati Platform & Zero-Tolerance Anti-Fabrication Pledge",
+    title: "Platform Accuracy & Source Verification",
     icon: ShieldCheck,
     questions: [
       {
-        q: "How does Tainaati guarantee 100% verified listings?",
-        a: "Every job listing on Tainaati is verified against primary government gazettes, consolidated advertisements, and direct public portal circulars. If a quota or fee detail cannot be verified with 100% certainty, we state it transparently rather than guessing."
+        q: "How does Tainaati source and verify job listings?",
+        a: "Every government job listing on Tainaati links to the official circular, portal advertisement, or gazette notice. If a quota or fee detail is not specified in the official notice, we state it transparently rather than guessing."
       },
       {
         q: "How often are job listings synchronized on Tainaati?",
-        a: "Our automated ingestion pipeline synchronizes directly with official public service commission endpoints and gazette repositories every 6 hours."
+        a: "Our automated ingestion pipeline synchronizes directly with official public service commission endpoints and gazette repositories on a regular automated schedule."
       },
       {
         q: "What happens when a job application deadline passes?",
@@ -186,8 +186,8 @@ export default function FaqPage() {
           </p>
 
           <div className="mt-4 pt-4 border-t border-subtle flex items-center gap-4 flex-wrap text-xs text-muted">
-            <span>• 100% Official Regulations</span>
-            <span>• Zero Fabrication</span>
+            <span>• Official Regulations</span>
+            <span>• Direct Source Links</span>
             <span>• Updated Daily</span>
           </div>
         </div>

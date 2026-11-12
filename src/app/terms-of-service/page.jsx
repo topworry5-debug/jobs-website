@@ -6,13 +6,13 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Terms of Service — Tainaati",
+  title: "Terms of Service",
   description: "Terms of Service for Tainaati. Outlines service nature, official government disclaimers, candidate verification obligations, and legal parameters.",
   alternates: {
     canonical: `${siteUrl}/terms-of-service`
   },
   openGraph: {
-    title: "Terms of Service — Tainaati",
+    title: "Terms of Service",
     description: "Terms of Service for Tainaati.",
     url: `${siteUrl}/terms-of-service`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
@@ -56,10 +56,10 @@ export default function TermsOfServicePage() {
           <section className="legal-section-block">
             <h2 className="legal-heading-flex">
               <Globe size={20} className="text-emerald-500 flex-shrink-0" />
-              <span>1. Nature of the Service (Information Aggregator & Intelligence Index)</span>
+              <span>1. Nature of the Service (Public Job Information Aggregator)</span>
             </h2>
             <p>
-              Tainaati is an independent, specialized digital career aggregator and exam intelligence platform. 
+              Tainaati is an independent, specialized digital career aggregator and competitive examination information portal. 
               <strong>Tainaati is not an employer, hiring agency, or staffing firm.</strong> We do not conduct recruitment, collect job application fees on behalf of employers, schedule interviews, or influence hiring decisions.
             </p>
             <p>
@@ -91,7 +91,7 @@ export default function TermsOfServicePage() {
               3. Candidate Responsibility & Verification Obligation
             </h2>
             <p>
-              While Tainaati maintains an automated verification pipeline that cross-checks postings against published gazettes every 6 hours:
+              While Tainaati maintains an automated verification pipeline that cross-checks postings against published gazettes on a regular schedule:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-sm">
               <li>

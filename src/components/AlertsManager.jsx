@@ -178,7 +178,7 @@ export default function AlertsManager() {
       <div className="card p-5 mb-4">
         <div className="badge badge-govt mb-2">
           <Mail size={13} />
-          <span>Double Opt-In Email Delivery • 100% Free & Zero Spam</span>
+          <span>Double Opt-In Email Delivery • Free & Zero Spam</span>
         </div>
         <h1 className="text-2xl md:text-3xl font-bold text-main">
           Verified Email Job Alerts in Pakistan

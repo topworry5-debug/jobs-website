@@ -41,9 +41,8 @@ export async function generateMetadata({ params }) {
   const bannerImage = article.heroBanner?.logo ? `${siteUrl}${article.heroBanner.logo}` : `${siteUrl}/og-image.png`;
 
   return {
-    title: `${article.metaTitle || article.title} | Tainaati`,
+    title: article.metaTitle || article.title,
     description: article.metaDescription,
-    keywords: article.targetKeywords,
     alternates: {
       canonical: canonical
     },
@@ -171,7 +170,7 @@ export default function BlogArticlePage({ params }) {
                     {article.clusterLabel}
                   </SectionBadge>
                   <SectionBadge variant="verified" size="xs" icon={ShieldCheck}>
-                    Verified Gazette Authority
+                    Official Gazette Source
                   </SectionBadge>
                 </div>
                 <h2 className="article-crest-dept-name">

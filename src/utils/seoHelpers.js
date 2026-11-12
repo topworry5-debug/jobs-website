@@ -5,52 +5,179 @@
 
 import { getSiteUrl, getAbsoluteUrl } from './siteUrl';
 
-function getEstimatedSalary(job) {
-  if (job.salaryRange) {
-    const numbers = job.salaryRange.match(/\d+/g);
-    if (numbers && numbers.length > 0) {
-      const val = parseInt(numbers[0]);
-      return val < 1000 ? val * 1000 : val;
-    }
+function escapeHtml(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function cleanText(text) {
+  if (!text) return '';
+  return text.replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+}
+
+function truncateAtWord(str, max) {
+  if (!str || str.length <= max) return str;
+  const sub = str.slice(0, max);
+  const lastSpace = sub.lastIndexOf(' ');
+  if (lastSpace > max * 0.6) {
+    return sub.slice(0, lastSpace).trim().replace(/[,\-–—/:\s]+$/, '');
   }
-  const scaleStr = (job.bpsScale || '').toUpperCase();
-  if (scaleStr.includes('20')) return 250000;
-  if (scaleStr.includes('19')) return 175000;
-  if (scaleStr.includes('18')) return 125000;
-  if (scaleStr.includes('17')) return 85000;
-  if (scaleStr.includes('16')) return 70000;
-  if (scaleStr.includes('15') || scaleStr.includes('14')) return 55000;
-  if (scaleStr.includes('11') || scaleStr.includes('12') || scaleStr.includes('09') || scaleStr.includes('07') || scaleStr.includes('05')) return 45000;
-  return 65000;
+  return sub.trim().replace(/[,\-–—/:\s]+$/, '');
+}
+
+/**
+ * Generates unique page title strictly capped to max ~60 characters.
+ * @param {Object} job
+ * @returns {string}
+ */
+export function formatJobPageTitle(job) {
+  if (!job) return 'Government Job Opportunities | Tainaati';
+  const brand = ' | Tainaati'; // 11 chars
+  const maxAvailable = 60 - brand.length; // 49 chars
+  const title = cleanText(job.title);
+  const agency = cleanText(job.agency || 'Govt');
+
+  const prefix = `${title} - ${agency}`;
+  if (prefix.length <= maxAvailable) {
+    return `${prefix}${brand}`;
+  }
+
+  const availableForTitle = maxAvailable - (agency.length + 3);
+  if (availableForTitle > 15) {
+    const truncTitle = truncateAtWord(title, availableForTitle);
+    return `${truncTitle} - ${agency}${brand}`;
+  }
+
+  return `${truncateAtWord(title, maxAvailable)}${brand}`;
+}
+
+/**
+ * Generates unique meta description strictly capped to max ~155 characters.
+ * @param {Object} job
+ * @returns {string}
+ */
+export function formatJobPageDescription(job) {
+  if (!job) return 'Public sector job notices, syllabus guides and exam schedules in Pakistan with official source links.';
+  const title = cleanText(job.title);
+  const org = cleanText(job.department || job.company || job.agency || 'Public Sector');
+  const bps = job.bpsScale ? ` ${job.bpsScale}.` : '';
+  const vac = job.vacancies ? ` ${job.vacancies} posts.` : '';
+  const deadline = job.lastDate ? ` Last date: ${job.lastDate}.` : '';
+
+  let desc = `Apply for ${title} at ${org}.${bps}${vac}${deadline} Official notification details.`;
+  if (desc.length <= 155) return desc;
+
+  desc = `${title} at ${org}.${bps}${deadline} Official vacancy notice.`;
+  if (desc.length <= 155) return desc;
+
+  const base = `${truncateAtWord(title, 70)} at ${truncateAtWord(org, 35)}.${bps}${deadline}`;
+  if (base.length <= 155) return base;
+
+  return truncateAtWord(base, 151) + '...';
+}
+
+/**
+ * Builds full HTML description using only real stored job data for Google JobPosting schema.
+ * @param {Object} job
+ * @returns {string} HTML description
+ */
+export function buildJobHtmlDescription(job) {
+  const parts = [];
+  if (job.description) {
+    parts.push(`<p>${escapeHtml(job.description)}</p>`);
+  } else {
+    const org = escapeHtml(job.department || job.company || job.agency || 'Government of Pakistan');
+    parts.push(`<p>Official recruitment notification for <strong>${escapeHtml(job.title)}</strong> at <strong>${org}</strong>.</p>`);
+  }
+
+  const details = [];
+  if (job.agency) details.push(`<li><strong>Agency / Commission:</strong> ${escapeHtml(job.agency)}</li>`);
+  if (job.department || job.company) details.push(`<li><strong>Department:</strong> ${escapeHtml(job.department || job.company)}</li>`);
+  if (job.bpsScale) details.push(`<li><strong>Pay Scale:</strong> ${escapeHtml(job.bpsScale)}</li>`);
+  if (job.vacancies) details.push(`<li><strong>Total Openings:</strong> ${escapeHtml(String(job.vacancies))} Posts</li>`);
+  if (job.qualification) details.push(`<li><strong>Minimum Qualification:</strong> ${escapeHtml(job.qualification)}</li>`);
+  if (job.ageLimit) details.push(`<li><strong>Age Limit:</strong> ${escapeHtml(job.ageLimit)}</li>`);
+  if (job.quota) details.push(`<li><strong>Quota / Domicile:</strong> ${escapeHtml(job.quota)}</li>`);
+  if (job.city) details.push(`<li><strong>City / Location:</strong> ${escapeHtml(job.city)}</li>`);
+  if (job.challanFee) details.push(`<li><strong>Application Fee:</strong> ${escapeHtml(job.challanFee)}</li>`);
+  if (job.lastDate) details.push(`<li><strong>Application Deadline:</strong> ${escapeHtml(job.lastDate)}</li>`);
+
+  if (details.length > 0) {
+    parts.push(`<p><strong>Job Specifications:</strong></p><ul>${details.join('')}</ul>`);
+  }
+
+  if (Array.isArray(job.eligibilityCriteria) && job.eligibilityCriteria.length > 0) {
+    parts.push(`<p><strong>Eligibility Criteria:</strong></p><ul>${job.eligibilityCriteria.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>`);
+  }
+
+  if (job.officialUrl) {
+    parts.push(`<p>Apply online through the official portal: <a href="${escapeHtml(job.officialUrl)}">${escapeHtml(job.officialUrl)}</a></p>`);
+  }
+
+  return parts.join('');
 }
 
 export function generateJobPostingSchema(job) {
   if (!job) return null;
-  // Exclude archived and expired jobs from JobPosting rich results
-  if (job.status === 'archived' || job.status === 'closed' || job.status === 'expired') return null;
-  if (job.lastDate && /^\d{4}-\d{2}-\d{2}$/.test(job.lastDate)) {
-    const todayStr = new Date().toISOString().split('T')[0];
-    if (job.lastDate < todayStr) return null;
-  }
 
   const baseUrl = getSiteUrl();
   const isGovt = job.type === 'govt';
-  const orgName = job.department || job.company || 'Government of Pakistan';
-  const hasIsoDate = job.lastDate && /^\d{4}-\d{2}-\d{2}$/.test(job.lastDate);
-  const validThrough = hasIsoDate ? `${job.lastDate}T23:59:59+05:00` : null;
-  const datePosted = `${job.postDate || '2026-08-15'}T00:00:00+05:00`;
-  const jobUrl = `${baseUrl}/jobs/${job.id}`;
-  const salaryVal = getEstimatedSalary(job);
+  const orgName = job.department || job.company || job.agency || 'Government of Pakistan';
+  const jobSlug = job.slug || job.id;
+  const jobUrl = `${baseUrl}/jobs/${jobSlug}`;
+
+  // validThrough ISO timestamp (in future for open jobs, in past for closed jobs)
+  let validThrough = null;
+  if (job.lastDate && /^\d{4}-\d{2}-\d{2}/.test(job.lastDate)) {
+    const dateMatch = job.lastDate.match(/^\d{4}-\d{2}-\d{2}/)[0];
+    validThrough = `${dateMatch}T23:59:59+05:00`;
+  }
+
+  // datePosted ISO timestamp
+  let datePosted = null;
+  if (job.postDate && /^\d{4}-\d{2}-\d{2}/.test(job.postDate)) {
+    const postMatch = job.postDate.match(/^\d{4}-\d{2}-\d{2}/)[0];
+    datePosted = `${postMatch}T00:00:00+05:00`;
+  } else if (job.scrapedAt) {
+    try {
+      datePosted = new Date(job.scrapedAt).toISOString();
+    } catch {
+      datePosted = '2026-08-15T00:00:00+05:00';
+    }
+  } else {
+    datePosted = '2026-08-15T00:00:00+05:00';
+  }
+
+  // Only include baseSalary when a real numeric salary is explicitly stored
+  let baseSalaryObj = null;
+  if (typeof job.baseSalary === 'number' && job.baseSalary > 0) {
+    baseSalaryObj = {
+      "@type": "MonetaryAmount",
+      "currency": "PKR",
+      "value": {
+        "@type": "QuantitativeValue",
+        "value": job.baseSalary,
+        "unitText": "MONTH"
+      }
+    };
+  }
+
+  const locality = job.city ? job.city.split(',')[0].split('/')[0].trim() : 'Islamabad';
 
   return {
-    "@context": "https://schema.org/",
+    "@context": "https://schema.org",
     "@type": "JobPosting",
     "title": job.title,
-    "description": `${job.description} Qualification Required: ${job.qualification}. Last date to apply: ${job.lastDate}.`,
+    "description": buildJobHtmlDescription(job),
     "identifier": {
       "@type": "PropertyValue",
       "name": isGovt ? (job.agency || "Public Service Commission") : (job.company || "Employer"),
-      "value": job.officialSourceLabel || job.id
+      "value": job.caseNo || job.advtNo || job.id
     },
     "datePosted": datePosted,
     ...(validThrough ? { "validThrough": validThrough } : {}),
@@ -58,39 +185,34 @@ export function generateJobPostingSchema(job) {
     "hiringOrganization": {
       "@type": "Organization",
       "name": orgName,
-      "sameAs": job.officialUrl || baseUrl,
-      "logo": `${baseUrl}/icons/logo.png`
+      ...(job.officialUrl || job.sourceUrl ? { "sameAs": job.officialUrl || job.sourceUrl } : {}),
+      "logo": `${baseUrl}/icon.png`
     },
     "jobLocation": {
       "@type": "Place",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": job.department || "Government Secretariat",
-        "addressLocality": job.city ? job.city.split(',')[0].trim() : "Islamabad",
-        "addressRegion": job.province || "Federal",
-        "addressCountry": "PK"
+        "addressCountry": "PK",
+        "addressLocality": locality,
+        ...(job.province ? { "addressRegion": job.province } : {})
       }
     },
-    "directApply": true,
+    "directApply": Boolean(job.officialUrl),
     "url": jobUrl,
-    "baseSalary": {
-      "@type": "MonetaryAmount",
-      "currency": "PKR",
-      "value": {
-        "@type": "QuantitativeValue",
-        "value": salaryVal,
-        "unitText": "MONTH"
-      }
-    },
+    ...(baseSalaryObj ? { "baseSalary": baseSalaryObj } : {}),
     "applicantLocationRequirements": {
       "@type": "Country",
       "name": "Pakistan"
     },
-    "educationRequirements": {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": job.qualification || "Bachelor's Degree"
-    },
-    "experienceRequirements": isGovt ? (job.ageLimit || "As per official service rules") : (job.experience || "Entry to Senior level")
+    ...(job.qualification ? {
+      "educationRequirements": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": job.qualification
+      }
+    } : {}),
+    ...(job.ageLimit ? {
+      "experienceRequirements": job.ageLimit
+    } : {})
   };
 }
 
@@ -102,17 +224,13 @@ export function generateOrganizationSchema() {
     "name": "Tainaati",
     "alternateName": "Tainaati Pakistan Jobs Portal",
     "url": siteUrl,
-    "logo": `${siteUrl}/icons/logo.png`,
-    "description": "Pakistan's 100% verified zero-fabrication public sector recruitment and career opportunities platform (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS).",
+    "logo": `${siteUrl}/icon.png`,
+    "description": "Public sector job notices, syllabus guides and exam schedules in Pakistan with official source links.",
     "foundingLocation": {
       "@type": "Country",
       "name": "Pakistan"
     },
-    "areaServed": "PK",
-    "sameAs": [
-      "https://twitter.com/tainaati",
-      "https://facebook.com/tainaati"
-    ]
+    "areaServed": "PK"
   };
 }
 
@@ -197,7 +315,7 @@ export function generateItemListSchema(jobs = [], pageUrl = null) {
     "itemListElement": jobs.slice(0, 30).map((job, index) => ({
       "@type": "ListItem",
       "position": index + 1,
-      "url": `${baseUrl}/jobs/${job.id}`,
+      "url": `${baseUrl}/jobs/${job.slug || job.id}`,
       "name": job.title,
       "description": `${job.department || job.company} - ${job.city}`
     }))

@@ -1,5 +1,6 @@
 import liveScrapedJobs from './liveScrapedJobs.json';
 import { CATEGORIES_CONFIG } from './categoriesData.js';
+import { getJobSlug } from '../lib/jobStatus.js';
 
 export const BASE_JOBS_DATA = [
   // ==========================================
@@ -964,7 +965,7 @@ export const BASE_JOBS_DATA = [
     qualification: "BS / MS in Computer Science or equivalent with 4+ years of professional production experience in React, TypeScript, Node.js, and PostgreSQL/MongoDB.",
     vacancies: 10,
     ageLimit: "Open",
-    quota: "Open across Pakistan (100% Work from Home)",
+    quota: "Open across Pakistan (Remote Work from Home)",
     syllabus: "Automated Coding Assessment (Data Structures & Algorithms), System Design Challenge, and Technical Video Interview.",
     postDate: "2026-08-28",
     lastDate: "2026-10-31",
@@ -975,7 +976,7 @@ export const BASE_JOBS_DATA = [
     officialUrl: "https://turing.com",
     officialSourceLabel: "Turing Developer Network Pakistan Verified Listing Ref. # TUR-PK-2026",
     officialNotificationUrl: "https://turing.com",
-    description: "Turing is hiring high-caliber Pakistani software engineers for full-time long-term remote roles with US and Silicon Valley technology firms. Work 100% remotely from home in Lahore, Karachi, Islamabad, or any city in Pakistan. Compensation is pegged to US Dollars ($3,500 - $6,000 / month) with seamless direct bank remittance via State Bank freelancer channels.",
+    description: "Turing is hiring high-caliber Pakistani software engineers for full-time long-term remote roles with US and Silicon Valley technology firms. Work remotely from home in Lahore, Karachi, Islamabad, or any city in Pakistan. Compensation is pegged to US Dollars ($3,500 - $6,000 / month) with seamless direct bank remittance via State Bank freelancer channels.",
     lastVerifiedDate: "September 2, 2026",
     isLiveScraped: false,
     verifiedGazette: true,
@@ -1001,7 +1002,7 @@ export const BASE_JOBS_DATA = [
     qualification: "Bachelor's degree in Computer Science, Linguistics, Mathematics, or Data Science with strong English reasoning and familiarity with OpenAI / Anthropic APIs.",
     vacancies: 6,
     ageLimit: "Open",
-    quota: "100% Work from Home / Remote",
+    quota: "Remote Work from Home",
     syllabus: "Reasoning & prompt engineering benchmark task, code generation evaluation, and RLHF alignment criteria assessment.",
     postDate: "2026-08-29",
     lastDate: "2026-10-25",
@@ -1436,7 +1437,10 @@ export const BASE_JOBS_DATA = [
   }
 ];
 
-export const JOBS_DATA = [...BASE_JOBS_DATA, ...liveScrapedJobs];
+export const JOBS_DATA = [...BASE_JOBS_DATA, ...liveScrapedJobs].map(job => ({
+  ...job,
+  slug: getJobSlug(job)
+}));
 
 export const CITIES = [
   "All Cities",

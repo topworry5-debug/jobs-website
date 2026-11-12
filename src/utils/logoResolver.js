@@ -1,7 +1,7 @@
 /**
  * Tainaati — Official Department & Company Logo Resolver
  * Maps job listings to authentic, human-curated official emblems and company logos.
- * Zero AI stock imagery — 100% verified vector emblems and brandmarks.
+ * Official vector emblems and brandmarks.
  */
 
 export function getJobLogoUrl(job = {}) {

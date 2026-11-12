@@ -8,14 +8,30 @@
  */
 
 /**
- * Normalizes date to midnight comparison
+ * Normalizes date to midnight comparison against Pakistan Time (Asia/Karachi).
  */
 export function getDaysRemaining(dateStr, refDate = new Date()) {
-  if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
-  const todayMidnight = new Date(refDate.getFullYear(), refDate.getMonth(), refDate.getDate());
-  const targetDate = new Date(dateStr);
-  if (isNaN(targetDate.getTime())) return null;
-  const targetMidnight = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
+  if (!dateStr) return null;
+  const match = String(dateStr).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) return null;
+
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Karachi',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+  const parts = formatter.format(refDate).split('-');
+  const yNow = parseInt(parts[0], 10);
+  const mNow = parseInt(parts[1], 10);
+  const dNow = parseInt(parts[2], 10);
+  const todayMidnight = new Date(yNow, mNow - 1, dNow, 0, 0, 0, 0);
+
+  const yTarget = parseInt(match[1], 10);
+  const mTarget = parseInt(match[2], 10);
+  const dTarget = parseInt(match[3], 10);
+  const targetMidnight = new Date(yTarget, mTarget - 1, dTarget, 0, 0, 0, 0);
+
   const diffMs = targetMidnight.getTime() - todayMidnight.getTime();
   return Math.round(diffMs / (1000 * 60 * 60 * 24));
 }

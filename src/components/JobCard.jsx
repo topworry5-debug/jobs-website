@@ -87,7 +87,7 @@ export default function JobCard({
       <div className="card-body-content">
         <h3 className="job-card-title" dir="auto">
           <Link 
-            href={`/jobs/${job.id}`}
+            href={`/jobs/${job.slug || job.id}`}
             className="job-card-title-link"
             title={job.title}
           >
@@ -157,7 +157,7 @@ export default function JobCard({
 
         {/* Call to Action: "Apply →" in emerald/gold theme */}
         <Link 
-          href={`/jobs/${job.id}`}
+          href={`/jobs/${job.slug || job.id}`}
           className={`job-card-apply-btn ${isExpired ? 'apply-btn-closed' : ''}`}
           title={`View full details and application instructions for ${job.title}`}
         >

@@ -7,19 +7,20 @@ import { JOBS_DATA } from '../data/jobsData';
 import { EXAM_SCHEDULES } from '../data/examCalendarData';
 import { generateItemListSchema, generateOrganizationSchema, generateWebSiteSchema } from '../utils/seoHelpers';
 import { computeJobMetrics, filterActiveJobs } from '../utils/jobMetrics';
+import { getLastUpdatedTimestamp } from '../lib/jobStatus';
 import { getSiteUrl } from '../utils/siteUrl';
 
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Tainaati — Verified Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC, BPSC & NTS)",
-  description: "Browse verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), gazette syllabus breakdowns, exam schedules, and test preparation.",
+  title: "Government Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC, BPSC & NTS)",
+  description: "Browse Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), gazette syllabus breakdowns, exam schedules, and test preparation.",
   alternates: {
     canonical: siteUrl
   },
   openGraph: {
-    title: "Tainaati — Verified Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC, BPSC & NTS)",
-    description: "Browse verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), gazette syllabus breakdowns, and exam schedules.",
+    title: "Government Jobs in Pakistan (FPSC, PPSC, SPSC, KPPSC, BPSC & NTS)",
+    description: "Browse Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), gazette syllabus breakdowns, and exam schedules.",
     url: siteUrl,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
@@ -34,14 +35,17 @@ export default function HomePage() {
   const organizationSchema = generateOrganizationSchema();
   const webSiteSchema = generateWebSiteSchema();
   const metrics = computeJobMetrics(JOBS_DATA, EXAM_SCHEDULES);
+  const lastUpdated = getLastUpdatedTimestamp(JOBS_DATA);
 
   return (
     <div className="homepage-wrapper">
       {/* ItemList Schema in Server-Rendered HTML */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
-      />
+      {itemListSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+        />
+      )}
       {/* Organization Schema */}
       <script
         type="application/ld+json"
@@ -60,7 +64,7 @@ export default function HomePage() {
       />
 
       {/* Official Commissions Portal Fast-Track Grid */}
-      <CommissionsBar jobsCountMap={metrics.agencyCounts} />
+      <CommissionsBar jobsCountMap={metrics.agencyCounts} lastUpdated={lastUpdated} />
 
       {/* Main Jobs Listing & Interactive Filter Matrix */}
       <main className="container-xl py-6" id="job-listings">

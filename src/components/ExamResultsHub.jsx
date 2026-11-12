@@ -68,12 +68,12 @@ export default function ExamResultsHub() {
           Direct, authenticated portal links to download admission letters, roll number slips, written examination results, and merit lists from FPSC, PPSC, SPSC, KPPSC, NTS, BPSC, and AJKPSC.
         </p>
 
-        {/* Security & Verification Guarantee Banner */}
+        {/* Official Portal Notice */}
         <div className="mt-4 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-3">
           <ShieldCheck size={20} className="text-emerald-500 flex-shrink-0 mt-0.5" />
           <div className="text-xs text-secondary leading-relaxed">
-            <strong className="text-main block mb-0.5">Authenticity & Safety Guarantee:</strong>
-            Tainaati routes candidates directly to the authenticated, SSL-secured domain servers of official government testing bodies (e.g. <code>fpsc.gov.pk</code>, <code>ppsc.gop.pk</code>). We do not solicit candidate CNICs or passwords on our servers. Always verify your roll numbers and final recommendations directly on the official portal.
+            <strong className="text-main block mb-0.5">Direct Official Links:</strong>
+            Tainaati routes candidates directly to official government testing body websites (e.g. <code>fpsc.gov.pk</code>, <code>ppsc.gop.pk</code>). We do not solicit candidate CNICs or passwords on our servers. Always verify your roll numbers and final recommendations directly on the official portal.
           </div>
         </div>
       </div>

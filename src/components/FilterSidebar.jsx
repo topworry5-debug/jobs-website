@@ -30,7 +30,9 @@ export default function FilterSidebar({
   setUrgentOnly,
   onResetFilters,
   totalResults,
-  onCloseMobileFilter
+  onCloseMobileFilter,
+  categories = [],
+  categoryCounts = {}
 }) {
   const { t, isRtl } = useLanguage();
 
@@ -128,40 +130,20 @@ export default function FilterSidebar({
           onChange={(e) => setSelectedCategory(e.target.value)}
           className="input-field select-field"
         >
-          <option value="all">{t.filters.allDepts}</option>
-          <optgroup label="Government Sectors">
-            <option value="armed-forces">Armed Forces & Defence</option>
-            <option value="police-law-enforcement">Police & Law Enforcement</option>
-            <option value="judiciary-legal">Judiciary & Legal</option>
-            <option value="public-sector-enterprises">Public Sector Enterprises / PSEs</option>
-            <option value="teaching-education">Teaching & Education</option>
-            <option value="healthcare-medical">Healthcare & Medical</option>
-            <option value="local-government">Local Government / Municipal</option>
-            <option value="matric-inter-support">Matric/Inter & Support Staff</option>
-            <option value="agriculture-livestock">Agriculture & Livestock Dept</option>
-            <option value="ajk-gilgit-baltistan">AJK & Gilgit-Baltistan Jobs</option>
-          </optgroup>
-          <optgroup label="Private & Industry Careers">
-            <option value="banking-finance">Banking & Finance</option>
-            <option value="engineering">Engineering & Technical</option>
-            <option value="ngo-international">NGO & International Orgs</option>
-            <option value="internships-trainee">Internships & Trainee Programs</option>
-            <option value="shutdown-industrial">Shutdown & Industrial Jobs</option>
-            <option value="part-time-labor">Part-Time & Daily Wage Labor</option>
-            <option value="media-journalism">Media, Journalism & Content</option>
-          </optgroup>
-          <optgroup label="Cross-Cutting & Remote">
-            <option value="overseas-gulf">Overseas & Gulf Jobs</option>
-            <option value="remote-freelance">Remote & Freelance</option>
-            <option value="exam-recruitment-hub">Exam-Based Recruitment Hub</option>
-          </optgroup>
-          <optgroup label="Public Service Commissions">
-            <option value="fpsc">Federal (FPSC)</option>
-            <option value="ppsc">Punjab (PPSC)</option>
-            <option value="spsc">Sindh (SPSC)</option>
-            <option value="kppsc">KPK (KPPSC)</option>
-            <option value="nts">Testing Services (NTS)</option>
-          </optgroup>
+          <option value="all">{t.filters.allDepts} {categoryCounts?.all > 0 ? `(${categoryCounts.all})` : ''}</option>
+          {categories && categories.length > 0 ? (
+            categories.filter(cat => cat.id !== 'all').map(cat => {
+              const label = t.categories?.[cat.id] || cat.label || cat.name;
+              const count = categoryCounts?.[cat.id];
+              return (
+                <option key={cat.id} value={cat.id}>
+                  {label} {count > 0 ? `(${count})` : ''}
+                </option>
+              );
+            })
+          ) : (
+            <option value="govt">{t.categories?.govt || "Government Jobs"}</option>
+          )}
         </select>
       </div>
 

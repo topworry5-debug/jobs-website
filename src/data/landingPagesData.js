@@ -11,7 +11,7 @@ export const CITY_LANDING_PAGES = {
     tagline: "Explore active Punjab government gazette positions, BPS-17 medical & educational cadres, and high-growth software engineering teams in Lahore.",
     avgSalary: "PKR 120,000 / month",
     hotSectors: ["IT & Software", "Revenue & Land Administration", "Higher Education", "Provincial Police"],
-    stats: { govtVacancies: "450+", privateOpenings: "120+", topDepts: "Healthcare, Education, IT" },
+    stats: { topDepts: "Healthcare, Education, IT" },
     faqs: [
       {
         question: "How do I apply for PPSC government jobs in Lahore?",
@@ -39,7 +39,7 @@ export const CITY_LANDING_PAGES = {
     tagline: "Find verified vacancies in Sindh Civil Services, Port Operations, State Bank of Pakistan, and Karachi's thriving Fintech ecosystem.",
     avgSalary: "PKR 135,000 / month",
     hotSectors: ["Fintech & Banking", "Maritime & Ports", "Medical & Healthcare", "Software Engineering"],
-    stats: { govtVacancies: "280+", privateOpenings: "210+", topDepts: "Fintech, Ports, Healthcare" },
+    stats: { topDepts: "Fintech, Ports, Healthcare" },
     faqs: [
       {
         question: "What is the quota division for jobs in Karachi?",
@@ -63,7 +63,7 @@ export const CITY_LANDING_PAGES = {
     tagline: "Federal Public Service Commission vacancies, Ministry attached departments, autonomous bodies, and Islamabad Software Technology Park.",
     avgSalary: "PKR 140,000 / month",
     hotSectors: ["Federal Civil Service (FPSC)", "Cyber & Intelligence", "Telecom & Cloud", "Defense"],
-    stats: { govtVacancies: "380+", privateOpenings: "160+", topDepts: "Federal Ministries, Cyber, AI" },
+    stats: { topDepts: "Federal Ministries, Cyber, AI" },
     faqs: [
       {
         question: "What is the fee for FPSC BPS-16 and BPS-17 posts in Islamabad?",
@@ -87,7 +87,7 @@ export const CITY_LANDING_PAGES = {
     tagline: "Track Khyber Pakhtunkhwa civil service opportunities, Lecturer posts, and provincial development projects.",
     avgSalary: "PKR 105,000 / month",
     hotSectors: ["KPPSC Civil Service", "Education", "Healthcare", "Forestry"],
-    stats: { govtVacancies: "190+", privateOpenings: "50+", topDepts: "Education, Health, Police" },
+    stats: { topDepts: "Education, Health, Police" },
     faqs: []
   },
   "quetta": {
@@ -102,7 +102,7 @@ export const CITY_LANDING_PAGES = {
     tagline: "Official job opportunities for Balochistan domicile holders across provincial and federal quotas.",
     avgSalary: "PKR 110,000 / month",
     hotSectors: ["BPSC Civil Service", "Mines & Minerals", "Health", "Border Customs"],
-    stats: { govtVacancies: "140+", privateOpenings: "30+", topDepts: "Administration, Healthcare" },
+    stats: { topDepts: "Administration, Healthcare" },
     faqs: []
   }
 };

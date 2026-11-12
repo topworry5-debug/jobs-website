@@ -294,29 +294,29 @@ const TEMPLATE_CARDS = [
   {
     id: 'executive',
     name: 'Executive Minimalist',
-    tagline: 'Authoritative serif display headings with dual tone and executive focus.',
-    atsScore: '100% ATS Safe',
+    tagline: 'Clean serif display headings with dual tone and executive focus.',
+    atsScore: 'Single-Column Layout',
     badgeClass: 'badge-verified'
   },
   {
     id: 'govt',
     name: 'Govt & Academic Standard',
     tagline: 'Conservative, high-contrast B&W layout tailored for FPSC, PPSC, HEC, and civil service dossiers.',
-    atsScore: 'Civil Gazette Standard',
+    atsScore: 'Single-Column Layout',
     badgeClass: 'badge-verified'
   },
   {
     id: 'modern',
     name: 'Modern Tech & Software',
     tagline: 'Streamlined sans-serif with subtle emerald accent bar, tech skills & projects emphasis.',
-    atsScore: '100% ATS Safe',
+    atsScore: 'Single-Column Layout',
     badgeClass: 'badge-verified'
   },
   {
     id: 'classic',
     name: 'Classic Professional',
     tagline: 'Single-column with traditional serif headers & horizontal dividing rules.',
-    atsScore: '100% ATS Safe',
+    atsScore: 'Single-Column Layout',
     badgeClass: 'badge-verified'
   }
 ];
@@ -461,7 +461,7 @@ export default function CvBuilder() {
     return 'govt'; // Default
   }, [cvData.personal?.title]);
 
-  // Real-time ATS Strength Score Calculation (0-100%)
+  // Real-time ATS Strength Score Calculation (0-100 scale)
   const { strengthScore, checklist } = useMemo(() => {
     const checks = [];
     let score = 0;
@@ -1034,7 +1034,7 @@ export default function CvBuilder() {
           <div className="flex items-center gap-3">
             <span className="badge badge-verified">
               <ShieldCheck size={13} />
-              <span>100% Single-Column ATS Guaranteed</span>
+              <span>Single-column layout</span>
             </span>
             <span className="save-status-text">
               <Check size={12} className="text-emerald-500 inline mr-1" />
@@ -1127,9 +1127,9 @@ export default function CvBuilder() {
                 <span className="text-[11px] font-mono uppercase font-bold text-muted tracking-wider">
                   Step {currentStep + 1} of {STEP_DEFINITIONS.length}
                 </span>
-                <h1 className="text-xl font-bold font-display text-primary mt-1">
+                <h2 className="text-xl font-bold font-display text-primary mt-1">
                   {STEP_DEFINITIONS[currentStep].label}
-                </h1>
+                </h2>
               </div>
               <div className="text-xs text-muted font-medium">
                 {currentStep === 0 && "Select single-column ATS layout"}
@@ -1147,7 +1147,7 @@ export default function CvBuilder() {
             {currentStep === 0 && (
               <div className="space-y-4 animate-fade-in">
                 <p className="text-xs text-secondary leading-relaxed">
-                  Choose an ATS-verified layout. Every template is strictly <strong>single-column</strong> and structured for 100% readability by government scanners (FPSC, PPSC, NTS) and enterprise ATS systems. You can switch anytime without losing data.
+                  Choose a clean layout. Every template uses a <strong>single-column layout</strong>. You can switch anytime without losing data.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -1219,7 +1219,7 @@ export default function CvBuilder() {
                         </div>
                       ) : (
                         <div style={{ width: '64px', height: '64px', minWidth: '64px', borderRadius: '6px', overflow: 'hidden' }} className="bg-surface border border-subtle flex items-center justify-center">
-                          <img src={NEUTRAL_SILHOUETTE_PLACEHOLDER} alt="Placeholder" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <img src={NEUTRAL_SILHOUETTE_PLACEHOLDER} alt="Placeholder" className="w-full h-full object-cover" />
                         </div>
                       )}
                     </div>

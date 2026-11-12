@@ -119,7 +119,7 @@ export default function ContactPage() {
             <div className="card p-5">
               <h3 className="font-bold text-sm text-primary mb-2 flex items-center gap-2">
                 <ShieldCheck size={16} className="text-emerald-500" />
-                Editorial Guarantee
+                Official Inquiries & Updates
               </h3>
               <p className="text-xs text-secondary leading-relaxed">
                 If you are a representative of a government commission (FPSC, PPSC, SPSC, KPPSC, NTS) or an employer wishing to update a listing, please flag the Case/Advt Number in your message.

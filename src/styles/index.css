@@ -122,8 +122,8 @@
   --border-focus: #C9A227;
 
   --text-primary: #FAF8F3;        /* Warm off-white */
-  --text-secondary: #A3ACA7;      /* Muted sage gray */
-  --text-muted: #737D78;
+  --text-secondary: #B8C2BD;      /* Accessible sage gray - contrast 8.5:1 */
+  --text-muted: #9CA8A2;          /* Accessible muted text - contrast 6.0:1 */
   --text-inverse: #0D1512;
 
   --badge-govt-bg: rgba(11, 61, 46, 0.35);

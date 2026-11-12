@@ -4,13 +4,17 @@
  * Validates that every listing originates from a verified official source with authentic fields.
  */
 
-const ALLOWED_GOVT_DOMAINS = [
+import crypto from 'crypto';
+
+const ALLOWED_OFFICIAL_DOMAINS = [
   'fpsc.gov.pk',
   'ppsc.gop.pk',
+  'spsc.gov.pk',
   'spsc.gos.pk',
   'kppsc.gov.pk',
   'bpsc.gob.pk',
   'nts.org.pk',
+  'portal.nts.org.pk',
   'anf.gov.pk',
   'wapda.gov.pk',
   'sbp.org.pk',
@@ -19,6 +23,11 @@ const ALLOWED_GOVT_DOMAINS = [
   'hec.gov.pk'
 ];
 
+/**
+ * Validates a single incoming job entry against strict criteria.
+ * @param {Object} job - Raw scraped job object
+ * @returns {Object} { isValid: boolean, errors: string[], sanitizedJob: Object|null }
+ */
 export function validateJobEntry(job) {
   const errors = [];
 
@@ -27,89 +36,114 @@ export function validateJobEntry(job) {
     errors.push('Missing or invalid job title (minimum 5 characters required)');
   }
 
-  // 2. Official URL validation
-  if (!job.officialUrl || typeof job.officialUrl !== 'string') {
-    errors.push('Missing official application URL');
+  // 2. Agency validation
+  if (!job.agency || typeof job.agency !== 'string' || job.agency.trim().length < 2) {
+    errors.push('Missing or invalid agency identifier');
+  }
+
+  // 3. Official Source URL validation
+  const officialUrl = job.officialNotificationUrl || job.officialUrl || job.sourceUrl;
+  let isOfficialDomain = false;
+  if (!officialUrl || typeof officialUrl !== 'string' || !officialUrl.startsWith('http')) {
+    errors.push('Missing or malformed official application/notification URL');
   } else {
     try {
-      const parsedUrl = new URL(job.officialUrl);
-      const isGovt = job.type === 'govt';
-      if (isGovt) {
-        const isOfficialDomain = ALLOWED_GOVT_DOMAINS.some(d => parsedUrl.hostname.includes(d));
-        if (!isOfficialDomain && !parsedUrl.hostname.includes('.gov.pk') && !parsedUrl.hostname.includes('.gop.pk') && !parsedUrl.hostname.includes('.gob.pk')) {
-          errors.push(`Untrusted government domain: ${parsedUrl.hostname}`);
-        }
+      const parsedUrl = new URL(officialUrl);
+      isOfficialDomain = ALLOWED_OFFICIAL_DOMAINS.some(d => parsedUrl.hostname.includes(d)) ||
+        parsedUrl.hostname.endsWith('.gov.pk') ||
+        parsedUrl.hostname.endsWith('.gop.pk') ||
+        parsedUrl.hostname.endsWith('.gos.pk') ||
+        parsedUrl.hostname.endsWith('.gob.pk') ||
+        parsedUrl.hostname.endsWith('.org.pk');
+      if (!isOfficialDomain && job.type === 'govt') {
+        errors.push(`Untrusted government domain: ${parsedUrl.hostname}`);
       }
     } catch {
-      errors.push('Malformed official URL');
+      errors.push('Failed to parse official source URL');
     }
   }
 
-  // 3. Deadline / Last Date validation
+  // 4. Deadline / Last Date validation (must be parseable YYYY-MM-DD)
   if (!job.lastDate || !/^\d{4}-\d{2}-\d{2}$/.test(job.lastDate)) {
-    errors.push('Invalid or missing lastDate (must be YYYY-MM-DD)');
+    errors.push(`Invalid or missing lastDate ("${job.lastDate}") — must be YYYY-MM-DD`);
   } else {
     const deadlineTime = new Date(`${job.lastDate}T23:59:59`).getTime();
     if (isNaN(deadlineTime)) {
-      errors.push('Unparseable deadline date');
+      errors.push(`Unparseable deadline date timestamp: "${job.lastDate}"`);
     }
   }
 
-  // 4. Department / Organization validation
-  if (!job.department && !job.company) {
-    errors.push('Missing hiring department or company');
-  }
-
-  // 5. Check for disallowed placeholder strings
+  // 5. Anti-placeholder check
   const forbiddenPhrases = ['lorem ipsum', 'sample job', 'test opening', 'demo post', 'fake', 'placeholder', 'dummy'];
-  const textToCheck = `${job.title} ${job.description || ''} ${job.department || ''} ${job.company || ''}`.toLowerCase();
+  const textToCheck = `${job.title || ''} ${job.description || ''} ${job.department || ''}`.toLowerCase();
   for (const phrase of forbiddenPhrases) {
     if (textToCheck.includes(phrase)) {
       errors.push(`Found forbidden test phrase: "${phrase}"`);
     }
   }
 
-  // Sanitize fields: Never guess vacancies or qualifications
+  if (errors.length > 0) {
+    return {
+      isValid: false,
+      errors,
+      sanitizedJob: null
+    };
+  }
+
+  // Compute stable deterministic ID based on agency, title, and deadline
+  const normalizedKey = `${(job.agency || '').toUpperCase()}:${(job.title || '').toLowerCase().trim()}:${job.lastDate}`;
+  const stableHash = crypto.createHash('sha256').update(normalizedKey).digest('hex').slice(0, 12);
+  const stableId = job.id && !job.id.includes(Date.now().toString().slice(0, 6))
+    ? job.id
+    : `${(job.agency || 'job').toLowerCase()}-${stableHash}`;
+
+  const nowIso = new Date().toISOString();
+  const deadlineTime = new Date(`${job.lastDate}T23:59:59`).getTime();
+  const isActive = deadlineTime >= Date.now();
+
   const sanitized = {
     ...job,
-    vacancies: typeof job.vacancies === 'number' && job.vacancies > 0 ? job.vacancies : null,
-    qualification: job.qualification && job.qualification.trim().length > 0 
-      ? job.qualification 
-      : 'As per official advertisement criteria (See Gazette notice)',
-    verified: true,
+    id: stableId,
+    title: job.title.trim(),
+    agency: (job.agency || '').toUpperCase().trim(),
+    sourceUrl: officialUrl,
+    officialUrl: job.officialUrl || officialUrl,
+    officialNotificationUrl: job.officialNotificationUrl || officialUrl,
+    scrapedAt: job.scrapedAt || nowIso,
+    verifiedAt: isOfficialDomain ? (job.verifiedAt || nowIso) : null,
+    status: isActive ? 'active' : 'archived',
+    verified: isOfficialDomain,
+    lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
     dataIntegrityChecked: true,
-    auditedAt: new Date().toISOString()
+    auditedAt: nowIso
   };
 
   return {
-    isValid: errors.length === 0,
-    errors,
+    isValid: true,
+    errors: [],
     sanitizedJob: sanitized
   };
 }
 
+/**
+ * Validates an array of scraped jobs, rejecting and logging invalid entries.
+ * @param {Array} jobs - Raw scraped jobs
+ * @returns {Object} { validJobs: Array, rejectedJobs: Array, validCount: number, rejectedCount: number }
+ */
 export function validateAndFilterPipelineJobs(jobs = []) {
   const validJobs = [];
   const rejectedJobs = [];
-  const seenDescriptions = new Map();
 
   for (const job of jobs) {
     const { isValid, errors, sanitizedJob } = validateJobEntry(job);
-    
-    // Uniqueness & anti-copy-paste guard
-    const desc = (job.description || '').trim();
-    if (desc && seenDescriptions.has(desc)) {
-      errors.push(`Duplicate copy-pasted description detected (identical to ${seenDescriptions.get(desc)})`);
-    } else if (desc) {
-      seenDescriptions.set(desc, job.title || job.id);
-    }
-
-    if (isValid && errors.length === 0) {
+    if (isValid && sanitizedJob) {
       validJobs.push(sanitizedJob);
     } else {
+      console.warn(`[Pipeline Validator Rejected] Job "${job?.title || 'Unknown'}": ${errors.join('; ')}`);
       rejectedJobs.push({
-        jobId: job.id,
-        title: job.title,
+        jobId: job?.id || 'none',
+        title: job?.title || 'Unknown',
+        agency: job?.agency || 'Unknown',
         errors
       });
     }

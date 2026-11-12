@@ -10,7 +10,6 @@ import {
   Building2, 
   Landmark, 
   CheckCircle2, 
-  Lock,
   Mail,
   BookOpen
 } from 'lucide-react';
@@ -73,10 +72,12 @@ export default function Footer() {
             <p className="footer-desc">
               {t.footer.desc}
             </p>
-            <div className="footer-trust-badge">
-              <CheckCircle2 size={15} className="text-emerald" />
-              <span>{t.footer.antiScamBadge}</span>
-            </div>
+            {t.footer.antiScamBadge ? (
+              <div className="footer-trust-badge">
+                <CheckCircle2 size={15} className="text-emerald" />
+                <span>{t.footer.antiScamBadge}</span>
+              </div>
+            ) : null}
           </div>
 
           {/* Quick Hub Links */}
@@ -90,9 +91,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/jobs/private" className="footer-link-btn">
+                <Link href="/agency/nts" className="footer-link-btn">
                   <Building2 size={14} />
-                  <span>{t.footer.privateJobsLink}</span>
+                  <span>Testing Services & Projects (NTS)</span>
                 </Link>
               </li>
               <li>
@@ -186,11 +187,7 @@ export default function Footer() {
             {t.footer.copyright} • <Link href="/privacy-policy" className="hover:underline text-muted">{t.footer.privacy || "Privacy"}</Link> • <Link href="/terms-of-service" className="hover:underline text-muted">{t.footer.terms || "Terms"}</Link> • <Link href="/contact" className="hover:underline text-muted">{t.footer.contact || "Contact"}</Link>
           </div>
           <div className="footer-badges-right">
-            <span className="footer-badge-item">
-              <Lock size={12} />
-              <span>{t.footer.sslBadge || "SSL 256-Bit Encrypted"}</span>
-            </span>
-            <span className="footer-badge-item">{t.footer.gazetteBadge || "100% Gazette Verified"}</span>
+            <span className="footer-badge-item">{t.footer.gazetteBadge || "Official Gazette Sourced"}</span>
           </div>
         </div>
       </div>

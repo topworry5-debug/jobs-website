@@ -20,10 +20,15 @@ import {
   AlertCircle,
   Filter,
   SlidersHorizontal,
-  X
+  X,
+  Bell
 } from 'lucide-react';
 
-import { isClosingSoon, isJobExpired } from '../utils/jobMetrics';
+import { 
+  partitionJobs, 
+  isClosingSoon, 
+  getLastUpdatedTimestamp 
+} from '../lib/jobStatus';
 
 export default function HomeClientFilter({ initialJobs = [], initialCategory = 'all' }) {
   const { t, isRtl } = useLanguage();
@@ -37,6 +42,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
   const [urgentOnly, setUrgentOnly] = useState(false);
   const [selectedJobModal, setSelectedJobModal] = useState(null);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [alertEmail, setAlertEmail] = useState('');
+  const [alertSubscribed, setAlertSubscribed] = useState(false);
   const [savedJobIds, setSavedJobIds] = useState(() => {
     try {
       const stored = localStorage.getItem('tainaati_saved_jobs');
@@ -127,14 +134,18 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     urgentOnly ||
     searchQuery.trim().length > 0;
 
-  // Exclude already-expired / closed jobs from default listings and counts
-  const activeJobs = useMemo(() => {
-    return jobs.filter(j => !isJobExpired(j));
+  // Partition initial/current jobs into open, recently closed (<= 30d), and archived older
+  const { openJobs, recentlyClosedJobs } = useMemo(() => {
+    return partitionJobs(jobs, 30);
   }, [jobs]);
 
-  // Filter Logic
-  const filteredJobs = activeJobs.filter((job) => {
-    // 1. Search Query & Quick Urgent Filter
+  const lastUpdatedStr = useMemo(() => {
+    return getLastUpdatedTimestamp(jobs);
+  }, [jobs]);
+
+  // Shared matcher for filter logic
+  const matchesJobFilters = (job, checkUrgency = true) => {
+    // 1. Search Query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       if (q === 'urgent' || q === 'closing soon') {
@@ -155,6 +166,9 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
         if (job.type !== 'govt') return false;
       } else if (selectedCategory === 'private') {
         if (job.type !== 'private') return false;
+      } else if (['fpsc', 'ppsc', 'spsc', 'kppsc', 'bpsc', 'nts'].includes(selectedCategory.toLowerCase())) {
+        const agencyCode = selectedCategory.toUpperCase();
+        if ((job.agency || '').toUpperCase() !== agencyCode && !(job.category || '').toUpperCase().includes(agencyCode)) return false;
       } else if (!matchesJobCategory(job, selectedCategory)) {
         return false;
       }
@@ -181,12 +195,22 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     }
 
     // 7. Urgent Only (closing in <= 3 days)
-    if (urgentOnly) {
+    if (checkUrgency && urgentOnly) {
       if (!isClosingSoon(job.lastDate, 3)) return false;
     }
 
     return true;
-  });
+  };
+
+  // Filter open jobs
+  const filteredJobs = useMemo(() => {
+    return openJobs.filter(j => matchesJobFilters(j, true));
+  }, [openJobs, searchQuery, selectedCategory, selectedCity, selectedProvince, selectedBps, selectedQualification, urgentOnly]);
+
+  // Filter recently closed jobs (without urgentOnly constraint)
+  const filteredRecentlyClosedJobs = useMemo(() => {
+    return recentlyClosedJobs.filter(j => matchesJobFilters(j, false));
+  }, [recentlyClosedJobs, searchQuery, selectedCategory, selectedCity, selectedProvince, selectedBps, selectedQualification]);
 
   const getFeedTitle = () => {
     if (selectedCategory === 'govt') return t.feed.govtTitle;
@@ -196,32 +220,32 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     return t.feed.allTitle;
   };
 
-  // Compute live category counts dynamically based strictly on active listings
+  // Compute live category counts dynamically based strictly on OPEN listings
   const categoryCounts = useMemo(() => {
     const counts = {
-      all: activeJobs.length,
-      govt: activeJobs.filter(j => j.type === 'govt').length,
-      private: activeJobs.filter(j => j.type === 'private').length,
-      fpsc: activeJobs.filter(j => j.agency === 'FPSC').length,
-      ppsc: activeJobs.filter(j => j.agency === 'PPSC').length,
-      spsc: activeJobs.filter(j => j.agency === 'SPSC').length,
-      kppsc: activeJobs.filter(j => j.agency === 'KPPSC').length,
-      nts: activeJobs.filter(j => j.agency === 'NTS').length,
+      all: openJobs.length,
+      govt: openJobs.filter(j => j.type === 'govt').length,
+      private: openJobs.filter(j => j.type === 'private').length,
+      fpsc: openJobs.filter(j => (j.agency || '').toUpperCase() === 'FPSC').length,
+      ppsc: openJobs.filter(j => (j.agency || '').toUpperCase() === 'PPSC').length,
+      spsc: openJobs.filter(j => (j.agency || '').toUpperCase() === 'SPSC').length,
+      kppsc: openJobs.filter(j => (j.agency || '').toUpperCase() === 'KPPSC').length,
+      bpsc: openJobs.filter(j => (j.agency || '').toUpperCase() === 'BPSC').length,
+      nts: openJobs.filter(j => (j.agency || '').toUpperCase() === 'NTS').length,
     };
     CATEGORIES_CONFIG.forEach(cat => {
-      counts[cat.slug] = activeJobs.filter(j => matchesJobCategory(j, cat.id)).length;
+      counts[cat.slug] = openJobs.filter(j => matchesJobCategory(j, cat.id)).length;
     });
     return counts;
-  }, [activeJobs]);
+  }, [openJobs]);
 
-  // Only display categories that have active jobs (or are the master 'all'/'govt' views)
+  // Only display categories that contain at least 1 job (plus 'all' and currently selected category)
   const visibleCategories = useMemo(() => {
-    const active = CATEGORIES.filter(cat => {
+    return CATEGORIES.filter(cat => {
+      if (cat.id === 'all' || cat.id === selectedCategory) return true;
       const count = categoryCounts[cat.id] ?? 0;
-      if (cat.id === 'all' || cat.id === 'govt' || cat.id === selectedCategory) return true;
-      return count > 0;
+      return count >= 1;
     });
-    return active;
   }, [categoryCounts, selectedCategory]);
 
   // Lock body scroll when mobile filter drawer is open
@@ -269,7 +293,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 onClick={() => setSelectedCategory(cat.id)}
               >
                 <span>{translatedLabel}</span>
-                {count !== null && <span className="cat-count-badge">{count}</span>}
+                {count > 0 && <span className="cat-count-badge">{count}</span>}
               </button>
             );
           })}
@@ -294,6 +318,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
             setUrgentOnly={setUrgentOnly}
             onResetFilters={handleResetFilters}
             totalResults={filteredJobs.length}
+            categories={visibleCategories}
+            categoryCounts={categoryCounts}
           />
         </aside>
 
@@ -306,7 +332,13 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 {getFeedTitle()}
               </h2>
               <p className="feed-subtitle text-xs text-secondary mt-0.5">
-                {t.feed.subtitlePrefix} <strong>{filteredJobs.length}</strong> {t.feed.subtitleSuffix}
+                {filteredJobs.length > 0 ? (
+                  <>
+                    {t.feed.subtitlePrefix} <strong>{filteredJobs.length}</strong> {t.feed.subtitleSuffix}
+                  </>
+                ) : (
+                  <>No active open positions</>
+                )}
               </p>
             </div>
 
@@ -337,7 +369,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
             </div>
           </div>
 
-          {/* Job Cards 2-Column Equalized Grid */}
+          {/* OPEN JOBS GRID */}
           {filteredJobs.length > 0 ? (
             <>
               <div className="jobs-cards-grid">
@@ -352,7 +384,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                       isSaved={savedJobIds.includes(job.id)}
                       onToggleSave={handleToggleSave}
                       onShareWhatsApp={(j) => {
-                        const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via Tainaati: https://www.tainaati.com/jobs/${j.id}`);
+                        const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Last Date: ${j.lastDate}\n\n👉 Apply via Tainaati: https://www.tainaati.com/jobs/${j.slug || j.id}`);
                         window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
                       }}
                     />
@@ -372,30 +404,121 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
               )}
             </>
           ) : (
-            <div className="empty-state card text-center py-12 px-6">
+            /* HONEST EMPTY STATE (Zero Open Jobs) */
+            <div className="empty-state card text-center py-10 px-6 border border-subtle bg-surface-subtle">
               <div className="inline-flex items-center justify-center p-4 rounded-full bg-emerald-500/10 text-emerald-600 mb-3 mx-auto">
-                <AlertCircle size={36} />
+                <ShieldCheck size={36} />
               </div>
-              <h3 className="text-xl font-bold font-display mb-2">
-                {searchQuery.trim() 
-                  ? `No positions found for "${searchQuery.trim()}"` 
-                  : selectedCity !== 'All Cities' 
-                    ? `No positions found in ${selectedCity}`
-                    : t.feed.noResultsTitle}
+              <h3 className="text-xl font-bold font-display text-primary mb-1">
+                No open jobs right now
               </h3>
-              <p className="text-sm text-secondary max-w-md mx-auto mb-5 leading-relaxed">
-                {searchQuery.trim() || selectedCity !== 'All Cities'
-                  ? `We could not find active verified jobs matching your criteria in ${selectedCity !== 'All Cities' ? selectedCity : 'all regions'}. Try using a broader keyword, selecting "All Cities", or clearing all active filters.`
-                  : t.feed.noResultsDesc}
+              <div className="text-xs text-muted font-mono mb-4">
+                Last updated: {lastUpdatedStr}
+              </div>
+              <p className="text-sm text-secondary max-w-lg mx-auto mb-6 leading-relaxed">
+                {searchQuery.trim() || selectedCity !== 'All Cities' || selectedCategory !== 'all'
+                  ? "No active verified positions currently match your filter criteria. Review recently closed notices below for syllabus and eligibility guidance, or clear your filters."
+                  : "All previous recruitment gazettes in this section have concluded, and no new advertisements have been announced yet. Tainaati continuously monitors official public service commissions and will publish new notices as soon as they are released."}
               </p>
-              <button 
-                id="clear-all-filters-btn"
-                onClick={handleResetFilters} 
-                className="btn btn-primary btn-sm mx-auto"
-              >
-                <RotateCcw size={14} />
-                <span>Clear All Filters</span>
-              </button>
+
+              {/* Quick Inline Alerts Signup */}
+              <div className="card p-5 max-w-md mx-auto mb-6 border border-emerald-500/20 bg-surface text-left shadow-sm">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <Bell size={16} className="text-emerald-500" />
+                  <h4 className="text-xs font-bold text-primary uppercase tracking-wider">
+                    Get Instant Job Alerts
+                  </h4>
+                </div>
+                <p className="text-xs text-secondary mb-3 leading-relaxed">
+                  Be notified the moment new official gazette vacancies are announced in this category.
+                </p>
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (alertEmail) {
+                      try {
+                        const stored = JSON.parse(localStorage.getItem('tainaati_alerts') || '[]');
+                        stored.push({ 
+                          email: alertEmail, 
+                          category: selectedCategory, 
+                          city: selectedCity, 
+                          date: new Date().toISOString() 
+                        });
+                        localStorage.setItem('tainaati_alerts', JSON.stringify(stored));
+                        setAlertSubscribed(true);
+                      } catch {}
+                    }
+                  }}
+                  className="flex gap-2"
+                >
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email address"
+                    value={alertEmail}
+                    onChange={(e) => setAlertEmail(e.target.value)}
+                    className="input-field input-sm text-xs flex-1"
+                    disabled={alertSubscribed}
+                  />
+                  <button 
+                    type="submit" 
+                    className="btn btn-primary btn-sm whitespace-nowrap"
+                    disabled={alertSubscribed}
+                  >
+                    {alertSubscribed ? "Subscribed!" : "Subscribe"}
+                  </button>
+                </form>
+                {alertSubscribed && (
+                  <span className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-2 block font-medium">
+                    ✓ Alert subscription saved! You will receive email notifications when new jobs are posted.
+                  </span>
+                )}
+              </div>
+
+              {isFilterActive && (
+                <button 
+                  id="clear-all-filters-btn"
+                  onClick={handleResetFilters} 
+                  className="btn btn-outline btn-sm mx-auto"
+                >
+                  <RotateCcw size={14} />
+                  <span>Clear All Filters</span>
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* RECENTLY CLOSED POSITIONS (Last 30 Days) */}
+          {filteredRecentlyClosedJobs.length > 0 && (
+            <div className="recently-closed-section mt-10 pt-8 border-t border-subtle">
+              <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                <div>
+                  <h3 className="text-base md:text-lg font-bold text-primary flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-400" />
+                    <span>Recently Closed Positions (Last 30 Days)</span>
+                  </h3>
+                  <p className="text-xs text-secondary mt-0.5">
+                    Applications have closed. Retained for candidate verification, syllabus review, and gazette reference.
+                  </p>
+                </div>
+                <span className="badge badge-subtle text-xs font-mono">
+                  {filteredRecentlyClosedJobs.length} Closed
+                </span>
+              </div>
+              <div className="jobs-cards-grid">
+                {filteredRecentlyClosedJobs.map((job) => (
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    isSaved={savedJobIds.includes(job.id)}
+                    onToggleSave={handleToggleSave}
+                    onShareWhatsApp={(j) => {
+                      const text = encodeURIComponent(`🇵🇰 *${j.title}*\n🏢 Dept: ${j.department || j.company}\n📍 City: ${j.city}\n⏳ Closed: ${j.lastDate}\n\n👉 Archive record: https://www.tainaati.com/jobs/${j.slug || j.id}`);
+                      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </section>
@@ -436,6 +559,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 onResetFilters={handleResetFilters}
                 totalResults={filteredJobs.length}
                 onCloseMobileFilter={() => setMobileFilterOpen(false)}
+                categories={visibleCategories}
+                categoryCounts={categoryCounts}
               />
             </div>
           </div>

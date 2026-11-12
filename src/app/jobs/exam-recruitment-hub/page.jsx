@@ -2,6 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { JOBS_DATA } from '../../../data/jobsData';
 import { getCategoryBySlug, matchesJobCategory } from '../../../data/categoriesData';
+import { filterOpenJobs } from '../../../lib/jobStatus';
 import CategoryLandingPage from '../../../components/CategoryLandingPage';
 import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
 import { getSiteUrl } from '../../../utils/siteUrl';
@@ -10,9 +11,14 @@ const CATEGORY_SLUG = 'exam-recruitment-hub';
 const category = getCategoryBySlug(CATEGORY_SLUG);
 const siteUrl = getSiteUrl();
 
+const categoryJobs = JOBS_DATA.filter((j) => matchesJobCategory(j, category?.id));
+const openCategoryJobs = filterOpenJobs(categoryJobs);
+const hasOpenJobs = openCategoryJobs.length > 0;
+
 export const metadata = {
   title: category ? category.metaTitle : "Jobs in Pakistan",
   description: category ? category.metaDescription : "Browse verified jobs in Pakistan.",
+  robots: hasOpenJobs ? { index: true, follow: true } : { index: false, follow: true },
   alternates: {
     canonical: `${siteUrl}/jobs/${CATEGORY_SLUG}`
   },
@@ -29,9 +35,10 @@ export default function CategoryPage() {
   if (!cat) notFound();
 
   const currentUrl = getSiteUrl();
-  const categoryJobs = JOBS_DATA.filter((j) => matchesJobCategory(j, cat.id));
+  const jobs = JOBS_DATA.filter((j) => matchesJobCategory(j, cat.id));
+  const openJobs = filterOpenJobs(jobs);
 
-  const itemListSchema = generateItemListSchema(categoryJobs, `${currentUrl}/jobs/${cat.slug}`);
+  const itemListSchema = generateItemListSchema(openJobs.slice(0, 20), `${currentUrl}/jobs/${cat.slug}`);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "Home", url: `${currentUrl}` },
     { name: cat.groupLabel, url: `${currentUrl}/jobs/${cat.group === 'govt' ? 'govt' : 'private'}` },
@@ -41,10 +48,12 @@ export default function CategoryPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
-      />
+      {itemListSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -55,7 +64,7 @@ export default function CategoryPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
-      <CategoryLandingPage category={cat} jobs={categoryJobs} />
+      <CategoryLandingPage category={cat} jobs={jobs} />
     </>
   );
 }

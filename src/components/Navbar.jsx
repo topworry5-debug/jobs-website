@@ -261,7 +261,9 @@ export default function Navbar() {
                         <div className="text-[10px] text-muted">FPSC, PPSC, SPSC, KPPSC & NTS</div>
                       </div>
                     </div>
-                    <span className="nav-dropdown-count text-emerald-600 font-bold">{categoryCounts.govt || 0}</span>
+                    {categoryCounts.govt > 0 && (
+                      <span className="nav-dropdown-count text-emerald-600 font-bold">{categoryCounts.govt}</span>
+                    )}
                   </Link>
 
                   {/* Province & National Job Portals Links */}
@@ -293,13 +295,12 @@ export default function Navbar() {
                     </div>
                   </div>
 
-                  {/* Govt Sub-categories */}
+                  {/* Govt Sub-categories with active jobs */}
                   <div className="nav-dropdown-items-list">
-                    {govtCategories.map((cat) => {
+                    {govtCategories.filter(cat => (categoryCounts[cat.slug] || 0) > 0).map((cat) => {
                       const count = categoryCounts[cat.slug] || 0;
                       const IconComp = ICON_MAP[cat.icon] || Landmark;
                       const active = pathname === `/jobs/${cat.slug}`;
-                      const isComingSoon = count === 0;
 
                       return (
                         <Link
@@ -312,11 +313,7 @@ export default function Navbar() {
                             <IconComp size={14} className={active ? 'text-emerald-600' : 'text-muted'} />
                             <span>{cat.name}</span>
                           </div>
-                          {isComingSoon ? (
-                            <span className="nav-dropdown-coming-soon">Coming Soon</span>
-                          ) : (
-                            <span className="nav-dropdown-count">{count}</span>
-                          )}
+                          <span className="nav-dropdown-count">{count}</span>
                         </Link>
                       );
                     })}
@@ -325,7 +322,8 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* 2. Private & Careers Dropdown */}
+            {/* 2. Private & Careers Dropdown (Visible only when >= 20 active jobs exist) */}
+            {categoryCounts.private >= 20 && (
             <div 
               className="nav-dropdown-container" 
               ref={privateDropdownRef}
@@ -359,7 +357,9 @@ export default function Navbar() {
                         <div className="text-[10px] text-muted">Banking, Engineering, Tech & Remote</div>
                       </div>
                     </div>
-                    <span className="nav-dropdown-count text-blue-600 font-bold">{categoryCounts.private || 0}</span>
+                    {categoryCounts.private > 0 && (
+                      <span className="nav-dropdown-count text-blue-600 font-bold">{categoryCounts.private}</span>
+                    )}
                   </Link>
 
                   {/* Private & Cross-cutting Sub-categories */}
@@ -393,6 +393,7 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+            )}
 
             {/* Test Prep Link */}
             <Link
@@ -537,8 +538,9 @@ export default function Navbar() {
               aria-label="Saved Jobs"
             >
               <Bookmark size={16} className={savedCount > 0 ? "fill-emerald-500 text-emerald-500" : ""} />
+              <span className="sr-only">Saved Jobs</span>
               {savedCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white font-mono text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm">
+                <span className="absolute -top-1 -right-1 bg-emerald-600 text-white font-mono text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm" aria-hidden="true">
                   {savedCount}
                 </span>
               )}
@@ -552,6 +554,7 @@ export default function Navbar() {
               aria-label="Job Alerts"
             >
               <Bell size={16} />
+              <span className="sr-only">Job Alerts</span>
             </Link>
 
             {/* 3-Language Switcher Dropdown (Always Visible Desktop & Mobile) */}
@@ -715,7 +718,7 @@ export default function Navbar() {
                 >
                   <div className="flex items-center gap-2">
                     <Landmark size={16} className="text-emerald-600" />
-                    <span>Government Jobs ({categoryCounts.govt || 0})</span>
+                    <span>Government Jobs{categoryCounts.govt > 0 ? ` (${categoryCounts.govt})` : ''}</span>
                   </div>
                   <ChevronDown size={14} className={`transition-transform duration-200 ${mobileGovtOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -728,7 +731,9 @@ export default function Navbar() {
                       className="mobile-sub-item font-semibold text-primary"
                     >
                       <span>🏛️ View All Govt Gazette Jobs</span>
-                      <span className="nav-dropdown-count">{categoryCounts.govt || 0}</span>
+                      {categoryCounts.govt > 0 && (
+                        <span className="nav-dropdown-count">{categoryCounts.govt}</span>
+                      )}
                     </Link>
 
                     {/* Mobile Province & National Portals List */}
@@ -740,10 +745,9 @@ export default function Navbar() {
                       <Link href="/kpk-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🏔️ KPK Job Portal (KPPSC & Govt)</Link>
                       <Link href="/balochistan-job-portal" onClick={() => setMobileMenuOpen(false)} className="mobile-sub-item text-xs font-medium">🦅 Balochistan Job Portal (BPSC & Govt)</Link>
                     </div>
-                    {govtCategories.map((cat) => {
+                    {govtCategories.filter(cat => (categoryCounts[cat.slug] || 0) > 0).map((cat) => {
                       const count = categoryCounts[cat.slug] || 0;
                       const IconComp = ICON_MAP[cat.icon] || Landmark;
-                      const isComingSoon = count === 0;
 
                       return (
                         <Link
@@ -756,11 +760,7 @@ export default function Navbar() {
                             <IconComp size={13} className="text-muted" />
                             <span>{cat.name}</span>
                           </div>
-                          {isComingSoon ? (
-                            <span className="nav-dropdown-coming-soon">Coming Soon</span>
-                          ) : (
-                            <span className="nav-dropdown-count">{count}</span>
-                          )}
+                          <span className="nav-dropdown-count">{count}</span>
                         </Link>
                       );
                     })}
@@ -768,7 +768,8 @@ export default function Navbar() {
                 )}
               </div>
 
-              {/* Accordion 2: Private & Careers */}
+              {/* Accordion 2: Private & Careers (Visible only when >= 20 active jobs exist) */}
+              {categoryCounts.private >= 20 && (
               <div className="mobile-nav-accordion">
                 <button
                   className="mobile-accordion-toggle"
@@ -777,7 +778,7 @@ export default function Navbar() {
                 >
                   <div className="flex items-center gap-2">
                     <Building2 size={16} className="text-blue-600" />
-                    <span>Private & Careers ({categoryCounts.private || 0})</span>
+                    <span>Private & Careers{categoryCounts.private > 0 ? ` (${categoryCounts.private})` : ''}</span>
                   </div>
                   <ChevronDown size={14} className={`transition-transform duration-200 ${mobilePrivateOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -790,7 +791,9 @@ export default function Navbar() {
                       className="mobile-sub-item font-semibold text-primary"
                     >
                       <span>💼 View All Private & Corporate Jobs</span>
-                      <span className="nav-dropdown-count">{categoryCounts.private || 0}</span>
+                      {categoryCounts.private > 0 && (
+                        <span className="nav-dropdown-count">{categoryCounts.private}</span>
+                      )}
                     </Link>
                     {privateCategories.map((cat) => {
                       const count = categoryCounts[cat.slug] || 0;
@@ -819,6 +822,7 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
+              )}
 
               {/* Accordion 3: Exams & Hub */}
               <div className="mobile-nav-accordion">
@@ -988,7 +992,7 @@ export default function Navbar() {
           jobs={JOBS_DATA}
           onSelectJob={(job) => {
             setSearchModalOpen(false);
-            router.push(`/jobs/${job.id}`);
+            router.push(`/jobs/${job.slug || job.id}`);
           }}
         />
       )}

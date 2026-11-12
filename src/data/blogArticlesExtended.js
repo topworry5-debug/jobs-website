@@ -12,7 +12,7 @@ export const EXTENDED_BLOG_ARTICLES = [
   {
     slug: 'job-vs-business-which-is-better-pakistan',
     title: 'Job vs Business in Pakistan: Which Is Better in 2026? (An Honest Career Analysis)',
-    metaTitle: 'Job vs Business in Pakistan: Which Is Better in 2026? | Tainaati',
+    metaTitle: 'Job vs Business in Pakistan: Which Is Better in 2026?',
     metaDescription: 'Honest analysis comparing government jobs, private careers, and business in Pakistan. Real breakdown of BPS pensions, hyper-inflation, capital risks, and earning limits.',
     cluster: 'career-decisions',
     clusterLabel: 'Career Decisions',
@@ -149,7 +149,7 @@ If you choose a private job, your priority must be acquiring skills valued by to
     publishedDate: '2026-09-12',
     updatedDate: '2026-09-19',
     author: {
-      name: 'Tainaati Intelligence Team',
+      name: 'Tainaati Editorial',
       role: 'Federal Law Enforcement Recruitment Specialist',
       avatar: '/logos/fpsc.svg'
     },
@@ -316,7 +316,7 @@ If you choose a private job, your priority must be acquiring skills valued by to
   {
     slug: 'age-relaxation-in-govt-jobs',
     title: 'What Is Age Relaxation in Government Jobs in Pakistan? (Official Rules Explained)',
-    metaTitle: 'Age Relaxation in Govt Jobs Pakistan: Federal & Provincial Rules | Tainaati',
+    metaTitle: 'Age Relaxation in Govt Jobs Pakistan: Federal & Provincial Rules',
     metaDescription: 'Complete official guide to age relaxation rules in Pakistani government jobs (FPSC, PPSC, SPSC, KPPSC, BPSC). General 5-year federal relaxation, provincial concessions, and quotas.',
     cluster: 'govt-rules',
     clusterLabel: 'Service Rules',
@@ -534,7 +534,7 @@ Age relaxation permits applicants who have crossed the base age to legally apply
   {
     slug: 'how-to-apply-wapda-jobs',
     title: 'How to Apply for WAPDA Jobs in Pakistan: Application & Portal Guide',
-    metaTitle: 'How to Apply for WAPDA Jobs in Pakistan: Step-by-Step Guide | Tainaati',
+    metaTitle: 'How to Apply for WAPDA Jobs in Pakistan: Step-by-Step Guide',
     metaDescription: 'Complete guide to applying for WAPDA jobs. Official PTS/NTS testing portals, eligibility criteria for engineers & line staff, challan payment, and verification steps.',
     cluster: 'how-to',
     clusterLabel: 'Application Guides',
@@ -659,7 +659,7 @@ Career positions in WAPDA offer competitive basic pay scales (BPS-11 to BPS-19),
   {
     slug: 'job-titles-explained',
     title: 'Common Job Titles in Pakistan Explained: MTO, Rigger, Cabin Crew, Teller & Corporate Roles',
-    metaTitle: 'Job Titles in Pakistan Explained: MTO, Rigger, Teller & More | Tainaati',
+    metaTitle: 'Job Titles in Pakistan Explained: MTO, Rigger, Teller & More',
     metaDescription: 'Clear glossary explaining common Pakistani job titles: Management Trainee Officer (MTO), Rigger, Bank Teller, Cabin Crew, Warehouse Associate, and Corporate roles.',
     cluster: 'job-glossary',
     clusterLabel: 'Job Title Glossary',
@@ -667,7 +667,7 @@ Career positions in WAPDA offer competitive basic pay scales (BPS-11 to BPS-19),
     publishedDate: '2026-09-16',
     updatedDate: '2026-09-20',
     author: {
-      name: 'Tainaati Career Intelligence Desk',
+      name: 'Tainaati Editorial',
       role: 'Employment Terminology & Role Researcher',
       avatar: '/logos/tainaati.svg'
     },
@@ -791,7 +791,7 @@ Career positions in WAPDA offer competitive basic pay scales (BPS-11 to BPS-19),
   {
     slug: 'how-to-apply-cti-jobs',
     title: 'How to Apply for CTI Jobs in Punjab: Eligibility, Salary & Application Process Explained',
-    metaTitle: 'How to Apply for CTI Jobs in Punjab 2026: Eligibility & Process | Tainaati',
+    metaTitle: 'How to Apply for CTI Jobs in Punjab 2026: Eligibility & Process',
     metaDescription: 'Complete guide to CTI (College Teaching Interns) jobs under Punjab Higher Education Department. Eligibility, monthly stipend (PKR 45,000), merit formula, and how to apply.',
     cluster: 'how-to',
     clusterLabel: 'Application Guides',
@@ -931,7 +931,7 @@ The CTI program provides qualified postgraduate degree holders with classroom te
   {
     slug: 'how-to-apply-sti-jobs',
     title: 'How to Apply for STI Jobs in Pakistan: School Teacher Interns Complete Guide',
-    metaTitle: 'How to Apply for STI Jobs in Pakistan: Eligibility & Process | Tainaati',
+    metaTitle: 'How to Apply for STI Jobs in Pakistan: Eligibility & Process',
     metaDescription: 'Step-by-step guide to applying for STI (School Teacher Intern) jobs under Punjab School Education Department. Stipends, primary to higher secondary eligibility, and portal apply.',
     cluster: 'how-to',
     clusterLabel: 'Application Guides',
@@ -1050,7 +1050,7 @@ STIs are hired locally from the same village or union council (UC), minimizing t
   {
     slug: 'how-to-apply-nadra-jobs-online',
     title: 'How to Apply for NADRA Jobs Online: Application Portal, Walk-In Tests & Eligibility',
-    metaTitle: 'How to Apply for NADRA Jobs Online: Complete Portal Guide | Tainaati',
+    metaTitle: 'How to Apply for NADRA Jobs Online: Complete Portal Guide',
     metaDescription: 'Step-by-step guide to applying for NADRA jobs online via careers.nadra.gov.pk. Walk-in interviews vs online testing, required documents, and verified vacancy links.',
     cluster: 'how-to',
     clusterLabel: 'Application Guides',
@@ -1178,7 +1178,7 @@ Openings range from frontline Mega Center Customer Service Executives to special
   {
     slug: 'how-to-apply-paf-jobs-online',
     title: 'How to Apply for PAF Jobs Online: Civilian & Uniformed Registration Guide',
-    metaTitle: 'How to Apply for PAF Jobs Online: Civilian & GD(P) Guide | Tainaati',
+    metaTitle: 'How to Apply for PAF Jobs Online: Civilian & GD(P) Guide',
     metaDescription: 'Guide to applying online for Pakistan Air Force (PAF) civilian and uniformed cadres via joinpaf.gov.pk. Eligibility, E-Testing pattern, medical standards, and selection centers.',
     cluster: 'how-to',
     clusterLabel: 'Application Guides',
@@ -1299,7 +1299,7 @@ Openings range from frontline Mega Center Customer Service Executives to special
   {
     slug: 'how-to-apply-police-job-pakistan',
     title: 'How to Apply for a Police Job in Pakistan: Provincial Recruitment Breakdown',
-    metaTitle: 'How to Apply for Police Jobs in Pakistan: Provincial Guide | Tainaati',
+    metaTitle: 'How to Apply for Police Jobs in Pakistan: Provincial Guide',
     metaDescription: 'Complete guide on applying for police jobs across Punjab, Sindh, KPK, Balochistan, and Islamabad. Physical running tests, height standards, and commission vs departmental channels.',
     cluster: 'how-to',
     clusterLabel: 'Application Guides',
@@ -1420,7 +1420,7 @@ Openings range from frontline Mega Center Customer Service Executives to special
   {
     slug: 'how-to-apply-government-teacher-job',
     title: 'How to Apply for a Government Teacher Job in Pakistan: Cadres, Eligibility & Testing Services',
-    metaTitle: 'How to Apply for a Government Teacher Job in Pakistan | Tainaati',
+    metaTitle: 'How to Apply for a Government Teacher Job in Pakistan',
     metaDescription: 'Step-by-step guide to applying for government teaching jobs in Pakistan across PPSC, SPSC, KPPSC, and BPSC. Qualifications for PST, EST, SST, and College Lecturers.',
     cluster: 'how-to',
     clusterLabel: 'Application Guides',
@@ -1537,7 +1537,7 @@ Openings range from frontline Mega Center Customer Service Executives to special
   {
     slug: 'application-letter-teaching-job-school',
     title: 'How to Write an Application Letter for a Teaching Job in School (With Free Template)',
-    metaTitle: 'Application Letter for Teaching Job in School: Free Template | Tainaati',
+    metaTitle: 'Application Letter for Teaching Job in School: Free Template',
     metaDescription: 'Downloadable application letter template for school teaching jobs in Pakistan. Tailored for private schools (APS, Beaconhouse, City School) and government contract posts.',
     cluster: 'interview-prep',
     clusterLabel: 'Writing Skills',
@@ -1653,7 +1653,7 @@ Yours sincerely,
   {
     slug: 'job-application-email-template-pakistan',
     title: 'How to Write a Job Application Email in Pakistan (With Copyable Template & Subject Line Rules)',
-    metaTitle: 'Job Application Email Template Pakistan: Subject Line & Etiquette | Tainaati',
+    metaTitle: 'Job Application Email Template Pakistan: Subject Line & Etiquette',
     metaDescription: 'Professional email template for Pakistani job applications. Correct subject line format, CNIC and domicile mention conventions, and professional etiquette.',
     cluster: 'interview-prep',
     clusterLabel: 'Writing Skills',
@@ -1776,7 +1776,7 @@ Sincerely,
   {
     slug: 'notice-period-in-job-pakistan',
     title: 'What Is Notice Period in a Job? Pakistan Labor Law Rules & Resignation Rights',
-    metaTitle: 'Notice Period in Pakistan: Labor Law Rules & Standing Orders | Tainaati',
+    metaTitle: 'Notice Period in Pakistan: Labor Law Rules & Standing Orders',
     metaDescription: 'Official guide to notice period rules under Pakistani labor law (Standing Orders 1968). Probation rules, 1-month notice vs salary in lieu, and final clearance settlements.',
     cluster: 'govt-rules',
     clusterLabel: 'Labor Regulations',
@@ -1877,7 +1877,7 @@ Under **Section 12 of the Standing Orders**, the law establishes strict protecti
   {
     slug: 'which-job-is-best-in-pakistan',
     title: 'Which Job Is Best in Pakistan Right Now? (Sector-by-Sector Career Guide 2026)',
-    metaTitle: 'Which Job Is Best in Pakistan in 2026? Sector Career Guide | Tainaati',
+    metaTitle: 'Which Job Is Best in Pakistan in 2026? Sector Career Guide',
     metaDescription: 'Comprehensive guide to the best jobs in Pakistan in 2026 across Tech, Banking, Civil Service, Healthcare, and Engineering. Salary scales, stability, and growth trajectories.',
     cluster: 'career-decisions',
     clusterLabel: 'Sector Guides',
@@ -1983,7 +1983,7 @@ Under **Section 12 of the Standing Orders**, the law establishes strict protecti
   {
     slug: 'who-jobs-in-pakistan-for-doctors',
     title: 'WHO Jobs in Pakistan for Doctors: How to Apply, Polio Program & UN Salary Scale',
-    metaTitle: 'WHO Jobs in Pakistan for Doctors: How to Apply & Portal | Tainaati',
+    metaTitle: 'WHO Jobs in Pakistan for Doctors: How to Apply & Portal',
     metaDescription: 'Complete guide to World Health Organization (WHO) jobs in Pakistan for medical doctors. Polio eradication posts, UN salary scales, Stellis recruitment portal, and PMDC verification.',
     cluster: 'how-to',
     clusterLabel: 'International & NGO',
@@ -2105,7 +2105,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
   {
     slug: 'best-programming-languages-tech-job-pakistan',
     title: 'Best Programming Languages to Learn for a Tech Job in Pakistan (2026 Market Guide)',
-    metaTitle: 'Best Programming Languages for Jobs in Pakistan 2026 | Tainaati',
+    metaTitle: 'Best Programming Languages for Jobs in Pakistan 2026',
     metaDescription: 'Data-backed guide to the best programming languages for landing a software job in Pakistan. Demand trends in Lahore, Karachi, and Islamabad software houses and remote exports.',
     cluster: 'career-decisions',
     clusterLabel: 'Tech Careers',
@@ -2113,7 +2113,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
     publishedDate: '2026-09-19',
     updatedDate: '2026-09-20',
     author: {
-      name: 'Tainaati Software & IT Intelligence Desk',
+      name: 'Tainaati Editorial',
       role: 'Pakistani Tech Stack & Engineering Compensation Analyst',
       avatar: '/logos/tainaati.svg'
     },
@@ -2133,11 +2133,11 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
     tableOfContents: [
       { id: 'pakistan-tech-landscape', title: '1. The Software Engineering Landscape in Pakistan' },
       { id: 'top-languages-ranked', title: '2. The 5 Most In-Demand Programming Languages Ranked' },
-      { id: 'javascript-typescript', title: '3. #1: JavaScript & TypeScript (The Volume Champion)' },
-      { id: 'python-ai-data', title: '4. #2: Python (AI, Machine Learning & Automation)' },
-      { id: 'java-spring-enterprise', title: '5. #3: Java & Spring Boot (The Enterprise Heavyweight)' },
-      { id: 'php-laravel-local', title: '6. #4: PHP & Laravel (The Pakistani SME Backbone)' },
-      { id: 'golang-cloud', title: '7. #5: Go (Golang) (High-Concurrency Cloud Architecture)' },
+      { id: 'javascript-typescript', title: '3. Rank 1: JavaScript & TypeScript (The Volume Champion)' },
+      { id: 'python-ai-data', title: '4. Rank 2: Python (AI, Machine Learning & Automation)' },
+      { id: 'java-spring-enterprise', title: '5. Rank 3: Java & Spring Boot (The Enterprise Heavyweight)' },
+      { id: 'php-laravel-local', title: '6. Rank 4: PHP & Laravel (The Pakistani SME Backbone)' },
+      { id: 'golang-cloud', title: '7. Rank 5: Go (Golang) (High-Concurrency Cloud Architecture)' },
       { id: 'tech-career-faqs', title: '8. Frequently Asked Questions (FAQs)' }
     ],
     contentSections: [
@@ -2152,7 +2152,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
       },
       {
         id: 'javascript-typescript',
-        heading: '#1: JavaScript & TypeScript (The Volume Champion)',
+        heading: 'Rank 1: JavaScript & TypeScript (The Volume Champion)',
         content: `If your immediate goal is to land your first software engineering job within 6 months, **JavaScript and TypeScript** are the safest investments:
 
 - **Ecosystem**: React, Next.js, Vue on the frontend; Node.js, Express, Nest.js on the backend.
@@ -2161,7 +2161,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
       },
       {
         id: 'python-ai-data',
-        heading: '#2: Python (AI, Machine Learning & Automation)',
+        heading: 'Rank 2: Python (AI, Machine Learning & Automation)',
         content: `Python has surged in demand due to global artificial intelligence adoption:
 
 - **Core Frameworks**: FastAPI, Django, PyTorch, Pandas, Scikit-learn.
@@ -2169,7 +2169,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
       },
       {
         id: 'java-spring-enterprise',
-        heading: '#3: Java & Spring Boot (The Enterprise Heavyweight)',
+        heading: 'Rank 3: Java & Spring Boot (The Enterprise Heavyweight)',
         content: `While less trendy on social media, **Java** powers the financial infrastructure of Pakistan:
 
 - **Key Employers**: Commercial banking backends (State Bank, HBL, MCB), core telecom billing systems (Jazz, PTCL), and large-scale ERP implementations.
@@ -2203,7 +2203,7 @@ Unlike hospitals that hire doctors for ward treatment and bedside medicine, WHO 
   {
     slug: 'how-to-get-job-in-saudi-arabia-from-pakistan',
     title: 'How to Get a Job in Saudi Arabia from Pakistan: Official Legal Process (Bureau of Emigration)',
-    metaTitle: 'How to Get a Job in Saudi Arabia from Pakistan: BEOE Legal Guide | Tainaati',
+    metaTitle: 'How to Get a Job in Saudi Arabia from Pakistan: BEOE Legal Guide',
     metaDescription: 'Step-by-step legal procedure to secure a job in Saudi Arabia from Pakistan. Bureau of Emigration (BEOE), Overseas Employment Promoters (OEP), Qiwa platform, and Protector clearance.',
     cluster: 'career-decisions',
     clusterLabel: 'Overseas Careers',

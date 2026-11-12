@@ -3,7 +3,7 @@ export const TRANSLATIONS = {
     nav: {
       brandName: "Tainaa",
       brandAccent: "ti",
-      tagline: "Verified Jobs Intelligence",
+      tagline: "Public Sector Jobs & Exam Notices",
       allJobs: "All Jobs",
       govtJobs: "Govt Jobs",
       privateJobs: "Private & IT",
@@ -27,11 +27,11 @@ export const TRANSLATIONS = {
       resources: "Resources"
     },
     hero: {
-      trustBadge: "100% Verified Advertisements — No Outdated Ads or Clutter",
-      titlePrefix: "The Authority on Careers & Competitive Exams",
+      trustBadge: "Government job notices with official source links",
+      titlePrefix: "Government Jobs & Competitive Exams",
       titleIn: "in",
       titleCountry: "Pakistan",
-      subtitle: "Direct verified access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) and testing service opportunities — all in one modern, ad-free interface.",
+      subtitle: "Direct access to Federal & Provincial Government positions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) and testing service opportunities — all in one modern interface.",
       searchPlaceholder: "Job title, department, BPS scale, or skills...",
       allCities: "All Cities",
       findJobs: "Find Jobs",
@@ -97,11 +97,11 @@ export const TRANSLATIONS = {
       allBps: "All BPS Scales"
     },
     feed: {
-      allTitle: "All Verified Opportunities in Pakistan",
-      govtTitle: "Verified Government Jobs",
+      allTitle: "Job Openings in Pakistan",
+      govtTitle: "Government Job Openings",
       privateTitle: "High-Growth Tech Careers",
       subtitlePrefix: "Showing",
-      subtitleSuffix: "verified listings • 100% cross-checked with official gazette notices.",
+      subtitleSuffix: "job notices linked directly to official announcements.",
       searchFilterPlaceholder: "Filter by title, city, dept...",
       noResultsTitle: "No matching positions found",
       noResultsDesc: "Try adjusting your filters, clearing your search query, or selecting 'All Pakistan'."
@@ -134,7 +134,7 @@ export const TRANSLATIONS = {
       privateBadge: "Private Sector Career",
       verifiedBadge: "Verified Gazette Notice",
       applyOfficialPortal: "Apply on Official Portal",
-      authenticTitle: "100% Authentic Official Listing",
+      authenticTitle: "Official source link",
       sourceRef: "Source Reference:",
       lastVerifiedAgainst: "Last verified against official commission portal on",
       keySpecs: "Key Position Specifications",
@@ -185,7 +185,7 @@ export const TRANSLATIONS = {
     cvBuilder: {
       title: "Premium ATS Resume & CV Builder",
       subtitle: "Engineered for Pakistani Public Service Commissions (FPSC / PPSC) and Top Tech / Corporate Careers.",
-      badge: "Flagship 2026 Engine • 100% Free & ATS-Compliant",
+      badge: "Single-Column Layout • Free & Easy",
       loadSample: "Load Sample Data",
       clear: "Clear",
       printPdf: "Print / Save as PDF",
@@ -203,7 +203,7 @@ export const TRANSLATIONS = {
     },
     commissionsBar: {
       heading: "Official Public Service Commissions Monitored",
-      subHeading: "Updated Every 6 Hours with Direct Gazette Links",
+      subHeading: "Official Portal & Gazette Links",
       activeCount: "Active",
       fpsc: { name: "FPSC Federal", sub: "General Recruitment & CSS" },
       ppsc: { name: "PPSC Punjab", sub: "Lecturers, Registrars & Admin" },
@@ -212,11 +212,11 @@ export const TRANSLATIONS = {
       nts: { name: "NTS Testing", sub: "Judiciary & Public Authorities" }
     },
     alerts: {
-      title: "Verified Job Alerts via Email",
-      subtitle: "Receive curated Federal/Provincial government circulars and high-growth IT job postings matching your specific qualification and domicile directly in your inbox.",
+      title: "Job Alerts via Email",
+      subtitle: "Receive curated Federal and Provincial government circulars matching your specific qualification and domicile directly in your inbox.",
       step1Title: "1. Select Your Preferences",
       step2Title: "2. Verify Your Email Address",
-      step3Title: "3. Enjoy Zero-Spam Alerts",
+      step3Title: "3. Direct Email Alerts",
       emailLabel: "Your Email Address",
       cityLabel: "Preferred Job Location",
       qualificationLabel: "Your Highest Qualification",
@@ -228,8 +228,8 @@ export const TRANSLATIONS = {
     },
     footer: {
       directoryHeading: "Official Government Portals Directory (Direct Access)",
-      desc: "Pakistan's highest-authority career intelligence ecosystem. Eliminating fake advertisements, confusing newspaper clippings, and legacy classified portals with real-time verified gazette notices.",
-      antiScamBadge: "100% Anti-Scam Verification Guarantee",
+      desc: "Government job notices and competitive exam resources in Pakistan, linked directly to official commission announcements.",
+      antiScamBadge: "",
       careerHub: "Career Hub",
       govtJobsLink: "Federal & Provincial Govt Jobs",
       privateJobsLink: "Private Sector & Tech Careers",
@@ -250,10 +250,10 @@ export const TRANSLATIONS = {
       privacy: "Privacy Policy",
       terms: "Terms of Service",
       telemetry: "Pipeline Telemetry",
-      sslBadge: "SSL 256-Bit Encrypted",
-      gazetteBadge: "100% Gazette Verified",
+      sslBadge: "",
+      gazetteBadge: "Official Gazette Sourced",
       legalDisclaimer: "Disclaimer & Official Status",
-      disclaimerText: "Tainaati is an independent, ad-free career intelligence platform. All government job circulars, syllabus notices, and examination timetables are directly cross-verified against official Federal (FPSC) and Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes.",
+      disclaimerText: "Tainaati is an independent public sector job directory. All government job circulars, syllabus notices, and examination timetables are referenced from official Federal (FPSC) and Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes.",
       copyright: "© 2026 Tainaati. All rights reserved. Built for job seekers across Pakistan."
     }
   },
@@ -286,11 +286,11 @@ export const TRANSLATIONS = {
       resources: "وسائل"
     },
     hero: {
-      trustBadge: "100% تصدیق شدہ سرکاری اشتہارات — بغیر کسی جعلی اشتہار کے",
+      trustBadge: "سرکاری ملازمتوں کے نوٹس مع سرکاری ذرائع کے لنکس",
       titlePrefix: "پاکستان میں ملازمتوں اور مسابقتی امتحانات کا",
       titleIn: "سب سے معتبر",
       titleCountry: "پلیٹ فارم",
-      subtitle: "وفاقی اور صوبائی پبلک سروس کمیشنز (FPSC، PPSC، SPSC، KPPSC، NTS) کے تصدیق شدہ اشتہارات اور ٹاپ آئی ٹی نوکریاں — ایک جدید، اشتہارات سے پاک انٹرفیس پر۔",
+      subtitle: "وفاقی اور صوبائی پبلک سروس کمیشنز (FPSC، PPSC، SPSC، KPPSC، NTS) کے اشتہارات اور نوکریاں — ایک جدید انٹرفیس پر۔",
       searchPlaceholder: "نوکری کا نام، محکمہ، بی پی ایس اسکیل یا شہر لکھیں...",
       allCities: "تمام شہر",
       findJobs: "نوکریاں تلاش کریں",
@@ -312,7 +312,7 @@ export const TRANSLATIONS = {
     },
     commissionsBar: {
       heading: "سرکاری پبلک سروس کمیشنز کی براہ راست نگرانی",
-      subHeading: "ہر 6 گھنٹے بعد سرکاری گزٹ لنکس کے ساتھ اپ ڈیٹ",
+      subHeading: "سرکاری گزٹ اور پورٹل لنکس کے ساتھ",
       activeCount: "فعال",
       fpsc: { name: "FPSC فیڈرل", sub: "جنرل ریکروٹمنٹ اور سی ایس ایس" },
       ppsc: { name: "PPSC پنجاب", sub: "لیکچرار، رجسٹرار اور ایڈمن" },
@@ -366,11 +366,11 @@ export const TRANSLATIONS = {
       allBps: "تمام بی پی ایس اسکیلز"
     },
     feed: {
-      allTitle: "پاکستان بھر کی تمام تصدیق شدہ نوکریاں",
-      govtTitle: "تصدیق شدہ سرکاری ملازمتیں",
+      allTitle: "پاکستان بھر کی سرکاری نوکریاں",
+      govtTitle: "سرکاری ملازمتیں",
       privateTitle: "اعلیٰ معیار کی آئی ٹی و پرائیویٹ نوکریاں",
       subtitlePrefix: "کل",
-      subtitleSuffix: "تصدیق شدہ اسامیاں • 100% سرکاری گزٹ کے مطابق۔",
+      subtitleSuffix: "اسامیاں • سرکاری ذرائع کے لنکس کے ساتھ۔",
       searchFilterPlaceholder: "عنوان، شہر یا محکمے سے فلٹر کریں...",
       noResultsTitle: "کوئی مماثل نوکری نہیں ملی",
       noResultsDesc: "براہ کرم اپنے فلٹرز تبدیل کریں یا 'پورا پاکستان' منتخب کریں۔"
@@ -397,8 +397,8 @@ export const TRANSLATIONS = {
     },
     footer: {
       directoryHeading: "سرکاری پورٹلز کی ڈائریکٹری (براہ راست لنکس)",
-      desc: "پاکستان کا سب سے معتبر کیریئر انٹیلیجنس پورٹل۔ جعلی اشتہارات اور اخبارات کی دھندلی تراشوں کے بغیر سرکاری گزٹ کے مطابق مستند معلومات۔",
-      antiScamBadge: "100% اینٹی اسکیم تصدیقی ضمانت",
+      desc: "پاکستان میں سرکاری ملازمتوں اور مسابقتی امتحانات کی معلومات، براہ راست سرکاری کمیشن کے نوٹس کے لنکس کے ساتھ۔",
+      antiScamBadge: "سرکاری ذرائع کے لنکس",
       careerHub: "کیریئر حب",
       govtJobsLink: "وفاقی اور صوبائی نوکریاں",
       privateJobsLink: "پرائیویٹ و آئی ٹی نوکریاں",
@@ -419,11 +419,11 @@ export const TRANSLATIONS = {
       privacy: "پرائیویسی پالیسی",
       terms: "استعمال کی شرائط",
       telemetry: "پائپ لائن ٹیلی میٹری",
-      sslBadge: "SSL 256-بٹ انکرپٹڈ",
-      gazetteBadge: "100% گزٹ سے تصدیق شدہ",
+      sslBadge: "",
+      gazetteBadge: "سرکاری گزٹ کے لنکس",
       legalDisclaimer: "قانونی وضاحت اور حیثیت",
-      disclaimerText: "روزگار پی کے ایک آزاد اور اشتہارات سے پاک کیریئر انٹیلیجنس پلیٹ فارم ہے۔ تمام اشتہارات براہ راست سرکاری گزٹ سے تصدیق کیے جاتے ہیں۔",
-      copyright: "© 2026 روزگار پی کے۔ جملہ حقوق محفوظ ہیں۔"
+      disclaimerText: "تعیناتی ایک آزاد جاب ڈائریکٹری پلیٹ فارم ہے۔ تمام سرکاری نوٹس متعلقہ کمیشنز سے حاصل کیے جاتے ہیں۔",
+      copyright: "© 2026 تعیناتی۔ جملہ حقوق محفوظ ہیں۔"
     },
     jobCard: {
       verified: "تصدیق شدہ",
@@ -449,7 +449,7 @@ export const TRANSLATIONS = {
       privateBadge: "پرائیویٹ سیکٹر کیریئر",
       verifiedBadge: "تصدیق شدہ گزٹ نوٹس",
       applyOfficialPortal: "سرکاری پورٹل پر آن لائن اپلائی کریں",
-      authenticTitle: "100% مستند سرکاری نوٹس",
+      authenticTitle: "سرکاری ذریعہ کا لنک",
       sourceRef: "اشتہار کا حوالہ:",
       lastVerifiedAgainst: "سرکاری کمیشن ویب سائٹ سے تصدیق کی تاریخ:",
       keySpecs: "نوکری کی بنیادی تفصیلات و شرائط",
@@ -500,7 +500,7 @@ export const TRANSLATIONS = {
     cvBuilder: {
       title: "پیشہ ورانہ اے ٹی ایس سی وی اور ریزیومے بلڈر",
       subtitle: "پاکستانی پبلک سروس کمیشنز (FPSC / PPSC) اور ٹاپ آئی ٹی کمپنیوں کے معیارات کے مطابق ڈیزائن شدہ۔",
-      badge: "جدید 2026 اے ٹی ایس انجن • 100% مفت اور آسان",
+      badge: "سنگل کالم لے آؤٹ • مفت اور آسان",
       loadSample: "نمونہ ڈیٹا لوڈ کریں",
       clear: "صاف کریں",
       printPdf: "پی ڈی ایف محفوظ / پرنٹ کریں",
@@ -537,7 +537,7 @@ export const TRANSLATIONS = {
     nav: {
       brandName: "Tainaa",
       brandAccent: "ti",
-      tagline: "Verified Jobs Intelligence",
+      tagline: "Public Sector Jobs & Exam Notices",
       allJobs: "Tamam Jobs",
       govtJobs: "Sarkari Jobs",
       privateJobs: "Private & IT",
@@ -561,7 +561,7 @@ export const TRANSLATIONS = {
       resources: "Resources"
     },
     hero: {
-      trustBadge: "100% Tasdeeq Shuda Sarkari Jobs — Baghair Kisi Fraud Ya Ads Ke",
+      trustBadge: "Sarkari mulazmaton ke notices official source links ke sath",
       titlePrefix: "Pakistan Mein Careers Aur Competitive Exams Ka",
       titleIn: "Sub Se Mufeed",
       titleCountry: "Platform",
@@ -587,7 +587,7 @@ export const TRANSLATIONS = {
     },
     commissionsBar: {
       heading: "Official Public Service Commissions Monitored",
-      subHeading: "Har 6 Ghantay Baad Gazette Links Ke Sath Update",
+      subHeading: "Official Portal aur Gazette Links",
       activeCount: "Active",
       fpsc: { name: "FPSC Federal", sub: "General Recruitment aur CSS" },
       ppsc: { name: "PPSC Punjab", sub: "Lecturers, Registrars aur Admin" },
@@ -645,7 +645,7 @@ export const TRANSLATIONS = {
       govtTitle: "Verified Sarkari Mulazmatain",
       privateTitle: "Top Private & IT Careers",
       subtitlePrefix: "Kul",
-      subtitleSuffix: "verified listings • 100% official gazette se tasdeeq shuda.",
+      subtitleSuffix: "listings • official gazette aur commission notices ke sath.",
       searchFilterPlaceholder: "Title, sheher ya dept se filter karein...",
       noResultsTitle: "Koi munasib job nahi mili",
       noResultsDesc: "Baraye meherbani filters change karein ya 'Pura Pakistan' select karein."
@@ -716,7 +716,7 @@ export const TRANSLATIONS = {
     cvBuilder: {
       title: "Premium ATS Resume & CV Builder",
       subtitle: "Pakistani Sarkari Commissions (FPSC / PPSC) aur Top IT Companies ke standard par tayyar.",
-      badge: "Flagship 2026 Engine • 100% Free & ATS-Compliant",
+      badge: "Single-Column Layout • Free & Easy",
       loadSample: "Sample Data Load Karein",
       clear: "Clear Karein",
       printPdf: "PDF Save / Print Karein",
@@ -749,8 +749,8 @@ export const TRANSLATIONS = {
     },
     footer: {
       directoryHeading: "Official Government Portals Directory (Direct Access)",
-      desc: "Pakistan ka sub se authentic career intelligence platform. Fake ads aur confusing newspaper clippings ke baghair gazette notices ka direct zariya.",
-      antiScamBadge: "100% Anti-Scam Guarantee",
+      desc: "Pakistan mein sarkari mulazmaton aur competitive exams ka portal, official commission notices ke direct links ke sath.",
+      antiScamBadge: "Sarkari zariye ke links",
       careerHub: "Career Hub",
       govtJobsLink: "Federal & Provincial Govt Jobs",
       privateJobsLink: "Private Sector & Tech Careers",
@@ -760,7 +760,7 @@ export const TRANSLATIONS = {
       emailAlertsLink: "Free Email Job Alerts",
       commissionsTracked: "Commissions Monitored",
       legalDisclaimer: "Disclaimer & Official Status",
-      disclaimerText: "Tainaati ek independent aur ad-free platform hai. Tamam sarkari notices direct official Federal (FPSC) aur Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes se verify kiye jate hain.",
+      disclaimerText: "Tainaati ek independent job directory platform hai. Tamam sarkari notices official Federal (FPSC) aur Provincial (PPSC, SPSC, KPPSC, BPSC, NTS) gazettes se link kiye jate hain.",
       copyright: "© 2026 Tainaati. All rights reserved. Built for Pakistan."
     }
   }

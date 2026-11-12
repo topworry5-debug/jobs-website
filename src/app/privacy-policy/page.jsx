@@ -6,13 +6,13 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Privacy Policy — Tainaati",
+  title: "Privacy Policy",
   description: "Read the official Tainaati Privacy Policy. Learn how we handle job alerts, local CV data, cookies, and ensure candidate privacy.",
   alternates: {
     canonical: `${siteUrl}/privacy-policy`
   },
   openGraph: {
-    title: "Privacy Policy — Tainaati",
+    title: "Privacy Policy",
     description: "Read the official Tainaati Privacy Policy.",
     url: `${siteUrl}/privacy-policy`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
@@ -60,14 +60,14 @@ export default function PrivacyPolicyPage() {
               <span>1. Information We Collect & How It Is Handled</span>
             </h2>
             <p>
-              Tainaati is designed from the ground up as a privacy-respecting career intelligence index. We minimize personal data collection to the minimum required for user-initiated tools:
+              Tainaati is designed from the ground up as a privacy-respecting job directory. We minimize personal data collection to the minimum required for user-initiated tools:
             </p>
             <ul className="legal-list-bulleted">
               <li>
-                <strong>Email Alert Subscriptions:</strong> When you subscribe to job alerts, we collect your email address and your chosen preference filters (e.g., Federal FPSC, Punjab PPSC, Sindh SPSC, or Software & IT). This information is solely used to send verified job notices matching your selected criteria. Every email alert includes an instant one-click unsubscribe mechanism.
+                <strong>Email Alert Subscriptions:</strong> When you subscribe to job alerts, we collect your email address and your chosen preference filters (e.g., Federal FPSC, Punjab PPSC, Sindh SPSC, or Software & IT). This information is solely used to send job notices matching your selected criteria. Every email alert includes an instant one-click unsubscribe mechanism.
               </li>
               <li>
-                <strong>ATS CV Builder Data (100% Client-Side):</strong> Data entered into the Tainaati ATS CV Builder (including your name, contact details, education, and work history) is processed <strong>strictly on your local browser</strong>. We do not transmit, save, or store your CV contents on our servers or in any remote database. When you download or print your resume as a PDF, the document is generated directly within your browser session.
+                <strong>ATS CV Builder Data (Client-Side):</strong> Data entered into the Tainaati ATS CV Builder (including your name, contact details, education, and work history) is processed <strong>strictly on your local browser</strong>. We do not transmit, save, or store your CV contents on our servers or in any remote database. When you download or print your resume as a PDF, the document is generated directly within your browser session.
               </li>
               <li>
                 <strong>Local User Preferences:</strong> We use your browser&apos;s standard <code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">localStorage</code> to remember your UI preferences—such as your Dark/Light theme mode (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">tainaati_theme</code>), language selection (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">tainaati_lang</code>), and bookmarked job IDs (<code className="text-xs bg-surface-subtle px-1.5 py-0.5 rounded font-mono">tainaati_saved_jobs</code>).

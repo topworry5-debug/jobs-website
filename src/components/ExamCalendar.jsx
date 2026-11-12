@@ -16,7 +16,7 @@ import {
   AlertCircle,
   Sparkles
 } from 'lucide-react';
-import { EXAM_SCHEDULES } from '../data/examCalendarData';
+import { EXAM_SCHEDULES, COMMISSION_EXAM_STATUS } from '../data/examCalendarData';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function ExamCalendar() {
@@ -30,6 +30,10 @@ export default function ExamCalendar() {
   const filteredExams = selectedAgency === 'ALL' 
     ? EXAM_SCHEDULES 
     : EXAM_SCHEDULES.filter(e => e.agency === selectedAgency);
+
+  const activeCommissionStatus = selectedAgency !== 'ALL'
+    ? COMMISSION_EXAM_STATUS.find(c => c.agency === selectedAgency)
+    : null;
 
   const handleSetReminder = (exam) => {
     if (reminderSetIds.includes(exam.id)) {
@@ -148,6 +152,22 @@ export default function ExamCalendar() {
                     <AlertCircle size={14} className="text-muted" />
                     <span>{exam.notes}</span>
                   </div>
+                  {exam.sourceUrl && (
+                    <div className="meta-line text-[11px] text-muted pt-1 border-t border-subtle flex items-center justify-between flex-wrap gap-1">
+                      <a
+                        href={exam.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-emerald-500 hover:underline inline-flex items-center gap-1 font-mono"
+                      >
+                        <span>Source: {exam.sourceLabel || exam.sourceUrl}</span>
+                        <ExternalLink size={11} />
+                      </a>
+                      {exam.checkedOn && (
+                        <span className="font-mono text-muted">Checked on: {exam.checkedOn}</span>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Card Footer Actions */}
@@ -173,6 +193,48 @@ export default function ExamCalendar() {
             );
           })}
         </div>
+
+        {/* Honest Commission Empty State */}
+        {filteredExams.length === 0 && (
+          <div className="card p-8 text-center max-w-2xl mx-auto my-8 border border-subtle">
+            <div className="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center mx-auto mb-4">
+              <ShieldCheck size={24} />
+            </div>
+            <h3 className="text-lg font-bold text-primary mb-2">
+              {selectedAgency === 'ALL'
+                ? 'No Active Written Exam Dates Published'
+                : `No Upcoming Written Exam Date Sheets for ${selectedAgency}`}
+            </h3>
+            <p className="text-secondary text-sm leading-relaxed mb-4">
+              {activeCommissionStatus?.statusDescription ||
+                'Testing bodies and commissions publish specific written date sheets and roll number slips following the close of candidate registration and scrutiny.'}
+            </p>
+            {activeCommissionStatus?.checkedOn && (
+              <div className="text-xs font-mono text-muted mb-6">
+                Official status checked on: {activeCommissionStatus.checkedOn}
+              </div>
+            )}
+            <div className="flex items-center justify-center gap-3 flex-wrap">
+              {activeCommissionStatus?.officialUrl && (
+                <a
+                  href={activeCommissionStatus.officialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-sm btn-outline"
+                >
+                  <span>Visit Official {selectedAgency} Website</span>
+                  <ExternalLink size={13} />
+                </a>
+              )}
+              <button
+                onClick={() => setSelectedAgency('ALL')}
+                className="btn btn-sm btn-primary"
+              >
+                <span>View All Verified Schedules</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

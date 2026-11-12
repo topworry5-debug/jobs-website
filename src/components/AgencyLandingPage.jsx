@@ -61,7 +61,7 @@ export default function AgencyLandingPage({
             </span>
             <span className="badge badge-verified">
               <ShieldCheck size={13} />
-              <span>Official Authority Hub</span>
+              <span>Official Commission Hub</span>
             </span>
           </div>
 

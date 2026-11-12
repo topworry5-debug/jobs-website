@@ -1,17 +1,19 @@
 import { getSiteUrl } from '../../utils/siteUrl';
 import { CATEGORIES_CONFIG } from '../../data/categoriesData';
 import { CITY_LANDING_CONTENT, AGENCY_LANDING_CONTENT } from '../../data/landingPagesData';
+import { JOBS_DATA } from '../../data/jobsData';
 
 export async function GET() {
   const baseUrl = getSiteUrl();
   const now = new Date().toISOString();
 
-  // Category pages
+  // Category pages (only categories with >= 1 job)
   const catXml = CATEGORIES_CONFIG
+    .filter((c) => JOBS_DATA.some((j) => j.categorySlug === c.slug))
     .map((c) => `  <url>
     <loc>${baseUrl}/jobs/${c.slug}</loc>
     <lastmod>${now}</lastmod>
-    <changefreq>hourly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>`)
     .join('\n');

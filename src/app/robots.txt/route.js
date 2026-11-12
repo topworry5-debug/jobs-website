@@ -6,39 +6,14 @@ export async function GET() {
   const robotsTxt = `User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /api/admin
-
-# AI Search Engines & LLM Answer Engines
-User-agent: GPTBot
-Allow: /
-Disallow: /admin
-Disallow: /api/admin
-
-User-agent: ChatGPT-User
-Allow: /
-Disallow: /admin
-Disallow: /api/admin
-
-User-agent: ClaudeBot
-Allow: /
-Disallow: /admin
-Disallow: /api/admin
-
-User-agent: PerplexityBot
-Allow: /
-Disallow: /admin
-Disallow: /api/admin
-
-User-agent: Google-Extended
-Allow: /
-Disallow: /admin
-Disallow: /api/admin
+Disallow: /admin/
+Disallow: /api/
+Disallow: /saved-jobs
+Disallow: /alerts
+Disallow: /*?*
 
 # Sitemaps
 Sitemap: ${baseUrl}/sitemap.xml
-Sitemap: ${baseUrl}/sitemap-jobs.xml
-Sitemap: ${baseUrl}/sitemap-pages.xml
-Sitemap: ${baseUrl}/sitemap-categories.xml
 Host: ${baseUrl}
 `;
 
