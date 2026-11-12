@@ -102,10 +102,16 @@ export default function JobDetailModal({
             <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
               {isGovt ? t.jobDetail.officialGovtBadge : t.jobDetail.privateBadge}
             </span>
-            {job.verified && (
+            {job.sourceUrl && (
+              <span className="badge-source-linked">
+                <ExternalLink size={11} aria-hidden="true" />
+                <span>Source linked</span>
+              </span>
+            )}
+            {job.verifiedAt && (
               <span className="badge badge-verified">
                 <ShieldCheck size={13} />
-                <span>{t.jobDetail.verifiedBadge}</span>
+                <span>Verified on {new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })}</span>
               </span>
             )}
           </div>
@@ -312,7 +318,7 @@ export default function JobDetailModal({
           <div className="p-3.5 bg-emerald-50/50 border border-emerald-200/60 rounded-lg flex items-center justify-between gap-3 flex-wrap my-4">
             <div className="flex items-center gap-2 text-xs text-emerald-950 font-medium">
               <ShieldCheck size={16} className="text-emerald-600 flex-shrink-0" />
-              <span>Verified Source: {job.officialSourceLabel || 'Official Government Gazette Portal'}</span>
+              <span>Source: {job.officialSourceLabel || 'Official Government Gazette Portal'}</span>
             </div>
             <a 
               href={job.officialNotificationUrl || job.officialUrl} 

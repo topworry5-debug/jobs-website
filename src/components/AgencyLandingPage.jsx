@@ -101,12 +101,12 @@ export default function AgencyLandingPage({
               Current {agencyData.code} Advertised Positions ({agencyJobs.length})
             </h2>
             <span className="text-xs text-muted">
-              Live Verified via Official Portal Telemetry
+              Official Gazette & Portal Notices
             </span>
           </div>
 
           {agencyJobs.length > 0 ? (
-            <div className="jobs-layout-container grid-view">
+            <div className="job-rows-list">
               {agencyJobs.map((job) => (
                 <JobCard
                   key={job.id}

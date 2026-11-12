@@ -49,10 +49,10 @@ export default function JobListings({
           <h2 className="listings-heading">
             {activeType === 'govt' ? 'Government & Public Sector Positions' : 
              activeType === 'private' ? 'Private & Tech Careers' : 
-             'All Verified Job Openings in Pakistan'}
+             'All Job Openings in Pakistan'}
           </h2>
           <p className="listings-subheading">
-            Showing <strong>{sortedJobs.length}</strong> active verified opportunities
+            Showing <strong>{sortedJobs.length}</strong> active opportunities
           </p>
         </div>
 

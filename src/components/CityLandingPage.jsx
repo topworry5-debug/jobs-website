@@ -87,10 +87,10 @@ export default function CityLandingPage({
         {/* Openings Grid */}
         <div className="city-jobs-section mb-5">
           <h2 className="section-title">
-            Active Verified Openings in {cityData.name} ({cityJobs.length})
+            Active Job Openings in {cityData.name} ({cityJobs.length})
           </h2>
 
-          <div className="jobs-layout-container grid-view">
+          <div className="job-rows-list">
             {cityJobs.map((job) => (
               <JobCard
                 key={job.id}

@@ -38,6 +38,7 @@ import {
 } from '../../../utils/seoHelpers';
 import { getJobLogoUrl, getJobLogoAlt } from '../../../utils/logoResolver';
 import { getSiteUrl } from '../../../utils/siteUrl';
+import { decodeHtmlEntities } from '../../../utils/textCleaning';
 import { 
   getJobStatus, 
   isJobOpen, 
@@ -222,10 +223,10 @@ export default function JobDetailPage({ params }) {
   ];
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems);
 
-  // Verified Date display
-  const verifiedDate = job.scrapedAt
-    ? new Date(job.scrapedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })
-    : (job.postDate ? new Date(job.postDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : null);
+  // Verified Date display - ONLY if real verifiedAt exists
+  const verifiedDate = job.verifiedAt
+    ? new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })
+    : null;
 
   // Official advertisement image / PDF link
   const officialDocUrl = job.officialNotificationUrl || job.adImageUrl || 
@@ -326,6 +327,19 @@ export default function JobDetailPage({ params }) {
                     </span>
                   )}
 
+                  {job.sourceUrl && (
+                    <a
+                      href={job.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="badge-source-linked"
+                      title="Direct official source advertisement link"
+                    >
+                      <ExternalLink size={11} aria-hidden="true" />
+                      <span>Source linked</span>
+                    </a>
+                  )}
+
                   {verifiedDate && (
                     <span className="badge badge-verified">
                       <ShieldCheck size={13} />
@@ -336,12 +350,12 @@ export default function JobDetailPage({ params }) {
 
                 {/* Single H1 = Job Title */}
                 <h1 className="job-hero-title text-2xl md:text-3xl font-extrabold text-primary mb-2" dir="auto">
-                  {job.title}
+                  {decodeHtmlEntities(job.title)}
                 </h1>
 
                 {(job.department || job.company || job.city) && (
                   <div className="dept-subtitle text-base text-secondary font-medium" dir="auto">
-                    {(job.department || job.company) && <span>{job.department || job.company}</span>}
+                    {(job.department || job.company) && <span>{decodeHtmlEntities(job.department || job.company)}</span>}
                     {(job.department || job.company) && job.city && <span> • </span>}
                     {job.city && (
                       citySlug ? (

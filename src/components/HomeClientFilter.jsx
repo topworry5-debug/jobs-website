@@ -13,9 +13,7 @@ import {
   SlidersHorizontal,
   X,
   ChevronDown,
-  Clock,
-  ShieldCheck,
-  ChevronRight
+  Inbox
 } from 'lucide-react';
 import { partitionJobs, isClosingSoon } from '../lib/jobStatus';
 
@@ -150,14 +148,14 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
   // Filter visible category tabs:
   // 1. Keep 'all'
   // 2. Hide any tab where count === 0
-  // 3. Hide any tab where count === categoryCounts.all (e.g. if All is 9 and Govt is 9, omit redundant Govt tab)
+  // 3. Hide any tab where count === categoryCounts.all (omit redundant duplicate equal to 'All')
   const visibleCategories = useMemo(() => {
     const totalOpen = categoryCounts.all;
     return CATEGORIES.filter(cat => {
       if (cat.id === 'all') return true;
       const count = categoryCounts[cat.id] ?? 0;
       if (count <= 0) return false;
-      if (count === totalOpen) return false; // Omit redundant duplicate equal to 'All'
+      if (count === totalOpen) return false;
       return true;
     });
   }, [categoryCounts]);
@@ -252,7 +250,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
     (selectedCity !== 'All Cities' ? 1 : 0) +
     (selectedBps !== 'All BPS Scales' ? 1 : 0) +
     (selectedQualification !== 'All Qualifications' ? 1 : 0) +
-    (urgentOnly ? 1 : 0);
+    (urgentOnly ? 1 : 0) +
+    (searchQuery.trim().length > 0 ? 1 : 0);
 
   return (
     <div className="home-filter-root">
@@ -304,24 +303,22 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
             totalResults={sortedJobs.length}
             categories={visibleCategories}
             categoryCounts={categoryCounts}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
           />
         </aside>
 
         {/* Jobs Feed Column */}
         <section className="jobs-feed-col" aria-label="Job Listings">
-          {/* Feed Header with Result Count, Visible Sort Dropdown & Search */}
+          {/* Feed Header with Live Result Count ("9 jobs"), Sort Dropdown & Search */}
           <div className="feed-header-bar">
             <div className="feed-title-block">
               <h2 className="feed-title">
-                {selectedCategory === 'all' ? 'All Verified Job Openings' : (getCategoryBySlug(selectedCategory)?.name || 'Filtered Positions')}
+                {selectedCategory === 'all' ? 'Job Openings' : (getCategoryBySlug(selectedCategory)?.name || 'Filtered Positions')}
               </h2>
-              <p className="feed-subtitle tabular-nums">
-                {sortedJobs.length > 0 ? (
-                  <>Showing <strong>{sortedJobs.length}</strong> active positions</>
-                ) : (
-                  <>0 active positions</>
-                )}
-              </p>
+              <span className="feed-live-count tabular-nums">
+                {sortedJobs.length} {sortedJobs.length === 1 ? 'job' : 'jobs'}
+              </span>
             </div>
 
             <div className="feed-controls-right">
@@ -355,25 +352,35 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 )}
               </button>
 
-              {/* Search Within Feed */}
+              {/* Search Within Feed with search icon INSIDE the input */}
               <div className="feed-quick-search-box">
-                <Search size={14} className="feed-quick-search-icon" aria-hidden="true" />
+                <Search size={15} className="feed-quick-search-icon" aria-hidden="true" />
                 <input
                   type="text"
-                  placeholder="Filter listings..."
+                  placeholder="Filter by title, city, dept..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="feed-quick-search-input"
-                  aria-label="Filter listings by text"
+                  aria-label="Filter listings by title, city, department"
                 />
+                {searchQuery && (
+                  <button 
+                    type="button" 
+                    onClick={() => setSearchQuery('')}
+                    className="feed-search-clear-btn"
+                    aria-label="Clear filter text"
+                  >
+                    ×
+                  </button>
+                )}
               </div>
             </div>
           </div>
 
-          {/* OPEN JOBS LISTING */}
+          {/* OPEN JOBS LISTING: Compact Rows */}
           {sortedJobs.length > 0 ? (
             <>
-              <div className="jobs-cards-grid">
+              <div className="jobs-rows-list" role="feed" aria-label="Open Positions">
                 {displayedJobs.map((job) => (
                   <JobCard
                     key={job.id}
@@ -397,25 +404,25 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
               )}
             </>
           ) : (
-            /* Empty State */
-            <div className="empty-state-card">
+            /* Accessible, Readable Empty State */
+            <div className="empty-state-readable" role="region" aria-label="No jobs found">
               <div className="empty-state-icon-box">
-                <ShieldCheck size={32} className="text-brand-primary" />
+                <Inbox size={32} className="text-muted" aria-hidden="true" />
               </div>
-              <h3 className="empty-state-title">No open jobs matching your filter</h3>
+              <h3 className="empty-state-title">No jobs match your selected filters</h3>
               <p className="empty-state-desc">
                 {isFilterActive 
-                  ? 'No active positions match your selected criteria. Try adjusting or clearing your filters to see all available vacancies.'
-                  : 'All previous recruitment notices in this section have concluded. Tainaati monitors official gazettes continuously.'}
+                  ? 'No active vacancies match your current search criteria. Try removing some filters or clearing your search term to see all available opportunities.'
+                  : 'There are currently no active openings published in this category. New notices are monitored and published as soon as gazettes are released.'}
               </p>
               {isFilterActive && (
                 <button 
                   type="button"
                   onClick={handleResetFilters} 
-                  className="reset-empty-btn"
+                  className="empty-state-reset-btn"
                 >
-                  <RotateCcw size={14} />
-                  <span>Reset All Filters</span>
+                  <RotateCcw size={14} aria-hidden="true" />
+                  <span>Clear All Filters</span>
                 </button>
               )}
             </div>
@@ -448,7 +455,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                   <p className="recently-closed-note">
                     Applications have closed. Retained for candidate verification, syllabus review, and gazette reference.
                   </p>
-                  <div className="jobs-cards-grid">
+                  <div className="jobs-rows-list">
                     {filteredRecentlyClosedJobs.map((job) => (
                       <JobCard
                         key={job.id}
@@ -503,6 +510,8 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                 onCloseMobileFilter={() => setMobileFilterOpen(false)}
                 categories={visibleCategories}
                 categoryCounts={categoryCounts}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
               />
             </div>
           </div>
