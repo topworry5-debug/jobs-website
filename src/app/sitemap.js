@@ -1,9 +1,9 @@
 import { JOBS_DATA } from '../data/jobsData';
-import { CATEGORIES_CONFIG } from '../data/categoriesData';
+import { CATEGORIES_CONFIG, matchesJobCategory } from '../data/categoriesData';
 import { CITY_LANDING_CONTENT, AGENCY_LANDING_CONTENT } from '../data/landingPagesData';
 import { BLOG_ARTICLES } from '../data/blogData';
 import { getSiteUrl } from '../utils/siteUrl';
-import { isJobOpen, isRecentlyClosed, getLastUpdatedTimestamp } from '../lib/jobStatus';
+import { isJobOpen, isRecentlyClosed, getLastUpdatedTimestamp, filterOpenJobs } from '../lib/jobStatus';
 
 export default function sitemap() {
   const baseUrl = getSiteUrl();
@@ -100,9 +100,12 @@ export default function sitemap() {
     priority: 0.85,
   }));
 
-  // 6. Category Landing Pages (Only categories that contain >= 1 job)
+  // 6. Category Landing Pages (Only categories that contain >= 1 open job to exclude noindex pages)
   const categoryRoutes = CATEGORIES_CONFIG
-    .filter((cat) => JOBS_DATA.some((j) => j.categorySlug === cat.slug))
+    .filter((cat) => {
+      const catJobs = JOBS_DATA.filter((j) => matchesJobCategory(j, cat.id));
+      return filterOpenJobs(catJobs).length > 0;
+    })
     .map((cat) => ({
       url: `${baseUrl}/jobs/${cat.slug}`,
       lastModified: defaultLastMod,
