@@ -52,7 +52,7 @@ export async function generateMetadata({ params }) {
   return {
     title: content.metaTitle,
     description: content.metaDescription,
-    robots: hasOpenJobs ? { index: true, follow: true } : { index: false, follow: true },
+    robots: { index: true, follow: true },
     alternates: {
       canonical: `${siteUrl}/agency/${agency}`
     },
@@ -138,15 +138,28 @@ export default function AgencyLandingPage({ params }) {
             </span>
           </div>
 
-          <a
-            href={content.officialPortalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-outline btn-sm"
-          >
-            <span>Official Commission Portal</span>
-            <ExternalLink size={14} />
-          </a>
+          <div className="flex items-center gap-2 flex-wrap">
+            {content.officialWebsite && (
+              <a
+                href={content.officialWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline btn-sm text-xs"
+              >
+                <span>{content.agencyCode} Website</span>
+                <ExternalLink size={13} />
+              </a>
+            )}
+            <a
+              href={content.officialPortalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary btn-sm text-xs"
+            >
+              <span>Apply on Official Portal</span>
+              <ExternalLink size={13} />
+            </a>
+          </div>
         </div>
 
         <h1 className="text-2xl md:text-3xl font-extrabold text-primary mb-2">
