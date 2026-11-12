@@ -1,51 +1,17 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
-import { 
-  Search, 
-  MapPin, 
-  ShieldCheck, 
-  Flame, 
-  Calendar, 
-  ArrowRight,
-  Landmark,
-  Briefcase,
-  Layers,
-  Sparkles
-} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, MapPin } from 'lucide-react';
 import { CITIES } from '../data/jobsData';
-import { useLanguage } from '../context/LanguageContext';
-import { computeJobMetrics, isClosingSoon, filterOpenJobs } from '../utils/jobMetrics';
-import AnimatedCount from './AnimatedCount';
 
 export default function HeroSection({ 
-  searchQuery: propQuery = '', 
-  setSearchQuery: propSetQuery = () => {}, 
-  selectedCity: propCity = 'All Cities', 
-  setSelectedCity: propSetCity = () => {}, 
-  jobs = [], 
-  examSchedules = [],
-  onJobClick = () => {}
+  openCount = 0,
+  closingSoonCount = 0,
+  lastUpdated = 'November 12, 2026',
+  agencyCounts = {}
 }) {
-  const { t, isRtl } = useLanguage();
-  const [localQuery, setLocalQuery] = useState(propQuery || '');
-  const [localCity, setLocalCity] = useState(propCity || 'All Cities');
-  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
-  const searchContainerRef = useRef(null);
-
-  // Sync with prop changes if parent provides them
-  useEffect(() => {
-    if (propQuery !== undefined && propQuery !== '') {
-      setLocalQuery(propQuery);
-    }
-  }, [propQuery]);
-
-  useEffect(() => {
-    if (propCity !== undefined && propCity !== 'All Cities') {
-      setLocalCity(propCity);
-    }
-  }, [propCity]);
+  const [localQuery, setLocalQuery] = useState('');
+  const [localCity, setLocalCity] = useState('All Cities');
 
   // Read URL search params on mount
   useEffect(() => {
@@ -58,391 +24,173 @@ export default function HeroSection({
     }
   }, []);
 
-  // Centralized single source of truth dynamic metrics
-  const metrics = computeJobMetrics(jobs, examSchedules);
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    const q = localQuery.trim();
+    const city = localCity;
 
-  // Filter autosuggest results — strictly suggest verified OPEN jobs
-  const openJobs = filterOpenJobs(jobs);
-  const autosuggestResults = (localQuery || '').trim().length > 1
-    ? openJobs.filter(j => 
-        j.title.toLowerCase().includes((localQuery || '').toLowerCase()) ||
-        (j.department && j.department.toLowerCase().includes((localQuery || '').toLowerCase())) ||
-        (j.company && j.company.toLowerCase().includes((localQuery || '').toLowerCase())) ||
-        j.city.toLowerCase().includes((localQuery || '').toLowerCase()) ||
-        (j.bpsScale && j.bpsScale.toLowerCase().includes((localQuery || '').toLowerCase()))
-      ).slice(0, 5)
-    : [];
-
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
-        setSuggestionsOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleSearchSubmit = (overrideQuery, overrideCity) => {
-    const q = (overrideQuery !== undefined ? overrideQuery : localQuery).trim();
-    const city = overrideCity !== undefined ? overrideCity : localCity;
-
-    setSuggestionsOpen(false);
-
-    // 1. Notify parent prop if provided
-    propSetQuery(q);
-    propSetCity(city);
-
-    // 2. Dispatch window event for immediate reactivity
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('tainaati:filter-change', {
         detail: { query: q, city }
       }));
 
-      // 3. Update URL with search params
       const params = new URLSearchParams(window.location.search);
-      if (q) {
-        params.set('q', q);
-      } else {
-        params.delete('q');
-      }
-      if (city && city !== 'All Cities') {
-        params.set('city', city);
-      } else {
-        params.delete('city');
-      }
-
+      if (q) params.set('q', q); else params.delete('q');
+      if (city && city !== 'All Cities') params.set('city', city); else params.delete('city');
       const qs = params.toString();
       const newUrl = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
       window.history.pushState(null, '', newUrl);
 
-      // 4. Smooth scroll down to listings section
-      const resultsElement = document.getElementById('job-listings') || document.getElementById('listings-section');
-      if (resultsElement) {
-        resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = document.getElementById('job-listings');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   };
 
-  const handleSuggestionClick = (job) => {
-    setLocalQuery(job.title);
-    setSuggestionsOpen(false);
-    handleSearchSubmit(job.title, undefined);
-    onJobClick(job);
+  const handleAgencyChipClick = (agencyCode) => {
+    if (typeof window !== 'undefined') {
+      const newQuery = localQuery === agencyCode ? '' : agencyCode;
+      setLocalQuery(newQuery);
+      window.dispatchEvent(new CustomEvent('tainaati:filter-change', {
+        detail: { query: newQuery, city: 'All Cities', category: 'all' }
+      }));
+      const target = document.getElementById('job-listings');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
   };
 
-  const quickPills = [
-    { label: 'Banking & SBP', query: 'Banking' },
-    { label: 'PPSC Revenue & Water', query: 'PPSC' },
-    { label: 'WAPDA & Engineering', query: 'Engineering' },
-    { label: 'Armed Forces & Defence', query: 'Navy' },
-    { label: 'SPSC Sindh Cadre', query: 'SPSC' },
-    { 
-      label: metrics.urgentCount > 0 
-        ? `${t.hero.closingIn3Days} (${metrics.urgentCount})` 
-        : t.hero.closingIn3Days, 
-      query: 'urgent', 
-      isUrgentFilter: true 
-    }
+  const agencies = [
+    { code: 'FPSC', label: 'FPSC', count: agencyCounts.FPSC || 0 },
+    { code: 'PPSC', label: 'PPSC', count: agencyCounts.PPSC || 0 },
+    { code: 'SPSC', label: 'SPSC', count: agencyCounts.SPSC || 0 },
+    { code: 'KPPSC', label: 'KPPSC', count: agencyCounts.KPPSC || 0 },
+    { code: 'BPSC', label: 'BPSC', count: agencyCounts.BPSC || 0 },
+    { code: 'NTS', label: 'NTS', count: agencyCounts.NTS || 0 },
   ];
 
-  return (
-    <div className="hero-container">
-      <div className="container-xl hero-content">
-        {/* Trust Pill */}
-        <div className="trust-announcement-pill hero-fade-in-1">
-          <span className="trust-icon-wrapper">
-            <ShieldCheck size={15} />
-          </span>
-          <span>{t.hero.trustBadge}</span>
-        </div>
+  // Slim info line segments: real values only; hide any part that is 0
+  const infoSegments = [];
+  if (openCount > 0) {
+    infoSegments.push(`${openCount} open jobs`);
+  } else {
+    infoSegments.push('No open jobs currently');
+  }
+  if (closingSoonCount > 0) {
+    infoSegments.push(`${closingSoonCount} closing in 3 days`);
+  }
+  if (lastUpdated) {
+    infoSegments.push(`Last updated ${lastUpdated}`);
+  }
+  const infoLineText = infoSegments.join(' · ');
 
-        {/* Hero Title & Subtitle */}
-        <h1 className="hero-title hero-fade-in-2">
-          {t.hero.titlePrefix} {t.hero.titleIn} <span className="text-gold-accent">{t.hero.titleCountry}</span>
+  return (
+    <section className="compact-hero-section">
+      <div className="container-xl compact-hero-inner">
+        {/* H1 Heading */}
+        <h1 className="compact-hero-title">
+          Government Jobs in Pakistan
         </h1>
-        <p className="hero-subtitle hero-fade-in-3">
-          {t.hero.subtitle}
+
+        {/* Short Descriptive Sentence */}
+        <p className="compact-hero-subtitle">
+          Direct public sector vacancies, gazette syllabus breakdowns, and examination schedules across Pakistan.
         </p>
 
-        {/* Interactive Main Search Bar */}
-        <div className="hero-search-wrapper hero-fade-in-4" ref={searchContainerRef}>
-          <div className="hero-search-card">
-            {/* Keyword Input */}
-            <div className="search-input-group flex-2">
-              <Search className="search-icon" size={20} />
-              <input
-                type="text"
-                placeholder={t.hero.searchPlaceholder}
-                value={localQuery}
-                onChange={(e) => {
-                  setLocalQuery(e.target.value);
-                  setSuggestionsOpen(true);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleSearchSubmit();
+        {/* Search Bar: Input with search icon INSIDE the field, city select, Find Jobs button */}
+        <form onSubmit={handleSearchSubmit} className="compact-search-form" role="search">
+          {/* Keyword Input with internal Search icon */}
+          <div className="compact-search-input-box">
+            <Search size={18} className="compact-search-icon" aria-hidden="true" />
+            <input
+              type="text"
+              value={localQuery}
+              onChange={(e) => setLocalQuery(e.target.value)}
+              placeholder="Job title, department, BPS scale, or agency..."
+              className="compact-search-input"
+              aria-label="Job search keyword"
+            />
+            {localQuery && (
+              <button 
+                type="button"
+                onClick={() => {
+                  setLocalQuery('');
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('tainaati:filter-change', {
+                      detail: { query: '', city: localCity }
+                    }));
                   }
                 }}
-                onFocus={() => setSuggestionsOpen(true)}
-                className="hero-search-input"
-              />
-              {localQuery && (
-                <button 
-                  className="clear-query-btn" 
-                  onClick={() => {
-                    setLocalQuery('');
-                    handleSearchSubmit('');
-                  }}
-                  title="Clear"
-                  aria-label="Clear search query"
-                >
-                  ×
-                </button>
-              )}
-            </div>
-
-            {/* City Selector */}
-            <div className="search-input-group flex-1 border-left-divider">
-              <MapPin className="search-icon" size={18} />
-              <select
-                value={localCity}
-                onChange={(e) => {
-                  const newCity = e.target.value;
-                  setLocalCity(newCity);
-                  handleSearchSubmit(undefined, newCity);
-                }}
-                className="hero-city-select"
-                aria-label="Filter vacancies by city"
+                className="compact-clear-btn"
+                aria-label="Clear search input"
               >
-                <option value="All Cities">{t.hero.allCities}</option>
-                {CITIES.filter(c => c !== 'All Cities').map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Search CTA */}
-            <button 
-              id="hero-find-jobs-btn"
-              className="btn btn-primary hero-submit-btn"
-              onClick={() => handleSearchSubmit()}
-              aria-label="Find Jobs"
-            >
-              <Search size={18} />
-              <span>{t.hero.findJobs}</span>
-            </button>
-          </div>
-
-          {/* Autosuggest Dropdown */}
-          {suggestionsOpen && autosuggestResults.length > 0 && (
-            <div className="autosuggest-dropdown">
-              <div className="autosuggest-header">
-                <span>Matching Verified Listings</span>
-              </div>
-              {autosuggestResults.map((job) => (
-                <div 
-                  key={job.id} 
-                  className="autosuggest-item"
-                  onClick={() => handleSuggestionClick(job)}
-                >
-                  <div className="autosuggest-item-left">
-                    <div className={`suggest-badge ${job.type === 'govt' ? 'govt' : 'private'}`}>
-                      {job.type === 'govt' ? job.bpsScale || 'Govt' : 'Private'}
-                    </div>
-                    <div>
-                      <div className="suggest-title" dir="auto">{job.title}</div>
-                      <div className="suggest-dept" dir="auto">
-                        {job.department || job.company} • {job.city}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="autosuggest-arrow">
-                    <ArrowRight size={16} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Quick Search Tag Pills */}
-        <div className="quick-tags-container hero-fade-in-5">
-          <span className="quick-tags-label">{t.hero.popularSearches}</span>
-          <div className="quick-tags-list">
-            {quickPills.map((pill, idx) => (
-              <button
-                key={idx}
-                className={`quick-pill-btn ${pill.isUrgentFilter ? 'urgent-pill' : ''}`}
-                onClick={() => {
-                  const q = pill.isUrgentFilter ? 'urgent' : pill.query;
-                  setLocalQuery(q);
-                  handleSearchSubmit(q, undefined);
-                }}
-              >
-                {pill.isUrgentFilter && <Flame size={13} className="text-red" />}
-                {pill.label}
+                ×
               </button>
-            ))}
+            )}
           </div>
-        </div>
 
-        {/* Primary Pathway Cards */}
-        <h2 className="sr-only">Career Pathways and Recruitment Sectors</h2>
-        <div className="category-cards-grid">
-          <Link 
-            href="/jobs/govt"
-            className="pathway-card govt-card"
-          >
-            <div className="pathway-header">
-              <div className="pathway-icon-wrapper govt">
-                <Landmark size={22} />
-              </div>
-              <span className="pathway-badge govt">FPSC • PPSC • SPSC • KPPSC</span>
-            </div>
-            <h3 className="pathway-title">{t.hero.trackGovtTitle}</h3>
-            <p className="pathway-desc">
-              {t.hero.trackGovtDesc}
-            </p>
-            <div className="pathway-footer">
-              <span>{t.hero.trackGovtAction}{metrics.govtCount > 0 ? ` (${metrics.govtCount})` : ''}</span>
-              <ArrowRight size={16} />
-            </div>
-          </Link>
-
-          {metrics.privateCount >= 20 ? (
-            <Link 
-              href="/jobs/private"
-              className="pathway-card tech-card"
+          {/* City Select */}
+          <div className="compact-city-select-box">
+            <MapPin size={16} className="compact-city-icon" aria-hidden="true" />
+            <select
+              value={localCity}
+              onChange={(e) => setLocalCity(e.target.value)}
+              className="compact-city-select"
+              aria-label="Filter by city"
             >
-              <div className="pathway-header">
-                <div className="pathway-icon-wrapper tech">
-                  <Briefcase size={22} />
-                </div>
-                <span className="pathway-badge tech">High-Growth Careers</span>
-              </div>
-              <h3 className="pathway-title">{t.hero.trackPrivateTitle}</h3>
-              <p className="pathway-desc">
-                {t.hero.trackPrivateDesc}
-              </p>
-              <div className="pathway-footer">
-                <span>{t.hero.trackPrivateAction} ({metrics.privateCount})</span>
-                <ArrowRight size={16} />
-              </div>
-            </Link>
-          ) : (
-            <Link 
-              href="/agency/nts"
-              className="pathway-card tech-card"
-            >
-              <div className="pathway-header">
-                <div className="pathway-icon-wrapper tech">
-                  <ShieldCheck size={22} />
-                </div>
-                <span className="pathway-badge tech">NTS & Autonomous Authorities</span>
-              </div>
-              <h3 className="pathway-title">Testing Services & Authorities</h3>
-              <p className="pathway-desc">
-                Screening tests and recruitment projects for Sindh Social Protection Authority, Judiciary, and public sector corporations.
-              </p>
-              <div className="pathway-footer">
-                <span>Explore Testing Openings{(metrics.agencyCounts.NTS || 0) > 0 ? ` (${metrics.agencyCounts.NTS})` : ''}</span>
-                <ArrowRight size={16} />
-              </div>
-            </Link>
-          )}
+              <option value="All Cities">All Cities</option>
+              {CITIES.filter(c => c !== 'All Cities').map(c => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
 
-          <Link 
-            href="/exams"
-            className="pathway-card exam-card"
+          {/* Find Jobs Button */}
+          <button 
+            type="submit" 
+            className="compact-search-btn"
+            aria-label="Find Jobs"
           >
-            <div className="pathway-header">
-              <div className="pathway-icon-wrapper exam">
-                <Calendar size={22} />
-              </div>
-              <span className="pathway-badge exam">Live Tracker</span>
-            </div>
-            <h3 className="pathway-title">{t.hero.trackExamsTitle}</h3>
-            <p className="pathway-desc">
-              {t.hero.trackExamsDesc}
-            </p>
-            <div className="pathway-footer">
-              <span>{t.hero.trackExamsAction}{metrics.upcomingExamsCount > 0 ? ` (${metrics.upcomingExamsCount})` : ''}</span>
-              <ArrowRight size={16} />
-            </div>
-          </Link>
-        </div>
+            Find Jobs
+          </button>
+        </form>
 
-        {/* Dynamic Real-Time Stats Bar */}
-        <div className="stats-bar-wrapper">
-          <div className="stats-bar-inner">
-            <div className="stat-item">
-              <div className="stat-number-wrapper">
-                <span className="stat-number">
-                  {metrics.totalListings > 0 ? (
-                    <AnimatedCount target={metrics.totalListings} />
-                  ) : (
-                    <span className="text-muted">None Active</span>
+        {/* Agency Chips: FPSC, PPSC, SPSC, KPPSC, BPSC, NTS (count only if > 0) */}
+        <div className="compact-agency-chips-row" role="region" aria-label="Official Commission Quick Filters">
+          <span className="compact-agency-label">Agencies:</span>
+          <div className="compact-chips-list">
+            {agencies.map((agency) => {
+              const isSelected = localQuery.toUpperCase() === agency.code;
+              return (
+                <button
+                  key={agency.code}
+                  type="button"
+                  onClick={() => handleAgencyChipClick(agency.code)}
+                  className={`compact-agency-chip ${isSelected ? 'active' : ''}`}
+                  aria-pressed={isSelected}
+                  title={`Filter by ${agency.label}${agency.count > 0 ? ` (${agency.count} open)` : ''}`}
+                >
+                  <span className="chip-name">{agency.label}</span>
+                  {agency.count > 0 && (
+                    <span className="chip-count tabular-nums">({agency.count})</span>
                   )}
-                </span>
-                <span className={`stat-indicator ${metrics.totalListings > 0 ? 'green' : 'gray'}`} />
-              </div>
-              <span className="stat-label">{t.hero.statVacancies}</span>
-            </div>
-
-            <div className="stat-divider" />
-
-            <div className="stat-item">
-              <div className="stat-number-wrapper">
-                <span className="stat-number">
-                  {metrics.verifiedDeptsCount > 0 ? (
-                    <AnimatedCount target={metrics.verifiedDeptsCount} />
-                  ) : (
-                    <span className="text-muted">None</span>
-                  )}
-                </span>
-                <ShieldCheck size={16} className="text-emerald-500" />
-              </div>
-              <span className="stat-label">{t.hero.statDepts}</span>
-            </div>
-
-            <div className="stat-divider" />
-
-            <div className="stat-item">
-              <div className="stat-number-wrapper">
-                <span className="stat-number text-urgent">
-                  {metrics.urgentCount > 0 ? (
-                    <AnimatedCount target={metrics.urgentCount} />
-                  ) : (
-                    <span className="text-muted font-normal text-lg">None</span>
-                  )}
-                </span>
-                <Flame size={16} className={metrics.urgentCount > 0 ? "text-red-500" : "text-muted"} />
-              </div>
-              <span className="stat-label">{t.hero.statUrgent}</span>
-            </div>
-
-            <div className="stat-divider" />
-
-            <div className="stat-item">
-              <div className="stat-number-wrapper">
-                <span className="stat-number">
-                  {metrics.upcomingExamsCount > 0 ? (
-                    <AnimatedCount target={metrics.upcomingExamsCount} />
-                  ) : (
-                    <span className="text-muted">None</span>
-                  )}
-                </span>
-                <Calendar size={16} className="text-blue-500" />
-              </div>
-              <span className="stat-label">{t.hero.statExams}</span>
-            </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Slim Info Line Under Hero: Real values only, hide 0, no floating icons beside numbers */}
+      <div className="slim-info-bar">
+        <div className="container-xl">
+          <p className="slim-info-text tabular-nums">
+            {infoLineText}
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
