@@ -6,11 +6,17 @@
    0. URDU & RTL SUPPORT & GLOBAL HELPERS
    -------------------------------------------------------------------------- */
 .font-urdu {
-  font-family: var(--font-urdu, 'Noto Nastaliq Urdu', serif) !important;
+  font-family: var(--font-urdu, 'Noto Nastaliq Urdu', sans-serif) !important;
+  line-height: 2.1 !important;
+}
+
+[lang="ur"] {
+  line-height: 2.1;
 }
 
 [dir="rtl"] {
   text-align: right;
+  direction: rtl;
 }
 
 [dir="rtl"] .search-input-group {
@@ -46,6 +52,7 @@
 [dir="rtl"] .breadcrumb-list li.current {
   unicode-bidi: plaintext;
   text-align: right;
+  direction: rtl;
 }
 
 .prep-pill {
@@ -1281,7 +1288,10 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.85rem;
+  padding: 0.5rem 1rem;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-full);
   background: var(--bg-surface);
   border: 1px solid var(--border-strong);
@@ -2804,7 +2814,10 @@
 }
 
 .agency-pill-btn {
-  padding: 0.35rem 0.85rem;
+  padding: 0.5rem 1rem;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-full);
   background: var(--bg-surface);
   border: 1px solid var(--border-strong);
@@ -5523,7 +5536,10 @@
   display: none;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.45rem 0.85rem;
+  padding: 0.5rem 1rem;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-md);
   background: var(--bg-surface);
   border: 1px solid var(--border-strong);
@@ -6522,7 +6538,10 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
 
 .blog-filter-btn {
   white-space: nowrap;
-  padding: 0.45rem 0.85rem;
+  padding: 0.5rem 1rem;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-full);
   font-size: 0.775rem;
   font-weight: 600;
@@ -7057,7 +7076,10 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.45rem 0.85rem;
+  padding: 0.5rem 1rem;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-full);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
@@ -9210,6 +9232,10 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 0;
 }
 
 .footer-link:hover {
@@ -9257,6 +9283,10 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 4px;
 }
 
 .footer-compact-link:hover {
@@ -9808,6 +9838,10 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   color: var(--brand-primary);
 }
 
+[data-theme='dark'] .recently-closed-action {
+  color: #34d399;
+}
+
 .toggle-chevron {
   transition: transform 0.2s ease;
 }
@@ -9901,6 +9935,8 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   color: var(--brand-primary);
   text-decoration: none;
   white-space: nowrap;
+  min-height: 44px;
+  padding: 6px 0;
 }
 
 .teaser-cta-link:hover {
@@ -10095,6 +10131,15 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
 .teaser-guide-read-link {
   font-weight: 600;
   color: var(--brand-primary);
+}
+
+.spec-value-highlight {
+  color: #047857;
+  font-weight: 600;
+}
+
+[data-theme='dark'] .spec-value-highlight {
+  color: #34d399;
 }
 
 /* ==========================================================================
@@ -10317,6 +10362,7 @@ h1, h2, h3, h4, .brand-title, .feed-title, .hero-title {
   align-items: flex-end;
   gap: 2px;
   text-align: right;
+  direction: rtl;
   min-width: 100px;
 }
 
