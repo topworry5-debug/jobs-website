@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/verify-fonts.mjs",
+    "verify:fonts": "node scripts/verify-fonts.mjs",
     "start": "next start",
     "cron:expiry": "node scripts/daily-job-expiry-cron.mjs",
     "pipeline:sync": "node pipeline/sync-to-frontend.js"

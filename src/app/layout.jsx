@@ -10,14 +10,18 @@ import { getSiteUrl } from '../utils/siteUrl';
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-sans'
+  variable: '--font-sans',
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+  adjustFontFallback: true
 });
 
 const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
   subsets: ['arabic'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
-  variable: '--font-urdu'
+  variable: '--font-urdu',
+  fallback: ['sans-serif'],
+  adjustFontFallback: false
 });
 
 const siteUrl = getSiteUrl();
@@ -80,9 +84,9 @@ export default function RootLayout({ children }) {
     <html 
       lang="en" 
       data-theme="dark" 
-      className={`${inter.variable} ${notoNastaliqUrdu.variable}`}
+      className={`${inter.variable} ${notoNastaliqUrdu.variable} ${inter.className}`}
     >
-      <body>
+      <body className={inter.className}>
         <ClientProviders>
           <div className="site-wrapper">
             <Navbar />
