@@ -84,7 +84,7 @@ export default function CategoryLandingPage({ category, jobs = [] }) {
               <span>No Active Openings</span>
             </span>
           ) : (
-            <span className="badge badge-verified">
+            <span className="badge badge-subtle">
               <ShieldCheck size={13} />
               <span>{openJobs.length} Active {openJobs.length === 1 ? 'Opening' : 'Openings'}</span>
             </span>

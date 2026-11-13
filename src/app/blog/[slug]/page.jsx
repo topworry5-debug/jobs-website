@@ -169,8 +169,8 @@ export default function BlogArticlePage({ params }) {
                   <SectionBadge variant="govt" size="xs">
                     {article.clusterLabel}
                   </SectionBadge>
-                  <SectionBadge variant="verified" size="xs" icon={ShieldCheck}>
-                    Official Gazette Source
+                  <SectionBadge variant="default" size="xs">
+                    Official Gazette Reference
                   </SectionBadge>
                 </div>
                 <h2 className="article-crest-dept-name">
@@ -206,8 +206,8 @@ export default function BlogArticlePage({ params }) {
               <SectionBadge variant="govt" size="sm">
                 {article.clusterLabel}
               </SectionBadge>
-              <SectionBadge variant="verified" size="sm" icon={ShieldCheck}>
-                Verified Gazette Rules
+              <SectionBadge variant="default" size="sm">
+                Gazette Rules
               </SectionBadge>
             </div>
 
@@ -333,7 +333,7 @@ export default function BlogArticlePage({ params }) {
                   Ready to apply or prepare for upcoming tests?
                 </h3>
                 <p className="text-xs text-secondary">
-                  Explore verified gazetted openings or practice timed MCQs directly on Tainaati.
+                  Explore active gazetted openings or practice timed MCQs directly on Tainaati.
                 </p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto">

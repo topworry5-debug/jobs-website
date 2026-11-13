@@ -147,7 +147,7 @@ export default function QuizSimulator({ module, onBack }) {
               <div className="explanation-box">
                 <div className="explanation-header">
                   <Sparkles size={15} className="text-emerald" />
-                  <span>Verified Explanation & Concept:</span>
+                  <span>Explanation & Key Concept:</span>
                 </div>
                 <p className="explanation-text">{currentQ.explanation}</p>
               </div>

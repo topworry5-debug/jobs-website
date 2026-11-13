@@ -23,6 +23,7 @@ import {
 import { generateJobPostingSchema } from '../utils/seoHelpers';
 import { useLanguage } from '../context/LanguageContext';
 import { getJobLogoUrl, getJobLogoAlt } from '../utils/logoResolver';
+import { decodeHtmlEntities } from '../utils/textCleaning';
 
 export default function JobDetailModal({
   job,
@@ -102,10 +103,16 @@ export default function JobDetailModal({
             <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
               {isGovt ? t.jobDetail.officialGovtBadge : t.jobDetail.privateBadge}
             </span>
-            {job.verified && (
+            {job.sourceUrl && (
+              <span className="badge-source-linked">
+                <ExternalLink size={11} aria-hidden="true" />
+                <span>Source linked</span>
+              </span>
+            )}
+            {job.verifiedAt && (
               <span className="badge badge-verified">
                 <ShieldCheck size={13} />
-                <span>{t.jobDetail.verifiedBadge}</span>
+                <span>Verified on {new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })}</span>
               </span>
             )}
           </div>
@@ -132,17 +139,25 @@ export default function JobDetailModal({
               <div className="detail-title-block">
                 <h2 className="detail-job-title" dir="auto">{job.title}</h2>
                 <div className="detail-dept-row">
-                  <span className="detail-org-name" dir="auto">{job.department || job.company}</span>
+                  <span className="detail-org-name" dir="auto">{decodeHtmlEntities(job.department || job.company)}</span>
                   {job.bpsScale && <span className="bps-pill font-mono">{job.bpsScale}</span>}
                 </div>
               </div>
             </div>
 
-            {/* Official Source Reference */}
-            {job.officialSourceLabel && (
+            {/* Source Reference */}
+            {(job.sourceUrl || job.officialUrl) && (
               <div className="official-source-bar" dir="auto">
-                <ShieldCheck size={15} className="text-emerald" />
-                <span>{t.jobDetail.sourceRef} <strong>{job.officialSourceLabel}</strong> • {t.jobDetail.lastVerifiedAgainst} <strong>{job.lastVerifiedDate || "August 31, 2026"}</strong></span>
+                <ExternalLink size={14} className="text-emerald" />
+                <span>
+                  Source:{' '}
+                  <a href={job.sourceUrl || job.officialUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-600 hover:underline">
+                    {job.officialSourceLabel || job.agency || 'Official Notice'}
+                  </a>
+                  {job.verifiedAt && (
+                    <> • Verified on {new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })}</>
+                  )}
+                </span>
               </div>
             )}
           </div>
@@ -308,22 +323,29 @@ export default function JobDetailModal({
             </div>
           )}
 
-          {/* Official Gazette / Advertisement Source Box */}
-          <div className="p-3.5 bg-emerald-50/50 border border-emerald-200/60 rounded-lg flex items-center justify-between gap-3 flex-wrap my-4">
-            <div className="flex items-center gap-2 text-xs text-emerald-950 font-medium">
-              <ShieldCheck size={16} className="text-emerald-600 flex-shrink-0" />
-              <span>Verified Source: {job.officialSourceLabel || 'Official Government Gazette Portal'}</span>
+          {/* Source Link Box - Shown only when sourceUrl / officialUrl exists */}
+          {(job.sourceUrl || job.officialNotificationUrl || job.officialUrl) && (
+            <div className="p-3.5 bg-emerald-50/50 border border-emerald-200/60 rounded-lg flex items-center justify-between gap-3 flex-wrap my-4">
+              <div className="flex items-center gap-2 text-xs text-emerald-950 font-medium">
+                <ExternalLink size={14} className="text-emerald-600 flex-shrink-0" />
+                <span>
+                  Source:{' '}
+                  <a href={job.sourceUrl || job.officialNotificationUrl || job.officialUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 hover:underline">
+                    {job.officialSourceLabel || job.agency || 'Official Source Notice'}
+                  </a>
+                </span>
+              </div>
+              <a 
+                href={job.sourceUrl || job.officialNotificationUrl || job.officialUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn btn-outline btn-xs flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-800"
+              >
+                <span>View Source Notice</span>
+                <ExternalLink size={12} />
+              </a>
             </div>
-            <a 
-              href={job.officialNotificationUrl || job.officialUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn btn-outline btn-xs flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-800"
-            >
-              <span>Full Details on Official Notification</span>
-              <ExternalLink size={12} />
-            </a>
-          </div>
+          )}
 
           {/* Similar Opportunities */}
           {relatedJobs.length > 0 && (
@@ -340,7 +362,7 @@ export default function JobDetailModal({
                     onClick={() => onSelectJob(rJob)}
                   >
                     <div className="related-job-title">{rJob.title}</div>
-                    <div className="related-job-dept">{rJob.department || rJob.company} • {rJob.city}</div>
+                    <div className="related-job-dept">{decodeHtmlEntities(rJob.department || rJob.company)} • {decodeHtmlEntities(rJob.city)}</div>
                     <div className="related-job-deadline">{t.jobCard.lastDate} {rJob.lastDate}</div>
                   </div>
                 ))}

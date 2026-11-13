@@ -40,7 +40,7 @@ export async function generateMetadata({ params }) {
   if (!content) {
     return {
       title: `Jobs in ${city.charAt(0).toUpperCase() + city.slice(1)}`,
-      description: `Browse verified government and private sector jobs in ${city}.`,
+      description: `Browse government and private sector jobs in ${city}.`,
       robots: {
         index: false,
         follow: true
@@ -71,7 +71,7 @@ export default function CityLandingPage({ params }) {
   const content = CITY_LANDING_CONTENT[cityKey] || {
     cityName: city.charAt(0).toUpperCase() + city.slice(1),
     province: "Pakistan",
-    h1: `Verified Jobs in ${city.charAt(0).toUpperCase() + city.slice(1)}`,
+    h1: `Jobs in ${city.charAt(0).toUpperCase() + city.slice(1)}`,
     tagline: `Find active government and private sector jobs in ${city}.`,
     stats: { topDepts: "Healthcare, Education, IT" }
   };
@@ -126,8 +126,8 @@ export default function CityLandingPage({ params }) {
             <MapPin size={13} />
             <span>{content.province} Hub</span>
           </span>
-          <span className="badge badge-verified">
-            <ShieldCheck size={13} />
+          <span className="badge badge-neutral">
+            <Building2 size={13} />
             {openCityJobs.length > 0 ? (
               <span>{openCityJobs.length} Active Listings</span>
             ) : (

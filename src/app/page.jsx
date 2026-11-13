@@ -1,13 +1,12 @@
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import HomeClientFilter from '../components/HomeClientFilter';
-import CommissionsBar from '../components/CommissionsBar';
-import JobsForYouSection from '../components/JobsForYouSection';
+import HomeTeasers from '../components/HomeTeasers';
 import { JOBS_DATA } from '../data/jobsData';
 import { EXAM_SCHEDULES } from '../data/examCalendarData';
 import { generateItemListSchema, generateOrganizationSchema, generateWebSiteSchema } from '../utils/seoHelpers';
-import { computeJobMetrics, filterActiveJobs } from '../utils/jobMetrics';
-import { getLastUpdatedTimestamp } from '../lib/jobStatus';
+import { computeJobMetrics } from '../utils/jobMetrics';
+import { getLastUpdatedTimestamp, partitionJobs } from '../lib/jobStatus';
 import { getSiteUrl } from '../utils/siteUrl';
 
 const siteUrl = getSiteUrl();
@@ -30,49 +29,58 @@ export const revalidate = 60;
 
 export default function HomePage() {
   const currentUrl = getSiteUrl();
-  const activeJobs = filterActiveJobs(JOBS_DATA);
-  const itemListSchema = generateItemListSchema(activeJobs.slice(0, 20), currentUrl);
+  const { openJobs } = partitionJobs(JOBS_DATA, 30);
+  const itemListSchema = generateItemListSchema(openJobs.slice(0, 20), currentUrl);
   const organizationSchema = generateOrganizationSchema();
   const webSiteSchema = generateWebSiteSchema();
   const metrics = computeJobMetrics(JOBS_DATA, EXAM_SCHEDULES);
   const lastUpdated = getLastUpdatedTimestamp(JOBS_DATA);
 
+  // Accurate agency open counts
+  const agencyCounts = {
+    FPSC: openJobs.filter(j => (j.agency || '').toUpperCase() === 'FPSC').length,
+    PPSC: openJobs.filter(j => (j.agency || '').toUpperCase() === 'PPSC').length,
+    SPSC: openJobs.filter(j => (j.agency || '').toUpperCase() === 'SPSC').length,
+    KPPSC: openJobs.filter(j => (j.agency || '').toUpperCase() === 'KPPSC').length,
+    BPSC: openJobs.filter(j => (j.agency || '').toUpperCase() === 'BPSC').length,
+    NTS: openJobs.filter(j => (j.agency || '').toUpperCase() === 'NTS').length,
+  };
+
   return (
-    <div className="homepage-wrapper">
-      {/* ItemList Schema in Server-Rendered HTML */}
+    <div className="homepage-root">
+      {/* JSON-LD Schemas in Server-Rendered HTML */}
       {itemListSchema && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
         />
       )}
-      {/* Organization Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
-      {/* WebSite Schema with Sitelinks Searchbox */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
       />
 
-      {/* Hero Section with Dynamic Single Source-of-Truth Metrics */}
+      {/* 1. Compact Hero (Max ~320px tall on desktop) with Agency Chips & Slim Info Line */}
       <HeroSection 
-        jobs={JOBS_DATA}
-        examSchedules={EXAM_SCHEDULES}
+        openCount={openJobs.length}
+        closingSoonCount={metrics.urgentCount}
+        lastUpdated={lastUpdated}
+        agencyCounts={agencyCounts}
       />
 
-      {/* Official Commissions Portal Fast-Track Grid */}
-      <CommissionsBar jobsCountMap={metrics.agencyCounts} lastUpdated={lastUpdated} />
-
-      {/* Main Jobs Listing & Interactive Filter Matrix */}
-      <main className="container-xl py-6" id="job-listings">
-        <JobsForYouSection />
+      {/* 2. Main Job Listings Immediately (List-First Structure) */}
+      <main className="container-xl homepage-main-content" id="job-listings">
         <HomeClientFilter 
           initialJobs={JOBS_DATA}
           initialCategory="all"
         />
+
+        {/* 3. Secondary Teasers: Exam Calendar, Test Prep, Alerts, Latest Guides */}
+        <HomeTeasers examSchedules={EXAM_SCHEDULES} />
       </main>
     </div>
   );

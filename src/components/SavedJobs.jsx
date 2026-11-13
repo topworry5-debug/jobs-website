@@ -13,6 +13,7 @@ import {
   Flame,
   ArrowRight
 } from 'lucide-react';
+import { decodeHtmlEntities } from '../utils/textCleaning';
 
 export default function SavedJobs({
   savedJobIds,
@@ -62,7 +63,7 @@ export default function SavedJobs({
                       <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
                         {isGovt ? job.bpsScale || 'Govt' : 'Tech'}
                       </span>
-                      <span className="saved-dept-text" dir="auto">{job.department || job.company}</span>
+                      <span className="saved-dept-text" dir="auto">{decodeHtmlEntities(job.department || job.company)}</span>
                     </div>
 
                     <button 

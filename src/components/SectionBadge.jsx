@@ -18,7 +18,7 @@ export default function SectionBadge({
   const variantClassMap = {
     default: 'section-badge-default',
     govt: 'badge-govt',
-    verified: 'badge-verified',
+    verified: 'section-badge-default',
     urgent: 'badge-urgent',
     private: 'badge-private',
     flagship: 'section-badge-flagship',

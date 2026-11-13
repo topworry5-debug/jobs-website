@@ -26,7 +26,7 @@ export default function AgencyLandingPage({
   useEffect(() => {
     updatePageMeta({
       title: `${agencyData.code} Jobs 2026 — Official ${agencyData.fullName}`,
-      description: `Complete verified advertisement list, syllabus guidelines, and bank challan instructions for ${agencyData.fullName}.`
+      description: `Complete advertisement list, syllabus guidelines, and bank challan instructions for ${agencyData.fullName}.`
     });
 
     const faqSchema = generateFAQSchema(agencyData.faqs);
@@ -59,7 +59,7 @@ export default function AgencyLandingPage({
               <Landmark size={13} />
               <span>{agencyData.jurisdiction}</span>
             </span>
-            <span className="badge badge-verified">
+            <span className="badge badge-subtle">
               <ShieldCheck size={13} />
               <span>Official Commission Hub</span>
             </span>
@@ -67,7 +67,7 @@ export default function AgencyLandingPage({
 
           <h1 className="agency-headline">{agencyData.fullName} ({agencyData.code}) Jobs 2026</h1>
           <p className="agency-desc">
-            Directly verified gazette advertisements, screening syllabus, bank challan instructions, and online application portal.
+            Direct gazette advertisements, screening syllabus, bank challan instructions, and online application portal.
           </p>
 
           <div className="agency-action-bar">
@@ -101,12 +101,12 @@ export default function AgencyLandingPage({
               Current {agencyData.code} Advertised Positions ({agencyJobs.length})
             </h2>
             <span className="text-xs text-muted">
-              Live Verified via Official Portal Telemetry
+              Official Gazette & Portal Notices
             </span>
           </div>
 
           {agencyJobs.length > 0 ? (
-            <div className="jobs-layout-container grid-view">
+            <div className="job-rows-list">
               {agencyJobs.map((job) => (
                 <JobCard
                   key={job.id}
@@ -124,7 +124,7 @@ export default function AgencyLandingPage({
               <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3">
                 <CheckCircle2 size={24} />
               </div>
-              <h3 className="text-lg font-bold text-primary mb-1.5 font-display">
+              <h3 className="text-lg font-bold text-primary mb-1.5">
                 No Active Vacancy Advertisements Right Now
               </h3>
               <p className="text-sm text-secondary max-w-lg mx-auto mb-5 leading-relaxed">

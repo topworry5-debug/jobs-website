@@ -6,66 +6,90 @@ import {
   Building2, 
   MapPin, 
   Clock, 
-  Users, 
-  ShieldCheck, 
-  CheckCircle2, 
-  Flame, 
   Bookmark, 
   ArrowRight,
-  AlertCircle
+  ExternalLink,
+  Users
 } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
-import { getJobDeadlineInfo, isJobExpired } from '../utils/jobStatus';
+import { 
+  toTitleCase, 
+  formatLocations, 
+  getDisplayTitle, 
+  formatJobDeadline 
+} from '../utils/textCleaning';
 
 export default function JobCard({ 
   job, 
-  isSaved, 
+  isSaved = false, 
   onToggleSave 
 }) {
-  const { t, isRtl } = useLanguage();
   if (!job) return null;
 
-  const isGovt = job.type === 'govt';
-  const deadlineInfo = getJobDeadlineInfo(job.lastDate, job.status);
-  const { isExpired, isClosingToday, isUrgent, isClosingSoon, daysLeft } = deadlineInfo;
+  const { displayTitle, originalTitle } = getDisplayTitle(job);
+  const cleanDept = toTitleCase(job.department || job.company || '');
+  const { display: cityDisplay, full: fullCity } = formatLocations(job.city);
+  const deadline = formatJobDeadline(job.lastDate, job.status);
+  const hasSource = Boolean(job.sourceUrl);
+  const jobUrl = `/jobs/${job.slug || job.id}`;
 
   return (
-    <article 
-      className={`job-card-item ${isGovt ? 'govt-card-border' : 'tech-card-border'} ${job.featured ? 'featured-highlight' : ''} ${isExpired ? 'job-card-expired' : ''}`}
-    >
-      {/* 1. TOP ROW: Category / BPS Badge (Left) & Bookmark (Right) */}
-      <div className="card-top-row">
-        <div className="card-badge-cluster">
-          {isClosingToday ? (
-            <span className="badge badge-closing-today" title="Deadline expires today!">
-              <Flame size={12} className="text-amber-300 animate-pulse" />
-              <span>{t.jobCard?.closesToday || "Closes today"}</span>
-            </span>
-          ) : isExpired ? (
-            <span className="badge badge-expired" title="Application deadline has passed">
-              <AlertCircle size={12} />
-              <span>{t.jobCard?.applicationsClosed || "Closed"}</span>
-            </span>
-          ) : isUrgent ? (
-            <span className="badge badge-urgent" title={`Closing in ${daysLeft} days`}>
-              <Flame size={12} />
-              <span>{daysLeft}d left</span>
-            </span>
-          ) : (
-            <span className={`badge ${isGovt ? 'badge-govt' : 'badge-private'}`}>
-              {isGovt ? (job.bpsScale || 'Govt Gazette') : (job.category || 'Corporate')}
-            </span>
-          )}
+    <article className={`job-row-item ${deadline.isClosed ? 'job-row-closed' : ''}`}>
+      {/* Main Info Column (Left) */}
+      <div className="job-row-main">
+        {/* Row 1: Title + Source Linked Badge */}
+        <div className="job-row-title-line">
+          <Link 
+            href={jobUrl}
+            className="job-row-title-link"
+            title={originalTitle || displayTitle}
+          >
+            {displayTitle}
+          </Link>
 
-          {job.verified && !isExpired && (
-            <span className="badge badge-verified" title="Cross-checked against official Gazette / Commission Notice">
-              <CheckCircle2 size={11} />
-              <span>{t.jobCard?.verified || "Verified"}</span>
+          {hasSource && (
+            <span className="badge-source-linked" title="Direct official source advertisement link available">
+              <ExternalLink size={11} aria-hidden="true" />
+              <span>Source linked</span>
             </span>
           )}
         </div>
 
-        {/* Bookmark Icon Button (44px touch target on mobile) */}
+        {/* Row 2: Department / Agency */}
+        <div className="job-row-dept-line" title={cleanDept}>
+          <Building2 size={13} className="text-muted flex-shrink-0" aria-hidden="true" />
+          <span className="job-row-dept-name">{cleanDept}</span>
+          {originalTitle && originalTitle !== displayTitle && (
+            <span className="job-row-original-tag" title={originalTitle}>
+              (Ad: {originalTitle})
+            </span>
+          )}
+        </div>
+
+        {/* Row 3: Meta Line (BPS, Vacancies, City) - Never wraps */}
+        <div className="job-row-meta-line">
+          {job.bpsScale && (
+            <span className="job-row-meta-badge badge-bps font-mono">
+              {job.bpsScale.startsWith('BPS') || job.bpsScale.startsWith('BS') ? job.bpsScale : `BPS-${job.bpsScale}`}
+            </span>
+          )}
+
+          {job.vacancies && job.vacancies > 0 && (
+            <span className="job-row-meta-pill">
+              <Users size={12} className="text-muted" aria-hidden="true" />
+              <span>{job.vacancies} {job.vacancies === 1 ? 'post' : 'posts'}</span>
+            </span>
+          )}
+
+          <span className="job-row-meta-pill" title={fullCity}>
+            <MapPin size={12} className="text-muted flex-shrink-0" aria-hidden="true" />
+            <span className="job-row-city-text">{cityDisplay}</span>
+          </span>
+        </div>
+      </div>
+
+      {/* Right Column: Bookmark + Last Date + View Details CTA */}
+      <div className="job-row-side">
+        {/* Bookmark Button */}
         {onToggleSave && (
           <button 
             type="button"
@@ -74,95 +98,31 @@ export default function JobCard({
               e.stopPropagation();
               onToggleSave(job);
             }}
-            className={`card-bookmark-btn ${isSaved ? 'saved' : ''}`}
-            title={isSaved ? (t.jobCard?.saved || "Saved") : (t.jobCard?.save || "Save Job")}
+            className={`job-row-bookmark-btn ${isSaved ? 'saved' : ''}`}
+            title={isSaved ? "Saved" : "Save job"}
             aria-label={isSaved ? "Remove from saved jobs" : "Save this job"}
           >
-            <Bookmark size={16} className={isSaved ? "fill-emerald-500 text-emerald-500" : ""} />
+            <Bookmark size={16} className={isSaved ? "fill-brand-primary text-brand-primary" : ""} />
           </button>
         )}
-      </div>
 
-      {/* 2. MIDDLE CONTENT: Title (Fraunces Serif 18px, 2-line clamp) & Organization */}
-      <div className="card-body-content">
-        <h3 className="job-card-title" dir="auto">
-          <Link 
-            href={`/jobs/${job.slug || job.id}`}
-            className="job-card-title-link"
-            title={job.title}
-          >
-            {job.title}
-          </Link>
-        </h3>
-
-        <div className="card-org-name" dir="auto" title={job.department || job.company}>
-          <Building2 size={13} className="text-muted flex-shrink-0" />
-          <span className="truncate">{job.department || job.company}</span>
+        {/* Deadline Box: Real Date + Relative Label */}
+        <div className="job-row-deadline-box tabular-nums">
+          <span className="job-row-real-date">{deadline.dateFormatted}</span>
+          <span className={`job-row-relative-label ${deadline.isClosed ? 'closed' : deadline.isUrgent ? 'urgent' : 'normal'}`}>
+            <Clock size={11} aria-hidden="true" />
+            <span>{deadline.relativeLabel}</span>
+          </span>
         </div>
 
-        {/* Location & Vacancies Row */}
-        <div className="card-meta-row">
-          <div className="meta-item location-meta">
-            <MapPin size={13} className="text-muted flex-shrink-0" />
-            <span className="truncate" dir="auto">{job.city}</span>
-          </div>
-
-          {job.vacancies && (
-            <div className="meta-item vacancy-meta">
-              <Users size={13} className="text-muted flex-shrink-0" />
-              <span><strong>{job.vacancies}</strong> {job.vacancies === 1 ? (t.jobCard?.vacancy || "Vacancy") : (t.jobCard?.vacancies || "Vacancies")}</span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* 3. FOOTER ROW: Deadline (Left) & Apply CTA (Right) */}
-      <div className="card-footer-row">
-        <div className="card-deadline-box">
-          {isExpired ? (
-            <div className="deadline-indicator text-expired">
-              <Clock size={13} className="text-muted flex-shrink-0" />
-              <span className="text-xs text-muted font-medium">{t.jobCard?.applicationsClosed || "Closed"}</span>
-            </div>
-          ) : isClosingToday ? (
-            <div className="deadline-indicator text-today">
-              <Flame size={13} className="text-red-500 flex-shrink-0 animate-pulse" />
-              <span className="text-xs font-bold text-red-600 dark:text-red-400">
-                {t.jobCard?.closesToday || "Closes today"}
-              </span>
-            </div>
-          ) : isUrgent ? (
-            <div className="deadline-indicator text-urgent">
-              <Clock size={13} className="text-red-500 flex-shrink-0" />
-              <span className="text-xs font-bold text-red-600 dark:text-red-400">
-                {daysLeft}d left
-              </span>
-            </div>
-          ) : isClosingSoon ? (
-            <div className="deadline-indicator text-soon">
-              <Clock size={13} className="text-amber-500 flex-shrink-0" />
-              <span className="text-xs font-semibold text-amber-600 dark:text-amber-400">
-                {daysLeft}d left
-              </span>
-            </div>
-          ) : (
-            <div className="deadline-indicator text-normal">
-              <Clock size={13} className="text-emerald-500 flex-shrink-0" />
-              <span className="text-xs text-secondary font-medium">
-                {daysLeft !== null ? `${daysLeft}d left` : 'Refer to ad'}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Call to Action: "Apply →" in emerald/gold theme */}
+        {/* View Details Primary Button (Not "Apply") */}
         <Link 
-          href={`/jobs/${job.slug || job.id}`}
-          className={`job-card-apply-btn ${isExpired ? 'apply-btn-closed' : ''}`}
-          title={`View full details and application instructions for ${job.title}`}
+          href={jobUrl}
+          className="job-row-cta-btn"
+          title={`View details for ${displayTitle}`}
         >
-          <span>{isExpired ? (t.jobCard?.details || "Details") : (t.jobCard?.apply || "Apply")}</span>
-          <ArrowRight size={14} className="apply-arrow-icon" />
+          <span>View details</span>
+          <ArrowRight size={14} aria-hidden="true" />
         </Link>
       </div>
     </article>

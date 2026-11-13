@@ -16,6 +16,7 @@ import { scrapeBPSC } from '../scrapers/bpscScraper.js';
 import { deduplicateJobs } from './deduplicator.js';
 import { filterActiveJobs } from './expiryManager.js';
 import { validateAndFilterPipelineJobs } from './validator.js';
+import { cleanScrapedJob } from '../utils/textCleaner.js';
 
 export async function runFullPipeline(existingJobs = []) {
   const startTime = Date.now();
@@ -70,8 +71,11 @@ export async function runFullPipeline(existingJobs = []) {
   handleResult(kppscResult, "Khyber Pakhtunkhwa Public Service Commission (KPPSC)", "https://www.kppsc.gov.pk/advertisement");
   handleResult(bpscResult, "Balochistan Public Service Commission (BPSC)", "https://bpsc.gob.pk/BPSC/pages?jobs");
 
+  // 0. Decode HTML Entities & Clean Text on all scraped records
+  const cleanedScrapedJobs = rawScrapedJobs.map(cleanScrapedJob);
+
   // 1. Strict Validation & Anti-Fabrication Filter
-  const validationResult = validateAndFilterPipelineJobs(rawScrapedJobs);
+  const validationResult = validateAndFilterPipelineJobs(cleanedScrapedJobs);
   if (validationResult.rejectedCount > 0) {
     console.warn(`[Tainaati Pipeline] Flagged & Blocked ${validationResult.rejectedCount} unverified/malformed jobs.`);
   }

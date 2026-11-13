@@ -6,7 +6,7 @@ import { JOBS_DATA } from '../../../data/jobsData';
 import { filterOpenJobs, getLastUpdatedTimestamp } from '../../../lib/jobStatus';
 import { AGENCY_LANDING_CONTENT } from '../../../data/landingPagesData';
 import { generateItemListSchema, generateBreadcrumbSchema, generateFAQSchema } from '../../../utils/seoHelpers';
-import { Landmark, ShieldCheck, ExternalLink, Award, FileText, CheckCircle2, BookOpen, Clock, HelpCircle, AlertCircle, ArrowRight, MapPin } from 'lucide-react';
+import { Landmark, ShieldCheck, ExternalLink, Award, FileText, CheckCircle2, BookOpen, Clock, HelpCircle, AlertCircle, ArrowRight, MapPin, Building2 } from 'lucide-react';
 import { getSiteUrl } from '../../../utils/siteUrl';
 
 const AGENCY_PORTAL_MAP = {
@@ -128,8 +128,8 @@ export default function AgencyLandingPage({ params }) {
               <Landmark size={13} />
               <span>{content.agencyCode} Portal</span>
             </span>
-            <span className="badge badge-verified">
-              <ShieldCheck size={13} />
+            <span className="badge badge-neutral">
+              <Building2 size={13} />
               {openAgencyJobs.length > 0 ? (
                 <span>{openAgencyJobs.length} Live Openings</span>
               ) : (

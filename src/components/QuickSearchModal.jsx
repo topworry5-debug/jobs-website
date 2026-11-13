@@ -17,6 +17,7 @@ import {
 import { JOBS_DATA } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
 import { isJobExpired } from '../utils/jobStatus';
+import { decodeHtmlEntities } from '../utils/textCleaning';
 
 export default function QuickSearchModal({
   isOpen,
@@ -170,14 +171,13 @@ export default function QuickSearchModal({
 
                     <div className="quick-result-info">
                       <div className="quick-result-title-row">
-                        <span className="quick-result-title" dir="auto">{job.title}</span>
+                        <span className="quick-result-title" dir="auto">{decodeHtmlEntities(job.title)}</span>
                         {job.bpsScale && <span className="quick-result-bps font-mono">{job.bpsScale}</span>}
-                        {job.verified && <ShieldCheck size={13} className="text-emerald-500 flex-shrink-0" />}
                       </div>
                       <div className="quick-result-meta" dir="auto">
-                        <span dir="auto">{job.department || job.company}</span>
+                        <span dir="auto">{decodeHtmlEntities(job.department || job.company)}</span>
                         <span className="mx-1.5 opacity-40">•</span>
-                        <span dir="auto">📍 {job.city}</span>
+                        <span dir="auto">📍 {decodeHtmlEntities(job.city)}</span>
                         {job.lastDate && <span className="ml-2 text-muted text-[11px]">⏳ {job.lastDate}</span>}
                       </div>
                     </div>

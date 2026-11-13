@@ -135,7 +135,7 @@ export default function JobsForYouSection() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base md:text-lg font-bold text-primary font-serif">
+                <h2 className="text-base md:text-lg font-bold text-primary">
                   {hasPersonalHistory ? "Jobs Recommended For You" : "Trending Opportunities"}
                 </h2>
                 {hasPersonalHistory ? (

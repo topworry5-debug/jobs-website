@@ -17,14 +17,14 @@ const hasOpenJobs = openCategoryJobs.length > 0;
 
 export const metadata = {
   title: category ? category.metaTitle : "Jobs in Pakistan",
-  description: category ? category.metaDescription : "Browse verified jobs in Pakistan.",
+  description: category ? category.metaDescription : "Browse public and private sector jobs in Pakistan.",
   robots: hasOpenJobs ? { index: true, follow: true } : { index: false, follow: true },
   alternates: {
     canonical: `${siteUrl}/jobs/${CATEGORY_SLUG}`
   },
   openGraph: {
     title: category ? category.metaTitle : "Jobs in Pakistan",
-    description: category ? category.metaDescription : "Browse verified jobs in Pakistan.",
+    description: category ? category.metaDescription : "Browse public and private sector jobs in Pakistan.",
     url: `${siteUrl}/jobs/${CATEGORY_SLUG}`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }

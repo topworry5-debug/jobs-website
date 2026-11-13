@@ -1,6 +1,6 @@
 import '../styles/index.css';
 import '../styles/components.css';
-import { Inter, Fraunces, Outfit, JetBrains_Mono, Noto_Naskh_Arabic } from 'next/font/google';
+import { Inter, Noto_Nastaliq_Urdu } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ClientProviders from '../components/ClientProviders';
@@ -10,32 +10,18 @@ import { getSiteUrl } from '../utils/siteUrl';
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-sans'
+  variable: '--font-sans',
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+  adjustFontFallback: true
 });
 
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-serif',
-});
-
-const outfit = Outfit({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-display'
-});
-
-const jetbrainsMono = JetBrains_Mono({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-mono'
-});
-
-const notoNaskhArabic = Noto_Naskh_Arabic({
+const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
   subsets: ['arabic'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
-  variable: '--font-urdu'
+  variable: '--font-urdu',
+  fallback: ['sans-serif'],
+  adjustFontFallback: false
 });
 
 const siteUrl = getSiteUrl();
@@ -46,7 +32,7 @@ export const metadata = {
     default: "Tainaati — Government Jobs & Exam Portal in Pakistan",
     template: "%s | Tainaati"
   },
-  description: "Find verified Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), competitive exam schedules, syllabus guidelines, and ATS-ready resume tools.",
+  description: "Find Federal & Provincial Government jobs (FPSC, PPSC, SPSC, KPPSC, NTS), competitive exam schedules, syllabus guidelines, and ATS-ready resume tools.",
   authors: [{ name: "Tainaati Editorial" }],
   creator: "Tainaati",
   publisher: "Tainaati",
@@ -98,9 +84,9 @@ export default function RootLayout({ children }) {
     <html 
       lang="en" 
       data-theme="dark" 
-      className={`${inter.variable} ${fraunces.variable} ${outfit.variable} ${jetbrainsMono.variable} ${notoNaskhArabic.variable}`}
+      className={`${inter.variable} ${notoNastaliqUrdu.variable} ${inter.className}`}
     >
-      <body>
+      <body className={inter.className}>
         <ClientProviders>
           <div className="site-wrapper">
             <Navbar />

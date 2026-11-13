@@ -38,6 +38,7 @@ import {
 } from '../../../utils/seoHelpers';
 import { getJobLogoUrl, getJobLogoAlt } from '../../../utils/logoResolver';
 import { getSiteUrl } from '../../../utils/siteUrl';
+import { decodeHtmlEntities } from '../../../utils/textCleaning';
 import { 
   getJobStatus, 
   isJobOpen, 
@@ -222,10 +223,10 @@ export default function JobDetailPage({ params }) {
   ];
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems);
 
-  // Verified Date display
-  const verifiedDate = job.scrapedAt
-    ? new Date(job.scrapedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })
-    : (job.postDate ? new Date(job.postDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : null);
+  // Verified Date display - ONLY if real verifiedAt exists
+  const verifiedDate = job.verifiedAt
+    ? new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })
+    : null;
 
   // Official advertisement image / PDF link
   const officialDocUrl = job.officialNotificationUrl || job.adImageUrl || 
@@ -326,6 +327,19 @@ export default function JobDetailPage({ params }) {
                     </span>
                   )}
 
+                  {job.sourceUrl && (
+                    <a
+                      href={job.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="badge-source-linked"
+                      title="Direct official source advertisement link"
+                    >
+                      <ExternalLink size={11} aria-hidden="true" />
+                      <span>Source linked</span>
+                    </a>
+                  )}
+
                   {verifiedDate && (
                     <span className="badge badge-verified">
                       <ShieldCheck size={13} />
@@ -336,12 +350,12 @@ export default function JobDetailPage({ params }) {
 
                 {/* Single H1 = Job Title */}
                 <h1 className="job-hero-title text-2xl md:text-3xl font-extrabold text-primary mb-2" dir="auto">
-                  {job.title}
+                  {decodeHtmlEntities(job.title)}
                 </h1>
 
                 {(job.department || job.company || job.city) && (
                   <div className="dept-subtitle text-base text-secondary font-medium" dir="auto">
-                    {(job.department || job.company) && <span>{job.department || job.company}</span>}
+                    {(job.department || job.company) && <span>{decodeHtmlEntities(job.department || job.company)}</span>}
                     {(job.department || job.company) && job.city && <span> • </span>}
                     {job.city && (
                       citySlug ? (
@@ -403,7 +417,7 @@ export default function JobDetailPage({ params }) {
                           {rJob.title}
                         </div>
                         <div className="text-[11px] text-secondary mt-1 line-clamp-1" dir="auto">
-                          {rJob.department || rJob.company} • {rJob.city}
+                          {decodeHtmlEntities(rJob.department || rJob.company)} • {decodeHtmlEntities(rJob.city)}
                         </div>
                       </div>
                       <div className="mt-2.5 pt-2 border-t border-border-subtle flex items-center justify-between text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
@@ -435,7 +449,7 @@ export default function JobDetailPage({ params }) {
               {(job.department || job.company) && (
                 <div>
                   <dt className="text-muted">Department</dt>
-                  <dd className="font-semibold text-primary mt-0.5" dir="auto">{job.department || job.company}</dd>
+                  <dd className="font-semibold text-primary mt-0.5" dir="auto">{decodeHtmlEntities(job.department || job.company)}</dd>
                 </div>
               )}
 
@@ -449,7 +463,7 @@ export default function JobDetailPage({ params }) {
               {job.bpsScale && (
                 <div>
                   <dt className="text-muted">Basic Pay Scale</dt>
-                  <dd className="font-semibold text-emerald-600 dark:text-emerald-400 font-mono mt-0.5">{job.bpsScale}</dd>
+                  <dd className="spec-value-highlight font-mono mt-0.5">{job.bpsScale}</dd>
                 </div>
               )}
 
@@ -507,7 +521,7 @@ export default function JobDetailPage({ params }) {
               {job.challanFee && (
                 <div>
                   <dt className="text-muted">Application Fee</dt>
-                  <dd className="font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">{job.challanFee}</dd>
+                  <dd className="spec-value-highlight mt-0.5">{job.challanFee}</dd>
                 </div>
               )}
 
@@ -519,7 +533,7 @@ export default function JobDetailPage({ params }) {
                       href={job.officialUrl} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline inline-flex items-center gap-1"
+                      className="spec-value-highlight hover:underline inline-flex items-center gap-1 min-h-[44px] py-1"
                     >
                       <span>Visit Portal</span>
                       <ExternalLink size={11} />
@@ -538,10 +552,10 @@ export default function JobDetailPage({ params }) {
                   <ShieldCheck size={22} className="text-emerald-500 flex-shrink-0 mt-0.5" />
                   <div dir="auto">
                     <div className="font-bold text-sm text-primary mb-1">
-                      Official source link
+                      Source notice
                     </div>
                     <div className="text-xs text-secondary leading-relaxed">
-                      Source Attribution:{' '}
+                      Source:{' '}
                       <a href={job.sourceUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline">
                         {job.officialSourceLabel || job.agency || "Official source notice"}
                       </a>

@@ -4,190 +4,188 @@ import React from 'react';
 import Link from 'next/link';
 import { 
   ShieldCheck, 
-  ExternalLink, 
-  FileText, 
-  Calendar, 
-  Building2, 
-  Landmark, 
-  CheckCircle2, 
-  Mail,
-  BookOpen
+  Clock, 
+  ExternalLink 
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
-  const { t, isRtl } = useLanguage();
+  const { t } = useLanguage();
+  const currentYear = new Date().getFullYear();
 
   const officialPortals = [
-    { name: "FPSC Federal Portal", url: "https://online.fpsc.gov.pk" },
-    { name: "PPSC Punjab Portal", url: "https://www.ppsc.gop.pk" },
-    { name: "SPSC Sindh Portal", url: "https://spsc.gov.pk" },
-    { name: "KPPSC Khyber Pakhtunkhwa", url: "https://www.kppsc.gov.pk" },
-    { name: "BPSC Balochistan", url: "http://bpsc.gob.pk" },
-    { name: "NTS Testing Service", url: "https://www.nts.org.pk" },
-    { name: "Higher Education Commission", url: "https://hec.gov.pk" },
-    { name: "State Bank Careers", url: "https://www.sbp.org.pk" }
+    { name: "FPSC (Federal)", url: "https://online.fpsc.gov.pk" },
+    { name: "PPSC (Punjab)", url: "https://www.ppsc.gop.pk" },
+    { name: "SPSC (Sindh)", url: "https://spsc.gov.pk" },
+    { name: "KPPSC (Khyber)", url: "https://www.kppsc.gov.pk" },
+    { name: "BPSC (Balochistan)", url: "http://bpsc.gob.pk" },
+    { name: "NTS Testing", url: "https://www.nts.org.pk" }
+  ];
+
+  const cityLinks = [
+    { name: "Lahore", href: "/city/lahore" },
+    { name: "Karachi", href: "/city/karachi" },
+    { name: "Islamabad", href: "/city/islamabad" },
+    { name: "Peshawar", href: "/city/peshawar" },
+    { name: "Quetta", href: "/city/quetta" }
   ];
 
   return (
-    <footer className="portal-footer no-print">
-      {/* Upper Footer - Official Directory Links */}
-      <div className="footer-official-bar">
-        <div className="container-xl">
-          <div className="official-bar-title-row">
-            <ShieldCheck size={18} className="text-emerald" />
-            <span className="official-bar-heading">{t.footer.directoryHeading}</span>
-          </div>
-          <div className="official-portals-grid">
-            {officialPortals.map((portal, idx) => (
-              <a
-                key={idx}
-                href={portal.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="official-portal-link"
-              >
-                <span>{portal.name}</span>
-                <ExternalLink size={12} />
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Main Footer Links */}
-      <div className="footer-main-section">
-        <div className="container-xl footer-content-grid">
-          {/* Brand & Purpose */}
-          <div className="footer-brand-col">
-            <Link href="/" className="brand-logo footer-logo">
-              <div className="logo-icon-box">
-                <ShieldCheck className="brand-icon" size={22} />
+    <footer className="footer-root no-print">
+      {/* Main 4-Column Section with 48px vertical padding */}
+      <div className="footer-main-container container-xl">
+        <div className="footer-grid-4col">
+          {/* Column 1: Brand + Honest Sentence + Last Updated Timestamp */}
+          <div className="footer-col footer-col-brand">
+            <Link href="/" className="footer-brand-logo" aria-label="Tainaati Home">
+              <div className="footer-brand-icon-box">
+                <ShieldCheck size={20} className="footer-brand-icon" />
               </div>
-              <div className="brand-text-box">
-                <span className="brand-title font-display">{t.nav.brandName}<span className="brand-accent">{t.nav.brandAccent}</span></span>
-                <span className="brand-tagline">{t.nav.tagline}</span>
-              </div>
+              <span className="footer-brand-title">
+                {t.nav?.brandName || 'Tainaa'}<span className="brand-accent">{t.nav?.brandAccent || 'ti'}</span>
+              </span>
             </Link>
-            <p className="footer-desc">
-              {t.footer.desc}
+
+            <p className="footer-brand-sentence">
+              {t.footer?.desc || "Government job notices and competitive exam resources in Pakistan, linked directly to official commission announcements."}
             </p>
-            {t.footer.antiScamBadge ? (
-              <div className="footer-trust-badge">
-                <CheckCircle2 size={15} className="text-emerald" />
-                <span>{t.footer.antiScamBadge}</span>
-              </div>
-            ) : null}
+
+            <div className="footer-timestamp tabular-nums">
+              <Clock size={14} className="text-brand-primary flex-shrink-0" />
+              <span>Last updated: November 2026</span>
+            </div>
           </div>
 
-          {/* Quick Hub Links */}
-          <div className="footer-links-col">
-            <h4 className="footer-col-title">{t.footer.careerHub}</h4>
-            <ul className="footer-links-list">
+          {/* Column 2: Jobs (Max 5 links) */}
+          <div className="footer-col">
+            <h4 className="footer-heading">{t.footer?.careerHub || "Jobs"}</h4>
+            <ul className="footer-links">
               <li>
-                <Link href="/jobs/govt" className="footer-link-btn">
-                  <Landmark size={14} />
-                  <span>{t.footer.govtJobsLink}</span>
+                <Link href="/jobs/govt" className="footer-link">
+                  {t.footer?.govtJobsLink || "Govt Jobs"}
                 </Link>
               </li>
               <li>
-                <Link href="/agency/nts" className="footer-link-btn">
-                  <Building2 size={14} />
-                  <span>Testing Services & Projects (NTS)</span>
+                <Link href="/exams" className="footer-link">
+                  {t.footer?.examCalLink || "Exam Calendar"}
                 </Link>
               </li>
               <li>
-                <Link href="/exams" className="footer-link-btn">
-                  <Calendar size={14} />
-                  <span>{t.footer.examCalLink}</span>
+                <Link href="/test-prep" className="footer-link">
+                  {t.footer?.testPrepLink || "Test Prep"}
                 </Link>
               </li>
               <li>
-                <Link href="/test-prep" className="footer-link-btn">
-                  <BookOpen size={14} />
-                  <span>{t.footer.testPrepLink}</span>
+                <Link href="/blog" className="footer-link">
+                  {t.footer?.blogLink || "Career Guides"}
                 </Link>
               </li>
               <li>
-                <Link href="/cv-builder" className="footer-link-btn">
-                  <FileText size={14} />
-                  <span>{t.footer.cvBuilderLink}</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/alerts" className="footer-link-btn">
-                  <Mail size={14} />
-                  <span>{t.footer.emailAlertsLink}</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="footer-link-btn">
-                  <BookOpen size={14} />
-                  <span>{t.footer.blogLink || "Career Guides & Blog"}</span>
+                <Link href="/alerts" className="footer-link">
+                  {t.footer?.emailAlertsLink || "Job Alerts"}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* City Portals */}
-          <div className="footer-links-col">
-            <h4 className="footer-col-title">{t.footer.cityHubsTitle || "City Hubs"}</h4>
-            <ul className="footer-links-list">
-              <li><Link href="/city/lahore" className="footer-link-btn">{t.footer.lahore || "Jobs in Lahore (Punjab)"}</Link></li>
-              <li><Link href="/city/karachi" className="footer-link-btn">{t.footer.karachi || "Jobs in Karachi (Sindh)"}</Link></li>
-              <li><Link href="/city/islamabad" className="footer-link-btn">{t.footer.islamabad || "Jobs in Islamabad / Rawalpindi"}</Link></li>
-              <li><Link href="/city/peshawar" className="footer-link-btn">{t.footer.peshawar || "Jobs in Peshawar (KPK)"}</Link></li>
-              <li><Link href="/city/quetta" className="footer-link-btn">{t.footer.quetta || "Jobs in Quetta (Balochistan)"}</Link></li>
+          {/* Column 3: Commissions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS) */}
+          <div className="footer-col">
+            <h4 className="footer-heading">{t.footer?.commissionsTracked || "Commissions"}</h4>
+            <ul className="footer-links">
+              <li><Link href="/agency/fpsc" className="footer-link">FPSC Federal</Link></li>
+              <li><Link href="/agency/ppsc" className="footer-link">PPSC Punjab</Link></li>
+              <li><Link href="/agency/spsc" className="footer-link">SPSC Sindh</Link></li>
+              <li><Link href="/agency/kppsc" className="footer-link">KPPSC Khyber</Link></li>
+              <li><Link href="/agency/bpsc" className="footer-link">BPSC Balochistan</Link></li>
+              <li><Link href="/agency/nts" className="footer-link">NTS Testing</Link></li>
             </ul>
           </div>
 
-          {/* Commissions */}
-          <div className="footer-links-col">
-            <h4 className="footer-col-title">{t.footer.commissionsTracked}</h4>
-            <ul className="footer-links-list">
-              <li><Link href="/agency/fpsc" className="footer-link-btn">FPSC Federal</Link></li>
-              <li><Link href="/agency/ppsc" className="footer-link-btn">PPSC Punjab</Link></li>
-              <li><Link href="/agency/spsc" className="footer-link-btn">SPSC Sindh</Link></li>
-              <li><Link href="/agency/kppsc" className="footer-link-btn">KPPSC Khyber</Link></li>
-              <li><Link href="/agency/bpsc" className="footer-link-btn">BPSC Balochistan</Link></li>
-              <li><Link href="/agency/nts" className="footer-link-btn">NTS Testing</Link></li>
+          {/* Column 4: Company (About, Contact, Privacy Policy, Terms - Max 5 links) */}
+          <div className="footer-col">
+            <h4 className="footer-heading">{t.footer?.trustTitle || "Company"}</h4>
+            <ul className="footer-links">
+              <li>
+                <Link href="/about" className="footer-link">
+                  {t.footer?.about || "About"}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="footer-link">
+                  {t.footer?.contact || "Contact"}
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy" className="footer-link">
+                  {t.footer?.privacy || "Privacy Policy"}
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms-of-service" className="footer-link">
+                  {t.footer?.terms || "Terms of Service"}
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="footer-link">
+                  {t.footer?.faq || "FAQ"}
+                </Link>
+              </li>
             </ul>
           </div>
+        </div>
 
-          {/* Provincial & National Portals (High-Volume Searches) */}
-          <div className="footer-links-col">
-            <h4 className="footer-col-title">Province & National Portals</h4>
-            <ul className="footer-links-list">
-              <li><Link href="/punjab-job-portal" className="footer-link-btn">Punjab Job Portal</Link></li>
-              <li><Link href="/sindh-job-portal" className="footer-link-btn">Sindh Job Portal</Link></li>
-              <li><Link href="/national-job-portal" className="footer-link-btn">National Job Portal (NJP)</Link></li>
-              <li><Link href="/kpk-job-portal" className="footer-link-btn">KPK Job Portal</Link></li>
-              <li><Link href="/balochistan-job-portal" className="footer-link-btn">Balochistan Job Portal</Link></li>
-              <li><Link href="/faq" className="footer-link-btn">Verified FAQ Hub</Link></li>
-            </ul>
+        {/* Compact Bottom Rows: Cities & Official Portals */}
+        <div className="footer-compact-section">
+          {/* Cities Compact Row */}
+          <div className="footer-compact-row">
+            <span className="footer-compact-label">Cities:</span>
+            <div className="footer-compact-links">
+              {cityLinks.map((c, idx) => (
+                <React.Fragment key={c.href}>
+                  <Link href={c.href} className="footer-compact-link">
+                    {c.name}
+                  </Link>
+                  {idx < cityLinks.length - 1 && (
+                    <span className="footer-compact-dot" aria-hidden="true">•</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
 
-          {/* Company & Legal */}
-          <div className="footer-links-col">
-            <h4 className="footer-col-title">{t.footer.trustTitle || "Trust & Transparency"}</h4>
-            <ul className="footer-links-list">
-              <li><Link href="/about" className="footer-link-btn">{t.footer.about || "About Tainaati"}</Link></li>
-              <li><Link href="/contact" className="footer-link-btn">{t.footer.contact || "Contact Support Desk"}</Link></li>
-              <li><Link href="/privacy-policy" className="footer-link-btn">{t.footer.privacy || "Privacy Policy"}</Link></li>
-              <li><Link href="/terms-of-service" className="footer-link-btn">{t.footer.terms || "Terms of Service"}</Link></li>
-            </ul>
+          {/* Official Portals Compact Row */}
+          <div className="footer-compact-row">
+            <span className="footer-compact-label">Official Portals:</span>
+            <div className="footer-compact-links">
+              {officialPortals.map((p, idx) => (
+                <React.Fragment key={p.url}>
+                  <a 
+                    href={p.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="footer-compact-link flex items-center gap-1"
+                  >
+                    <span>{p.name}</span>
+                    <ExternalLink size={10} className="opacity-70 flex-shrink-0" />
+                  </a>
+                  {idx < officialPortals.length - 1 && (
+                    <span className="footer-compact-dot" aria-hidden="true">•</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Bottom Bar: Copyright & Mandatory Disclaimer */}
       <div className="footer-bottom-bar">
         <div className="container-xl footer-bottom-flex">
-          <div className="footer-copyright">
-            {t.footer.copyright} • <Link href="/privacy-policy" className="hover:underline text-muted">{t.footer.privacy || "Privacy"}</Link> • <Link href="/terms-of-service" className="hover:underline text-muted">{t.footer.terms || "Terms"}</Link> • <Link href="/contact" className="hover:underline text-muted">{t.footer.contact || "Contact"}</Link>
+          <div className="footer-copyright tabular-nums">
+            © {currentYear} Tainaati. All rights reserved.
           </div>
-          <div className="footer-badges-right">
-            <span className="footer-badge-item">{t.footer.gazetteBadge || "Official Gazette Sourced"}</span>
+          <div className="footer-disclaimer-note">
+            Tainaati is not a government website. Always apply through the official portal.
           </div>
         </div>
       </div>

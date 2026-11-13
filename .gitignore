@@ -38,6 +38,7 @@ next-env.d.ts
 lighthouse-*.json
 
 # verification & scratch artifacts
+scratch/
 *.pdf
 *_page_*.jpg
 *_jobs_page.html

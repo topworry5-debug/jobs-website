@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Search, Home, ArrowRight, Landmark, Calendar, FileText, AlertCircle, Briefcase } from 'lucide-react';
 import { JOBS_DATA } from '../data/jobsData';
 import { filterOpenJobs, getJobUrl } from '../lib/jobStatus';
+import { decodeHtmlEntities } from '../utils/textCleaning';
 
 export const metadata = {
   title: 'Page Not Found (404) | Tainaati',
@@ -83,7 +84,7 @@ export default function NotFound() {
           </Link>
         </div>
 
-        {/* 3. Latest Verified Open Jobs List */}
+        {/* 3. Latest Open Jobs List */}
         {openJobs.length > 0 && (
           <div className="text-left card p-6 bg-surface-subtle border border-subtle">
             <div className="flex items-center justify-between mb-4 border-b border-subtle pb-3">
@@ -110,7 +111,7 @@ export default function NotFound() {
                         {job.title}
                       </div>
                       <div className="text-xs text-secondary mt-0.5" dir="auto">
-                        {job.department || job.company} • {job.city}
+                        {decodeHtmlEntities(job.department || job.company)} • {decodeHtmlEntities(job.city)}
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0 text-xs">

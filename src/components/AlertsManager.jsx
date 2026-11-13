@@ -181,7 +181,7 @@ export default function AlertsManager() {
           <span>Double Opt-In Email Delivery • Free & Zero Spam</span>
         </div>
         <h1 className="text-2xl md:text-3xl font-bold text-main">
-          Verified Email Job Alerts in Pakistan
+          Email Job Alerts in Pakistan
         </h1>
         <p className="text-secondary text-sm md:text-base max-w-3xl mt-1">
           Receive curated notifications for Federal and Provincial government gazettes, banking schemes, engineering projects, and corporate positions matching your exact category, city, and keywords.
@@ -352,7 +352,7 @@ export default function AlertsManager() {
 
             {step === 'VERIFY' && (
               <div className="space-y-4">
-                <div className="badge badge-verified">Step 2: Confirm Verification Code</div>
+                <div className="badge badge-subtle">Step 2: Confirm Verification Code</div>
                 <h3 className="text-lg font-bold text-main">Check Your Inbox</h3>
                 <p className="text-secondary text-xs leading-relaxed">
                   We sent a 6-digit confirmation code to <strong>{email}</strong>.

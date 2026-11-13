@@ -57,8 +57,8 @@ export default function PrivateJobsPage() {
             <Sparkles size={13} />
             <span>Corporate & Private Opportunities</span>
           </span>
-          <span className="badge badge-verified">
-            <ShieldCheck size={13} />
+          <span className="badge badge-neutral">
+            <Sparkles size={13} />
             {openPrivateJobs.length > 0 ? (
               <span>{openPrivateJobs.length} Active Openings</span>
             ) : (

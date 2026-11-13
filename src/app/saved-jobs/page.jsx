@@ -33,7 +33,6 @@ export default function SavedJobsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <h1 className="sr-only">Saved Jobs & Application Tracker</h1>
       <SavedJobsTracker />
     </div>
   );

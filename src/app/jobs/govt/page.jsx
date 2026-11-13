@@ -11,13 +11,13 @@ const siteUrl = getSiteUrl();
 
 export const metadata = {
   title: "Government Jobs in Pakistan 2026 (FPSC, PPSC, SPSC, KPPSC & NTS)",
-  description: "Explore all verified Federal & Provincial Government jobs in Pakistan. BPS-07 to BPS-20 scales with official syllabus, challan info, and verified direct links.",
+  description: "Explore Federal & Provincial Government jobs in Pakistan. BPS-07 to BPS-20 scales with official syllabus, challan info, and direct links.",
   alternates: {
     canonical: `${siteUrl}/jobs/govt`
   },
   openGraph: {
     title: "Government Jobs in Pakistan 2026 (FPSC, PPSC, SPSC, KPPSC & NTS)",
-    description: "Explore all verified Federal & Provincial Government jobs in Pakistan.",
+    description: "Explore Federal & Provincial Government jobs in Pakistan.",
     url: `${siteUrl}/jobs/govt`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
@@ -53,7 +53,7 @@ export default function GovtJobsPage() {
             <Landmark size={13} />
             <span>Public Sector Opportunities</span>
           </span>
-          <span className="badge badge-verified">
+          <span className="badge badge-subtle">
             <ShieldCheck size={13} />
             {openGovtJobs.length > 0 ? (
               <span>{openGovtJobs.length} Active Openings</span>
