@@ -50,7 +50,78 @@ export default function Navbar() {
   const headerRef = useRef(null);
   const govtTriggerRef = useRef(null);
   const resourcesTriggerRef = useRef(null);
+  const govtMenuRef = useRef(null);
+  const resourcesMenuRef = useRef(null);
   const langTriggerRef = useRef(null);
+  const dropdownTimeoutRef = useRef(null);
+
+  const clearDropdownTimeout = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+  };
+
+  const handleDropdownEnter = (name) => {
+    clearDropdownTimeout();
+    setActiveDropdown(name);
+  };
+
+  const handleDropdownLeave = () => {
+    clearDropdownTimeout();
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 180);
+  };
+
+  const handleDropdownToggle = (name) => {
+    clearDropdownTimeout();
+    setActiveDropdown((prev) => (prev === name ? null : name));
+  };
+
+  const handleTriggerKeyDown = (e, name, menuRef) => {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      clearDropdownTimeout();
+      setActiveDropdown(name);
+      setTimeout(() => {
+        const firstItem = menuRef.current?.querySelector('a[role="menuitem"], a');
+        firstItem?.focus();
+      }, 50);
+    } else if (e.key === 'Escape') {
+      clearDropdownTimeout();
+      setActiveDropdown(null);
+    }
+  };
+
+  const handleMenuKeyDown = (e, triggerRef, menuRef) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      clearDropdownTimeout();
+      setActiveDropdown(null);
+      triggerRef.current?.focus();
+      return;
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const items = Array.from(menuRef.current?.querySelectorAll('a[role="menuitem"], a') || []);
+      const currentIndex = items.indexOf(document.activeElement);
+      if (currentIndex === -1) {
+        items[0]?.focus();
+      } else if (e.key === 'ArrowDown') {
+        const nextIndex = (currentIndex + 1) % items.length;
+        items[nextIndex]?.focus();
+      } else if (e.key === 'ArrowUp') {
+        const prevIndex = (currentIndex - 1 + items.length) % items.length;
+        items[prevIndex]?.focus();
+      }
+    }
+  };
+
+  useEffect(() => {
+    return () => clearDropdownTimeout();
+  }, []);
 
   // Sync saved jobs count reactive to storage events
   useEffect(() => {
@@ -92,6 +163,7 @@ export default function Navbar() {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (headerRef.current && !headerRef.current.contains(event.target)) {
+        clearDropdownTimeout();
         setActiveDropdown(null);
         setLangMenuOpen(false);
       }
@@ -102,6 +174,7 @@ export default function Navbar() {
 
   // Close all dropdowns & mobile menu on route change
   useEffect(() => {
+    clearDropdownTimeout();
     setActiveDropdown(null);
     setLangMenuOpen(false);
     setMobileMenuOpen(false);
@@ -167,17 +240,15 @@ export default function Navbar() {
             {/* 2. Govt Jobs (dropdown) */}
             <div 
               className="header-dropdown-container"
-              onMouseEnter={() => setActiveDropdown('govt')}
-              onMouseLeave={() => setActiveDropdown(null)}
+              onMouseEnter={() => handleDropdownEnter('govt')}
+              onMouseLeave={handleDropdownLeave}
             >
               <button
                 ref={govtTriggerRef}
                 type="button"
                 className={`header-nav-link header-dropdown-trigger ${isGovtActive ? 'active' : ''}`}
-                onClick={() => setActiveDropdown(activeDropdown === 'govt' ? null : 'govt')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') setActiveDropdown(null);
-                }}
+                onClick={() => handleDropdownToggle('govt')}
+                onKeyDown={(e) => handleTriggerKeyDown(e, 'govt', govtMenuRef)}
                 aria-expanded={activeDropdown === 'govt'}
                 aria-haspopup="true"
               >
@@ -187,20 +258,16 @@ export default function Navbar() {
 
               {activeDropdown === 'govt' && (
                 <div 
+                  ref={govtMenuRef}
                   className="header-dropdown-menu header-dropdown-mega" 
                   role="menu"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Escape') {
-                      setActiveDropdown(null);
-                      govtTriggerRef.current?.focus();
-                    }
-                  }}
+                  onKeyDown={(e) => handleMenuKeyDown(e, govtTriggerRef, govtMenuRef)}
                 >
                   <div className="dropdown-mega-header">
                     <Link 
                       href="/jobs/govt" 
                       className="dropdown-mega-title-card"
-                      onClick={() => setActiveDropdown(null)}
+                      onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }}
                       role="menuitem"
                     >
                       <div className="flex items-center gap-2">
@@ -217,27 +284,27 @@ export default function Navbar() {
                     {/* Commissions Column */}
                     <div className="dropdown-col">
                       <div className="dropdown-col-heading">Public Service Commissions</div>
-                      <Link href="/agency/fpsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/agency/fpsc" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>FPSC Federal</span>
                         <span className="dropdown-item-badge">BPS 16-22</span>
                       </Link>
-                      <Link href="/agency/ppsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/agency/ppsc" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>PPSC Punjab</span>
                         <span className="dropdown-item-badge">BPS 11-18</span>
                       </Link>
-                      <Link href="/agency/spsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/agency/spsc" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>SPSC Sindh</span>
                         <span className="dropdown-item-badge">CCE</span>
                       </Link>
-                      <Link href="/agency/kppsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/agency/kppsc" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>KPPSC Khyber</span>
                         <span className="dropdown-item-badge">Provincial</span>
                       </Link>
-                      <Link href="/agency/bpsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/agency/bpsc" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>BPSC Balochistan</span>
                         <span className="dropdown-item-badge">Gazette</span>
                       </Link>
-                      <Link href="/agency/nts" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/agency/nts" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>NTS Testing</span>
                         <span className="dropdown-item-badge">Projects</span>
                       </Link>
@@ -246,19 +313,19 @@ export default function Navbar() {
                     {/* Portal Hubs Column */}
                     <div className="dropdown-col">
                       <div className="dropdown-col-heading">Portal Hubs</div>
-                      <Link href="/national-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/national-job-portal" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>National Job Portal (NJP)</span>
                       </Link>
-                      <Link href="/punjab-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/punjab-job-portal" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>Punjab Job Portal</span>
                       </Link>
-                      <Link href="/sindh-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/sindh-job-portal" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>Sindh Job Portal</span>
                       </Link>
-                      <Link href="/kpk-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/kpk-job-portal" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>KPK Job Portal</span>
                       </Link>
-                      <Link href="/balochistan-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
+                      <Link href="/balochistan-job-portal" className="dropdown-item" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                         <span>Balochistan Job Portal</span>
                       </Link>
                     </div>
@@ -278,17 +345,15 @@ export default function Navbar() {
             {/* 4. Resources (dropdown) */}
             <div 
               className="header-dropdown-container"
-              onMouseEnter={() => setActiveDropdown('resources')}
-              onMouseLeave={() => setActiveDropdown(null)}
+              onMouseEnter={() => handleDropdownEnter('resources')}
+              onMouseLeave={handleDropdownLeave}
             >
               <button
                 ref={resourcesTriggerRef}
                 type="button"
                 className={`header-nav-link header-dropdown-trigger ${isResourcesActive ? 'active' : ''}`}
-                onClick={() => setActiveDropdown(activeDropdown === 'resources' ? null : 'resources')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') setActiveDropdown(null);
-                }}
+                onClick={() => handleDropdownToggle('resources')}
+                onKeyDown={(e) => handleTriggerKeyDown(e, 'resources', resourcesMenuRef)}
                 aria-expanded={activeDropdown === 'resources'}
                 aria-haspopup="true"
               >
@@ -298,16 +363,12 @@ export default function Navbar() {
 
               {activeDropdown === 'resources' && (
                 <div 
+                  ref={resourcesMenuRef}
                   className="header-dropdown-menu header-dropdown-list" 
                   role="menu"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Escape') {
-                      setActiveDropdown(null);
-                      resourcesTriggerRef.current?.focus();
-                    }
-                  }}
+                  onKeyDown={(e) => handleMenuKeyDown(e, resourcesTriggerRef, resourcesMenuRef)}
                 >
-                  <Link href="/exams" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                  <Link href="/exams" className="dropdown-item-rich" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                     <Calendar size={16} className="text-brand-primary flex-shrink-0" />
                     <div>
                       <div className="dropdown-item-title">{t.nav?.examCalendar || 'Exam Calendar'}</div>
@@ -315,7 +376,7 @@ export default function Navbar() {
                     </div>
                   </Link>
 
-                  <Link href="/exam-results" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                  <Link href="/exam-results" className="dropdown-item-rich" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                     <FileCheck size={16} className="text-emerald-600 flex-shrink-0" />
                     <div>
                       <div className="dropdown-item-title">{t.nav?.examResults || 'Results & Roll No Slips'}</div>
@@ -323,7 +384,7 @@ export default function Navbar() {
                     </div>
                   </Link>
 
-                  <Link href="/salary-calculator" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                  <Link href="/salary-calculator" className="dropdown-item-rich" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                     <Calculator size={16} className="text-amber-600 flex-shrink-0" />
                     <div>
                       <div className="dropdown-item-title">{t.nav?.salaryCalculator || 'BPS Salary Calculator'}</div>
@@ -331,7 +392,7 @@ export default function Navbar() {
                     </div>
                   </Link>
 
-                  <Link href="/cv-builder" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                  <Link href="/cv-builder" className="dropdown-item-rich" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                     <FileText size={16} className="text-indigo-600 flex-shrink-0" />
                     <div>
                       <div className="dropdown-item-title">{t.nav?.cvBuilder || 'ATS CV Builder'}</div>
@@ -339,7 +400,7 @@ export default function Navbar() {
                     </div>
                   </Link>
 
-                  <Link href="/blog" className="dropdown-item-rich" onClick={() => setActiveDropdown(null)} role="menuitem">
+                  <Link href="/blog" className="dropdown-item-rich" onClick={() => { clearDropdownTimeout(); setActiveDropdown(null); }} role="menuitem">
                     <BookOpen size={16} className="text-rose-600 flex-shrink-0" />
                     <div>
                       <div className="dropdown-item-title">{t.nav?.guides || 'Career Guides'}</div>
