@@ -23,9 +23,9 @@ export function generateVerificationEmail(email, verificationCode, verifyUrl) {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center">
-                    <span style="display: inline-block; background-color: #059669; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Official Job Intelligence</span>
+                    <span style="display: inline-block; background-color: #059669; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Job Alerts</span>
                     <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Tainaa<span style="color: #fbbf24;">ti</span></h1>
-                    <p style="color: #a7f3d0; margin: 6px 0 0 0; font-size: 13px;">Pakistan's #1 Verified Jobs & Career Portal</p>
+                    <p style="color: #a7f3d0; margin: 6px 0 0 0; font-size: 13px;">Pakistan's Jobs & Career Portal</p>
                   </td>
                 </tr>
               </table>
@@ -69,7 +69,7 @@ export function generateVerificationEmail(email, verificationCode, verifyUrl) {
           <tr>
             <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center;">
               <p style="color: #94a3b8; font-size: 12px; margin: 0 0 8px 0;">
-                Tainaati • Federal & Provincial Public Service Commission Intelligence
+                Tainaati • Federal & Provincial Public Service Commission Updates
               </p>
               <p style="color: #94a3b8; font-size: 11px; margin: 0;">
                 Islamabad, Lahore, Karachi, Pakistan
@@ -97,7 +97,7 @@ export function generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl,
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Verified Job Alert: ${job.title}</title>
+  <title>Job Alert: ${job.title}</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0f172a; padding: 40px 10px;">
@@ -110,7 +110,7 @@ export function generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl,
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Tainaa<span style="color: #fbbf24;">ti</span> <span style="font-size: 13px; font-weight: 400; color: #a7f3d0; margin-left: 8px;">• Instant Verified Job Alert</span></h1>
+                    <h1 style="color: #ffffff; margin: 0; font-size: 20px; font-weight: 800;">Tainaa<span style="color: #fbbf24;">ti</span> <span style="font-size: 13px; font-weight: 400; color: #a7f3d0; margin-left: 8px;">• Job Alert</span></h1>
                   </td>
                 </tr>
               </table>
@@ -167,10 +167,6 @@ export function generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl,
                   </td>
                 </tr>
               </table>
-
-              <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; font-size: 12px; color: #64748b; line-height: 1.5;">
-                <strong>Official Verification Note:</strong> This notice was cross-checked directly against official government circulars and employer registries.
-              </div>
             </td>
           </tr>
 
@@ -178,11 +174,11 @@ export function generateSingleJobAlertEmail(job, recipientEmail, unsubscribeUrl,
           <tr>
             <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center;">
               <p style="color: #64748b; font-size: 12px; margin: 0 0 8px 0;">
-                You received this verified alert because you subscribed on Tainaati (${recipientEmail}).
+                You received this alert because you subscribed on Tainaati (${recipientEmail}).
               </p>
               <p style="color: #94a3b8; font-size: 12px; margin: 0;">
                 <a href="${manageUrl}" style="color: #059669; text-decoration: underline; margin-right: 12px;">Update Preferences</a>
-                <a href="${unsubscribeUrl}" style="color: #dc2626; text-decoration: underline;">Unsubscribe Instantly</a>
+                <a href="${unsubscribeUrl}" style="color: #dc2626; text-decoration: underline;">Unsubscribe</a>
               </p>
             </td>
           </tr>
@@ -228,7 +224,7 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tainaati Daily Jobs Digest (${jobs.length} Verified Matches)</title>
+  <title>Tainaati Daily Jobs Digest (${jobs.length} Matches)</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0f172a; padding: 40px 10px;">
@@ -239,8 +235,8 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
           <tr>
             <td style="background-color: #064e3b; padding: 30px; text-align: center;">
               <span style="display: inline-block; background-color: #059669; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Daily 8:00 AM Digest</span>
-              <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800;">Tainaa<span style="color: #fbbf24;">ti</span> Job Intelligence</h1>
-              <p style="color: #a7f3d0; margin: 6px 0 0 0; font-size: 13px;">${jobs.length} new verified openings matching your career profile</p>
+              <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800;">Tainaa<span style="color: #fbbf24;">ti</span> Daily Digest</h1>
+              <p style="color: #a7f3d0; margin: 6px 0 0 0; font-size: 13px;">${jobs.length} new openings matching your career profile</p>
             </td>
           </tr>
 
@@ -270,7 +266,7 @@ export function generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, m
               </p>
               <p style="color: #94a3b8; font-size: 12px; margin: 0;">
                 <a href="${manageUrl}" style="color: #059669; text-decoration: underline; margin-right: 12px;">Update Preferences</a>
-                <a href="${unsubscribeUrl}" style="color: #dc2626; text-decoration: underline;">Unsubscribe Instantly</a>
+                <a href="${unsubscribeUrl}" style="color: #dc2626; text-decoration: underline;">Unsubscribe</a>
               </p>
             </td>
           </tr>

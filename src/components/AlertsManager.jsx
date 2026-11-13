@@ -32,6 +32,7 @@ import { CATEGORIES_CONFIG, matchesJobCategory, getCategoryBySlug } from '../dat
 import { SubscriberManager } from '../../pipeline/alerts/subscriberManager';
 import { generateVerificationEmail, generateSingleJobAlertEmail, generateDigestAlertEmail } from '../../pipeline/alerts/emailTemplates';
 import { useLanguage } from '../context/LanguageContext';
+import { isJobOpen } from '../lib/jobStatus';
 
 export default function AlertsManager() {
   const { t } = useLanguage();
@@ -85,9 +86,12 @@ export default function AlertsManager() {
   // Previewer tab
   const [inboxTab, setInboxTab] = useState('instant'); // 'verification' | 'instant' | 'digest'
 
-  // Compute live match count for current configuration
+  // Compute live match count for current configuration (OPEN jobs only)
   const liveMatchCount = useMemo(() => {
     return JOBS_DATA.filter((job) => {
+      if (!isJobOpen(job)) {
+        return false;
+      }
       if (selectedCategory !== 'all' && !matchesJobCategory(job, selectedCategory)) {
         return false;
       }
@@ -142,7 +146,7 @@ export default function AlertsManager() {
     saveUserAlerts(updated);
 
     setStep('CONFIRMED');
-    setSuccessMsg("Alert profile successfully verified and saved!");
+    setSuccessMsg("Alert profile successfully saved!");
     setErrorMsg('');
   };
 
@@ -161,16 +165,62 @@ export default function AlertsManager() {
     saveUserAlerts(updated);
   };
 
-  // Sample matching jobs for preview
-  const sampleJob = JOBS_DATA.find(j => selectedCategory === 'all' || matchesJobCategory(j, selectedCategory)) || JOBS_DATA[0];
-  const sampleDigestJobs = JOBS_DATA.slice(0, 3);
+  // Recipient email for preview: user typed email or neutral placeholder (NO candidate@example.com)
+  const sampleEmailRecipient = email.trim() || 'your.email@example.com';
+
+  // Sample neutral placeholder job for preview (clearly marked as example only)
+  const samplePlaceholderJob = {
+    id: 'sample-preview-only',
+    title: 'Assistant Director (BPS-17) - Example Department, Lahore',
+    department: 'Federal / Provincial Department (Example Only)',
+    city: city !== 'All Cities' ? city : 'Lahore, Pakistan',
+    type: 'govt',
+    bpsScale: 'BPS-17',
+    vacancies: 2,
+    lastDate: '2026-12-31',
+    officialUrl: '#'
+  };
+
+  const sampleDigestJobs = [
+    {
+      id: 'sample-digest-1',
+      title: 'Assistant Director (BPS-17) - Example Department, Lahore',
+      department: 'Federal / Provincial Department (Example Only)',
+      city: 'Lahore',
+      type: 'govt',
+      bpsScale: 'BPS-17',
+      lastDate: '2026-12-31',
+      agency: 'Example Commission',
+      officialUrl: '#'
+    },
+    {
+      id: 'sample-digest-2',
+      title: 'Statistical Officer (BPS-17) - Planning Bureau (Example Only)',
+      department: 'Bureau of Statistics (Example Only)',
+      city: 'Islamabad',
+      type: 'govt',
+      bpsScale: 'BPS-17',
+      lastDate: '2026-12-31',
+      agency: 'Example Agency',
+      officialUrl: '#'
+    },
+    {
+      id: 'sample-digest-3',
+      title: 'Software Engineer - Example Technology Unit',
+      department: 'IT Directorate (Example Only)',
+      city: 'Karachi',
+      type: 'private',
+      bpsScale: 'Private',
+      lastDate: '2026-12-31',
+      agency: 'Example Tech',
+      officialUrl: '#'
+    }
+  ];
 
   const previewHtml = 
-    inboxTab === 'verification'
-      ? generateVerificationEmail(email || "candidate@example.com", activeCode || "849201", "https://www.tainaati.com/alerts/verify")
-      : inboxTab === 'instant'
-      ? generateSingleJobAlertEmail(sampleJob, email || "candidate@example.com", "https://www.tainaati.com/alerts/unsubscribe", "https://www.tainaati.com/alerts/preferences")
-      : generateDigestAlertEmail(sampleDigestJobs, email || "candidate@example.com", "https://www.tainaati.com/alerts/unsubscribe", "https://www.tainaati.com/alerts/preferences");
+    inboxTab === 'instant'
+      ? generateSingleJobAlertEmail(samplePlaceholderJob, sampleEmailRecipient, "https://www.tainaati.com/alerts/unsubscribe", "https://www.tainaati.com/alerts/preferences")
+      : generateDigestAlertEmail(sampleDigestJobs, sampleEmailRecipient, "https://www.tainaati.com/alerts/unsubscribe", "https://www.tainaati.com/alerts/preferences");
 
   return (
     <div className="alerts-manager-page container-xl py-4">
@@ -178,7 +228,7 @@ export default function AlertsManager() {
       <div className="card p-5 mb-4">
         <div className="badge badge-govt mb-2">
           <Mail size={13} />
-          <span>Double Opt-In Email Delivery • Free & Zero Spam</span>
+          <span>Email Notification Preferences • Free & Zero Spam</span>
         </div>
         <h1 className="text-2xl md:text-3xl font-bold text-main">
           Email Job Alerts in Pakistan
@@ -229,7 +279,7 @@ export default function AlertsManager() {
                     <input
                       type="email"
                       required
-                      placeholder="e.g. candidate.name@gmail.com"
+                      placeholder="e.g. your.email@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="input-field pl-10 w-full text-sm"
@@ -297,9 +347,15 @@ export default function AlertsManager() {
                 {/* Live Match Pill */}
                 <div className="p-3.5 rounded-lg bg-subtle border border-theme flex flex-wrap justify-between items-center gap-2 text-xs">
                   <span className="text-secondary font-medium">Matching active jobs right now:</span>
-                  <span className="badge badge-bps font-mono font-bold">
-                    {liveMatchCount} Positions Available
-                  </span>
+                  {liveMatchCount > 0 ? (
+                    <span className="badge badge-bps font-mono font-bold">
+                      {liveMatchCount} {liveMatchCount === 1 ? 'Open Position' : 'Open Positions'}
+                    </span>
+                  ) : (
+                    <span className="text-muted font-medium italic">
+                      0 active jobs matching these filters right now
+                    </span>
+                  )}
                 </div>
 
                 {/* Frequency */}
@@ -317,8 +373,8 @@ export default function AlertsManager() {
                         className="accent-emerald-600 flex-shrink-0"
                       />
                       <div className="min-w-0 flex-1">
-                        <strong className="block text-main text-xs font-bold">Instant Alert</strong>
-                        <span className="text-secondary text-[11px] block mt-0.5">As soon as gazetted</span>
+                        <strong className="block text-main text-xs font-bold">New Openings Alert</strong>
+                        <span className="text-secondary text-[11px] block mt-0.5">When matching jobs are posted</span>
                       </div>
                     </label>
 
@@ -436,7 +492,7 @@ export default function AlertsManager() {
             <div className="flex flex-wrap justify-between items-center gap-2 border-b border-theme pb-2">
               <h2 className="text-sm font-bold text-main flex items-center gap-1.5">
                 <Inbox size={15} className="text-emerald-500" />
-                <span>Live Email Notification Preview</span>
+                <span>Email Notification Preview</span>
               </h2>
 
               <div className="flex gap-1.5">
@@ -445,7 +501,7 @@ export default function AlertsManager() {
                   onClick={() => setInboxTab('instant')}
                   className={`badge cursor-pointer ${inboxTab === 'instant' ? 'badge-govt' : 'bg-subtle text-secondary'}`}
                 >
-                  Instant Match
+                  Single Job
                 </button>
                 <button
                   type="button"
@@ -455,6 +511,17 @@ export default function AlertsManager() {
                   Daily Digest
                 </button>
               </div>
+            </div>
+
+            {/* Clear Sample Email Disclaimer Banner */}
+            <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-800 dark:text-amber-300 text-xs">
+              <div className="font-semibold flex items-center gap-1.5">
+                <AlertCircle size={14} className="flex-shrink-0 text-amber-600 dark:text-amber-400" />
+                <span>Sample email (example only)</span>
+              </div>
+              <p className="text-[11px] mt-1 text-secondary">
+                This preview illustrates how email alerts look. The position above is a neutral placeholder and not a real job opening.
+              </p>
             </div>
 
             {/* Email Preview Frame */}
@@ -476,6 +543,7 @@ export default function AlertsManager() {
               </div>
 
               <button
+                type="button"
                 onClick={() => { setActiveMode('create'); setStep('FORM'); }}
                 className="btn btn-sm btn-primary text-xs flex items-center gap-1"
               >
@@ -487,6 +555,7 @@ export default function AlertsManager() {
               <div className="space-y-3">
                 {userAlerts.map((alert) => {
                   const matchCount = JOBS_DATA.filter(j => {
+                    if (!isJobOpen(j)) return false;
                     if (alert.category !== 'all' && !matchesJobCategory(j, alert.category)) return false;
                     if (alert.city !== 'All Cities' && !j.city?.toLowerCase().includes(alert.city.toLowerCase())) return false;
                     if (alert.keywords) {
@@ -519,7 +588,7 @@ export default function AlertsManager() {
                         <div className="text-xs text-secondary flex flex-wrap items-center gap-3">
                           <span>Email: <strong className="text-main">{alert.email}</strong></span>
                           {alert.keywords && <span>Keyword: <code className="text-xs">{alert.keywords}</code></span>}
-                          <span>Frequency: <em>{alert.frequency === 'instant' ? 'Instant' : 'Daily Digest'}</em></span>
+                          <span>Frequency: <em>{alert.frequency === 'instant' ? 'New Openings' : 'Daily Digest'}</em></span>
                           <span>Created: {alert.createdAt}</span>
                         </div>
                       </div>

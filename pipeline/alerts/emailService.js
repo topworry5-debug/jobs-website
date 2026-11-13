@@ -115,7 +115,7 @@ export class EmailService {
     const html = generateDigestAlertEmail(jobs, recipientEmail, unsubscribeUrl, manageUrl);
     return await this.sendMail({
       to: recipientEmail,
-      subject: `📋 Tainaati Daily Digest: ${jobs.length} New Verified Openings (${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })})`,
+      subject: `📋 Tainaati Daily Digest: ${jobs.length} New Openings (${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })})`,
       html
     });
   }
