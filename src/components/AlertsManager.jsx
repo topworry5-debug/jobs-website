@@ -188,8 +188,9 @@ export default function AlertsManager() {
         </p>
 
         {/* Mode Navigation Tabs */}
-        <div className="flex gap-2 mt-4 pt-3 border-t border-theme">
+        <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-theme">
           <button
+            type="button"
             onClick={() => { setActiveMode('create'); setStep('FORM'); setErrorMsg(''); }}
             className={`btn btn-sm ${activeMode === 'create' ? 'btn-primary' : 'btn-outline'} text-xs flex items-center gap-1.5`}
           >
@@ -197,6 +198,7 @@ export default function AlertsManager() {
             <span>Create New Job Alert</span>
           </button>
           <button
+            type="button"
             onClick={() => setActiveMode('manage')}
             className={`btn btn-sm ${activeMode === 'manage' ? 'btn-primary' : 'btn-outline'} text-xs flex items-center gap-1.5`}
           >
@@ -207,38 +209,38 @@ export default function AlertsManager() {
       </div>
 
       {activeMode === 'create' ? (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div className="alerts-layout-grid">
           {/* LEFT: Configuration Form */}
-          <div className="lg:col-span-6 card p-5 space-y-4">
+          <div className="card p-5 space-y-4 min-w-0">
             {step === 'FORM' && (
-              <form onSubmit={handleRegister} className="space-y-3">
+              <form onSubmit={handleRegister} className="space-y-4">
                 <div className="border-b border-theme pb-2">
                   <h2 className="text-base font-bold text-main">1. Define Alert Parameters</h2>
                   <span className="text-xs text-secondary">Customized by category, target city, and specific keywords.</span>
                 </div>
 
                 {/* Email Address */}
-                <div className="form-group">
-                  <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                <div className="form-group space-y-1">
+                  <label className="block text-xs font-semibold text-secondary uppercase">
                     Your Email Address (Primary Inbox)
                   </label>
                   <div className="relative">
-                    <Mail size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                     <input
                       type="email"
                       required
                       placeholder="e.g. candidate.name@gmail.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="input-field pl-9 w-full text-sm"
+                      className="input-field pl-10 w-full text-sm"
                     />
                   </div>
                   <span className="text-xs text-muted block mt-0.5">We send a 6-digit confirmation code before activating alerts.</span>
                 </div>
 
                 {/* Category Selector */}
-                <div className="form-group">
-                  <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                <div className="form-group space-y-1">
+                  <label className="block text-xs font-semibold text-secondary uppercase">
                     Preferred Job Category
                   </label>
                   <select
@@ -262,8 +264,8 @@ export default function AlertsManager() {
 
                 {/* City & Keywords Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="form-group">
-                    <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                  <div className="form-group space-y-1">
+                    <label className="block text-xs font-semibold text-secondary uppercase">
                       Preferred City / Location
                     </label>
                     <select
@@ -275,76 +277,76 @@ export default function AlertsManager() {
                     </select>
                   </div>
 
-                  <div className="form-group">
-                    <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                  <div className="form-group space-y-1">
+                    <label className="block text-xs font-semibold text-secondary uppercase">
                       Keyword Filter (Optional)
                     </label>
                     <div className="relative">
-                      <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                      <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                       <input
                         type="text"
                         placeholder="e.g. Lecturer, SBP, Officer"
                         value={keywords}
                         onChange={(e) => setKeywords(e.target.value)}
-                        className="input-field pl-8 w-full text-sm"
+                        className="input-field pl-9 w-full text-sm"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Live Match Pill */}
-                <div className="p-3 rounded-lg bg-subtle border border-theme flex justify-between items-center text-xs">
-                  <span className="text-secondary">Matching active jobs right now:</span>
+                <div className="p-3.5 rounded-lg bg-subtle border border-theme flex flex-wrap justify-between items-center gap-2 text-xs">
+                  <span className="text-secondary font-medium">Matching active jobs right now:</span>
                   <span className="badge badge-bps font-mono font-bold">
                     {liveMatchCount} Positions Available
                   </span>
                 </div>
 
                 {/* Frequency */}
-                <div className="form-group">
-                  <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                <div className="form-group space-y-1.5">
+                  <label className="block text-xs font-semibold text-secondary uppercase">
                     Email Delivery Frequency
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <label className={`p-2.5 rounded-lg border cursor-pointer text-xs transition-all flex items-start gap-2 ${frequency === 'instant' ? 'border-emerald-500 bg-emerald-500/10' : 'border-theme bg-subtle'}`}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <label className={`alerts-freq-option ${frequency === 'instant' ? 'active' : 'bg-subtle'}`}>
                       <input
                         type="radio"
                         name="freq"
                         checked={frequency === 'instant'}
                         onChange={() => setFrequency('instant')}
-                        className="mt-0.5 accent-emerald-600"
+                        className="accent-emerald-600 flex-shrink-0"
                       />
-                      <div>
-                        <strong className="block text-main">Instant Alert</strong>
-                        <span className="text-muted text-[11px]">As soon as gazetted</span>
+                      <div className="min-w-0 flex-1">
+                        <strong className="block text-main text-xs font-bold">Instant Alert</strong>
+                        <span className="text-secondary text-[11px] block mt-0.5">As soon as gazetted</span>
                       </div>
                     </label>
 
-                    <label className={`p-2.5 rounded-lg border cursor-pointer text-xs transition-all flex items-start gap-2 ${frequency === 'daily_digest' ? 'border-emerald-500 bg-emerald-500/10' : 'border-theme bg-subtle'}`}>
+                    <label className={`alerts-freq-option ${frequency === 'daily_digest' ? 'active' : 'bg-subtle'}`}>
                       <input
                         type="radio"
                         name="freq"
                         checked={frequency === 'daily_digest'}
                         onChange={() => setFrequency('daily_digest')}
-                        className="mt-0.5 accent-emerald-600"
+                        className="accent-emerald-600 flex-shrink-0"
                       />
-                      <div>
-                        <strong className="block text-main">Daily Digest</strong>
-                        <span className="text-muted text-[11px]">Every morning at 8 AM</span>
+                      <div className="min-w-0 flex-1">
+                        <strong className="block text-main text-xs font-bold">Daily Digest</strong>
+                        <span className="text-secondary text-[11px] block mt-0.5">Every morning at 8 AM</span>
                       </div>
                     </label>
                   </div>
                 </div>
 
                 {errorMsg && (
-                  <div className="p-2.5 rounded bg-rose-500/10 border border-rose-500/30 text-rose-600 text-xs flex items-center gap-1.5">
-                    <AlertCircle size={14} />
+                  <div className="p-3 rounded bg-rose-500/10 border border-rose-500/30 text-rose-600 text-xs flex items-center gap-2">
+                    <AlertCircle size={15} className="flex-shrink-0" />
                     <span>{errorMsg}</span>
                   </div>
                 )}
 
-                <button type="submit" className="btn btn-primary w-full text-xs justify-center flex items-center gap-2 py-2.5">
-                  <Send size={14} />
+                <button type="submit" className="btn btn-primary w-full text-sm font-semibold justify-center flex items-center gap-2 min-h-[44px] py-3 mt-2">
+                  <Send size={15} />
                   <span>Send Confirmation Code &rarr;</span>
                 </button>
               </form>
@@ -359,8 +361,8 @@ export default function AlertsManager() {
                 </p>
 
                 <form onSubmit={handleVerifyCode} className="space-y-3">
-                  <div className="form-group">
-                    <label className="block text-xs font-semibold text-secondary uppercase mb-1">
+                  <div className="form-group space-y-1">
+                    <label className="block text-xs font-semibold text-secondary uppercase">
                       Enter 6-Digit Code
                     </label>
                     <input
@@ -370,31 +372,31 @@ export default function AlertsManager() {
                       placeholder="e.g. 849201"
                       value={verificationInput}
                       onChange={(e) => setVerificationInput(e.target.value)}
-                      className="input-field text-center font-mono tracking-widest text-lg w-full"
+                      className="input-field text-center font-mono tracking-widest text-lg w-full min-h-[44px]"
                     />
                     <div className="text-xs text-muted mt-1">
-                      Demo verification code: <code>{activeCode || '849201'}</code>
+                      Demo verification code: <code className="font-mono bg-subtle px-1.5 py-0.5 rounded">{activeCode || '849201'}</code>
                     </div>
                   </div>
 
                   {errorMsg && (
-                    <div className="p-2 rounded bg-rose-500/10 border border-rose-500/30 text-rose-600 text-xs flex items-center gap-1">
-                      <AlertCircle size={14} />
+                    <div className="p-2.5 rounded bg-rose-500/10 border border-rose-500/30 text-rose-600 text-xs flex items-center gap-1.5">
+                      <AlertCircle size={14} className="flex-shrink-0" />
                       <span>{errorMsg}</span>
                     </div>
                   )}
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2 pt-1">
                     <button
                       type="button"
                       onClick={() => setStep('FORM')}
-                      className="btn btn-outline text-xs flex-1"
+                      className="btn btn-outline text-xs flex-1 min-h-[44px]"
                     >
                       Back
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-primary text-xs flex-1"
+                      className="btn btn-primary text-xs flex-1 min-h-[44px]"
                     >
                       Verify & Activate Alert
                     </button>
@@ -411,16 +413,16 @@ export default function AlertsManager() {
                   We will deliver matching openings for <strong>{selectedCategory}</strong> in <strong>{city}</strong> to <strong>{email}</strong>.
                 </p>
 
-                <div className="flex justify-center gap-2 pt-2">
+                <div className="flex flex-wrap justify-center gap-2 pt-2">
                   <button
                     onClick={() => { setActiveMode('manage'); setStep('FORM'); }}
-                    className="btn btn-primary btn-sm text-xs"
+                    className="btn btn-primary btn-sm text-xs min-h-[44px] px-4"
                   >
                     View in Alert Manager
                   </button>
                   <button
                     onClick={() => { setStep('FORM'); setEmail(''); setKeywords(''); }}
-                    className="btn btn-outline btn-sm text-xs"
+                    className="btn btn-outline btn-sm text-xs min-h-[44px] px-4"
                   >
                     Add Another Alert
                   </button>
@@ -430,21 +432,23 @@ export default function AlertsManager() {
           </div>
 
           {/* RIGHT: Live Email Preview Box */}
-          <div className="lg:col-span-6 card p-5 space-y-3">
-            <div className="flex justify-between items-center border-b border-theme pb-2">
+          <div className="alerts-preview-container card p-5 space-y-3 min-w-0">
+            <div className="flex flex-wrap justify-between items-center gap-2 border-b border-theme pb-2">
               <h2 className="text-sm font-bold text-main flex items-center gap-1.5">
                 <Inbox size={15} className="text-emerald-500" />
                 <span>Live Email Notification Preview</span>
               </h2>
 
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 <button
+                  type="button"
                   onClick={() => setInboxTab('instant')}
                   className={`badge cursor-pointer ${inboxTab === 'instant' ? 'badge-govt' : 'bg-subtle text-secondary'}`}
                 >
                   Instant Match
                 </button>
                 <button
+                  type="button"
                   onClick={() => setInboxTab('digest')}
                   className={`badge cursor-pointer ${inboxTab === 'digest' ? 'badge-govt' : 'bg-subtle text-secondary'}`}
                 >
@@ -454,8 +458,8 @@ export default function AlertsManager() {
             </div>
 
             {/* Email Preview Frame */}
-            <div className="border border-theme rounded-lg overflow-hidden bg-white text-slate-900 text-xs p-4 max-h-[500px] overflow-y-auto">
-              <div dangerouslySetInnerHTML={{ __html: previewHtml }} />
+            <div className="alerts-preview-scroll border border-theme rounded-lg bg-white text-slate-900 text-xs p-4 max-h-[550px] overflow-y-auto">
+              <div className="preview-email-inner max-w-full" dangerouslySetInnerHTML={{ __html: previewHtml }} />
             </div>
           </div>
         </div>

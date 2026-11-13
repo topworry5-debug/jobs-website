@@ -4273,6 +4273,55 @@
   padding: 2rem;
 }
 
+/* Alerts Manager Responsive 2-Column Layout (55% / 45%) */
+.alerts-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem; /* 24px */
+  align-items: start;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .alerts-layout-grid {
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr); /* 55% / 45% */
+    gap: 1.5rem; /* 24px */
+  }
+}
+
+.alerts-freq-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  min-height: 48px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.alerts-freq-option.active {
+  border-color: #059669;
+  background-color: rgba(5, 150, 105, 0.08);
+}
+
+.alerts-preview-container {
+  width: 100%;
+  min-width: 0;
+}
+
+.alerts-preview-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.preview-email-inner table {
+  max-width: 100% !important;
+}
+
 .channel-picker-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
