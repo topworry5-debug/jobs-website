@@ -1,6 +1,7 @@
 import liveScrapedJobs from './liveScrapedJobs.json';
 import { CATEGORIES_CONFIG } from './categoriesData.js';
 import { getJobSlug } from '../lib/jobStatus.js';
+import { cleanJobRecord } from '../utils/textCleaning.js';
 
 export const BASE_JOBS_DATA = [
   // ==========================================
@@ -1437,7 +1438,7 @@ export const BASE_JOBS_DATA = [
   }
 ];
 
-export const JOBS_DATA = [...BASE_JOBS_DATA, ...liveScrapedJobs].map(job => ({
+export const JOBS_DATA = [...BASE_JOBS_DATA, ...liveScrapedJobs].map(job => cleanJobRecord({
   ...job,
   slug: getJobSlug(job)
 }));

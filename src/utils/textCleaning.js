@@ -46,6 +46,21 @@ export function decodeHtmlEntities(str) {
 }
 
 /**
+ * Recursively decodes HTML entities across all string properties of a job record.
+ */
+export function cleanJobRecord(job) {
+  if (!job || typeof job !== 'object') return job;
+  const cleaned = { ...job };
+  const fields = ['title', 'rawTitle', 'department', 'company', 'city', 'location', 'province', 'officialSourceLabel', 'category', 'quota', 'qualification', 'description'];
+  for (const field of fields) {
+    if (typeof cleaned[field] === 'string') {
+      cleaned[field] = decodeHtmlEntities(cleaned[field]);
+    }
+  }
+  return cleaned;
+}
+
+/**
  * Converts text to Title Case, preserving acronyms and Roman numerals.
  */
 export function toTitleCase(str) {

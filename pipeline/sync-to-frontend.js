@@ -9,6 +9,7 @@
 import fs from 'fs';
 import path from 'path';
 import { runFullPipeline } from './engine/pipelineRunner.js';
+import { cleanScrapedJob } from './utils/textCleaner.js';
 
 async function sync() {
   const isDryRun = process.argv.includes('--dry-run') || process.env.DRY_RUN === 'true';
@@ -30,7 +31,7 @@ async function sync() {
   console.log(`${modeLabel} Loaded ${previousCount} existing records from ${outputPath}`);
 
   const result = await runFullPipeline(existingJobs);
-  const jobsToSave = result.allJobs || [];
+  const jobsToSave = (result.allJobs || []).map(cleanScrapedJob);
   const activeCount = result.updatedActiveJobs ? result.updatedActiveJobs.length : 0;
   const archivedCount = result.archivedJobs ? result.archivedJobs.length : 0;
 

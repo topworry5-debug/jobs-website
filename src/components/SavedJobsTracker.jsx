@@ -27,6 +27,7 @@ import { JOBS_DATA } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
 import { isClosingSoon, calculateDaysLeft } from '../utils/jobMetrics';
 import { getJobDeadlineInfo } from '../utils/jobStatus';
+import { decodeHtmlEntities } from '../utils/textCleaning';
 
 const STATUS_OPTIONS = [
   { id: 'Saved', label: 'Bookmarked', color: 'bg-blue-500/10 text-blue-600 border-blue-500/30' },
@@ -259,11 +260,11 @@ export default function SavedJobsTracker() {
                       {deadlineInfo.isExpired && (
                         <span className="badge badge-expired text-[10px] py-0.5">Closed</span>
                       )}
-                      <span className="text-xs text-muted truncate max-w-xs">{job.department || job.company}</span>
+                      <span className="text-xs text-muted truncate max-w-xs">{decodeHtmlEntities(job.department || job.company)}</span>
                     </div>
                     <h2 className="text-base font-bold text-main">
                       <Link href={`/jobs/${job.slug || job.id}`} className="hover:text-emerald-500 transition-colors">
-                        {job.title}
+                        {decodeHtmlEntities(job.title)}
                       </Link>
                     </h2>
                   </div>

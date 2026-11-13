@@ -7,6 +7,7 @@
 
 import { parseDateToISO } from '../utils/dateParser.js';
 import { PPSC_ADVT_08_2026_METADATA } from '../utils/ppscGazetteDetails.js';
+import { decodeHtmlEntities, cleanScrapedJob } from '../utils/textCleaner.js';
 
 export async function scrapeLivePPSC() {
   const sourceName = "Punjab Public Service Commission (PPSC)";
@@ -40,9 +41,9 @@ export async function scrapeLivePPSC() {
         const srNo = tdMatches[0][1].replace(/<[^>]+>/g, '').trim();
         const adNo = tdMatches[1][1].replace(/<[^>]+>/g, '').trim();
         const caseNo = tdMatches[2][1].replace(/<[^>]+>/g, '').trim();
-        const postName = tdMatches[3][1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+        const postName = decodeHtmlEntities(tdMatches[3][1].replace(/<[^>]+>/g, ''));
         const fee = tdMatches[4][1].replace(/<[^>]+>/g, '').trim();
-        const department = tdMatches[5][1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+        const department = decodeHtmlEntities(tdMatches[5][1].replace(/<[^>]+>/g, ''));
         const adDateRaw = tdMatches[6][1].replace(/<[^>]+>/g, '').trim();
         const closingDateRaw = tdMatches[7][1].replace(/<[^>]+>/g, '').trim();
 
@@ -92,7 +93,7 @@ export async function scrapeLivePPSC() {
         const daysRemaining = Math.ceil((deadlineTime - now) / (1000 * 60 * 60 * 24));
         const isUrgent = daysRemaining <= 2 && daysRemaining >= 0;
 
-        scrapedJobs.push({
+        scrapedJobs.push(cleanScrapedJob({
           id: `ppsc-live-${caseNo.toLowerCase().replace(/[^a-z0-9]/g, '') || Date.now()}-${scrapedJobs.length + 1}`,
           type: "govt",
           title: `${postName} - ${bpsScale}`,
@@ -127,7 +128,7 @@ export async function scrapeLivePPSC() {
           verifiedAt: timestamp,
           status: "active",
           isLiveScraped: true
-        });
+        }));
       }
     }
 

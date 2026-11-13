@@ -23,6 +23,7 @@ import {
 import { generateJobPostingSchema } from '../utils/seoHelpers';
 import { useLanguage } from '../context/LanguageContext';
 import { getJobLogoUrl, getJobLogoAlt } from '../utils/logoResolver';
+import { decodeHtmlEntities } from '../utils/textCleaning';
 
 export default function JobDetailModal({
   job,
@@ -138,7 +139,7 @@ export default function JobDetailModal({
               <div className="detail-title-block">
                 <h2 className="detail-job-title" dir="auto">{job.title}</h2>
                 <div className="detail-dept-row">
-                  <span className="detail-org-name" dir="auto">{job.department || job.company}</span>
+                  <span className="detail-org-name" dir="auto">{decodeHtmlEntities(job.department || job.company)}</span>
                   {job.bpsScale && <span className="bps-pill font-mono">{job.bpsScale}</span>}
                 </div>
               </div>
@@ -361,7 +362,7 @@ export default function JobDetailModal({
                     onClick={() => onSelectJob(rJob)}
                   >
                     <div className="related-job-title">{rJob.title}</div>
-                    <div className="related-job-dept">{rJob.department || rJob.company} • {rJob.city}</div>
+                    <div className="related-job-dept">{decodeHtmlEntities(rJob.department || rJob.company)} • {decodeHtmlEntities(rJob.city)}</div>
                     <div className="related-job-deadline">{t.jobCard.lastDate} {rJob.lastDate}</div>
                   </div>
                 ))}

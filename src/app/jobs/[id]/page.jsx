@@ -417,7 +417,7 @@ export default function JobDetailPage({ params }) {
                           {rJob.title}
                         </div>
                         <div className="text-[11px] text-secondary mt-1 line-clamp-1" dir="auto">
-                          {rJob.department || rJob.company} • {rJob.city}
+                          {decodeHtmlEntities(rJob.department || rJob.company)} • {decodeHtmlEntities(rJob.city)}
                         </div>
                       </div>
                       <div className="mt-2.5 pt-2 border-t border-border-subtle flex items-center justify-between text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
@@ -449,7 +449,7 @@ export default function JobDetailPage({ params }) {
               {(job.department || job.company) && (
                 <div>
                   <dt className="text-muted">Department</dt>
-                  <dd className="font-semibold text-primary mt-0.5" dir="auto">{job.department || job.company}</dd>
+                  <dd className="font-semibold text-primary mt-0.5" dir="auto">{decodeHtmlEntities(job.department || job.company)}</dd>
                 </div>
               )}
 
