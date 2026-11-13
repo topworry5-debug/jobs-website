@@ -46,7 +46,7 @@ export default function BlogIndexPage() {
           <SectionBadge variant="govt" size="sm" icon={BookOpen}>
             Official Knowledge Hub
           </SectionBadge>
-          <SectionBadge variant="verified" size="sm" icon={ShieldCheck}>
+          <SectionBadge variant="default" size="sm">
             Public Sector Exam Guides
           </SectionBadge>
         </div>

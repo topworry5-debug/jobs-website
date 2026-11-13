@@ -6,14 +6,14 @@ import { getSiteUrl } from '../../utils/siteUrl';
 const siteUrl = getSiteUrl();
 
 export const metadata = {
-  title: "Verified Email Job Alerts in Pakistan (FPSC, PPSC & Tech)",
-  description: "Subscribe to verified Pakistani job alerts via email. Double opt-in confirmation, zero spam, instant match or daily digest with one-click unsubscribe.",
+  title: "Job Alerts in Pakistan: Federal, Provincial & Tech Updates",
+  description: "Subscribe to Pakistani government and tech job alerts via email. Double opt-in confirmation, zero spam, instant match or daily digest with one-click unsubscribe.",
   alternates: {
     canonical: `${siteUrl}/alerts`
   },
   openGraph: {
-    title: "Verified Email Job Alerts in Pakistan",
-    description: "Subscribe to verified Pakistani job alerts via email.",
+    title: "Job Alerts in Pakistan — Tainaati",
+    description: "Subscribe to Pakistani job alerts via email.",
     url: `${siteUrl}/alerts`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }

@@ -62,9 +62,9 @@ export default function CityLandingPage({
               <MapPin size={13} />
               <span>{cityData.province} Province</span>
             </span>
-            <span className="badge badge-verified">
-              <ShieldCheck size={13} />
-              <span>Verified Openings</span>
+            <span className="badge badge-neutral">
+              <Building2 size={13} />
+              <span>Active Openings</span>
             </span>
           </div>
 

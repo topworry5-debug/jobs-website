@@ -144,11 +144,19 @@ export default function JobDetailModal({
               </div>
             </div>
 
-            {/* Official Source Reference */}
-            {job.officialSourceLabel && (
+            {/* Source Reference */}
+            {(job.sourceUrl || job.officialUrl) && (
               <div className="official-source-bar" dir="auto">
-                <ShieldCheck size={15} className="text-emerald" />
-                <span>{t.jobDetail.sourceRef} <strong>{job.officialSourceLabel}</strong> • {t.jobDetail.lastVerifiedAgainst} <strong>{job.lastVerifiedDate || "August 31, 2026"}</strong></span>
+                <ExternalLink size={14} className="text-emerald" />
+                <span>
+                  Source:{' '}
+                  <a href={job.sourceUrl || job.officialUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-600 hover:underline">
+                    {job.officialSourceLabel || job.agency || 'Official Notice'}
+                  </a>
+                  {job.verifiedAt && (
+                    <> • Verified on {new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })}</>
+                  )}
+                </span>
               </div>
             )}
           </div>
@@ -314,22 +322,29 @@ export default function JobDetailModal({
             </div>
           )}
 
-          {/* Official Gazette / Advertisement Source Box */}
-          <div className="p-3.5 bg-emerald-50/50 border border-emerald-200/60 rounded-lg flex items-center justify-between gap-3 flex-wrap my-4">
-            <div className="flex items-center gap-2 text-xs text-emerald-950 font-medium">
-              <ShieldCheck size={16} className="text-emerald-600 flex-shrink-0" />
-              <span>Source: {job.officialSourceLabel || 'Official Government Gazette Portal'}</span>
+          {/* Source Link Box - Shown only when sourceUrl / officialUrl exists */}
+          {(job.sourceUrl || job.officialNotificationUrl || job.officialUrl) && (
+            <div className="p-3.5 bg-emerald-50/50 border border-emerald-200/60 rounded-lg flex items-center justify-between gap-3 flex-wrap my-4">
+              <div className="flex items-center gap-2 text-xs text-emerald-950 font-medium">
+                <ExternalLink size={14} className="text-emerald-600 flex-shrink-0" />
+                <span>
+                  Source:{' '}
+                  <a href={job.sourceUrl || job.officialNotificationUrl || job.officialUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 hover:underline">
+                    {job.officialSourceLabel || job.agency || 'Official Source Notice'}
+                  </a>
+                </span>
+              </div>
+              <a 
+                href={job.sourceUrl || job.officialNotificationUrl || job.officialUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn btn-outline btn-xs flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-800"
+              >
+                <span>View Source Notice</span>
+                <ExternalLink size={12} />
+              </a>
             </div>
-            <a 
-              href={job.officialNotificationUrl || job.officialUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn btn-outline btn-xs flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-800"
-            >
-              <span>Full Details on Official Notification</span>
-              <ExternalLink size={12} />
-            </a>
-          </div>
+          )}
 
           {/* Similar Opportunities */}
           {relatedJobs.length > 0 && (

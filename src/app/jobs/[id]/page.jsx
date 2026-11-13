@@ -552,10 +552,10 @@ export default function JobDetailPage({ params }) {
                   <ShieldCheck size={22} className="text-emerald-500 flex-shrink-0 mt-0.5" />
                   <div dir="auto">
                     <div className="font-bold text-sm text-primary mb-1">
-                      Official source link
+                      Source notice
                     </div>
                     <div className="text-xs text-secondary leading-relaxed">
-                      Source Attribution:{' '}
+                      Source:{' '}
                       <a href={job.sourceUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline">
                         {job.officialSourceLabel || job.agency || "Official source notice"}
                       </a>

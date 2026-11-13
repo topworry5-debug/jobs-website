@@ -25,7 +25,7 @@ export const metadata = {
   },
   openGraph: {
     title: "Frequently Asked Questions (FAQ) — Pakistan Public Service Commissions",
-    description: "Verified answers to top questions about PPSC, FPSC, SPSC, KPPSC, BPSC, NTS, age relaxation, and challan payments.",
+    description: "Answers to top questions about PPSC, FPSC, SPSC, KPPSC, BPSC, NTS, age relaxation, and challan payments.",
     url: `${siteUrl}/faq`,
     images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }]
   }
@@ -171,9 +171,9 @@ export default function FaqPage() {
         {/* Hero Header */}
         <div className="card p-6 md:p-8 mb-8 border-l-4 border-l-emerald-500">
           <div className="flex items-center gap-2 mb-3">
-            <span className="badge badge-verified">
+            <span className="badge badge-neutral">
               <HelpCircle size={14} />
-              <span>Verified Answers Hub</span>
+              <span>FAQ Hub</span>
             </span>
             <span className="text-xs text-muted">AEO & Fast Candidate Guidance</span>
           </div>
@@ -182,7 +182,7 @@ export default function FaqPage() {
             Frequently Asked Questions (FAQs)
           </h1>
           <p className="text-secondary text-sm md:text-base leading-relaxed">
-            Verified, accurate answers to common questions regarding Pakistani public service commissions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), statutory age relaxation rules, 1Link challan payments, and screening test patterns.
+            Accurate answers to common questions regarding Pakistani public service commissions (FPSC, PPSC, SPSC, KPPSC, BPSC, NTS), statutory age relaxation rules, 1Link challan payments, and screening test patterns.
           </p>
 
           <div className="mt-4 pt-4 border-t border-subtle flex items-center gap-4 flex-wrap text-xs text-muted">

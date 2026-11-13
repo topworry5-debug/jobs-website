@@ -223,7 +223,7 @@ export default function Navbar() {
                       </Link>
                       <Link href="/agency/ppsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
                         <span>PPSC Punjab</span>
-                        <span className="dropdown-item-badge">Official</span>
+                        <span className="dropdown-item-badge">BPS 11-18</span>
                       </Link>
                       <Link href="/agency/spsc" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
                         <span>SPSC Sindh</span>
@@ -243,9 +243,9 @@ export default function Navbar() {
                       </Link>
                     </div>
 
-                    {/* Official Portals Column */}
+                    {/* Portal Hubs Column */}
                     <div className="dropdown-col">
-                      <div className="dropdown-col-heading">Official Portal Hubs</div>
+                      <div className="dropdown-col-heading">Portal Hubs</div>
                       <Link href="/national-job-portal" className="dropdown-item" onClick={() => setActiveDropdown(null)} role="menuitem">
                         <span>National Job Portal (NJP)</span>
                       </Link>
@@ -547,7 +547,7 @@ export default function Navbar() {
                     <Link href="/agency/kppsc" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>KPPSC Khyber</Link>
                     <Link href="/agency/bpsc" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>BPSC Balochistan</Link>
                     <Link href="/agency/nts" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>NTS Testing</Link>
-                    <div className="mobile-subnav-label">Official Portals</div>
+                    <div className="mobile-subnav-label">Portal Hubs</div>
                     <Link href="/national-job-portal" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>National Job Portal</Link>
                     <Link href="/punjab-job-portal" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>Punjab Job Portal</Link>
                     <Link href="/sindh-job-portal" className="mobile-subnav-link" onClick={() => setMobileMenuOpen(false)}>Sindh Job Portal</Link>

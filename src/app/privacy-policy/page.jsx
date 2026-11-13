@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
         {/* Header Hero */}
         <div className="card p-6 md:p-8 legal-hero-card">
           <div className="flex items-center gap-2 mb-3">
-            <span className="badge badge-verified">
+            <span className="badge badge-neutral">
               <ShieldCheck size={14} />
               <span>Candidate Privacy & Data Rights</span>
             </span>

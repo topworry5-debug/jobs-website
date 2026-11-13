@@ -53,7 +53,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Police & Law Enforcement Jobs in Pakistan 2026",
     tagline: "Provincial police forces, Federal Investigation Agency (FIA), Anti-Narcotics Force (ANF), and Excise & Taxation recruitment across all provinces.",
     metaTitle: "Police & Law Enforcement Jobs in Pakistan 2026 — Police, FIA, ANF & Excise",
-    metaDescription: "Browse verified vacancies in Punjab Police, Sindh Police, KP Police, Balochistan Police, FIA, ANF, and Provincial Excise & Taxation departments. Official gazette criteria.",
+    metaDescription: "Browse vacancies in Punjab Police, Sindh Police, KP Police, Balochistan Police, FIA, ANF, and Provincial Excise & Taxation departments. Official gazette criteria.",
     subcategories: [
       "Provincial Police (Punjab / Sindh / KP / Balochistan Police)",
       "Federal Investigation Agency (FIA Investigation & Cyber Crime)",
@@ -83,7 +83,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Judiciary & Legal Affairs Jobs in Pakistan 2026",
     tagline: "Civil Judge & Judicial Magistrate examinations, Additional District & Sessions Judge posts, High Court Law Clerks, and Public Prosecutor recruitment.",
     metaTitle: "Judiciary & Legal Jobs in Pakistan 2026 — Civil Judge, AD&SJ, Law Officer Posts",
-    metaDescription: "Explore verified Judicial service exams and Legal Advisor positions in Pakistan. Provincial High Courts, District Courts, Law & Justice Commission, and Prosecution departments.",
+    metaDescription: "Explore Judicial service exams and Legal Advisor positions in Pakistan. Provincial High Courts, District Courts, Law & Justice Commission, and Prosecution departments.",
     subcategories: [
       "Civil Judge & Judicial Magistrate (Provincial High Courts)",
       "Additional District & Sessions Judge (AD&SJ)",
@@ -94,7 +94,7 @@ export const CATEGORIES_CONFIG = [
     faqs: [
       {
         question: "What is the eligibility requirement for Civil Judge examinations in Pakistan?",
-        answer: "Applicants must hold an LL.B. degree from a recognized university and possess at least 2 years of active practice as an advocate, verified by the respective Provincial Bar Council."
+        answer: "Applicants must hold an LL.B. degree from a recognized university and possess at least 2 years of active practice as an advocate, by the respective Provincial Bar Council."
       },
       {
         question: "Which authorities conduct judicial service recruitments?",
@@ -143,7 +143,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Teaching & Education Jobs in Pakistan 2026",
     tagline: "Lecturer and Assistant Professor positions, School Educators (SST/EST/PST), BISE examination boards, and HEC university faculty recruitments.",
     metaTitle: "Teaching & Education Jobs in Pakistan 2026 — School, College & University Posts",
-    metaDescription: "Verified teaching vacancies across Pakistan. PPSC/FPSC College Lecturers (BPS-17), School Education Department recruitment, BISE administrative cadres, and HEC tenure-track faculty.",
+    metaDescription: "teaching vacancies across Pakistan. PPSC/FPSC College Lecturers (BPS-17), School Education Department recruitment, BISE administrative cadres, and HEC tenure-track faculty.",
     subcategories: [
       "College Lecturers & Subject Specialists (BPS-17)",
       "School Educators (SST, EST, PST cadres)",
@@ -173,7 +173,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Healthcare & Medical Jobs in Pakistan 2026",
     tagline: "Medical Officer (MO/WMO BPS-17), Senior Registrar & Consultant (BPS-18/19), Charge Nurse (BPS-16), and DHQ/THQ hospital postings.",
     metaTitle: "Healthcare & Medical Jobs in Pakistan 2026 — Doctors, Nurses & Specialists",
-    metaDescription: "Browse verified public healthcare jobs in Pakistan. Specialized Healthcare Department, Medical Officers (BPS-17), Senior Registrars (BPS-18), Charge Nurses, and Paramedical postings.",
+    metaDescription: "Browse public healthcare jobs in Pakistan. Specialized Healthcare Department, Medical Officers (BPS-17), Senior Registrars (BPS-18), Charge Nurses, and Paramedical postings.",
     subcategories: [
       "Medical Officers & Women Medical Officers (MO/WMO - BPS-17)",
       "Senior Registrars & Specialized Consultants (BPS-18/BPS-19)",
@@ -203,7 +203,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Local Government & Municipal Jobs in Pakistan 2026",
     tagline: "Chief Officers, Municipal Officers (Regulations/Finance), WASA water engineers, Union Council Secretaries, and City District Government administration.",
     metaTitle: "Local Government & Municipal Jobs in Pakistan 2026 — TMAs, WASA & Municipal",
-    metaDescription: "Find verified positions in Local Government & Community Development, TMA municipal cadres, Water & Sanitation Agencies (WASA), and City District collectorates.",
+    metaDescription: "Find positions in Local Government & Community Development, TMA municipal cadres, Water & Sanitation Agencies (WASA), and City District collectorates.",
     subcategories: [
       "Municipal Corporations & TMAs (Chief Officer / Regulations)",
       "WASA (Water and Sanitation Agency Engineers & Technicians)",
@@ -237,7 +237,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Banking & Finance Jobs in Pakistan 2026",
     tagline: "Central bank recruitment at State Bank of Pakistan (SBP), leading commercial banks (HBL, UBL, MCB, Allied), Islamic banks (Meezan), and fintech firms.",
     metaTitle: "Banking & Finance Jobs in Pakistan 2026 — SBP, HBL, Meezan & MCB",
-    metaDescription: "Explore verified careers in Pakistani banking. State Bank of Pakistan SBOTS OG-2 scheme, commercial bank officers, Islamic finance, credit risk, and branch management openings.",
+    metaDescription: "Explore careers in Pakistani banking. State Bank of Pakistan SBOTS OG-2 scheme, commercial bank officers, Islamic finance, credit risk, and branch management openings.",
     subcategories: [
       "State Bank of Pakistan (SBOTS OG-2 Officer Training)",
       "Commercial Banking (Branch Managers, Cash Officers, Relationship Managers)",
@@ -267,7 +267,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Engineering & Technical Jobs in Pakistan 2026",
     tagline: "Civil, Electrical, Mechanical, and Chemical engineering roles across major consulting firms (NESPAK, Descon, FWO) and public infrastructure departments.",
     metaTitle: "Engineering Jobs in Pakistan 2026 — Civil, Electrical & Mechanical Roles",
-    metaDescription: "Verified engineering jobs for PEC-registered engineers. Civil infrastructure, electrical power, mechanical design, project management, and irrigation cadres across Pakistan.",
+    metaDescription: "engineering jobs for PEC-registered engineers. Civil infrastructure, electrical power, mechanical design, project management, and irrigation cadres across Pakistan.",
     subcategories: [
       "Civil Engineering (Structural, Roadways & Infrastructure)",
       "Electrical & Power Systems (Transmission, Solar, DISCOs)",
@@ -297,7 +297,7 @@ export const CATEGORIES_CONFIG = [
     h1: "NGO & International Organization Jobs in Pakistan 2026",
     tagline: "United Nations agencies (UNDP, UNICEF, WHO), USAID-funded programs, international development partners, and humanitarian relief organizations.",
     metaTitle: "NGO & UN Jobs in Pakistan 2026 — UNDP, UNICEF, USAID & Non-Profit Careers",
-    metaDescription: "Discover verified career openings in international development and humanitarian organizations in Pakistan. UN agencies, USAID initiatives, social impact, and M&E roles.",
+    metaDescription: "Discover career openings in international development and humanitarian organizations in Pakistan. UN agencies, USAID initiatives, social impact, and M&E roles.",
     subcategories: [
       "United Nations System (UNDP, UNICEF, WHO, UNHCR, WFP Pakistan)",
       "USAID & Foreign Development Agency Projects",
@@ -358,10 +358,10 @@ export const CATEGORIES_CONFIG = [
     group: "cross-cutting",
     groupLabel: "Cross-Cutting & Remote",
     icon: "Plane",
-    h1: "Verified Overseas & Gulf Jobs for Pakistanis 2026",
-    tagline: "Ministry-verified employment opportunities in Saudi Arabia, UAE (Dubai/Abu Dhabi), Qatar, Oman, and Kuwait via licensed Overseas Employment Promoters.",
+    h1: "Overseas & Gulf Jobs for Pakistanis 2026",
+    tagline: "Ministry-employment opportunities in Saudi Arabia, UAE (Dubai/Abu Dhabi), Qatar, Oman, and Kuwait via licensed Overseas Employment Promoters.",
     metaTitle: "Overseas & Gulf Jobs for Pakistanis 2026 — Saudi Arabia, UAE & Qatar",
-    metaDescription: "Verified overseas career vacancies in Saudi Arabia, UAE, and Qatar. Government licensed OEP listings, healthcare, engineering, logistics, and skilled professional contracts.",
+    metaDescription: "overseas career vacancies in Saudi Arabia, UAE, and Qatar. Government licensed OEP listings, healthcare, engineering, logistics, and skilled professional contracts.",
     subcategories: [
       "Saudi Arabia (KSA Mega Projects & Healthcare)",
       "United Arab Emirates (Dubai / Abu Dhabi Engineering & Corporate)",
@@ -376,7 +376,7 @@ export const CATEGORIES_CONFIG = [
       },
       {
         question: "What professions are most in-demand in the Gulf region?",
-        answer: "Civil/infrastructure engineers, registered nurses, medical specialists, certified IT professionals, HVAC technicians, and hospitality supervisors represent the highest volume of verified demand."
+        answer: "Civil/infrastructure engineers, registered nurses, medical specialists, certified IT professionals, HVAC technicians, and hospitality supervisors represent the highest volume of demand."
       }
     ]
   },
@@ -391,7 +391,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Remote & Freelance Jobs in Pakistan 2026",
     tagline: "Work-from-home software development, AI model data annotation, content creation, virtual assistance, and digital marketing positions with USD/PKR compensation.",
     metaTitle: "Remote Jobs in Pakistan 2026 — Work From Home Software, Tech & Content",
-    metaDescription: "Explore verified remote jobs in Pakistan. Global tech companies hiring Pakistani software engineers, AI trainers, digital marketers, and customer support with work-from-home flexibility.",
+    metaDescription: "Explore remote jobs in Pakistan. Global tech companies hiring Pakistani software engineers, AI trainers, digital marketers, and customer support with work-from-home flexibility.",
     subcategories: [
       "Remote Software Development (Full-Stack, React, Python, Mobile)",
       "AI Data Training, Annotation & LLM Evaluation",
@@ -574,9 +574,9 @@ export const CATEGORIES_CONFIG = [
     groupLabel: "Private & Careers",
     icon: "Clock",
     h1: "Part-Time, Daily Wage & Labor Jobs in Pakistan 2026",
-    tagline: "Genuine verified local employment opportunities for commercial delivery riders, drivers, warehouse helpers, factory packaging staff, security guards, and maintenance labor.",
+    tagline: "Genuine local employment opportunities for commercial delivery riders, drivers, warehouse helpers, factory packaging staff, security guards, and maintenance labor.",
     metaTitle: "Part-Time, Daily Wage & Labor Jobs in Pakistan 2026 — Drivers & Helpers",
-    metaDescription: "Find genuine part-time and daily wage employment opportunities across Pakistan. Commercial drivers, security guards, factory laborers, riders, and warehouse staff with verified employer contacts.",
+    metaDescription: "Find genuine part-time and daily wage employment opportunities across Pakistan. Commercial drivers, security guards, factory laborers, riders, and warehouse staff with employer contacts.",
     subcategories: [
       "Commercial Drivers (LTV / HTV / PSV License)",
       "Private Security Guards & Shift Supervisors",
@@ -586,7 +586,7 @@ export const CATEGORIES_CONFIG = [
     ],
     faqs: [
       {
-        question: "Are daily wage and delivery jobs verified on Tainaati?",
+        question: "Are daily wage and delivery jobs on Tainaati?",
         answer: "Yes, Tainaati screens company registrations and official fleet partners to safeguard jobseekers against advance-fee scams and deceptive agent commissions."
       },
       {
@@ -606,7 +606,7 @@ export const CATEGORIES_CONFIG = [
     h1: "Media, Journalism & Content Jobs in Pakistan 2026",
     tagline: "Public broadcasting at PTV and Radio Pakistan, PEMRA regulatory cadres, private news channels, digital content creators, broadcast engineers, and video editors.",
     metaTitle: "Media & Journalism Jobs in Pakistan 2026 — PTV, Radio & News Channels",
-    metaDescription: "Explore verified vacancies in Pakistani media. PTV Corporation, Radio Pakistan (PBC), PEMRA, private satellite channels, news anchors, investigative reporters, and video editors.",
+    metaDescription: "Explore vacancies in Pakistani media. PTV Corporation, Radio Pakistan (PBC), PEMRA, private satellite channels, news anchors, investigative reporters, and video editors.",
     subcategories: [
       "PTV (Pakistan Television Corporation Broadcasters)",
       "Radio Pakistan (Pakistan Broadcasting Corporation - PBC)",

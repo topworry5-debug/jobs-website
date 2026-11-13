@@ -10,8 +10,8 @@ export default function CommissionsBar({ jobsCountMap = {}, lastUpdated = null }
   const { t, isRtl } = useLanguage();
 
   const c = t.commissionsBar || {
-    heading: "Official Public Service Commissions Monitored",
-    subHeading: "Official Portal & Gazette Links",
+    heading: "Public Service Commissions",
+    subHeading: "Commission Portals & Announcements",
     activeCount: "Active",
     fpsc: { name: "FPSC Federal", sub: "General Recruitment & CSS" },
     ppsc: { name: "PPSC Punjab", sub: "Lecturers, Registrars & Admin" },
