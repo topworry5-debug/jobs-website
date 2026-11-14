@@ -14,7 +14,7 @@ import {
 import { 
   toTitleCase, 
   formatLocations, 
-  getDisplayTitle, 
+  decodeHtmlEntities,
   formatJobDeadline 
 } from '../utils/textCleaning';
 
@@ -25,8 +25,14 @@ export default function JobCard({
 }) {
   if (!job) return null;
 
-  const { displayTitle, originalTitle } = getDisplayTitle(job);
-  const cleanDept = toTitleCase(job.department || job.company || '');
+  const rawTitle = decodeHtmlEntities(job.title || '').trim();
+  const cleanTitle = toTitleCase(rawTitle).replace(/^NTS:\s*/i, '').trim();
+  const cleanDept = toTitleCase(decodeHtmlEntities(job.department || job.company || '')).trim();
+  const showDept = cleanDept && cleanDept.toLowerCase() !== cleanTitle.toLowerCase();
+
+  const agencyRaw = (job.agency || '').toUpperCase().trim();
+  const agencyTag = agencyRaw === 'NTS' ? 'Test: NTS' : agencyRaw || null;
+
   const { display: cityDisplay, full: fullCity } = formatLocations(job.city);
   const deadline = formatJobDeadline(job.lastDate, job.status);
   const hasSource = Boolean(job.sourceUrl);
@@ -36,15 +42,21 @@ export default function JobCard({
     <article className={`job-row-item ${deadline.isClosed ? 'job-row-closed' : ''}`}>
       {/* Main Info Column (Left) */}
       <div className="job-row-main">
-        {/* Row 1: Title + Source Linked Badge */}
+        {/* Row 1: Title + Agency Tag + Source Linked Badge */}
         <div className="job-row-title-line">
           <Link 
             href={jobUrl}
             className="job-row-title-link"
-            title={originalTitle || displayTitle}
+            title={cleanTitle}
           >
-            {displayTitle}
+            {cleanTitle}
           </Link>
+
+          {agencyTag && (
+            <span className="job-row-meta-badge badge-agency">
+              {agencyTag}
+            </span>
+          )}
 
           {hasSource && (
             <span className="badge-source-linked" title="Direct official source advertisement link available">
@@ -54,18 +66,15 @@ export default function JobCard({
           )}
         </div>
 
-        {/* Row 2: Department / Agency */}
-        <div className="job-row-dept-line" title={cleanDept}>
-          <Building2 size={13} className="text-muted flex-shrink-0" aria-hidden="true" />
-          <span className="job-row-dept-name">{cleanDept}</span>
-          {originalTitle && originalTitle !== displayTitle && (
-            <span className="job-row-original-tag" title={originalTitle}>
-              (Ad: {originalTitle})
-            </span>
-          )}
-        </div>
+        {/* Row 2: Department / Employer (shown only if different from title) */}
+        {showDept && (
+          <div className="job-row-dept-line" title={cleanDept}>
+            <Building2 size={13} className="text-muted flex-shrink-0" aria-hidden="true" />
+            <span className="job-row-dept-name">{cleanDept}</span>
+          </div>
+        )}
 
-        {/* Row 3: Meta Line (BPS, Vacancies, City) - Never wraps */}
+        {/* Row 3: Meta Line (BPS, Vacancies, City) */}
         <div className="job-row-meta-line">
           {job.bpsScale && (
             <span className="job-row-meta-badge badge-bps font-mono">
@@ -109,17 +118,19 @@ export default function JobCard({
         {/* Deadline Box: Real Date + Relative Label */}
         <div className="job-row-deadline-box tabular-nums">
           <span className="job-row-real-date">{deadline.dateFormatted}</span>
-          <span className={`job-row-relative-label ${deadline.isClosed ? 'closed' : deadline.isUrgent ? 'urgent' : 'normal'}`}>
-            <Clock size={11} aria-hidden="true" />
-            <span>{deadline.relativeLabel}</span>
-          </span>
+          {deadline.relativeLabel && (
+            <span className={`job-row-relative-label ${deadline.isClosed ? 'closed' : deadline.isUrgent ? 'urgent' : 'normal'}`}>
+              <Clock size={11} aria-hidden="true" />
+              <span>{deadline.relativeLabel}</span>
+            </span>
+          )}
         </div>
 
-        {/* View Details Primary Button (Not "Apply") */}
+        {/* View Details Primary Button */}
         <Link 
           href={jobUrl}
           className="job-row-cta-btn"
-          title={`View details for ${displayTitle}`}
+          title={`View details for ${cleanTitle}`}
         >
           <span>View details</span>
           <ArrowRight size={14} aria-hidden="true" />

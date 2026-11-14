@@ -45,7 +45,8 @@ import {
   isJobExpired, 
   calculateDaysRemaining,
   findJobBySlugOrId,
-  getJobSlug 
+  getJobSlug,
+  formatDate 
 } from '../../../lib/jobStatus';
 
 export const dynamicParams = true;
@@ -225,7 +226,7 @@ export default function JobDetailPage({ params }) {
 
   // Verified Date display - ONLY if real verifiedAt exists
   const verifiedDate = job.verifiedAt
-    ? new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })
+    ? formatDate(job.verifiedAt)
     : null;
 
   // Official advertisement image / PDF link
@@ -293,12 +294,12 @@ export default function JobDetailPage({ params }) {
                       title={`View all ${job.agency} jobs`}
                     >
                       <Landmark size={11} className="text-emerald-500" />
-                      <span>{job.agency}</span>
+                      <span>{job.agency === 'NTS' ? 'Test: NTS' : job.agency}</span>
                     </Link>
                   ) : job.agency ? (
                     <span className="badge badge-subtle flex items-center gap-1 text-xs">
                       <Landmark size={11} className="text-emerald-500" />
-                      <span>{job.agency}</span>
+                      <span>{job.agency === 'NTS' ? 'Test: NTS' : job.agency}</span>
                     </span>
                   ) : null}
 
@@ -350,7 +351,7 @@ export default function JobDetailPage({ params }) {
 
                 {/* Single H1 = Job Title */}
                 <h1 className="job-hero-title text-2xl md:text-3xl font-extrabold text-primary mb-2" dir="auto">
-                  {decodeHtmlEntities(job.title)}
+                  {decodeHtmlEntities(job.title).replace(/^NTS:\s*/i, '').trim()}
                 </h1>
 
                 {(job.department || job.company || job.city) && (
@@ -478,7 +479,7 @@ export default function JobDetailPage({ params }) {
                 <div>
                   <dt className="text-muted">Application Deadline</dt>
                   <dd className={`font-bold mt-0.5 ${expired ? 'text-muted' : isClosingSoon ? 'text-amber-500' : 'text-red-500'}`}>
-                    {job.lastDate}
+                    {formatDate(job.lastDate)}
                   </dd>
                 </div>
               )}
@@ -486,7 +487,7 @@ export default function JobDetailPage({ params }) {
               {job.postDate && (
                 <div>
                   <dt className="text-muted">Announcement Date</dt>
-                  <dd className="font-semibold text-primary mt-0.5">{job.postDate}</dd>
+                  <dd className="font-semibold text-primary mt-0.5">{formatDate(job.postDate)}</dd>
                 </div>
               )}
 

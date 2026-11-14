@@ -39,7 +39,7 @@ export function formatJobPageTitle(job) {
   if (!job) return 'Government Job Opportunities | Tainaati';
   const brand = ' | Tainaati'; // 11 chars
   const maxAvailable = 60 - brand.length; // 49 chars
-  const title = cleanText(job.title);
+  const title = cleanText(job.title).replace(/^NTS:\s*/i, '').trim();
   const agency = cleanText(job.agency || 'Govt');
 
   const prefix = `${title} - ${agency}`;
