@@ -123,6 +123,9 @@ export const TRANSLATIONS = {
       applyNow: "Apply Now",
       apply: "Apply",
       closesToday: "Closes today",
+      closesTomorrow: "Closes tomorrow",
+      daysLeft: "{n} days left",
+      closed: "Closed",
       applicationsClosed: "Applications Closed",
       viewDetails: "View Details"
     },
@@ -392,6 +395,9 @@ export const TRANSLATIONS = {
       applyNow: "درخواست دیں",
       apply: "درخواست دیں",
       closesToday: "آج آخری تاریخ ہے",
+      closesTomorrow: "کل آخری تاریخ ہے",
+      daysLeft: "{n} دن باقی",
+      closed: "بند ہو چکی ہیں",
       applicationsClosed: "درخواستیں بند ہو چکی ہیں",
       viewDetails: "تفصیلات دیکھیں"
     },
@@ -667,6 +673,9 @@ export const TRANSLATIONS = {
       applyNow: "Abhi Apply Karein",
       apply: "Apply",
       closesToday: "Aaj aakhri din",
+      closesTomorrow: "Kal aakhri din",
+      daysLeft: "{n} din baqi",
+      closed: "Closed",
       applicationsClosed: "Applications Closed",
       viewDetails: "Tafseelat Dekhein"
     },

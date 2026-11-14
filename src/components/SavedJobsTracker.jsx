@@ -26,7 +26,7 @@ import {
 import { JOBS_DATA } from '../data/jobsData';
 import { useLanguage } from '../context/LanguageContext';
 import { isClosingSoon, calculateDaysLeft } from '../utils/jobMetrics';
-import { getJobDeadlineInfo } from '../utils/jobStatus';
+import { getJobDeadlineInfo, formatDate } from '../utils/jobStatus';
 import { decodeHtmlEntities } from '../utils/textCleaning';
 
 const STATUS_OPTIONS = [
@@ -287,7 +287,7 @@ export default function SavedJobsTracker() {
                   <div className="flex items-center gap-1">
                     <Clock size={13} className={deadlineInfo.isClosingToday || deadlineInfo.isUrgent ? 'text-red-500' : 'text-muted'} />
                     <span className={deadlineInfo.isClosingToday || deadlineInfo.isUrgent ? 'font-bold text-red-600 dark:text-red-400' : deadlineInfo.isExpired ? 'text-muted' : ''}>
-                      Last Date: {job.lastDate} {deadlineInfo.isExpired ? '(Applications Closed)' : deadlineInfo.isClosingToday ? '(Closes today)' : deadlineInfo.isUrgent ? `(${daysLeft} days left)` : ''}
+                      Last Date: {formatDate(job.lastDate)} {deadlineInfo.isExpired ? '(Applications Closed)' : deadlineInfo.isClosingToday ? '(Closes today)' : deadlineInfo.isUrgent ? `(${daysLeft} days left)` : ''}
                     </span>
                   </div>
                   {job.challanFee && (

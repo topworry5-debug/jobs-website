@@ -10,20 +10,21 @@
  * 6. Counters must show the number of OPEN jobs only. If open = 0, do not show a number; show nothing or plain text. Never show "0+".
  */
 
-import liveScrapedJobs from '../data/liveScrapedJobs.json';
+import liveScrapedJobs from '../data/liveScrapedJobs.json' with { type: 'json' };
 
 /**
  * Returns the current date in Pakistan Time (Asia/Karachi).
+ * @param {Date} [now=new Date()]
  * @returns {{ year: number, month: number, day: number, todayMidnight: Date }}
  */
-export function getPakistanToday() {
+export function getPakistanToday(now = new Date()) {
   const formatter = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Karachi',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit'
   });
-  const parts = formatter.format(new Date()).split('-');
+  const parts = formatter.format(now).split('-');
   const year = parseInt(parts[0], 10);
   const month = parseInt(parts[1], 10);
   const day = parseInt(parts[2], 10);
@@ -38,14 +39,15 @@ export function getPakistanToday() {
  * normalized against Pakistan Time (Asia/Karachi) end of day.
  * 
  * @param {string} dateStr - Date string (e.g. "2026-11-20" or ISO string)
+ * @param {Date} [now=new Date()] - Reference time
  * @returns {number|null} Days remaining (positive = future, 0 = today, negative = past, null = invalid)
  */
-export function calculateDaysRemaining(dateStr) {
+export function calculateDaysRemaining(dateStr, now = new Date()) {
   if (!dateStr) return null;
   const match = String(dateStr).match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!match) return null;
 
-  const { todayMidnight } = getPakistanToday();
+  const { todayMidnight } = getPakistanToday(now);
   const y = parseInt(match[1], 10);
   const m = parseInt(match[2], 10);
   const d = parseInt(match[3], 10);
@@ -220,41 +222,106 @@ export function partitionJobs(jobsList = [], maxDaysAgo = 30) {
   return { openJobs, recentlyClosedJobs, archivedOlderJobs };
 }
 
+const EN_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const UR_MONTHS = ['جنوری', 'فروری', 'مارچ', 'اپریل', 'مئی', 'جون', 'جولائی', 'اگست', 'ستمبر', 'اکتوبر', 'نومبر', 'دسمبر'];
+
+/**
+ * Shared date formatter for Tainaati:
+ * Formats dates strictly as "15 Nov 2026" in Asia/Karachi timezone.
+ * In Urdu mode: "15 نومبر 2026" (numeric day, Urdu month, numeric year - never reversed).
+ * 
+ * @param {string|Date} dateInput - ISO string, YYYY-MM-DD, or Date object
+ * @param {string} [locale='en'] - 'en' | 'ur' | 'ro'
+ * @returns {string} Formatted date, e.g. "15 Nov 2026"
+ */
+export function formatDate(dateInput, locale = 'en') {
+  if (!dateInput) return '';
+
+  let day, monthIdx, year;
+
+  if (typeof dateInput === 'string') {
+    const match = dateInput.trim().match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (match) {
+      year = match[1];
+      monthIdx = parseInt(match[2], 10) - 1;
+      day = parseInt(match[3], 10);
+    }
+  }
+
+  if (day === undefined) {
+    const d = new Date(dateInput);
+    if (isNaN(d.getTime())) return String(dateInput);
+    const formatter = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Karachi',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    const parts = formatter.format(d).split('-');
+    year = parts[0];
+    monthIdx = parseInt(parts[1], 10) - 1;
+    day = parseInt(parts[2], 10);
+  }
+
+  if (monthIdx < 0 || monthIdx > 11) return String(dateInput);
+
+  if (locale === 'ur') {
+    return `${day} ${UR_MONTHS[monthIdx]} ${year}`;
+  }
+  return `${day} ${EN_MONTHS[monthIdx]} ${year}`;
+}
+
 /**
  * Computes structured deadline & urgency metadata for cards and detail views.
- * GUARANTEE: Closed jobs NEVER show "d left" text and always have badgeClass 'badge-expired'.
+ * Rules:
+ * - closes today -> "Closes today" (urgent/red)
+ * - 1 day -> "Closes tomorrow" (urgent/red)
+ * - 2 to 3 days -> "N days left" (urgent/red)
+ * - 4 to 30 days -> "N days left" (normal/not red)
+ * - > 30 days -> show only date (relativeLabel = '')
+ * - passed / closed -> "Closed" (closed/muted)
  * 
  * @param {string} dateStr - Deadline date string
  * @param {string} [jobStatus] - Optional status field on job
+ * @param {Date} [now=new Date()] - Reference timestamp
+ * @param {string} [locale='en'] - Locale for date formatting
  * @returns {Object}
  */
-export function getJobDeadlineInfo(dateStr, jobStatus) {
+export function getJobDeadlineInfo(dateStr, jobStatus, now = new Date(), locale = 'en') {
   const rawStatus = (jobStatus || '').toLowerCase().trim();
-  if (rawStatus === 'closed' || rawStatus === 'archived' || rawStatus === 'expired') {
+  const dateFormatted = dateStr ? formatDate(dateStr, locale) : 'Refer to ad';
+
+  if (!dateStr) {
     return {
-      daysLeft: -1,
-      isExpired: true,
+      daysLeft: null,
+      isExpired: false,
+      isClosed: false,
       isClosingToday: false,
       isUrgent: false,
       isClosingSoon: false,
-      statusLabel: 'Closed',
-      badgeClass: 'badge-expired',
-      colorTone: 'gray'
+      statusLabel: 'Ongoing',
+      relativeLabel: 'Ongoing',
+      badgeClass: 'badge-normal',
+      colorTone: 'gray',
+      dateFormatted
     };
   }
 
-  const daysLeft = calculateDaysRemaining(dateStr);
+  const daysLeft = calculateDaysRemaining(dateStr, now);
 
-  if (daysLeft === null || daysLeft < 0) {
+  if (rawStatus === 'closed' || rawStatus === 'archived' || rawStatus === 'expired' || daysLeft === null || daysLeft < 0) {
     return {
       daysLeft: daysLeft ?? -1,
       isExpired: true,
+      isClosed: true,
       isClosingToday: false,
       isUrgent: false,
       isClosingSoon: false,
       statusLabel: 'Closed',
+      relativeLabel: 'Closed',
       badgeClass: 'badge-expired',
-      colorTone: 'red'
+      colorTone: 'gray',
+      dateFormatted
     };
   }
 
@@ -262,12 +329,31 @@ export function getJobDeadlineInfo(dateStr, jobStatus) {
     return {
       daysLeft: 0,
       isExpired: false,
+      isClosed: false,
       isClosingToday: true,
       isUrgent: true,
       isClosingSoon: true,
       statusLabel: 'Closes today',
+      relativeLabel: 'Closes today',
       badgeClass: 'badge-closing-today',
-      colorTone: 'red'
+      colorTone: 'red',
+      dateFormatted
+    };
+  }
+
+  if (daysLeft === 1) {
+    return {
+      daysLeft: 1,
+      isExpired: false,
+      isClosed: false,
+      isClosingToday: false,
+      isUrgent: true,
+      isClosingSoon: true,
+      statusLabel: 'Closes tomorrow',
+      relativeLabel: 'Closes tomorrow',
+      badgeClass: 'badge-urgent',
+      colorTone: 'red',
+      dateFormatted
     };
   }
 
@@ -275,37 +361,47 @@ export function getJobDeadlineInfo(dateStr, jobStatus) {
     return {
       daysLeft,
       isExpired: false,
+      isClosed: false,
       isClosingToday: false,
       isUrgent: true,
       isClosingSoon: true,
-      statusLabel: `${daysLeft}d left`,
+      statusLabel: `${daysLeft} days left`,
+      relativeLabel: `${daysLeft} days left`,
       badgeClass: 'badge-urgent',
-      colorTone: 'red'
+      colorTone: 'red',
+      dateFormatted
     };
   }
 
-  if (daysLeft <= 7) {
+  if (daysLeft <= 30) {
     return {
       daysLeft,
       isExpired: false,
+      isClosed: false,
       isClosingToday: false,
       isUrgent: false,
-      isClosingSoon: true,
-      statusLabel: `${daysLeft}d left`,
-      badgeClass: 'badge-soon',
-      colorTone: 'amber'
+      isClosingSoon: false,
+      statusLabel: `${daysLeft} days left`,
+      relativeLabel: `${daysLeft} days left`,
+      badgeClass: 'badge-normal',
+      colorTone: 'green',
+      dateFormatted
     };
   }
 
+  // More than 30 days: show only the date (no relative label)
   return {
     daysLeft,
     isExpired: false,
+    isClosed: false,
     isClosingToday: false,
     isUrgent: false,
     isClosingSoon: false,
-    statusLabel: `${daysLeft}d left`,
+    statusLabel: '',
+    relativeLabel: '',
     badgeClass: 'badge-normal',
-    colorTone: 'green'
+    colorTone: 'gray',
+    dateFormatted
   };
 }
 

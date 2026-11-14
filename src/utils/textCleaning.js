@@ -1,3 +1,5 @@
+import { getJobDeadlineInfo, formatDate } from '../lib/jobStatus';
+
 /**
  * Utility functions for data cleaning, Title Case formatting,
  * HTML entity decoding, location formatting, and deadline presentation.
@@ -116,14 +118,11 @@ export function formatLocations(cityStr) {
 }
 
 /**
- * Builds display title ONLY from stored fields.
- * E.g. "{Agency}: {title}"
- * Generic notices: "{Agency} Consolidated Advertisement No. 4/2026 - {vacancies} posts"
- * Preserves original title as secondary text if it differs.
+ * Builds clean display title from stored title.
+ * Strips artificial agency prefixes like "NTS:" and cleans up formatting.
  */
 export function getDisplayTitle(job) {
   if (!job) return { displayTitle: '', originalTitle: null };
-  const agency = (job.agency || '').toUpperCase().trim();
   const rawTitle = decodeHtmlEntities(job.title || '').trim();
   let cleanedTitle = toTitleCase(rawTitle);
 
@@ -132,11 +131,10 @@ export function getDisplayTitle(job) {
     cleanedTitle = cleanedTitle.replace(/^GR\s*[-–—]\s*/i, '');
   }
 
+  // Remove any legacy "NTS:" prefix if present
+  cleanedTitle = cleanedTitle.replace(/^NTS:\s*/i, '').trim();
+
   let displayTitle = cleanedTitle;
-  // If agency exists and title doesn't already start with agency, prefix it
-  if (agency && !cleanedTitle.toUpperCase().startsWith(agency)) {
-    displayTitle = `${agency}: ${cleanedTitle}`;
-  }
 
   // If generic notice with vacancies and vacancies not in title
   if (/Consolidated Advertisement/i.test(displayTitle) && job.vacancies && job.vacancies > 1 && !displayTitle.toLowerCase().includes('post')) {
@@ -152,75 +150,9 @@ export function getDisplayTitle(job) {
 }
 
 /**
- * Formats lastDate as real date ("15 Dec 2026") with relative status info.
+ * Formats lastDate as real date ("15 Nov 2026") with relative status info,
+ * powered by single source-of-truth getJobDeadlineInfo in Pakistan Time (Asia/Karachi).
  */
-export function formatJobDeadline(lastDate, status) {
-  if (!lastDate) {
-    return {
-      dateFormatted: 'Refer to ad',
-      relativeLabel: 'Ongoing',
-      isClosed: false,
-      isUrgent: false,
-      daysLeft: null
-    };
-  }
-
-  // Format real date e.g. "15 Dec 2026"
-  let dateFormatted = lastDate;
-  try {
-    const parts = lastDate.split('-');
-    if (parts.length === 3) {
-      const d = new Date(Date.UTC(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10)));
-      dateFormatted = d.toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-        timeZone: 'UTC'
-      });
-    }
-  } catch (e) {}
-
-  // Compare to current time (Pakistan Time)
-  const now = new Date();
-  const target = new Date(`${lastDate}T23:59:59+05:00`);
-  const diffMs = target - now;
-  const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-
-  if (status === 'closed' || daysLeft < 0) {
-    return {
-      dateFormatted,
-      relativeLabel: 'Closed',
-      isClosed: true,
-      isUrgent: false,
-      daysLeft: 0
-    };
-  }
-
-  if (daysLeft === 0) {
-    return {
-      dateFormatted,
-      relativeLabel: 'Closes today',
-      isClosed: false,
-      isUrgent: true,
-      daysLeft: 0
-    };
-  }
-
-  if (daysLeft <= 3) {
-    return {
-      dateFormatted,
-      relativeLabel: `${daysLeft} days left`,
-      isClosed: false,
-      isUrgent: true,
-      daysLeft
-    };
-  }
-
-  return {
-    dateFormatted,
-    relativeLabel: `${daysLeft} days left`,
-    isClosed: false,
-    isUrgent: false,
-    daysLeft
-  };
+export function formatJobDeadline(lastDate, status, now, locale) {
+  return getJobDeadlineInfo(lastDate, status, now, locale);
 }

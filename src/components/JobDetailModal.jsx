@@ -24,6 +24,7 @@ import { generateJobPostingSchema } from '../utils/seoHelpers';
 import { useLanguage } from '../context/LanguageContext';
 import { getJobLogoUrl, getJobLogoAlt } from '../utils/logoResolver';
 import { decodeHtmlEntities } from '../utils/textCleaning';
+import { formatDate } from '../lib/jobStatus';
 
 export default function JobDetailModal({
   job,
@@ -112,7 +113,7 @@ export default function JobDetailModal({
             {job.verifiedAt && (
               <span className="badge badge-verified">
                 <ShieldCheck size={13} />
-                <span>Verified on {new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })}</span>
+                <span>Verified on {formatDate(job.verifiedAt)}</span>
               </span>
             )}
           </div>
@@ -155,7 +156,7 @@ export default function JobDetailModal({
                     {job.officialSourceLabel || job.agency || 'Official Notice'}
                   </a>
                   {job.verifiedAt && (
-                    <> • Verified on {new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })}</>
+                    <> • Verified on {formatDate(job.verifiedAt)}</>
                   )}
                 </span>
               </div>
@@ -171,7 +172,7 @@ export default function JobDetailModal({
                   <span>Application Deadline Notice</span>
                 </div>
                 <div className="countdown-date text-sm mt-0.5">
-                  <strong>{job.lastDate}</strong>
+                  <strong>{formatDate(job.lastDate)}</strong>
                 </div>
               </div>
               <div className="manual-review-tag px-3 py-1 bg-amber-500/20 text-amber-800 dark:text-amber-200 text-xs font-semibold rounded-full border border-amber-500/30">
@@ -186,7 +187,7 @@ export default function JobDetailModal({
                   <span>{t.jobDetail.deadline}</span>
                 </div>
                 <div className="countdown-date">
-                  {t.jobCard.lastDate} <strong>{job.lastDate}</strong> (11:59 PM PST)
+                  {t.jobCard.lastDate} <strong>{formatDate(job.lastDate)}</strong> (11:59 PM PST)
                 </div>
               </div>
 

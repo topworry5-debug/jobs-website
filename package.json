@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && node scripts/verify-fonts.mjs",
+    "test": "node scripts/test-deadline-formatting.mjs",
     "verify:fonts": "node scripts/verify-fonts.mjs",
     "start": "next start",
     "cron:expiry": "node scripts/daily-job-expiry-cron.mjs",
