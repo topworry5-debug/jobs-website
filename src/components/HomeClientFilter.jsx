@@ -167,11 +167,21 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
       if (q === 'urgent' || q === 'closing soon') {
         if (!isClosingSoon(job.lastDate, 3)) return false;
       } else {
-        const matchTitle = job.title?.toLowerCase().includes(q);
-        const matchDept = (job.department || job.company || '').toLowerCase().includes(q);
-        const matchCity = job.city?.toLowerCase().includes(q);
-        const matchAgency = (job.agency || '').toLowerCase().includes(q);
-        const matchCategory = (job.category || '').toLowerCase().includes(q);
+        const matchesText = (text) => {
+          if (!text || typeof text !== 'string') return false;
+          if (q.length <= 4) {
+            const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(^|[\\s/.,()&_\\-])${escaped}($|[\\s/.,()&_\\-])`, 'i');
+            return regex.test(text);
+          }
+          return text.toLowerCase().includes(q);
+        };
+
+        const matchTitle = matchesText(job.title);
+        const matchDept = matchesText(job.department || job.company);
+        const matchCity = matchesText(job.city);
+        const matchAgency = matchesText(job.agency);
+        const matchCategory = matchesText(job.category);
         if (!matchTitle && !matchDept && !matchCity && !matchAgency && !matchCategory) return false;
       }
     }
@@ -324,7 +334,7 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
             <div className="feed-controls-right">
               {/* Visible Sort Dropdown */}
               <div className="feed-sort-wrapper">
-                <label htmlFor="feed-sort-select" className="sr-only">Sort Jobs</label>
+                <label htmlFor="feed-sort-select" className="feed-sort-label">Sort Jobs</label>
                 <select
                   id="feed-sort-select"
                   value={sortBy}
@@ -332,9 +342,9 @@ export default function HomeClientFilter({ initialJobs = [], initialCategory = '
                   className="feed-sort-select"
                   aria-label="Sort jobs by"
                 >
-                  <option value="closing-soon">Sort: Closing soon</option>
-                  <option value="newest">Sort: Newest</option>
-                  <option value="vacancies">Sort: Most vacancies</option>
+                  <option value="closing-soon">Closing soon</option>
+                  <option value="newest">Newest</option>
+                  <option value="vacancies">Most vacancies</option>
                 </select>
               </div>
 
