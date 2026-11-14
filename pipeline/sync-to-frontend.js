@@ -63,6 +63,25 @@ async function sync() {
     throw new Error(`[CRITICAL SAFEGUARD] Total job count dropped from ${previousCount} to ${jobsToSave.length} (< 50%). Refusing to overwrite!`);
   }
 
+  const reachedSources = result.summary.sourceReports.filter(s => s.status === 'SUCCESS').length;
+  console.log(`\n========================================`);
+  console.log(`[Summary] Sources reached: ${reachedSources}/${result.summary.sourceReports.length} | Jobs found: ${result.summary.validScraped} | New: ${result.summary.newUniqueIngested} | Archived: ${archivedCount}`);
+  console.log(`========================================`);
+
+  if (process.env.GITHUB_ENV) {
+    try {
+      fs.appendFileSync(process.env.GITHUB_ENV, [
+        `SOURCES_REACHED=${reachedSources}/${result.summary.sourceReports.length}`,
+        `JOBS_FOUND=${result.summary.validScraped}`,
+        `NEW_JOBS=${result.summary.newUniqueIngested}`,
+        `ARCHIVED_JOBS=${archivedCount}`,
+        ''
+      ].join('\n'));
+    } catch (e) {
+      console.warn(`[Pipeline] Note: Could not write to GITHUB_ENV: ${e.message}`);
+    }
+  }
+
   if (isDryRun) {
     console.log(`\n${modeLabel} Safeguards PASSED. No disk modifications performed (dry-run mode).`);
     return;
