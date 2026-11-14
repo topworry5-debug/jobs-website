@@ -23,6 +23,9 @@ jobs:
   scrape-and-sync:
     name: Execute Government Portals Scraper & Ingestion
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
 
     steps:
       - name: Checkout Codebase
@@ -58,6 +61,7 @@ jobs:
             echo "Changes detected in src/data/liveScrapedJobs.json. Committing..."
             git add src/data/liveScrapedJobs.json
             git commit -m "chore(data): update scraped jobs"
+            git pull --rebase origin main
             git push origin HEAD
             echo "COMMITTED=true" >> $GITHUB_ENV
           else
@@ -66,7 +70,30 @@ jobs:
           fi
 
       - name: Trigger Vercel Deploy Hook
-        if: env.COMMITTED == 'true' && secrets.VERCEL_DEPLOY_HOOK_URL != ''
+        if: env.COMMITTED == 'true' && env.VERCEL_DEPLOY_HOOK_URL != ''
         run: |
           echo "Triggering Vercel deployment hook..."
-          curl -s -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
+          curl -s -X POST "$VERCEL_DEPLOY_HOOK_URL"
+
+      - name: Pipeline Execution Summary
+        if: always()
+        run: |
+          echo "=========================================="
+          echo "TAINAATI SCRAPER PIPELINE EXECUTION SUMMARY"
+          echo "=========================================="
+          echo "Sources reached: ${SOURCES_REACHED:-N/A}"
+          echo "Jobs found:      ${JOBS_FOUND:-N/A}"
+          echo "New jobs:        ${NEW_JOBS:-N/A}"
+          echo "Archived:        ${ARCHIVED_JOBS:-N/A}"
+          echo "Committed:       ${COMMITTED:-false}"
+          echo "Workflow status: ${{ job.status }}"
+          echo "=========================================="
+          if [ -n "$GITHUB_STEP_SUMMARY" ]; then
+            echo "### Tainaati Scraper Pipeline Summary" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **Status**: ${{ job.status }}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **Sources Reached**: ${SOURCES_REACHED:-N/A}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **Jobs Found**: ${JOBS_FOUND:-N/A}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **New Jobs**: ${NEW_JOBS:-N/A}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **Archived**: ${ARCHIVED_JOBS:-N/A}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- **Committed to Repo**: ${COMMITTED:-false}" >> "$GITHUB_STEP_SUMMARY"
+          fi
