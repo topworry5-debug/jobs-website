@@ -17,6 +17,8 @@ import { deduplicateJobs } from './deduplicator.js';
 import { filterActiveJobs } from './expiryManager.js';
 import { validateAndFilterPipelineJobs } from './validator.js';
 import { cleanScrapedJob } from '../utils/textCleaner.js';
+import { applyAllJobOverrides } from '../utils/overrideApplier.js';
+import { classifyNotice } from '../utils/jobClassifier.js';
 
 export async function runFullPipeline(existingJobs = []) {
   const startTime = Date.now();
@@ -74,17 +76,33 @@ export async function runFullPipeline(existingJobs = []) {
   // 0. Decode HTML Entities & Clean Text on all scraped records
   const cleanedScrapedJobs = rawScrapedJobs.map(cleanScrapedJob);
 
+  // Apply human- & audit-verified overrides
+  const overriddenScrapedJobs = applyAllJobOverrides(cleanedScrapedJobs);
+
   // 1. Strict Validation & Anti-Fabrication Filter
-  const validationResult = validateAndFilterPipelineJobs(cleanedScrapedJobs);
+  const validationResult = validateAndFilterPipelineJobs(overriddenScrapedJobs);
   if (validationResult.rejectedCount > 0) {
     console.warn(`[Tainaati Pipeline] Flagged & Blocked ${validationResult.rejectedCount} unverified/malformed jobs.`);
   }
 
+  // Purge any historical non-recruitment circulars from existing store
+  const cleanExistingJobs = existingJobs.filter(j => {
+    const cl = classifyNotice(j.title, j.description || '');
+    if (!cl.isRecruitment) {
+      console.warn(`[Purged Non-Recruitment Record] ${j.id} - ${j.title} (${cl.reason})`);
+      return false;
+    }
+    return true;
+  });
+
   // 2. Deduplication & Merging with Existing Records
-  const deduplicationResult = deduplicateJobs(validationResult.validJobs, existingJobs);
+  const deduplicationResult = deduplicateJobs(validationResult.validJobs, cleanExistingJobs);
+
+  // Ensure all merged jobs (including existing stored records) reflect verified overrides
+  const finalMergedJobs = applyAllJobOverrides(deduplicationResult.mergedJobs);
 
   // 3. Auto-Expiry Check
-  const expiryResult = filterActiveJobs(deduplicationResult.mergedJobs);
+  const expiryResult = filterActiveJobs(finalMergedJobs);
 
   const durationMs = Date.now() - startTime;
 

@@ -73,17 +73,24 @@ export default function JobCard({
             </span>
           )}
 
-          {job.vacancies && job.vacancies > 0 && (
+          {job.vacancies && job.vacancies > 0 ? (
             <span className="job-row-meta-pill">
               <Users size={12} className="text-muted" aria-hidden="true" />
               <span>{job.vacancies} {job.vacancies === 1 ? 'post' : 'posts'}</span>
             </span>
+          ) : (
+            <span className="job-row-meta-pill">
+              <Users size={12} className="text-muted" aria-hidden="true" />
+              <span>See notice</span>
+            </span>
           )}
 
-          <span className="job-row-meta-pill" title={fullCity}>
-            <MapPin size={12} className="text-muted flex-shrink-0" aria-hidden="true" />
-            <span className="job-row-city-text">{cityDisplay}</span>
-          </span>
+          {cityDisplay && (
+            <span className="job-row-meta-pill" title={fullCity}>
+              <MapPin size={12} className="text-muted flex-shrink-0" aria-hidden="true" />
+              <span className="job-row-city-text">{cityDisplay}</span>
+            </span>
+          )}
         </div>
       </div>
 

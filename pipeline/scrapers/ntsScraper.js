@@ -1,11 +1,65 @@
 /**
- * Tainaati — Live NTS (National Testing Service) Verified Scraper
- * Multi-Step Live Subpage Parser with Zero Fallbacks and Zero Guessed Dates.
- * Strictly extracts verified employment projects (excludes non-job admissions/TOEIC/NAT/GAT tests),
- * enriched with official testing criteria, qualification standards, and vacancy details.
+ * Tainaati â€” Live NTS (National Testing Service) Verified Scraper
+ * Strictly adheres to Zero-Fabrication and Accuracy rules:
+ * - Removed all hardcoded judge/tharparkar overrides.
+ * - Extracts "Total Post" and location from each NTS subpage generically; if absent, sets to null.
+ * - Broadened keyword filtering to avoid skipping genuine recruitment (e.g. trainees, inductions).
  */
 
 import { parseDateToISO } from '../utils/dateParser.js';
+
+function extractLocationFromTitle(title = '') {
+  // District & Session Judge, <District Name>
+  const judgeMatch = title.match(/District\s*&\s*Session(?:s)?\s*Judge,?\s*([A-Za-z\s]+?)(?:\s*\(|\s*\[|\s*-|$)/i);
+  if (judgeMatch && judgeMatch[1].trim()) {
+    const dist = judgeMatch[1].trim();
+    return dist.toLowerCase().startsWith('district') ? dist : `District ${dist}`;
+  }
+
+  // Look for known major cities in employer / title
+  const cities = [
+    'Islamabad', 'Rawalpindi', 'Lahore', 'Faisalabad', 'Gujranwala', 'Multan', 'Sahiwal',
+    'Sargodha', 'Bahawalpur', 'Rahim Yar Khan', 'Sialkot', 'Karachi', 'Hyderabad',
+    'Sukkur', 'Larkana', 'Dadu', 'Mirpurkhas', 'Tharparkar', 'Peshawar', 'Mardan',
+    'Abbottabad', 'Swat', 'Quetta', 'Gilgit', 'Muzaffarabad'
+  ];
+
+  for (const c of cities) {
+    const rx = new RegExp(`\\b${c}\\b`, 'i');
+    if (rx.test(title)) {
+      return c;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Parses subpage HTML to extract exact total vacancies across all listed positions.
+ * @param {string} subHtml 
+ * @returns {number|null}
+ */
+function extractVacanciesFromSubpage(subHtml = '') {
+  if (!subHtml) return null;
+
+  // Pattern 1: "<b>Total Post:</b> 2"
+  const postMatches = [...subHtml.matchAll(/<b>Total\s*Post:<\/b>\s*([0-9]+)/gi)];
+  if (postMatches.length > 0) {
+    let total = 0;
+    for (const m of postMatches) {
+      total += parseInt(m[1], 10);
+    }
+    return total > 0 ? total : null;
+  }
+
+  // Pattern 2: count distinct "Post Name:" occurrences if total post count is not explicitly given per row
+  const postNameMatches = [...subHtml.matchAll(/<b>Post\s*Name:<\/b>\s*&nbsp;&nbsp;<span[^>]*><u>([^<]+)<\/u><\/span>/gi)];
+  if (postNameMatches.length > 0) {
+    return postNameMatches.length;
+  }
+
+  return null;
+}
 
 export async function scrapeNTS() {
   const sourceName = "National Testing Service (NTS)";
@@ -44,8 +98,10 @@ export async function scrapeNTS() {
                                  lower.includes('toeic') ||
                                  lower.includes('gat subject') ||
                                  lower.includes('gat-general') ||
+                                 lower.includes('gat general') ||
                                  lower.includes('nat-') ||
                                  lower.includes('degree program') ||
+                                 lower.includes('special test for ms') ||
                                  lower.includes('class of 2031');
 
       const isEmployment = lower.includes('career') || 
@@ -56,7 +112,9 @@ export async function scrapeNTS() {
                             lower.includes('judge') ||
                             lower.includes('authority') ||
                             lower.includes('social protection') ||
-                            lower.includes('job opportunities');
+                            lower.includes('job opportunities') ||
+                            lower.includes('induction') ||
+                            lower.includes('trainee');
 
       if (!isEmployment || isAdmissionOrNonJob) {
         continue;
@@ -74,24 +132,26 @@ export async function scrapeNTS() {
 
       const fullLink = link.startsWith('http') ? link : `https://www.nts.org.pk/new/${link}`;
 
-      // If date missing from summary or to verify, probe subpage
-      if (!dateStr || dateStr.length < 5) {
-        try {
-          await new Promise(r => setTimeout(r, 400)); // Polite crawl rate limiting
-          const subRes = await fetch(fullLink, {
-            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Tainaati-Crawler/1.0' }
-          });
-          if (subRes.ok) {
-            const subHtml = await subRes.text();
+      // Probe subpage for accurate vacancies and date
+      let subpageVacancies = null;
+      try {
+        await new Promise(r => setTimeout(r, 200)); // Polite crawl rate limiting
+        const subRes = await fetch(fullLink, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Tainaati-Crawler/1.0' }
+        });
+        if (subRes.ok) {
+          const subHtml = await subRes.text();
+          if (!dateStr || dateStr.length < 5) {
             const subDateMatch = subHtml.match(/Last Date for Application Submission\s*:\s*&nbsp;&nbsp;([^&<\n\r]+)/i) ||
                                  subHtml.match(/Last Date[^:]*:\s*([^&<\n\r]+)/i);
             if (subDateMatch) {
               dateStr = subDateMatch[1].trim();
             }
           }
-        } catch {
-          // ignore
+          subpageVacancies = extractVacanciesFromSubpage(subHtml);
         }
+      } catch {
+        // ignore
       }
 
       if (!dateStr) continue;
@@ -101,37 +161,12 @@ export async function scrapeNTS() {
 
       const deadlineTime = new Date(`${isoDate}T23:59:59`).getTime();
       if (deadlineTime < now) {
-        // Expired project = Exclude
+        // Expired project
         continue;
       }
 
-      // Specific per-project metadata enrichment
-      let qualification = "Master's / Bachelor's (16 or 14 Years) in relevant field with computer proficiency.";
-      let vacancies = 12;
-      let ageLimit = "21 - 35 Years (+ Provincial Age Relaxation)";
-      let quota = "Sindh Domicile (Rural / Urban)";
-      let bpsScale = "BPS-14 to BPS-18";
-      let city = 'Multiple Districts';
-      let province = 'Sindh';
-      let description = `National Testing Service (NTS) is conducting recruitment screening for ${rawTitle}. Full syllabus and online application available on official portal.`;
-
-      if (lower.includes('tharparkar') || lower.includes('judge')) {
-        qualification = "Stenographer (Graduation + 80/40 wpm shorthand/typing) | Computer Operator (BCS/BIT 2nd Div) | Junior Clerk (Intermediate 2nd Div + 30 wpm typing).";
-        vacancies = 18;
-        ageLimit = "18 to 28 Years (+ General Age Relaxation under Sindh Judicial Service Rules)";
-        quota = "District Tharparkar Domicile / PRC";
-        bpsScale = "BPS-11 to BPS-16";
-        city = "Mithi / Tharparkar";
-        description = "District & Sessions Court Tharparkar recruitment screening test via NTS for ministerial and clerical court positions including Stenographers, Computer Operators, and Junior Clerks.";
-      } else if (lower.includes('social protection') || lower.includes('sspa')) {
-        qualification = "Master's / BS (16 Years) in Economics, Public Policy, Social Work, Statistics, Data Analytics or Public Administration from an HEC recognized University.";
-        vacancies = 25;
-        ageLimit = "22 to 35 Years (+ 15 Years General Age Relaxation under Sindh Govt Notification)";
-        quota = "Sindh Rural (60%) | Sindh Urban (40%)";
-        bpsScale = "BPS-16 to BPS-18 / Project Scale";
-        city = "Karachi, Hyderabad, Sukkur";
-        description = "Sindh Social Protection Authority (Government of Sindh) recruitment for Social Protection Officers, Monitoring Executives, and Field Data Analysts to implement poverty alleviation and mother-child support initiatives.";
-      }
+      // Location extracted generically from title/employer
+      const parsedLocation = extractLocationFromTitle(rawTitle);
 
       const cleanId = rawTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 40);
 
@@ -144,24 +179,27 @@ export async function scrapeNTS() {
         agency: "NTS",
         category: "Testing Services (NTS)",
         subCategory: "Public Sector Recruitment",
-        bpsScale,
-        city,
-        province,
-        qualification,
-        vacancies,
-        ageLimit,
-        quota,
+        bpsScale: null,
+        city: parsedLocation || null,
+        location: parsedLocation || null,
+        province: null,
+        qualification: "As per official NTS testing criteria and announcement circular",
+        vacancies: subpageVacancies, // Null if absent from subpage, never hardcoded 12 or 18
+        vacanciesTotal: subpageVacancies,
+        ageLimit: null,
+        quota: null,
         postDate: new Date().toISOString().split('T')[0],
         lastDate: isoDate,
+        deadline: isoDate,
         urgent: false,
         featured: scrapedJobs.length === 0,
         verified: true,
-        challanFee: "PKR 650 (Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash)",
+        challanFee: "Paid via 1Link, ATM, Mobile Banking, EasyPaisa or JazzCash",
         officialUrl: fullLink,
         officialNotificationUrl: fullLink,
-        sourceUrl: fullLink,
-        officialSourceLabel: `NTS Official Project: ${rawTitle.substring(0, 45)}...`,
-        description,
+        sourceUrl: "https://www.nts.org.pk/new/projectsnew.php",
+        officialSourceLabel: `NTS Official Announcement: ${rawTitle}`,
+        description: `National Testing Service (NTS) is conducting recruitment screening for ${rawTitle}. Apply online before ${isoDate}.`,
         lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
         scrapedAt: timestamp,
         verifiedAt: timestamp,
@@ -169,6 +207,8 @@ export async function scrapeNTS() {
         isLiveScraped: true
       });
     }
+
+    console.log(`[NTS Scraper] Extracted ${scrapedJobs.length} active employment projects.`);
 
     return {
       success: true,
@@ -180,6 +220,7 @@ export async function scrapeNTS() {
       error: null
     };
   } catch (err) {
+    console.error(`[NTS Scraper] Execution error: ${err.message}`);
     return {
       success: false,
       source: sourceName,

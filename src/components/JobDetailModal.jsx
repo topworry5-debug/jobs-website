@@ -223,8 +223,15 @@ export default function JobDetailModal({
 
             <div className="spec-item-card">
               <span className="spec-label">👥 {t.jobDetail.totalOpenings}</span>
-              <span className="spec-value">{job.vacancies} {job.vacancies === 1 ? t.jobCard.vacancy : t.jobCard.vacancies}</span>
+              <span className="spec-value">{job.vacancies && job.vacancies > 0 ? `${job.vacancies} ${job.vacancies === 1 ? t.jobCard.vacancy : t.jobCard.vacancies}` : 'See notice'}</span>
             </div>
+
+            {job.hardcopyDeadline && (
+              <div className="spec-item-card">
+                <span className="spec-label">📬 Hardcopy Deadline</span>
+                <span className="spec-value">{job.hardcopyDeadline}</span>
+              </div>
+            )}
 
             {isGovt && job.ageLimit && (
               <div className="spec-item-card">

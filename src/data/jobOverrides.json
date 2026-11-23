@@ -1,0 +1,230 @@
+{
+  "fpsc-live-api-100": {
+    "sourceUrl": "https://www.fpsc.gov.pk/Jobs?section=GR",
+    "officialNotificationUrl": "https://www.fpsc.gov.pk/uploads/content/1793976822925_consolidated-advertisement-04-2026.pdf",
+    "fields": {
+      "lastDate": "2026-11-23",
+      "deadline": "2026-11-23",
+      "vacancies": null,
+      "vacanciesTotal": null,
+      "vacanciesNote": "Consolidated advertisement with 48 distinct cases; grand total not stated in notice",
+      "city": "Islamabad / Multiple Federal Locations",
+      "quota": "National Provincial Quota (Punjab, Sindh, KPK, Balochistan, Ex-FATA, AJK, GB)"
+    },
+    "evidenceQuote": "Closing Date for submission of applications is Monday, 23rd November, 2026. (Page 24, Item 11)",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from downloaded 24-page official circular. Ticker expiryDate 2026-12-06 was wrong. 48 cases total ~278 posts across ministries, but notice header does not state grand total; vacancies kept null as per rule."
+  },
+  "fpsc-live-api-101": {
+    "sourceUrl": "https://www.fpsc.gov.pk/Jobs?section=CSS",
+    "officialNotificationUrl": "https://www.fpsc.gov.pk/uploads/content/1794127244067_CSS_2027_Advertisement.pdf",
+    "fields": {
+      "lastDate": "2026-11-25",
+      "deadline": "2026-11-25",
+      "hardcopyDeadline": "2026-12-04",
+      "vacancies": null,
+      "vacanciesTotal": null,
+      "vacanciesNote": "Unspecified by Federal Govt (Allocated post-examination)",
+      "city": "Federal (19 Examination Centres Nationwide)",
+      "quota": "National Merit & Provincial Allocations"
+    },
+    "evidenceQuote": "Applications for written part of CSS CE-2027 are invited well before 25th November, 2026... A signed hard copy of the online application... must reach FPSC before 4th December 2026.",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Digital text extracted from official CSS CE-2027 Public Notice. Ticker expiryDate 2026-12-08 was wrong. Vacancy count 250 was synthetic default; real quota is determined post-exam."
+  },
+  "fpsc-live-api-103": {
+    "sourceUrl": "https://www.fpsc.gov.pk/Jobs?section=GR",
+    "officialNotificationUrl": "https://www.fpsc.gov.pk/uploads/content/1794565915478_FPSC_Ministerial_Posts_-_Balochistan_Quota_-_13-11-2026.pdf",
+    "fields": {
+      "lastDate": "2026-11-29",
+      "deadline": "2026-11-29",
+      "vacancies": 3,
+      "vacanciesTotal": 3,
+      "department": "Federal Public Service Commission Secretariat",
+      "city": "Islamabad",
+      "location": "FPSC Secretariat, Islamabad",
+      "quota": "Balochistan Quota (Women Quota: 1 Assistant, Open Merit: 1 Stenotypist, 1 Data Entry Operator)"
+    },
+    "evidenceQuote": "Applications are invited from citizen of Pakistan having domicile of Balochistan for recruitment against the following posts lying vacant in Federal Public Service Commission's Secretariat: 1. Assistant (BS-15): 1, 2. Stenotypist (BS-14): 1, 3. Data Entry Operator (BS-14): 1... The candidate can apply through National Job Portal... within fifteen days from the date of advertisement (13-11-2026).",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Official PDF verified. Synthetic 50 vacancies replaced with authentic 3 vacancies."
+  },
+  "ppsc-live-106c2026-1": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/PMS%20Advt%20No.12-2026%20PMS%20on%2008-11-2026.pdf",
+    "fields": {
+      "lastDate": "2026-11-30",
+      "deadline": "2026-11-30",
+      "vacancies": 48,
+      "vacanciesTotal": 48,
+      "department": "Services & General Administration / Excise / Finance Departments, Punjab",
+      "city": "Lahore / Anywhere in Punjab",
+      "quota": "PMS (BPS-17): 45 (Open Merit 41, Minority 2, Special Persons 2); Excise & Taxation Officer: 1 (Open Merit 1); Assistant Director Local Fund Audit: 2 (Open Merit 2)"
+    },
+    "evidenceQuote": "(BS-17) PROVINCIAL MANAGEMENT SERVICE (Services & General Administration Department): 45 POSTS... (BS-17) EXCISE & TAXATION OFFICER... 01 POST... (BS-17) ASSISTANT DIRECTOR LOCAL FUND AUDIT... 02 POSTS... Closing Date for Submission of Online Applications 30 November 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from PPSC Advertisement No. 12/2026 (Case No. 106-RC/2026). Hardcoded default of 1 vacancy replaced with official 48 posts."
+  },
+  "nts-live-district-session-judge-hyderabad-career--2026-11-25": {
+    "sourceUrl": "https://nts.org.pk/Test&Products/Announced/11_26/DSC_Hyd_2026_Online/HYD.php",
+    "officialNotificationUrl": "https://nts.org.pk/Test&Products/Announced/11_26/DSC_Hyd_2026_Online/DSCHydAdvE.jpeg",
+    "fields": {
+      "lastDate": "2026-11-25",
+      "deadline": "2026-11-25",
+      "vacancies": 4,
+      "vacanciesTotal": 4,
+      "department": "District & Sessions Court, Hyderabad",
+      "city": "District Hyderabad",
+      "location": "District Hyderabad",
+      "quota": "District Hyderabad Domicile/PRC"
+    },
+    "evidenceQuote": "OFFICE OF THE DISTRICT & SESSIONS JUDGE, HYDERABAD... Junior Clerk (BPS-11): 02, Naib Qasid (BPS-03): 01, Lift Operator (BPS-02): 01... Domicile/PRC: District Hyderabad... addressed to the 'District & Sessions Judge, Hyderabad' on or before 25.11.2026 till 03.00pm.",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from official notice image DSCHydAdvE.jpeg. Overrode corrupted 18 vacancies and Mithi / Tharparkar location."
+  },
+  "nts-live-district-session-judge-dadu-career-oppor-2026-11-16": {
+    "sourceUrl": "https://nts.org.pk/Test&Products/Announced/10_26/DSC_DADU_2026_Online/DADU.php",
+    "officialNotificationUrl": "https://nts.org.pk/Test&Products/Announced/10_26/DSC_DADU_2026_Online/Dadu_Eng.jpg",
+    "fields": {
+      "lastDate": "2026-11-16",
+      "deadline": "2026-11-16",
+      "vacancies": 28,
+      "vacanciesTotal": 28,
+      "department": "District & Sessions Court, Dadu",
+      "city": "District Dadu",
+      "location": "District Dadu",
+      "quota": "District Dadu Domicile/PRC"
+    },
+    "evidenceQuote": "OFFICE OF THE DISTRICT & SESSIONS JUDGE, DADU... Stenographer (BPS-16): 07, Data Coder (BPS-14): 01, Junior Clerk (BPS-11): 20... Domicile: District Dadu... Online applications for all vacant posts be submitted within 15 days from the date of publication (24.10.2026).",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from official notice image Dadu_Eng.jpg. Overrode corrupted 18 vacancies and Mithi / Tharparkar location with 28 posts in Dadu."
+  },
+  "nts-live-faisalabad-electric-supply-company-limit-2026-11-23": {
+    "sourceUrl": "https://portal.nts.org.pk/Alldetail/MTAxMzk5",
+    "officialNotificationUrl": "https://portal.nts.org.pk/uploads/projects/1794376309_FESCO_Ad.jpg",
+    "fields": {
+      "lastDate": "2026-11-23",
+      "deadline": "2026-11-23",
+      "vacancies": 5,
+      "vacanciesTotal": 5,
+      "department": "Faisalabad Electric Supply Company Limited (FESCO)",
+      "city": "Faisalabad",
+      "location": "FESCO Jurisdiction (8 Punjab Districts) / Balochistan Quota",
+      "quota": "Balochistan Quota (Open Merit: 4, Minority: 1)"
+    },
+    "evidenceQuote": "FAISALABAD ELECTRIC SUPPLY COMPANY LIMITED... Junior Engineer / SDO: 5 (Balochistan Open Merit 4, Balochistan Minority 1)... Last Date of Application Form Submission is: 23rd November 2026",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from official notice image and portal subpage 101399. Overrode default 12 vacancies with 5 posts."
+  },
+  "nts-live-gujranwala-electric-power-company-gepco--2026-11-23": {
+    "sourceUrl": "https://portal.nts.org.pk/Alldetail/MTAxNDAx",
+    "fields": {
+      "lastDate": "2026-11-23",
+      "deadline": "2026-11-23",
+      "vacancies": 5,
+      "vacanciesTotal": 5,
+      "department": "Gujranwala Electric Power Company (GEPCO)",
+      "city": "Gujranwala",
+      "location": "GEPCO Region (Punjab) / Balochistan Quota",
+      "quota": "Balochistan Quota (Junior Engineer: 2, AM CS/RO: 1, AM Material: 1, AM MIS/IT: 1)"
+    },
+    "evidenceQuote": "Post Name: Junior Engineer (Electrical) / SDO Total Post: 2; Assistant Manager (CS) / Revenue Officer Total Post: 1; Assistant Manager (Material Management) Total Post: 1; Assistant Manager (MIS/ IT) Total Post: 1... Last Date: 23rd November 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from portal subpage 101401 text. Overrode default 12 vacancies with 5 posts."
+  },
+  "nts-live-sahiwal-institute-of-cardiology-vacant-p-2026-12-04": {
+    "sourceUrl": "https://portal.nts.org.pk/Alldetail/MTAxNDA2",
+    "officialNotificationUrl": "https://portal.nts.org.pk/uploads/projects/1794716184_sahiwal%20ADvert.jpg",
+    "fields": {
+      "lastDate": "2026-12-04",
+      "deadline": "2026-12-04",
+      "vacancies": 13,
+      "vacanciesTotal": 13,
+      "department": "Sahiwal Institute of Cardiology, Punjab",
+      "city": "Sahiwal",
+      "location": "Sahiwal (Punjab)",
+      "quota": "Punjab Domicile"
+    },
+    "evidenceQuote": "Stenographer (BPS-15): 4 posts, Junior Technician (Cardiac): 4 posts, Junior Technician (Pathology): 1 posts, Junior Technician (Surgical): 2 posts, Junior Technician (Physiotherapy): 2 posts... Total: 13 posts... Last Date: 04th December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from portal subpage 101406 text and notice image. Overrode default 12 vacancies with 13 posts."
+  },
+  "bpsc-live-advertisement-no-09-2026-2026-11-17": {
+    "sourceUrl": "https://bpsc.gob.pk/BPSC/pages?jobs",
+    "officialNotificationUrl": "https://bpsc.gob.pk/uploads/Jobs/1791632671.pdf",
+    "fields": {
+      "lastDate": "2026-11-17",
+      "deadline": "2026-11-17",
+      "vacancies": null,
+      "vacanciesTotal": null,
+      "department": "Various Departments, Government of Balochistan",
+      "city": "Quetta",
+      "location": "Balochistan Zonal Allocation",
+      "quota": "Balochistan Zonal Allocation"
+    },
+    "evidenceQuote": "Addendum Dated 02-11-2026. Last date for submission of online application has been extended up to 17 November 2026.",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Addendum image 1793613551.jpeg extends Advertisement No. 09/2026 to 17 November 2026. Scanned PDF notice contains multi-department posts without single stated grand total."
+  },
+  "spsc-live-advertisement-08-26-closing-dt-2026-11-23": {
+    "sourceUrl": "https://spsc.gov.pk/advertisements",
+    "officialNotificationUrl": "https://spsc.gov.pk/advertisement/2026/adv-08-2026.pdf",
+    "fields": {
+      "lastDate": "2026-11-23",
+      "deadline": "2026-11-23",
+      "vacancies": null,
+      "vacanciesTotal": null,
+      "vacanciesNote": "Corrigendum / age-relaxation extension for CCE-2026; no new separate seat quota",
+      "department": "Services, General Administration & Coordination Department, Government of Sindh",
+      "city": "Sindh",
+      "location": "Sindh Provincial",
+      "quota": "Sindh Rural / Urban Quota"
+    },
+    "evidenceQuote": "REVISED CLOSING DATE FOR SUBMISSION OF ONLINE APPLICATION: 23.11.2026... In continuation of Advertisement No. 06/2026 and 04/2026 (CCE-2026)",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from scanned circular adv-08-2026.pdf. CCE-2026 Corrigendum extending closing date to 23.11.2026."
+  },
+  "spsc-live-advertisement-07-26-closing-dt-2026-12-14": {
+    "sourceUrl": "https://spsc.gov.pk/advertisements",
+    "officialNotificationUrl": "https://spsc.gov.pk/advertisement/2026/adv-07-2026.pdf",
+    "fields": {
+      "lastDate": "2026-12-14",
+      "deadline": "2026-12-14",
+      "vacancies": null,
+      "vacanciesTotal": null,
+      "vacanciesNote": "Multi-department 8-page gazette; grand total not stated in circular header",
+      "department": "Various Departments (Energy, Health, Agriculture, etc.), Government of Sindh",
+      "city": "Sindh",
+      "location": "Sindh Provincial",
+      "quota": "Sindh Rural / Urban Allocation"
+    },
+    "evidenceQuote": "CLOSING DATE: 14.12.2026... Consolidated Advertisement No. 07/2026 Dated: 12.11.2026",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-14",
+    "verifiedBy": "audit 2026-11-14",
+    "notes": "Verified from scanned 8-page circular adv-07-2026.pdf. Closing date 14.12.2026 confirmed. Vacancies kept null as per rule."
+  }
+}
+
