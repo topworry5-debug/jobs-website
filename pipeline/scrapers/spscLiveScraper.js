@@ -1,9 +1,12 @@
 /**
- * Tainaati — Live SPSC (Sindh Public Service Commission) Scraper
+ * Tainaati â€” Live SPSC (Sindh Public Service Commission) Scraper
  * Direct Live HTML parser for https://spsc.gov.pk/advertisements
- * Dynamically parses published advertisements, checks closing dates, and verifies against official PDF circulars.
- * Strictly adheres to Zero-Fabrication policy: reports 0 jobs when no active gazettes are open.
+ * Strictly adheres to Zero-Fabrication policy:
+ * - Emits authentic closing dates from circular titles.
+ * - Does not invent 1 vacancy for consolidated gazettes (sets to null unless stated).
  */
+
+import { parseDateToISO } from '../utils/dateParser.js';
 
 export async function scrapeLiveSPSC() {
   const sourceName = "Sindh Public Service Commission (SPSC)";
@@ -43,7 +46,7 @@ export async function scrapeLiveSPSC() {
         continue;
       }
 
-      // Extract closing date (e.g. "Closing dt: 11.11.2026")
+      // Extract closing date (e.g. "Closing dt: 23.11.2026" or "14.12.2026")
       const dateMatch = rawText.match(/(\d{1,2})[\.\/-](\d{1,2})[\.\/-](\d{4})/);
       let isoClosingDate = null;
       if (dateMatch) {
@@ -53,7 +56,6 @@ export async function scrapeLiveSPSC() {
         isoClosingDate = `${year}-${month}-${day}`;
       }
 
-      // If no valid deadline found, skip per Rule 1 & Step 3
       if (!isoClosingDate) {
         continue;
       }
@@ -72,28 +74,31 @@ export async function scrapeLiveSPSC() {
         type: "govt",
         title: `SPSC Official Recruitment — ${adTitle}`,
         rawTitle: adTitle,
-        department: "Services, General Administration & Coordination Department, Government of Sindh",
+        department: "Government of Sindh",
         agency: "SPSC",
         category: "Provincial (SPSC)",
         subCategory: "Provincial Civil Services & Departmental Cadres",
-        bpsScale: "BPS-16 to BPS-18",
-        city: "Karachi, Hyderabad, Sukkur, Larkana",
+        bpsScale: null,
+        city: "Sindh",
+        location: "Sindh Provincial",
         province: "Sindh",
         qualification: "As prescribed in official SPSC advertisement criteria. Download gazette PDF for post-wise requirements.",
-        vacancies: 1,
-        ageLimit: "21 to 30 Years (Plus General Age Relaxation as per Sindh Govt Notification)",
+        vacancies: null, // Null unless explicitly stated in circular title/text
+        vacanciesTotal: null,
+        ageLimit: null,
         quota: "Sindh Rural & Sindh Urban Allocation",
         postDate: today,
         lastDate: isoClosingDate,
+        deadline: isoClosingDate,
         urgent: isoClosingDate === today,
         featured: true,
         verified: true,
-        challanFee: "PKR 500 to PKR 1000 (Paid via PSID on 1Link / 1Bill / ATM / Mobile Banking)",
+        challanFee: "Paid via PSID on 1Link / 1Bill / ATM / Mobile Banking",
         officialUrl: "https://spsc.gov.pk/candidate_portal/",
         officialNotificationUrl: fullPdfUrl,
         sourceUrl,
         officialSourceLabel: `SPSC Official Advertisement (${adTitle})`,
-        description: `Sindh Public Service Commission recruitment notification (${adTitle}). Apply online via official candidate portal at spsc.gov.pk before the closing date.`,
+        description: `Sindh Public Service Commission recruitment notification (${adTitle}). Apply online via official candidate portal at spsc.gov.pk before ${isoClosingDate}.`,
         lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
         scrapedAt: timestamp,
         verifiedAt: timestamp,

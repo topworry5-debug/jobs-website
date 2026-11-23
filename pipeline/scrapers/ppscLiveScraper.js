@@ -84,7 +84,7 @@ export async function scrapeLivePPSC() {
         }
 
         const qualification = meta.qualification || `Bachelor's / Master's Degree in relevant discipline as notified in PPSC Advt ${adNo}. Check official notification for exact eligibility.`;
-        const vacancies = meta.vacancies || 1;
+        const vacancies = meta.vacancies || null;
         const ageLimit = meta.ageLimit || "Male: 21 to 30 + 5 = 35 Years | Female: 21 to 30 + 8 = 38 Years (General Age Relaxation)";
         const quota = meta.quota || "Punjab Domicile (Open Merit & Quotas as per Punjab Service Rules)";
         const description = meta.description || `PPSC Case No. ${caseNo} (${postName}) under ${department}. Single-paper 100-mark MCQ test. Apply online via PPSC Candidate Portal before ${isoClosingDate}.`;

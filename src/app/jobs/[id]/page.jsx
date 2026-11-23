@@ -467,12 +467,12 @@ export default function JobDetailPage({ params }) {
                 </div>
               )}
 
-              {job.vacancies && (
-                <div>
-                  <dt className="text-muted">Total Openings</dt>
-                  <dd className="font-semibold text-primary mt-0.5">{job.vacancies} {job.vacancies === 1 ? 'Post' : 'Posts'}</dd>
-                </div>
-              )}
+              <div>
+                <dt className="text-muted">Total Openings</dt>
+                <dd className="font-semibold text-primary mt-0.5">
+                  {job.vacancies && job.vacancies > 0 ? `${job.vacancies} ${job.vacancies === 1 ? 'Post' : 'Posts'}` : 'See notice'}
+                </dd>
+              </div>
 
               {job.lastDate && (
                 <div>
@@ -480,6 +480,13 @@ export default function JobDetailPage({ params }) {
                   <dd className={`font-bold mt-0.5 ${expired ? 'text-muted' : isClosingSoon ? 'text-amber-500' : 'text-red-500'}`}>
                     {job.lastDate}
                   </dd>
+                </div>
+              )}
+
+              {job.hardcopyDeadline && (
+                <div>
+                  <dt className="text-muted">Hardcopy Receipt Deadline</dt>
+                  <dd className="font-semibold text-primary mt-0.5">{job.hardcopyDeadline}</dd>
                 </div>
               )}
 
