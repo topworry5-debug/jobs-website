@@ -3,6 +3,8 @@
  * HTML entity decoding, location formatting, and deadline presentation.
  */
 
+import { formatDisplayDate, getJobRelativeTime } from '../lib/jobStatus.js';
+
 export const ACRONYM_ALLOWLIST = new Set([
   'FPSC', 'PPSC', 'SPSC', 'KPPSC', 'BPSC', 'NTS', 'CSS', 'PMS', 'CCE',
   'BPS', 'BS', 'SBP', 'FESCO', 'GEPCO', 'LESCO', 'IESCO', 'MEPCO', 'PESCO',
@@ -174,9 +176,10 @@ export function getDisplayTitle(job) {
 }
 
 /**
- * Formats lastDate as real date ("15 Dec 2026") with relative status info.
+ * Formats lastDate as real date ("15 Dec 2026") with relative status info
+ * strictly using the unified Asia/Karachi calendar calculation.
  */
-export function formatJobDeadline(lastDate, status) {
+export function formatJobDeadline(lastDate, status, referenceDate = new Date()) {
   if (!lastDate) {
     return {
       dateFormatted: 'Refer to ad',
@@ -187,62 +190,24 @@ export function formatJobDeadline(lastDate, status) {
     };
   }
 
-  // Format real date e.g. "15 Dec 2026"
-  let dateFormatted = lastDate;
-  try {
-    const parts = lastDate.split('-');
-    if (parts.length === 3) {
-      const d = new Date(Date.UTC(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10)));
-      dateFormatted = d.toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-        timeZone: 'UTC'
-      });
-    }
-  } catch (e) {}
-
-  // Compare to current time (Pakistan Time)
-  const now = new Date();
-  const target = new Date(`${lastDate}T23:59:59+05:00`);
-  const diffMs = target - now;
-  const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-
-  if (status === 'closed' || daysLeft < 0) {
+  const dateFormatted = formatDisplayDate(lastDate) || lastDate;
+  const rawStatus = (status || '').toLowerCase().trim();
+  if (rawStatus === 'closed' || rawStatus === 'archived' || rawStatus === 'expired') {
     return {
       dateFormatted,
       relativeLabel: 'Closed',
       isClosed: true,
       isUrgent: false,
-      daysLeft: 0
+      daysLeft: -1
     };
   }
 
-  if (daysLeft === 0) {
-    return {
-      dateFormatted,
-      relativeLabel: 'Closes today',
-      isClosed: false,
-      isUrgent: true,
-      daysLeft: 0
-    };
-  }
-
-  if (daysLeft <= 3) {
-    return {
-      dateFormatted,
-      relativeLabel: `${daysLeft} days left`,
-      isClosed: false,
-      isUrgent: true,
-      daysLeft
-    };
-  }
-
+  const rel = getJobRelativeTime(lastDate, referenceDate);
   return {
     dateFormatted,
-    relativeLabel: `${daysLeft} days left`,
-    isClosed: false,
-    isUrgent: false,
-    daysLeft
+    relativeLabel: rel.label,
+    isClosed: rel.isClosed,
+    isUrgent: rel.isUrgent,
+    daysLeft: rel.daysLeft
   };
 }

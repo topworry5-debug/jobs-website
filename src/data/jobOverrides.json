@@ -22,21 +22,53 @@
     "sourceUrl": "https://www.fpsc.gov.pk/Jobs?section=CSS",
     "officialNotificationUrl": "https://www.fpsc.gov.pk/uploads/content/1794127244067_CSS_2027_Advertisement.pdf",
     "fields": {
+      "postDate": "2026-11-08",
       "lastDate": "2026-11-25",
       "deadline": "2026-11-25",
       "hardcopyDeadline": "2026-12-04",
+      "qualification": "Bachelor's Degree (Second Division) and self-domicile certificate; only candidates qualified in MPT CE-2027 are eligible.",
+      "ageLimit": "21–30 years on 31st December 2026 (two-year relaxation admissible to categories specified in Rule 6)",
+      "challanFee": "PKR 2200 (Paid via 15-digit PSID on 1-Link / ATM / Mobile Banking)",
       "vacancies": null,
       "vacanciesTotal": null,
       "vacanciesNote": "Unspecified by Federal Govt (Allocated post-examination)",
       "city": "Federal (19 Examination Centres Nationwide)",
       "quota": "National Merit & Provincial Allocations",
-      "employerType": "government"
+      "bpsScale": "BPS-17",
+      "employerType": "government",
+      "description": null
     },
-    "evidenceQuote": "Applications for written part of CSS CE-2027 are invited well before 25th November, 2026... A signed hard copy of the online application... must reach FPSC before 4th December 2026.",
+    "evidenceQuote": "Islamabad the, 8th November, 2026 ... Applications for written part of CSS CE-2027 are invited well before 25th November, 2026... A signed hard copy of the online application... must reach FPSC before 4th December 2026 ... Bachelor's Degree (Second Division) ... Age must be 21–30 years on the cutoff date 31st December 2026 ... PSID for the online fee payment of Rs. 2200/-",
     "evidenceType": "text",
-    "verifiedAt": "2026-11-14",
-    "verifiedBy": "audit 2026-11-14",
-    "notes": "Digital text extracted from official CSS CE-2027 Public Notice. Ticker expiryDate 2026-12-08 was wrong. Vacancy count 250 was synthetic default; real quota is determined post-exam."
+    "verifiedAt": "2026-11-24",
+    "verifiedBy": "audit 2026-11-24",
+    "notes": "Verified from official CSS CE-2027 Public Notice No. F.2/1/2026-CE dated 8th November 2026. Real postDate 2026-11-08, online deadline 2026-11-25, hardcopy 2026-12-04, fee PKR 2200 via PSID."
+  },
+  "fpsc-css-competitive-examination-2027": {
+    "sourceUrl": "https://www.fpsc.gov.pk/Jobs?section=CSS",
+    "officialNotificationUrl": "https://www.fpsc.gov.pk/uploads/content/1794127244067_CSS_2027_Advertisement.pdf",
+    "fields": {
+      "postDate": "2026-11-08",
+      "lastDate": "2026-11-25",
+      "deadline": "2026-11-25",
+      "hardcopyDeadline": "2026-12-04",
+      "qualification": "Bachelor's Degree (Second Division) and self-domicile certificate; only candidates qualified in MPT CE-2027 are eligible.",
+      "ageLimit": "21–30 years on 31st December 2026 (two-year relaxation admissible to categories specified in Rule 6)",
+      "challanFee": "PKR 2200 (Paid via 15-digit PSID on 1-Link / ATM / Mobile Banking)",
+      "vacancies": null,
+      "vacanciesTotal": null,
+      "vacanciesNote": "Unspecified by Federal Govt (Allocated post-examination)",
+      "city": "Federal (19 Examination Centres Nationwide)",
+      "quota": "National Merit & Provincial Allocations",
+      "bpsScale": "BPS-17",
+      "employerType": "government",
+      "description": null
+    },
+    "evidenceQuote": "Islamabad the, 8th November, 2026 ... Applications for written part of CSS CE-2027 are invited well before 25th November, 2026... A signed hard copy of the online application... must reach FPSC before 4th December 2026 ... Bachelor's Degree (Second Division) ... Age must be 21–30 years on the cutoff date 31st December 2026 ... PSID for the online fee payment of Rs. 2200/-",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-24",
+    "verifiedBy": "audit 2026-11-24",
+    "notes": "Verified from official CSS CE-2027 Public Notice No. F.2/1/2026-CE dated 8th November 2026. Real postDate 2026-11-08, online deadline 2026-11-25, hardcopy 2026-12-04, fee PKR 2200 via PSID."
   },
   "fpsc-live-api-103": {
     "sourceUrl": "https://www.fpsc.gov.pk/Jobs?section=GR",

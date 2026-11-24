@@ -1,4 +1,4 @@
-import liveScrapedJobs from './liveScrapedJobs.json';
+import liveScrapedJobs from './liveScrapedJobs.json' with { type: 'json' };
 import { CATEGORIES_CONFIG } from './categoriesData.js';
 import { getJobSlug } from '../lib/jobStatus.js';
 import { cleanJobRecord } from '../utils/textCleaning.js';

@@ -444,8 +444,8 @@ export default function Navbar() {
             <Link
               href="/alerts"
               className={`header-icon-btn ${isActive('/alerts') ? 'active' : ''}`}
-              aria-label="Job alerts"
-              title="Job alerts"
+              aria-label="Job updates"
+              title="Job updates"
             >
               <Bell size={18} />
             </Link>
@@ -680,11 +680,12 @@ export default function Navbar() {
               <Link
                 href="/alerts"
                 className={`mobile-nav-link ${isActive('/alerts') ? 'active' : ''}`}
+                aria-label="Job updates"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <div className="flex items-center gap-2">
                   <Bell size={18} />
-                  <span>{t.nav?.alerts || 'Job Alerts'}</span>
+                  <span>{t.nav?.alerts || 'Job Updates'}</span>
                 </div>
               </Link>
             </div>

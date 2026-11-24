@@ -131,7 +131,7 @@ export async function scrapeLiveBPSC() {
           vacanciesTotal: null,
           ageLimit: null,
           quota: "Balochistan Zonal Allocation",
-          postDate: today,
+          postDate: null,
           lastDate: closingDate,
           deadline: closingDate,
           urgent: closingDate === today,

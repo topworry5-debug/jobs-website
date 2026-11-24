@@ -46,7 +46,9 @@ import {
   calculateDaysRemaining,
   findJobBySlugOrId,
   getJobSlug,
-  shouldHidePrivateJob 
+  shouldHidePrivateJob,
+  formatDisplayDate,
+  getJobRelativeTime 
 } from '../../../lib/jobStatus';
 
 export const dynamicParams = true;
@@ -85,35 +87,21 @@ function resolveAgencySlug(job) {
 }
 
 /**
- * Generates concise, direct-answer FAQ pairs based strictly on stored data.
+ * Generates concise, direct-answer FAQ pairs based strictly on stored data with evidence.
+ * If fewer than 2 facts exist, returns empty array (no FAQ section rendered, no FAQPage schema).
  */
 function getJobFaqs(job) {
-  if (job.faqs && Array.isArray(job.faqs) && job.faqs.length > 0) {
+  if (job.faqs && Array.isArray(job.faqs) && job.faqs.length >= 2) {
     return job.faqs;
   }
   const org = job.department || job.company || job.agency || 'the recruiting organization';
   const faqs = [];
 
   if (job.lastDate) {
+    const formattedDate = formatDisplayDate(job.lastDate);
     faqs.push({
       question: `What is the last date to apply for ${job.title}?`,
-      answer: `The official application deadline for ${job.title} at ${org} is ${job.lastDate}.`
-    });
-  }
-
-  if (job.qualification || job.ageLimit) {
-    const qualText = job.qualification ? `hold ${job.qualification}` : 'meet the specified criteria';
-    const ageText = job.ageLimit ? ` and comply with the age limit of ${job.ageLimit}` : '';
-    faqs.push({
-      question: `What are the eligibility criteria for ${job.title}?`,
-      answer: `Candidates must ${qualText}${ageText} as stated in the official announcement.`
-    });
-  }
-
-  if (job.vacancies) {
-    faqs.push({
-      question: `How many vacancies are available for ${job.title}?`,
-      answer: `There are ${job.vacancies} total vacancies announced for ${job.title} at ${org}.`
+      answer: `The official application deadline for ${job.title} at ${org} is ${formattedDate}.`
     });
   }
 
@@ -124,7 +112,47 @@ function getJobFaqs(job) {
     });
   }
 
+  if (job.challanFee) {
+    faqs.push({
+      question: `What is the application fee for ${job.title}?`,
+      answer: `The application fee is ${job.challanFee} as specified in the official announcement.`
+    });
+  }
+
+  if (job.qualification || job.ageLimit) {
+    const qualText = job.qualification ? `hold ${job.qualification}` : '';
+    const ageText = job.ageLimit ? `comply with the age limit of ${job.ageLimit}` : '';
+    const criteriaText = [qualText, ageText].filter(Boolean).join(' and ');
+    if (criteriaText) {
+      faqs.push({
+        question: `What are the eligibility criteria for ${job.title}?`,
+        answer: `Candidates must ${criteriaText} as stated in the official announcement.`
+      });
+    }
+  }
+
+  if (typeof job.vacancies === 'number' && job.vacancies > 0) {
+    faqs.push({
+      question: `How many vacancies are available for ${job.title}?`,
+      answer: `There are ${job.vacancies} total vacancies announced for ${job.title} at ${org}.`
+    });
+  }
+
+  if (faqs.length < 2) {
+    return [];
+  }
+
   return faqs;
+}
+
+function hasAuthenticDescription(desc) {
+  if (!desc || typeof desc !== 'string') return false;
+  const trimmed = desc.trim();
+  if (trimmed.length < 25) return false;
+  if (/^Federal Public Service Commission \(FPSC\) announcement:.*Apply online via official/i.test(trimmed)) return false;
+  if (/^Official job advertisement for the position of/i.test(trimmed)) return false;
+  if (/^Official recruitment advertisement published by/i.test(trimmed)) return false;
+  return true;
 }
 
 function resolveCitySlug(job) {
@@ -202,9 +230,7 @@ export default function JobDetailPage({ params }) {
   const siteUrl = getSiteUrl();
   const jobSlug = job.slug || getJobSlug(job);
   const expired = isJobExpired(job);
-  const daysLeft = calculateDaysRemaining(job.lastDate);
-  const isClosingSoon = daysLeft !== null && daysLeft >= 0 && daysLeft <= 3;
-  const isClosingToday = daysLeft === 0;
+  const relTime = getJobRelativeTime(job.lastDate);
 
   const agencySlug = resolveAgencySlug(job);
   const citySlug = resolveCitySlug(job);
@@ -226,9 +252,10 @@ export default function JobDetailPage({ params }) {
   ];
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbItems);
 
-  // Verified Date display - ONLY if real verifiedAt exists
-  const verifiedDate = job.verifiedAt
-    ? new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })
+  // Details checked date display - ONLY if real evidence exists (text or image-read)
+  const hasEvidence = job.evidenceType === 'text' || job.evidenceType === 'image-read';
+  const checkedDate = (hasEvidence && job.verifiedAt)
+    ? formatDisplayDate(job.verifiedAt)
     : null;
 
   // Official advertisement image / PDF link
@@ -314,15 +341,20 @@ export default function JobDetailPage({ params }) {
                       <AlertCircle size={12} />
                       <span>Applications Closed</span>
                     </span>
-                  ) : isClosingToday ? (
+                  ) : relTime.isClosingToday ? (
                     <span className="badge badge-closing-today flex items-center gap-1 font-bold">
                       <Flame size={12} className="text-amber-300 animate-pulse" />
                       <span>Closes today</span>
                     </span>
-                  ) : isClosingSoon ? (
+                  ) : relTime.isClosingTomorrow ? (
                     <span className="badge badge-closing-today flex items-center gap-1 font-bold">
                       <Flame size={12} className="text-amber-300" />
-                      <span>{daysLeft}d left</span>
+                      <span>Closes tomorrow</span>
+                    </span>
+                  ) : relTime.daysLeft !== null && relTime.daysLeft > 1 ? (
+                    <span className="badge badge-closing-today flex items-center gap-1 font-bold">
+                      <Clock size={12} />
+                      <span>{relTime.daysLeft} days left</span>
                     </span>
                   ) : (
                     <span className="badge badge-govt">
@@ -343,10 +375,10 @@ export default function JobDetailPage({ params }) {
                     </a>
                   )}
 
-                  {verifiedDate && (
+                  {checkedDate && (
                     <span className="badge badge-verified">
                       <ShieldCheck size={13} />
-                      <span>Verified on {verifiedDate}</span>
+                      <span>Details checked on {checkedDate}</span>
                     </span>
                   )}
                 </div>
@@ -403,7 +435,7 @@ export default function JobDetailPage({ params }) {
                     Applications Closed
                   </div>
                   <div className="text-xs mt-0.5 text-amber-800 dark:text-amber-300 leading-relaxed">
-                    Official applications for this position closed on <strong>{job.lastDate}</strong>. This listing is retained for examination, syllabus, and official record. Browse active openings:
+                    Official applications for this position closed on <strong>{formatDisplayDate(job.lastDate) || job.lastDate}</strong>. This listing is retained for examination, syllabus, and official record. Browse active openings:
                   </div>
                 </div>
               </div>
@@ -424,7 +456,7 @@ export default function JobDetailPage({ params }) {
                         </div>
                       </div>
                       <div className="mt-2.5 pt-2 border-t border-border-subtle flex items-center justify-between text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-                        <span>Deadline: {rJob.lastDate}</span>
+                        <span>Deadline: {formatDisplayDate(rJob.lastDate) || rJob.lastDate}</span>
                         <span className="flex items-center gap-0.5">Apply →</span>
                       </div>
                     </Link>
@@ -480,8 +512,8 @@ export default function JobDetailPage({ params }) {
               {job.lastDate && (
                 <div>
                   <dt className="text-muted">Application Deadline</dt>
-                  <dd className={`font-bold mt-0.5 ${expired ? 'text-muted' : isClosingSoon ? 'text-amber-500' : 'text-red-500'}`}>
-                    {job.lastDate}
+                  <dd className={`font-bold mt-0.5 ${expired ? 'text-muted' : relTime.isUrgent ? 'text-amber-500' : 'text-red-500'}`}>
+                    {formatDisplayDate(job.lastDate)}
                   </dd>
                 </div>
               )}
@@ -489,14 +521,14 @@ export default function JobDetailPage({ params }) {
               {job.hardcopyDeadline && (
                 <div>
                   <dt className="text-muted">Hardcopy Receipt Deadline</dt>
-                  <dd className="font-semibold text-primary mt-0.5">{job.hardcopyDeadline}</dd>
+                  <dd className="font-semibold text-primary mt-0.5">{formatDisplayDate(job.hardcopyDeadline)}</dd>
                 </div>
               )}
 
               {job.postDate && (
                 <div>
                   <dt className="text-muted">Announcement Date</dt>
-                  <dd className="font-semibold text-primary mt-0.5">{job.postDate}</dd>
+                  <dd className="font-semibold text-primary mt-0.5">{formatDisplayDate(job.postDate)}</dd>
                 </div>
               )}
 
@@ -569,12 +601,12 @@ export default function JobDetailPage({ params }) {
                       <a href={job.sourceUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-emerald-600 dark:text-emerald-400 hover:underline">
                         {job.officialSourceLabel || job.agency || "Official source notice"}
                       </a>
-                      {verifiedDate && (
+                      {checkedDate && (
                         <>
                           <br />
                           <span className="inline-flex items-center gap-1.5 mt-0.5 font-medium text-main">
                             <Clock size={12} className="text-emerald-500" />
-                            <span>Verified on {verifiedDate}</span>
+                            <span>Details checked on {checkedDate}</span>
                           </span>
                         </>
                       )}
@@ -608,16 +640,18 @@ export default function JobDetailPage({ params }) {
             </div>
           )}
 
-          {/* Role Overview */}
-          <section className="job-section mb-6">
-            <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
-              <Briefcase size={18} className="text-emerald-500" />
-              <span>Role Overview</span>
-            </h2>
-            <p className="text-secondary leading-relaxed text-sm" dir="auto">
-              {job.description || `Official job advertisement for the position of ${job.title} at ${job.department || job.company || job.agency || 'Government of Pakistan'}.${job.lastDate ? ` Applications close on ${job.lastDate}.` : ''}`}
-            </p>
-          </section>
+          {/* Role Overview — Only rendered if notice provides authentic description */}
+          {hasAuthenticDescription(job.description) && (
+            <section className="job-section mb-6">
+              <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
+                <Briefcase size={18} className="text-emerald-500" />
+                <span>Role Overview</span>
+              </h2>
+              <p className="text-secondary leading-relaxed text-sm" dir="auto">
+                {job.description}
+              </p>
+            </section>
+          )}
 
           {/* Eligibility Criteria (Rendered only if qualification or criteria exist) */}
           {(job.qualification || job.ageLimit || (job.eligibilityCriteria && job.eligibilityCriteria.length > 0)) && (
@@ -746,10 +780,10 @@ export default function JobDetailPage({ params }) {
                       <a href={job.officialUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 underline font-medium break-all">
                         {job.officialUrl}
                       </a>
-                      {job.lastDate ? ` on or before ${job.lastDate}.` : '.'}
+                      {job.lastDate ? ` on or before ${formatDisplayDate(job.lastDate)}.` : '.'}
                     </>
                   ) : (
-                    `Submit your application following the instructions in the official notification${job.lastDate ? ` before ${job.lastDate}.` : '.'}`
+                    `Submit your application following the instructions in the official notification${job.lastDate ? ` before ${formatDisplayDate(job.lastDate)}.` : '.'}`
                   )}
                 </div>
               </li>
@@ -881,7 +915,6 @@ export default function JobDetailPage({ params }) {
               <li><Link href="/jobs/govt" className="text-secondary hover:text-primary">🏛️ All Government Jobs</Link></li>
               <li><Link href="/exams" className="text-secondary hover:text-primary">📅 Competitive Exam Calendar</Link></li>
               <li><Link href="/cv-builder" className="text-secondary hover:text-primary">📄 Free CV Builder</Link></li>
-              <li><Link href="/alerts" className="text-secondary hover:text-primary">📧 Email Job Alerts</Link></li>
             </ul>
           </div>
 

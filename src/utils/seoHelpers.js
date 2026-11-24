@@ -4,6 +4,7 @@
  */
 
 import { getSiteUrl, getAbsoluteUrl } from './siteUrl.js';
+import { formatDisplayDate } from '../lib/jobStatus.js';
 
 function escapeHtml(text) {
   if (!text) return '';
@@ -24,14 +25,26 @@ function truncateAtWord(str, max) {
   if (!str || str.length <= max) return str;
   const sub = str.slice(0, max);
   const lastSpace = sub.lastIndexOf(' ');
-  if (lastSpace > max * 0.6) {
-    return sub.slice(0, lastSpace).trim().replace(/[,\-–—/:\s]+$/, '');
+  let result = (lastSpace > max * 0.5) ? sub.slice(0, lastSpace) : sub;
+
+  // Clean unclosed opening parentheses or brackets
+  const openParen = result.lastIndexOf('(');
+  const closeParen = result.lastIndexOf(')');
+  if (openParen > -1 && openParen > closeParen) {
+    result = result.slice(0, openParen);
   }
-  return sub.trim().replace(/[,\-–—/:\s]+$/, '');
+
+  const openBracket = result.lastIndexOf('[');
+  const closeBracket = result.lastIndexOf(']');
+  if (openBracket > -1 && openBracket > closeBracket) {
+    result = result.slice(0, openBracket);
+  }
+
+  return result.trim().replace(/[,\-–—/:\s(\[]+$/, '');
 }
 
 /**
- * Generates unique page title strictly capped to max ~60 characters.
+ * Generates unique page title strictly capped to max ~60 characters at clean word boundaries.
  * @param {Object} job
  * @returns {string}
  */
@@ -48,37 +61,48 @@ export function formatJobPageTitle(job) {
   }
 
   const availableForTitle = maxAvailable - (agency.length + 3);
-  if (availableForTitle > 15) {
+  if (availableForTitle > 12) {
     const truncTitle = truncateAtWord(title, availableForTitle);
-    return `${truncTitle} - ${agency}${brand}`;
+    const combined = `${truncTitle} - ${agency}${brand}`;
+    if (combined.length <= 60) return combined;
   }
 
-  return `${truncateAtWord(title, maxAvailable)}${brand}`;
+  const bareTitle = truncateAtWord(title, maxAvailable);
+  return `${bareTitle}${brand}`;
 }
 
 /**
  * Generates unique meta description strictly capped to max ~155 characters.
+ * Template: "{Title} at {Employer}. Last date: 25 Nov 2026. {N posts if known}."
  * @param {Object} job
  * @returns {string}
  */
 export function formatJobPageDescription(job) {
   if (!job) return 'Public sector job notices, syllabus guides and exam schedules in Pakistan with official source links.';
   const title = cleanText(job.title);
-  const org = cleanText(job.department || job.company || job.agency || 'Public Sector');
-  const bps = job.bpsScale ? ` ${job.bpsScale}.` : '';
-  const vac = job.vacancies ? ` ${job.vacancies} posts.` : '';
-  const deadline = job.lastDate ? ` Last date: ${job.lastDate}.` : '';
+  const employer = cleanText(job.department || job.company || job.agency || 'Public Sector');
+  const deadlineDate = job.lastDate ? formatDisplayDate(job.lastDate) : null;
+  const deadlineStr = deadlineDate ? ` Last date: ${deadlineDate}.` : '';
+  const postsStr = (typeof job.vacancies === 'number' && job.vacancies > 0)
+    ? ` ${job.vacancies} ${job.vacancies === 1 ? 'post' : 'posts'}.`
+    : '';
 
-  let desc = `Apply for ${title} at ${org}.${bps}${vac}${deadline} Official notification details.`;
+  let desc = `${title} at ${employer}.${deadlineStr}${postsStr}`.trim();
   if (desc.length <= 155) return desc;
 
-  desc = `${title} at ${org}.${bps}${deadline} Official vacancy notice.`;
+  // Shorten title at word boundary if needed
+  const maxTitleLen = 75;
+  const shortTitle = truncateAtWord(title, maxTitleLen);
+  desc = `${shortTitle} at ${employer}.${deadlineStr}${postsStr}`.trim();
   if (desc.length <= 155) return desc;
 
-  const base = `${truncateAtWord(title, 70)} at ${truncateAtWord(org, 35)}.${bps}${deadline}`;
-  if (base.length <= 155) return base;
+  // Shorten employer as well
+  const availableForEmployer = 155 - (shortTitle.length + deadlineStr.length + postsStr.length + 6);
+  const shortEmployer = availableForEmployer > 15 ? truncateAtWord(employer, availableForEmployer) : 'Public Sector';
+  desc = `${shortTitle} at ${shortEmployer}.${deadlineStr}${postsStr}`.trim();
+  if (desc.length <= 155) return desc;
 
-  return truncateAtWord(base, 151) + '...';
+  return truncateAtWord(desc, 151) + '...';
 }
 
 /**
@@ -105,7 +129,7 @@ export function buildJobHtmlDescription(job) {
   if (job.quota) details.push(`<li><strong>Quota / Domicile:</strong> ${escapeHtml(job.quota)}</li>`);
   if (job.city) details.push(`<li><strong>City / Location:</strong> ${escapeHtml(job.city)}</li>`);
   if (job.challanFee) details.push(`<li><strong>Application Fee:</strong> ${escapeHtml(job.challanFee)}</li>`);
-  if (job.lastDate) details.push(`<li><strong>Application Deadline:</strong> ${escapeHtml(job.lastDate)}</li>`);
+  if (job.lastDate) details.push(`<li><strong>Application Deadline:</strong> ${escapeHtml(formatDisplayDate(job.lastDate) || job.lastDate)}</li>`);
 
   if (details.length > 0) {
     parts.push(`<p><strong>Job Specifications:</strong></p><ul>${details.join('')}</ul>`);
@@ -138,19 +162,25 @@ export function generateJobPostingSchema(job) {
     validThrough = `${dateMatch}T23:59:59+05:00`;
   }
 
-  // datePosted ISO timestamp
+  // datePosted ISO timestamp: postDate from notice, falling back to firstSeenAt when unknown (Google requirement)
   let datePosted = null;
   if (job.postDate && /^\d{4}-\d{2}-\d{2}/.test(job.postDate)) {
     const postMatch = job.postDate.match(/^\d{4}-\d{2}-\d{2}/)[0];
     datePosted = `${postMatch}T00:00:00+05:00`;
+  } else if (job.firstSeenAt) {
+    try {
+      datePosted = new Date(job.firstSeenAt).toISOString();
+    } catch {
+      datePosted = new Date().toISOString();
+    }
   } else if (job.scrapedAt) {
     try {
       datePosted = new Date(job.scrapedAt).toISOString();
     } catch {
-      datePosted = '2026-08-15T00:00:00+05:00';
+      datePosted = new Date().toISOString();
     }
   } else {
-    datePosted = '2026-08-15T00:00:00+05:00';
+    datePosted = '2026-11-08T00:00:00+05:00';
   }
 
   // Only include baseSalary when a real numeric salary is explicitly stored
