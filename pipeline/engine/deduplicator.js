@@ -71,15 +71,20 @@ export function deduplicateJobs(incomingJobs = [], existingJobs = []) {
     }
 
     if (matchedExistingId) {
-      // Update existing record with latest scrape/verification metadata
+      // Safely merge with existing record while preserving authentic postDate and tracking firstSeenAt
       const current = mergedMap.get(matchedExistingId);
+      const postDate = current.postDate || newJob.postDate || null;
+      const firstSeenAt = current.firstSeenAt || newJob.firstSeenAt || current.scrapedAt || newJob.scrapedAt || new Date().toISOString();
+      const verifiedAt = newJob.verifiedAt || current.verifiedAt || null;
+
       mergedMap.set(matchedExistingId, {
         ...current,
         ...newJob,
         id: matchedExistingId, // keep original ID stable
+        postDate,
+        firstSeenAt,
         scrapedAt: newJob.scrapedAt || new Date().toISOString(),
-        verifiedAt: newJob.verifiedAt || current.verifiedAt || new Date().toISOString(),
-        lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        verifiedAt,
         status: newJob.status || current.status
       });
 
@@ -89,9 +94,13 @@ export function deduplicateJobs(incomingJobs = [], existingJobs = []) {
         reason: `Matched existing record "${current.title}" (${current.agency})`
       });
     } else {
-      // Brand new job
-      newJobs.push(newJob);
-      mergedMap.set(newJob.id, newJob);
+      // Brand new job: record initial discovery timestamp (firstSeenAt)
+      const brandNewJob = {
+        ...newJob,
+        firstSeenAt: newJob.firstSeenAt || newJob.scrapedAt || new Date().toISOString()
+      };
+      newJobs.push(brandNewJob);
+      mergedMap.set(newJob.id, brandNewJob);
     }
   }
 

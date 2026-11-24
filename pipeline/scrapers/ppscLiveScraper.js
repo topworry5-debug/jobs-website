@@ -53,7 +53,7 @@ export async function scrapeLivePPSC() {
         }
 
         const isoClosingDate = parseDateToISO(closingDateRaw);
-        const isoPostDate = parseDateToISO(adDateRaw) || new Date().toISOString().split('T')[0];
+        const isoPostDate = parseDateToISO(adDateRaw) || null;
 
         // Drop any entry where closing date cannot be verified or is expired
         if (!isoClosingDate) {

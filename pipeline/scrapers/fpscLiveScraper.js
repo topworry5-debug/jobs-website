@@ -112,7 +112,7 @@ export async function scrapeLiveFPSC() {
         }
       }
 
-      const postDate = item.date || timestamp.split('T')[0];
+      const postDate = item.date || null;
 
       // 3. Extract authentic deadline from notice text (do NOT use item.expiryDate)
       const officialDeadline = extractClosingDateFromNotice(item.description, postDate);

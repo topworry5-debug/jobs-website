@@ -340,3 +340,25 @@ When approved by the user, Part B will execute the following surgical improvemen
    - Run the updated pipeline and verify that all 14 open jobs reflect accurate official deadlines, correct vacancy counts, and authentic locations.
    - Verify that non-job exam timetables (FPO 102) are purged.
 
+---
+
+## 6. Official Date Architecture & Fallback Policy (Task Q Implementation)
+
+To ensure strict factual accuracy and eliminate synthetic dates across listings, detail pages, and Schema.org rich results, the pipeline follows this date lifecycle:
+
+1. **`postDate` (Official Announcement Date):**
+   - The genuine publication date extracted directly from the official gazette/PDF notice (e.g. `Islamabad the, 8th November, 2026` -> `2026-11-08` for CSS 2027) or the official portal listing table.
+   - Never defaults to `today` or the scraper execution timestamp.
+   - Once established or audit-verified, `postDate` is immutable and is never overwritten on subsequent scraper cycles.
+   - The detail page "Announcement Date" row renders `postDate` only. If `postDate` is unknown from the official source, the announcement date row is completely hidden from the user.
+
+2. **`firstSeenAt` (Discovery Timestamp):**
+   - An ISO timestamp recorded at the exact moment our pipeline first discovers and ingests the notice.
+   - Preserved across all subsequent pipeline runs during deduplication.
+
+3. **Schema.org `JobPosting.datePosted` Google Fallback:**
+   - Google Jobs structured data strictly requires `datePosted`.
+   - `datePosted` in JSON-LD is populated with `${job.postDate}T00:00:00+05:00`.
+   - If `postDate` is unknown, it falls back to `firstSeenAt` (the authentic discovery timestamp). This satisfies Google's indexing requirements without displaying synthetic dates to human readers on the website.
+
+

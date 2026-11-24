@@ -188,7 +188,7 @@ export async function scrapeNTS() {
         vacanciesTotal: subpageVacancies,
         ageLimit: null,
         quota: null,
-        postDate: new Date().toISOString().split('T')[0],
+        postDate: null,
         lastDate: isoDate,
         deadline: isoDate,
         urgent: false,

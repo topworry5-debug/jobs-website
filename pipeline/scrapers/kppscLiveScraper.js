@@ -64,7 +64,7 @@ export async function scrapeLiveKPPSC() {
               vacancies: null,
               ageLimit: "As specified in official notification",
               quota: "Khyber Pakhtunkhwa Zonal Allocation",
-              postDate: today,
+              postDate: null,
               lastDate: isoClosingDate,
               urgent: isoClosingDate === today,
               featured: false,

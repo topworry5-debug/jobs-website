@@ -98,7 +98,7 @@ export async function scrapeLiveSPSC() {
         vacanciesTotal: null,
         ageLimit: null,
         quota: "Sindh Rural & Sindh Urban Allocation",
-        postDate: today,
+        postDate: null,
         lastDate: isoClosingDate,
         deadline: isoClosingDate,
         urgent: isoClosingDate === today,

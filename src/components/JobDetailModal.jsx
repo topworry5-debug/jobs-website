@@ -24,6 +24,7 @@ import { generateJobPostingSchema } from '../utils/seoHelpers';
 import { useLanguage } from '../context/LanguageContext';
 import { getJobLogoUrl, getJobLogoAlt } from '../utils/logoResolver';
 import { decodeHtmlEntities } from '../utils/textCleaning';
+import { formatDisplayDate } from '../lib/jobStatus';
 
 export default function JobDetailModal({
   job,
@@ -109,10 +110,10 @@ export default function JobDetailModal({
                 <span>Source linked</span>
               </span>
             )}
-            {job.verifiedAt && (
+            {((job.evidenceType === 'text' || job.evidenceType === 'image-read') && job.verifiedAt) && (
               <span className="badge badge-verified">
                 <ShieldCheck size={13} />
-                <span>Verified on {new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })}</span>
+                <span>Details checked on {formatDisplayDate(job.verifiedAt)}</span>
               </span>
             )}
           </div>
@@ -154,8 +155,8 @@ export default function JobDetailModal({
                   <a href={job.sourceUrl || job.officialUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-600 hover:underline">
                     {job.officialSourceLabel || job.agency || 'Official Notice'}
                   </a>
-                  {job.verifiedAt && (
-                    <> • Verified on {new Date(job.verifiedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "Asia/Karachi" })}</>
+                  {((job.evidenceType === 'text' || job.evidenceType === 'image-read') && job.verifiedAt) && (
+                    <> • Details checked on {formatDisplayDate(job.verifiedAt)}</>
                   )}
                 </span>
               </div>

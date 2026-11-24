@@ -61,6 +61,107 @@ export function calculateDaysRemaining(dateStr, referenceDate = new Date()) {
 // Backward-compatible alias
 export const calculateDaysLeft = calculateDaysRemaining;
 
+const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/**
+ * Formats any date into "25 Nov 2026" strictly in Pakistan Time (Asia/Karachi).
+ * @param {string|Date} dateInput - ISO string, YYYY-MM-DD, or Date object
+ * @returns {string|null}
+ */
+export function formatDisplayDate(dateInput) {
+  if (!dateInput) return null;
+  const str = String(dateInput).trim();
+  const ymdMatch = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (ymdMatch) {
+    const y = parseInt(ymdMatch[1], 10);
+    const m = parseInt(ymdMatch[2], 10);
+    const d = parseInt(ymdMatch[3], 10);
+    if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+      return `${d} ${MONTH_ABBR[m - 1]} ${y}`;
+    }
+  }
+
+  try {
+    const d = new Date(dateInput);
+    if (isNaN(d.getTime())) return null;
+    return d.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      timeZone: 'Asia/Karachi'
+    });
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Calculates calendar days remaining in Asia/Karachi and returns uniform relative time label:
+ * - "Closed" (days < 0)
+ * - "Closes today" (days === 0)
+ * - "Closes tomorrow" (days === 1)
+ * - "N days left" (days > 1)
+ * 
+ * @param {string} dateStr - Deadline date string
+ * @param {Date|string} [referenceDate=new Date()]
+ * @returns {{ label: string, daysLeft: number|null, isClosed: boolean, isUrgent: boolean, isClosingToday: boolean, isClosingTomorrow: boolean }}
+ */
+export function getJobRelativeTime(dateStr, referenceDate = new Date()) {
+  const daysLeft = calculateDaysRemaining(dateStr, referenceDate);
+  if (daysLeft === null) {
+    return {
+      label: 'Refer to ad',
+      daysLeft: null,
+      isClosed: false,
+      isUrgent: false,
+      isClosingToday: false,
+      isClosingTomorrow: false
+    };
+  }
+
+  if (daysLeft < 0) {
+    return {
+      label: 'Closed',
+      daysLeft,
+      isClosed: true,
+      isUrgent: false,
+      isClosingToday: false,
+      isClosingTomorrow: false
+    };
+  }
+
+  if (daysLeft === 0) {
+    return {
+      label: 'Closes today',
+      daysLeft: 0,
+      isClosed: false,
+      isUrgent: true,
+      isClosingToday: true,
+      isClosingTomorrow: false
+    };
+  }
+
+  if (daysLeft === 1) {
+    return {
+      label: 'Closes tomorrow',
+      daysLeft: 1,
+      isClosed: false,
+      isUrgent: true,
+      isClosingToday: false,
+      isClosingTomorrow: true
+    };
+  }
+
+  return {
+    label: `${daysLeft} days left`,
+    daysLeft,
+    isClosed: false,
+    isUrgent: daysLeft <= 3,
+    isClosingToday: false,
+    isClosingTomorrow: false
+  };
+}
+
 /**
  * Counts total active open private jobs.
  * @param {Array} jobsList
@@ -323,10 +424,25 @@ export function getJobDeadlineInfo(dateStr, jobStatus, referenceDate = new Date(
       daysLeft: 0,
       isExpired: false,
       isClosingToday: true,
+      isClosingTomorrow: false,
       isUrgent: true,
       isClosingSoon: true,
       statusLabel: 'Closes today',
       badgeClass: 'badge-closing-today',
+      colorTone: 'red'
+    };
+  }
+
+  if (daysLeft === 1) {
+    return {
+      daysLeft: 1,
+      isExpired: false,
+      isClosingToday: false,
+      isClosingTomorrow: true,
+      isUrgent: true,
+      isClosingSoon: true,
+      statusLabel: 'Closes tomorrow',
+      badgeClass: 'badge-urgent',
       colorTone: 'red'
     };
   }
@@ -336,9 +452,10 @@ export function getJobDeadlineInfo(dateStr, jobStatus, referenceDate = new Date(
       daysLeft,
       isExpired: false,
       isClosingToday: false,
+      isClosingTomorrow: false,
       isUrgent: true,
       isClosingSoon: true,
-      statusLabel: `${daysLeft}d left`,
+      statusLabel: `${daysLeft} days left`,
       badgeClass: 'badge-urgent',
       colorTone: 'red'
     };
@@ -349,9 +466,10 @@ export function getJobDeadlineInfo(dateStr, jobStatus, referenceDate = new Date(
       daysLeft,
       isExpired: false,
       isClosingToday: false,
+      isClosingTomorrow: false,
       isUrgent: false,
       isClosingSoon: true,
-      statusLabel: `${daysLeft}d left`,
+      statusLabel: `${daysLeft} days left`,
       badgeClass: 'badge-soon',
       colorTone: 'amber'
     };
@@ -361,9 +479,10 @@ export function getJobDeadlineInfo(dateStr, jobStatus, referenceDate = new Date(
     daysLeft,
     isExpired: false,
     isClosingToday: false,
+    isClosingTomorrow: false,
     isUrgent: false,
     isClosingSoon: false,
-    statusLabel: `${daysLeft}d left`,
+    statusLabel: `${daysLeft} days left`,
     badgeClass: 'badge-normal',
     colorTone: 'green'
   };
