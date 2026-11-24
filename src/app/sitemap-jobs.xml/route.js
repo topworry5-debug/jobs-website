@@ -1,12 +1,12 @@
 import { JOBS_DATA } from '../../data/jobsData';
 import { getSiteUrl } from '../../utils/siteUrl';
-import { isJobOpen, isRecentlyClosed } from '../../lib/jobStatus';
+import { isJobOpen, isRecentlyClosed, shouldHidePrivateJob } from '../../lib/jobStatus';
 
 export async function GET() {
   const baseUrl = getSiteUrl();
   const now = new Date().toISOString();
-  // Include open jobs and recently closed jobs (last 30 days)
-  const eligibleJobs = JOBS_DATA.filter(j => isJobOpen(j) || isRecentlyClosed(j, 30));
+  // Include open jobs and recently closed jobs (last 30 days), excluding hidden private jobs
+  const eligibleJobs = JOBS_DATA.filter(j => (isJobOpen(j) || isRecentlyClosed(j, 30)) && !shouldHidePrivateJob(j, JOBS_DATA));
 
   const xmlUrls = eligibleJobs
     .map((job) => {

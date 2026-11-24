@@ -3,7 +3,7 @@ import { CATEGORIES_CONFIG, matchesJobCategory } from '../data/categoriesData';
 import { CITY_LANDING_CONTENT, AGENCY_LANDING_CONTENT } from '../data/landingPagesData';
 import { BLOG_ARTICLES } from '../data/blogData';
 import { getSiteUrl } from '../utils/siteUrl';
-import { isJobOpen, isRecentlyClosed, getLastUpdatedTimestamp, filterOpenJobs } from '../lib/jobStatus';
+import { isJobOpen, isRecentlyClosed, getLastUpdatedTimestamp, filterOpenJobs, shouldHidePrivateJob } from '../lib/jobStatus';
 
 export default function sitemap() {
   const baseUrl = getSiteUrl();
@@ -42,8 +42,8 @@ export default function sitemap() {
   }));
 
   // 2. Individual Job Pages: Open AND Recently Closed (last 30 days)
-  // Older archived positions (> 30 days) are excluded from the sitemap to optimize crawl budget
-  const eligibleJobs = JOBS_DATA.filter((j) => isJobOpen(j) || isRecentlyClosed(j, 30));
+  // Older archived positions (> 30 days) and hidden private jobs (< 20 threshold) are excluded from the sitemap
+  const eligibleJobs = JOBS_DATA.filter((j) => (isJobOpen(j) || isRecentlyClosed(j, 30)) && !shouldHidePrivateJob(j, JOBS_DATA));
   const jobRoutes = eligibleJobs.map((job) => {
     let lastMod = defaultLastMod;
     if (job.postDate && /^\d{4}-\d{2}-\d{2}/.test(job.postDate)) {

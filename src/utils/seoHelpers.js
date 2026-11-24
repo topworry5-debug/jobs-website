@@ -3,7 +3,7 @@
  * Generates valid Google Jobs rich-result schemas, BreadcrumbList, and ItemList schemas.
  */
 
-import { getSiteUrl, getAbsoluteUrl } from './siteUrl';
+import { getSiteUrl, getAbsoluteUrl } from './siteUrl.js';
 
 function escapeHtml(text) {
   if (!text) return '';

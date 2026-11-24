@@ -45,7 +45,8 @@ import {
   isJobExpired, 
   calculateDaysRemaining,
   findJobBySlugOrId,
-  getJobSlug 
+  getJobSlug,
+  shouldHidePrivateJob 
 } from '../../../lib/jobStatus';
 
 export const dynamicParams = true;
@@ -156,6 +157,7 @@ export async function generateMetadata({ params }) {
   // Unique Title max ~60 chars and Meta Description max ~155 chars
   const pageTitle = formatJobPageTitle(job);
   const pageDesc = formatJobPageDescription(job);
+  const hidePrivate = shouldHidePrivateJob(job, JOBS_DATA);
 
   return {
     title: {
@@ -165,6 +167,7 @@ export async function generateMetadata({ params }) {
     alternates: {
       canonical: canonicalUrl,
     },
+    ...(hidePrivate ? { robots: { index: false, follow: false } } : {}),
     openGraph: {
       title: pageTitle,
       description: pageDesc,

@@ -115,7 +115,8 @@ export async function scrapeLiveBPSC() {
         scrapedJobs.push({
           id: `bpsc-live-${cleanSlug}-${closingDate}`,
           type: "govt",
-          title: `BPSC Official Recruitment — ${titleText}`,
+          employerType: "government",
+          title: `BPSC ${titleText}`,
           rawTitle: titleText,
           department: "Government of Balochistan",
           agency: "BPSC",
