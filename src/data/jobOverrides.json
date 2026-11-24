@@ -9,7 +9,8 @@
       "vacanciesTotal": null,
       "vacanciesNote": "Consolidated advertisement with 48 distinct cases; grand total not stated in notice",
       "city": "Islamabad / Multiple Federal Locations",
-      "quota": "National Provincial Quota (Punjab, Sindh, KPK, Balochistan, Ex-FATA, AJK, GB)"
+      "quota": "National Provincial Quota (Punjab, Sindh, KPK, Balochistan, Ex-FATA, AJK, GB)",
+      "employerType": "government"
     },
     "evidenceQuote": "Closing Date for submission of applications is Monday, 23rd November, 2026. (Page 24, Item 11)",
     "evidenceType": "image-read",
@@ -28,7 +29,8 @@
       "vacanciesTotal": null,
       "vacanciesNote": "Unspecified by Federal Govt (Allocated post-examination)",
       "city": "Federal (19 Examination Centres Nationwide)",
-      "quota": "National Merit & Provincial Allocations"
+      "quota": "National Merit & Provincial Allocations",
+      "employerType": "government"
     },
     "evidenceQuote": "Applications for written part of CSS CE-2027 are invited well before 25th November, 2026... A signed hard copy of the online application... must reach FPSC before 4th December 2026.",
     "evidenceType": "text",
@@ -47,7 +49,8 @@
       "department": "Federal Public Service Commission Secretariat",
       "city": "Islamabad",
       "location": "FPSC Secretariat, Islamabad",
-      "quota": "Balochistan Quota (Women Quota: 1 Assistant, Open Merit: 1 Stenotypist, 1 Data Entry Operator)"
+      "quota": "Balochistan Quota (Women Quota: 1 Assistant, Open Merit: 1 Stenotypist, 1 Data Entry Operator)",
+      "employerType": "government"
     },
     "evidenceQuote": "Applications are invited from citizen of Pakistan having domicile of Balochistan for recruitment against the following posts lying vacant in Federal Public Service Commission's Secretariat: 1. Assistant (BS-15): 1, 2. Stenotypist (BS-14): 1, 3. Data Entry Operator (BS-14): 1... The candidate can apply through National Job Portal... within fifteen days from the date of advertisement (13-11-2026).",
     "evidenceType": "text",
@@ -65,7 +68,8 @@
       "vacanciesTotal": 48,
       "department": "Services & General Administration / Excise / Finance Departments, Punjab",
       "city": "Lahore / Anywhere in Punjab",
-      "quota": "PMS (BPS-17): 45 (Open Merit 41, Minority 2, Special Persons 2); Excise & Taxation Officer: 1 (Open Merit 1); Assistant Director Local Fund Audit: 2 (Open Merit 2)"
+      "quota": "PMS (BPS-17): 45 (Open Merit 41, Minority 2, Special Persons 2); Excise & Taxation Officer: 1 (Open Merit 1); Assistant Director Local Fund Audit: 2 (Open Merit 2)",
+      "employerType": "government"
     },
     "evidenceQuote": "(BS-17) PROVINCIAL MANAGEMENT SERVICE (Services & General Administration Department): 45 POSTS... (BS-17) EXCISE & TAXATION OFFICER... 01 POST... (BS-17) ASSISTANT DIRECTOR LOCAL FUND AUDIT... 02 POSTS... Closing Date for Submission of Online Applications 30 November 2026",
     "evidenceType": "text",
@@ -84,7 +88,8 @@
       "department": "District & Sessions Court, Hyderabad",
       "city": "District Hyderabad",
       "location": "District Hyderabad",
-      "quota": "District Hyderabad Domicile/PRC"
+      "quota": "District Hyderabad Domicile/PRC",
+      "employerType": "government"
     },
     "evidenceQuote": "OFFICE OF THE DISTRICT & SESSIONS JUDGE, HYDERABAD... Junior Clerk (BPS-11): 02, Naib Qasid (BPS-03): 01, Lift Operator (BPS-02): 01... Domicile/PRC: District Hyderabad... addressed to the 'District & Sessions Judge, Hyderabad' on or before 25.11.2026 till 03.00pm.",
     "evidenceType": "image-read",
@@ -103,7 +108,8 @@
       "department": "District & Sessions Court, Dadu",
       "city": "District Dadu",
       "location": "District Dadu",
-      "quota": "District Dadu Domicile/PRC"
+      "quota": "District Dadu Domicile/PRC",
+      "employerType": "government"
     },
     "evidenceQuote": "OFFICE OF THE DISTRICT & SESSIONS JUDGE, DADU... Stenographer (BPS-16): 07, Data Coder (BPS-14): 01, Junior Clerk (BPS-11): 20... Domicile: District Dadu... Online applications for all vacant posts be submitted within 15 days from the date of publication (24.10.2026).",
     "evidenceType": "image-read",
@@ -121,8 +127,9 @@
       "vacanciesTotal": 5,
       "department": "Faisalabad Electric Supply Company Limited (FESCO)",
       "city": "Faisalabad",
-      "location": "FESCO Jurisdiction (8 Punjab Districts) / Balochistan Quota",
-      "quota": "Balochistan Quota (Open Merit: 4, Minority: 1)"
+      "location": "Faisalabad Region",
+      "quota": "Balochistan Quota",
+      "employerType": "semi-government"
     },
     "evidenceQuote": "FAISALABAD ELECTRIC SUPPLY COMPANY LIMITED... Junior Engineer / SDO: 5 (Balochistan Open Merit 4, Balochistan Minority 1)... Last Date of Application Form Submission is: 23rd November 2026",
     "evidenceType": "image-read",
@@ -139,8 +146,9 @@
       "vacanciesTotal": 5,
       "department": "Gujranwala Electric Power Company (GEPCO)",
       "city": "Gujranwala",
-      "location": "GEPCO Region (Punjab) / Balochistan Quota",
-      "quota": "Balochistan Quota (Junior Engineer: 2, AM CS/RO: 1, AM Material: 1, AM MIS/IT: 1)"
+      "location": "Gujranwala Region",
+      "quota": "Balochistan Quota",
+      "employerType": "semi-government"
     },
     "evidenceQuote": "Post Name: Junior Engineer (Electrical) / SDO Total Post: 2; Assistant Manager (CS) / Revenue Officer Total Post: 1; Assistant Manager (Material Management) Total Post: 1; Assistant Manager (MIS/ IT) Total Post: 1... Last Date: 23rd November 2026",
     "evidenceType": "text",
@@ -159,7 +167,8 @@
       "department": "Sahiwal Institute of Cardiology, Punjab",
       "city": "Sahiwal",
       "location": "Sahiwal (Punjab)",
-      "quota": "Punjab Domicile"
+      "quota": "Punjab Domicile",
+      "employerType": "government"
     },
     "evidenceQuote": "Stenographer (BPS-15): 4 posts, Junior Technician (Cardiac): 4 posts, Junior Technician (Pathology): 1 posts, Junior Technician (Surgical): 2 posts, Junior Technician (Physiotherapy): 2 posts... Total: 13 posts... Last Date: 04th December 2026",
     "evidenceType": "text",
@@ -178,7 +187,8 @@
       "department": "Various Departments, Government of Balochistan",
       "city": "Quetta",
       "location": "Balochistan Zonal Allocation",
-      "quota": "Balochistan Zonal Allocation"
+      "quota": "Balochistan Zonal Allocation",
+      "employerType": "government"
     },
     "evidenceQuote": "Addendum Dated 02-11-2026. Last date for submission of online application has been extended up to 17 November 2026.",
     "evidenceType": "image-read",
@@ -198,7 +208,9 @@
       "department": "Services, General Administration & Coordination Department, Government of Sindh",
       "city": "Sindh",
       "location": "Sindh Provincial",
-      "quota": "Sindh Rural / Urban Quota"
+      "quota": "Sindh Rural / Urban Quota",
+      "title": "SPSC Advertisement No. 08/2026 — Combined Competitive Examination (CCE-2026)",
+      "employerType": "government"
     },
     "evidenceQuote": "REVISED CLOSING DATE FOR SUBMISSION OF ONLINE APPLICATION: 23.11.2026... In continuation of Advertisement No. 06/2026 and 04/2026 (CCE-2026)",
     "evidenceType": "image-read",
@@ -218,13 +230,516 @@
       "department": "Various Departments (Energy, Health, Agriculture, etc.), Government of Sindh",
       "city": "Sindh",
       "location": "Sindh Provincial",
-      "quota": "Sindh Rural / Urban Allocation"
+      "quota": "Sindh Rural / Urban Allocation",
+      "title": "SPSC Advertisement No. 07/2026",
+      "employerType": "government"
     },
     "evidenceQuote": "CLOSING DATE: 14.12.2026... Consolidated Advertisement No. 07/2026 Dated: 12.11.2026",
     "evidenceType": "image-read",
     "verifiedAt": "2026-11-14",
     "verifiedBy": "audit 2026-11-14",
     "notes": "Verified from scanned 8-page circular adv-07-2026.pdf. Closing date 14.12.2026 confirmed. Vacancies kept null as per rule."
+  },
+  "nts-live-multinational-oil-and-gas-company-induct-2026-11-27": {
+    "sourceUrl": "https://nts.org.pk/Test&Products/Announced/07_26/UEP_June2026_Online/UEP.php",
+    "officialNotificationUrl": "https://nts.org.pk/Test&Products/Announced/07_26/UEP_June2026_Online/UEP_Adv.jpeg",
+    "fields": {
+      "title": "Multinational Oil and Gas Company — Field Production Trainees",
+      "department": "Multinational Oil & Gas Exploration & Production Company",
+      "employerType": "private",
+      "type": "private",
+      "vacancies": null,
+      "vacanciesTotal": null,
+      "deadline": "2026-11-27",
+      "lastDate": "2026-11-27",
+      "city": "Sindh / Balochistan",
+      "location": "Operational Districts across Sindh and Balochistan",
+      "quota": "17 Operational Districts (Badin, TMK, Sujawal, Hyderabad, Mirpurkhas, Sanghar, Matiari, Tando Allahyar, Jamshoro, Khairpur, Sukkur, Ghotki, Qambar Shahdadkot, Dadu, Jhal Magsi, Khuzdar, North Dera Bugti)"
+    },
+    "evidenceQuote": "Last date to apply: 27th November 2026. Candidates must have domicile from the following districts: District Badin, District Tando Muhammad Khan, District Sujawal, District Hyderabad, District Mirpurkhas, District Sanghar, District Matiari, District Tando Allahyar, District Jamshoro, District Khairpur, District Sukkur, District Ghotki, District Qambar Shahdadkot, District Dadu, District Jhal Magsi, District Khuzdar, District North Dera Bugti.",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from notice image UEP_Adv.jpeg. Private multinational employer. Total vacancies not stated in circular."
+  },
+  "nts-live-govt-of-the-punjab-health-population-dep-2026-11-30": {
+    "sourceUrl": "https://portal.nts.org.pk/Alldetail/MTAxNDAw",
+    "officialNotificationUrl": "https://portal.nts.org.pk/uploads/projects/1794811153_PSHCD_Ad.jpg",
+    "fields": {
+      "title": "Health & Population Department Career Opportunities",
+      "department": "Primary & Secondary Healthcare / Health & Population Department, Punjab",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 527,
+      "vacanciesTotal": 527,
+      "deadline": "2026-11-30",
+      "lastDate": "2026-11-30",
+      "city": "Lahore / All Punjab",
+      "location": "All Punjab Districts",
+      "quota": "Open Merit & Provincial Quotas"
+    },
+    "evidenceQuote": "Last Date of Application Form Submission is: 30th November 2026. Surveillance Assistant Total Post: 500; M&E Coordinator / Provincial Monitoring Coordinators Total Post: 22; Program Officer (Data/Stat) Total Post: 2; Program Officer (IT) Total Post: 1; Program Officer (Accounts) Total Post: 1; Program Officer (Admin/Gen) Total Post: 1. Sum total across all posts: 527.",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from official NTS portal subpage MTAxNDAw. 527 total posts across 6 designations, with Surveillance Assistant comprising 500 vacancies."
+  },
+  "nts-live-pakistan-aeronautical-complex-pac-kamra--2026-11-30": {
+    "sourceUrl": "https://nts.org.pk/Test&Products/Announced/11_26/PAC_Nov2026_Online/PAC.php",
+    "officialNotificationUrl": "https://nts.org.pk/Test&Products/Announced/11_26/PAC_Nov2026_Online/PAC_Ad.pdf",
+    "fields": {
+      "title": "Pakistan Aeronautical Complex (PAC) Kamra (Situation Vacant Batch E-2026)",
+      "department": "Pakistan Aeronautical Complex (PAC) Kamra",
+      "employerType": "semi-government",
+      "type": "govt",
+      "vacancies": 94,
+      "vacanciesTotal": 94,
+      "deadline": "2026-11-30",
+      "lastDate": "2026-11-30",
+      "city": "Attock",
+      "location": "Kamra, District Attock",
+      "quota": "Merit, Punjab, KPK, FATA Quotas"
+    },
+    "evidenceQuote": "Last Date for Application Submission : Monday, 30th November 2026... G.Total = 94 (Page 5, PAC_Ad.pdf)",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PAC_Ad.pdf page 5. 94 total positions distributed across APF (JF-17), APF (S&A) and PAC Hospital."
+  },
+  "nts-live-district-session-judge-tando-muhammad-kh-2026-12-07": {
+    "sourceUrl": "https://nts.org.pk/Test&Products/Announced/11_26/DSC_TMK_2026_Online/TMK.php",
+    "officialNotificationUrl": "https://nts.org.pk/Test&Products/Announced/11_26/DSC_TMK_2026_Online/SindhiAd.jpg",
+    "fields": {
+      "title": "District & Sessions Court, Tando Muhammad Khan (Career Opportunities)",
+      "department": "District & Sessions Court, Tando Muhammad Khan",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "District Tando Muhammad Khan",
+      "location": "District Tando Muhammad Khan",
+      "quota": "District Tando Muhammad Khan Domicile/PRC"
+    },
+    "evidenceQuote": "Last Date for Application Submission : Monday, 7th December 2026... Junior Clerk (BPS-11) NO. OF POSTS 01 (DS_TMK.pdf & SindhiAd.jpg)",
+    "evidenceType": "image-read",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from DS_TMK.pdf and SindhiAd.jpg notice. 1 Junior Clerk post via NTS (and 1 Bailiff post by hand)."
+  },
+  "ppsc-live-6k2026-1": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "GIS Analyst — BS-17",
+      "department": "Forestry & Wildlife Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "Anywhere in Punjab",
+      "quota": "Open Merit",
+      "bpsScale": "BS-17"
+    },
+    "evidenceQuote": "06-RK/2026 Total Post = 01 (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 06-RK/2026). Official PDF verified."
+  },
+  "ppsc-live-12h2026-2": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Software Developer — BS-17",
+      "department": "Home Department (Punjab Police / Cyber)",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-17"
+    },
+    "evidenceQuote": "12-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 12-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-13h2026-3": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Security Engineer (Cyber Crime/ Hacking) — BS-17",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-17"
+    },
+    "evidenceQuote": "13-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 13-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-14h2026-4": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Special Agent (Cyber Crime/ Hacking) — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "14-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 14-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-15h2026-5": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Information Security Officer — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "15-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 15-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-16h2026-6": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Information Security Engineer — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "16-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 16-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-17h2026-7": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Analyst Associate — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "17-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 17-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-18h2026-8": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Junior Computer Operator — BS-12",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 17,
+      "vacanciesTotal": 17,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit: 3, Special Persons: 2, Minority: 1, Women: 11",
+      "bpsScale": "BS-12"
+    },
+    "evidenceQuote": "18-RH/2026 17-Posts (Open Merit=03 Special Persons Quota=02, Minority Quota= 01, Women Quota=11)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 18-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-19h2026-9": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Network Security Engineer — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "19-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 19-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-20h2026-10": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Network Security Analyst — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "20-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 20-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-21h2026-11": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Information Security Analyst — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "21-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 21-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-22h2026-12": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Security Analyst — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "22-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 22-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-23h2026-13": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Oracle Developer — BS-16",
+      "department": "Home Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "All Punjab Basis",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "23-RH/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 23-RH/2026). Official PDF verified."
+  },
+  "ppsc-live-9b2026-14": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Director Planning & Reforms — BS-19",
+      "department": "Planning Information & Reform Unit / Higher Education Department",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Lahore",
+      "location": "Lahore",
+      "quota": "Open Merit",
+      "bpsScale": "BS-19"
+    },
+    "evidenceQuote": "09-RB/2026 01-Post (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 09-RB/2026). Official PDF verified."
+  },
+  "ppsc-live-105c2026-15": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Stenographer — BS-15",
+      "department": "Punjab Public Service Commission, Lahore",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Lahore",
+      "location": "PPSC Head Office Lahore and Regional Offices",
+      "quota": "Minority Quota",
+      "bpsScale": "BS-15"
+    },
+    "evidenceQuote": "105-RC/2026 01– POST (Minority Quota)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 105-RC/2026). Official PDF verified."
+  },
+  "ppsc-live-60g2026-16": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Assistant IT — BS-16",
+      "department": "Punjab Ring Road Authority (C&W Department)",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 6,
+      "vacanciesTotal": 6,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Lahore",
+      "location": "Lahore (Ring Road Jurisdiction)",
+      "quota": "Open Merit",
+      "bpsScale": "BS-16"
+    },
+    "evidenceQuote": "60-RG/2026 06-POSTS Open Merit... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 60-RG/2026). Official PDF verified."
+  },
+  "ppsc-live-7k2026-17": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Junior Patrol Officer (JPO) — BS-11",
+      "department": "Punjab Ring Road Authority (C&W Department)",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 187,
+      "vacanciesTotal": 187,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Lahore",
+      "location": "Lahore / Ring Road Jurisdiction",
+      "quota": "Open Merit: 150, Women Quota: 28, Minority Quota: 09",
+      "bpsScale": "BS-11"
+    },
+    "evidenceQuote": "07-RK/2026 Total Posts=187 Open Merit=150 Women Quota=28 Minority Quota=09... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 07-RK/2026). Official PDF verified."
+  },
+  "ppsc-live-2e2026-18": {
+    "sourceUrl": "https://www.ppsc.gop.pk/Jobs.aspx",
+    "officialNotificationUrl": "https://www.ppsc.gop.pk/Adds/Advt%20No-13-2026%2022-11-2026%20%20X7%20Version.pdf",
+    "fields": {
+      "title": "Assistant Director (M&T) — BS-17",
+      "department": "Energy Department, Punjab",
+      "employerType": "government",
+      "type": "govt",
+      "vacancies": 1,
+      "vacanciesTotal": 1,
+      "deadline": "2026-12-07",
+      "lastDate": "2026-12-07",
+      "city": "Punjab",
+      "location": "Punjab",
+      "quota": "Open Merit",
+      "bpsScale": "BS-17"
+    },
+    "evidenceQuote": "02-RE/2026 01–POST (Open Merit)... Closing Date for Submission of Online Applications 07 December 2026",
+    "evidenceType": "text",
+    "verifiedAt": "2026-11-23",
+    "verifiedBy": "audit 2026-11-23",
+    "notes": "Verified from PPSC Advertisement No. 13/2026 (Case No. 02-RE/2026). Official PDF verified."
   }
 }
-

@@ -91,6 +91,12 @@ export default function JobCard({
               <span className="job-row-city-text">{cityDisplay}</span>
             </span>
           )}
+
+          {job.quota && (
+            <span className="job-row-meta-pill job-row-quota-pill text-xs" title={`Quota: ${job.quota}`}>
+              <span>{job.quota}</span>
+            </span>
+          )}
         </div>
       </div>
 

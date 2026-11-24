@@ -45,6 +45,25 @@ export function decodeHtmlEntities(str) {
     .replace(/&#x([0-9a-f]+);/gi, (match, hex) => String.fromCharCode(parseInt(hex, 16)));
 }
 
+export function cleanJobTitle(title = '') {
+  if (!title || typeof title !== 'string') return '';
+  let clean = decodeHtmlEntities(title).trim();
+
+  // Strip "Official Recruitment — " or "Official Recruitment -"
+  clean = clean.replace(/\b(?:Official\s+Recruitment|Official\s+Job\s+Notice)\s*[-—–]\s*/gi, '');
+
+  // Strip "Closing dt: ...", "Last date: ...", "Closing date: ..."
+  clean = clean.replace(/[-—–\s]*(?:Closing\s*dt|Closing\s*date|Last\s*date)\s*[:\-–]?\s*\d{1,2}[\.\/-]\d{1,2}[\.\/-]\d{2,4}\.?/gi, '');
+
+  // Convert "Advertisement (\d+)/(\d{2})" to "Advertisement No. $1/20$2"
+  clean = clean.replace(/\bAdvertisement\s*(\d{1,2})\/(\d{2})\b/gi, (m, num, yr) => `Advertisement No. ${num.padStart(2, '0')}/20${yr}`);
+  clean = clean.replace(/\bAdvertisement\s*(\d{1,2})\/(\d{4})\b/gi, (m, num, yr) => `Advertisement No. ${num.padStart(2, '0')}/${yr}`);
+
+  // Trim trailing dashes, dots, spaces
+  clean = clean.replace(/[-—–\s\.]+$/g, '').trim();
+  return clean;
+}
+
 /**
  * Recursively decodes HTML entities across all string properties of a job record.
  */
@@ -56,6 +75,9 @@ export function cleanJobRecord(job) {
     if (typeof cleaned[field] === 'string') {
       cleaned[field] = decodeHtmlEntities(cleaned[field]);
     }
+  }
+  if (cleaned.title) {
+    cleaned.title = cleanJobTitle(cleaned.title);
   }
   return cleaned;
 }

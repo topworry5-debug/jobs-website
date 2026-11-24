@@ -66,14 +66,25 @@ export async function scrapeLiveSPSC() {
       }
 
       const fullPdfUrl = rawHref.startsWith('http') ? rawHref : `https://spsc.gov.pk/${rawHref.replace(/^\//, '')}`;
-      const adTitle = rawText.split('&')[0].trim();
-      const stableId = `spsc-live-${adTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 30)}-${isoClosingDate}`;
+      const adNumMatch = rawText.match(/Advertisement\s*(\d{1,2})\/(\d{2,4})/i);
+      let displayTitle = 'SPSC Advertisement';
+      if (adNumMatch) {
+        const num = adNumMatch[1].padStart(2, '0');
+        const year = adNumMatch[2].length === 2 ? `20${adNumMatch[2]}` : adNumMatch[2];
+        displayTitle = `SPSC Advertisement No. ${num}/${year}`;
+        if (num === '08' && year === '2026') {
+          displayTitle += ' — Combined Competitive Examination (CCE-2026)';
+        }
+      }
+
+      const stableId = `spsc-live-advertisement-${adNumMatch ? `${adNumMatch[1].padStart(2, '0')}-${adNumMatch[2]}` : 'notice'}-closing-dt-${isoClosingDate}`;
 
       scrapedJobs.push({
         id: stableId,
         type: "govt",
-        title: `SPSC Official Recruitment — ${adTitle}`,
-        rawTitle: adTitle,
+        employerType: "government",
+        title: displayTitle,
+        rawTitle: rawText.split('&')[0].trim(),
         department: "Government of Sindh",
         agency: "SPSC",
         category: "Provincial (SPSC)",
@@ -97,8 +108,8 @@ export async function scrapeLiveSPSC() {
         officialUrl: "https://spsc.gov.pk/candidate_portal/",
         officialNotificationUrl: fullPdfUrl,
         sourceUrl,
-        officialSourceLabel: `SPSC Official Advertisement (${adTitle})`,
-        description: `Sindh Public Service Commission recruitment notification (${adTitle}). Apply online via official candidate portal at spsc.gov.pk before ${isoClosingDate}.`,
+        officialSourceLabel: `SPSC Advertisement (${displayTitle})`,
+        description: `Sindh Public Service Commission recruitment notification (${displayTitle}). Apply online via official candidate portal at spsc.gov.pk before ${isoClosingDate}.`,
         lastVerifiedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
         scrapedAt: timestamp,
         verifiedAt: timestamp,
